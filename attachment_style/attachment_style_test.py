@@ -24,7 +24,7 @@ avoidant_results: dict[str, int] ={}
 
 # Explain the rules
 print(
-    "Answer to the following questions by entering 0 for no and 1 for yes.\n"
+    "Answer to the following questions by entering 1 for yes and 0 for 1.\n"
 )
 
 # Ask questions and store the results
