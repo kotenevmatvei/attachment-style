@@ -13,16 +13,17 @@ with open("anxious_questions.txt", "r") as file:
         anxious_questions.append(line.strip())
 with open("secure_questions.txt", "r") as file:
     for line in file:
-        anxious_questions.append(line.strip())
+        secure_questions.append(line.strip())
 with open("avoidant_questions.txt", "r") as file:
     for line in file:
-        anxious_questions.append(line.strip())
+        avoidant_questions.append(line.strip())
 
 # Check for the same number of questions
 list_same_length = (
     len(anxious_questions) == len(secure_questions) == len(avoidant_questions)
 )
 if not list_same_length:
+    print(len(anxious_questions), len(secure_questions), len(avoidant_questions))
     sys.exit("Lists with questions must be the same length")
 
 # Setup the lists to store the results
@@ -53,4 +54,3 @@ anxious_results = collect_answers(anxious_questions)
 secure_results = collect_answers(secure_questions)
 avoidant_results = collect_answers(avoidant_questions)
 
-# Visualize
