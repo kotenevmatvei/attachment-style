@@ -21,6 +21,11 @@ anxious_results = [0]*14
 secure_results = [0]*14
 avoidant_results =[0]*14
 
+# Explain the rules
+print(
+    "Answer to the following questions by entering 0 for no and 1 for yes.\n"
+)
+
 # Ask questions and store the results
 
 
