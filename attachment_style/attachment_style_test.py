@@ -1,4 +1,5 @@
 # Imports
+import sys
 import matplotlib.pyplot as plt
 
 # Read the txt files with questions and build corresponding lists
@@ -6,16 +7,22 @@ anxious_questions: list[str] = []
 secure_questions: list[str] = []
 avoidant_questions: list[str] = []
 
-with open("anxious_questions.txt", "r") as f:
-    for i in range(13):
-        anxious_questions.append(f.readline()[:-1]) # Cut off the \n at the end
-with open("secure_questions.txt", "r") as f:
-    for i in range(13):
-        secure_questions.append(f.readline()[:-1])
-with open("avoidant_questions.txt", "r") as f:
-    for i in range(13):
-        avoidant_questions.append(f.readline()[:-1])
+with open("anxious_questions.txt", "r") as file:
+    for line in file:
+        anxious_questions.append(line.strip())
+with open("secure_questions.txt", "r") as file:
+    for line in file:
+        anxious_questions.append(line.strip())
+with open("avoidant_questions.txt", "r") as file:
+    for line in file:
+        anxious_questions.append(line.strip())
 
+# Check for the same number of questions
+list_same_length = (
+    len(anxious_questions) == len(secure_questions) == len(avoidant_questions)
+)
+if not list_same_length:
+    sys.exit("Lists with questions must be the same length")
 
 # Setup the lists to store the results
 anxious_results: dict[str, int] = {}
