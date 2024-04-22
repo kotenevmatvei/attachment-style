@@ -54,3 +54,8 @@ anxious_results = collect_answers(anxious_questions)
 secure_results = collect_answers(secure_questions)
 avoidant_results = collect_answers(avoidant_questions)
 
+# Calculate the score
+anxious_score = sum(anxious_results.values())
+secure_score = sum(secure_results.values())
+avoidant_score = sum(avoidant_results.values())
+
