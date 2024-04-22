@@ -7,6 +7,7 @@ anxious_questions: list[str] = []
 secure_questions: list[str] = []
 avoidant_questions: list[str] = []
 
+# TODO Refactor to a function for improved modularity
 with open("anxious_questions.txt", "r") as file:
     for line in file:
         anxious_questions.append(line.strip())
