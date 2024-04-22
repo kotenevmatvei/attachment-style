@@ -28,16 +28,18 @@ print(
 )
 
 # Ask questions and store the results
-for question in anxious_questions:
-    input_valid = False
-    while input_valid == False:
-        answer = input(question)
-        if answer == "0" or answer == "1":
-            input_valid = True
-            anxious_results[question] = int(answer)
-        else:
-            print("Invalid input. Please enter 1 for yes and 0 for no")
-    
-0
+def collect_answers(questions: list[str]) -> dict[str, int]:
+    answers: dict[str, int] = {}
+    for question in questions:
+        input_valid = False
+        while input_valid == False:
+            answer = input(question)
+            if answer == "0" or answer == "1":
+                input_valid = True
+                answers[question] = int(answer)
+            else:
+                print("Invalid input. Please enter 1 for yes and 0 for no")
+    return answers
+anxious_results = collect_answers(anxious_questions)
 
 # Visualize
