@@ -40,6 +40,9 @@ def collect_answers(questions: list[str]) -> dict[str, int]:
             else:
                 print("Invalid input. Please enter 1 for yes and 0 for no")
     return answers
+
 anxious_results = collect_answers(anxious_questions)
+secure_results = collect_answers(secure_questions)
+avoidant_results = collect_answers(avoidant_questions)
 
 # Visualize
