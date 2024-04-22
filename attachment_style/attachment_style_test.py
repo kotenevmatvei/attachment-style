@@ -50,12 +50,31 @@ def collect_answers(questions: list[str]) -> dict[str, int]:
                 print("Invalid input. Please enter 1 for yes and 0 for no")
     return answers
 
-anxious_results = collect_answers(anxious_questions)
-secure_results = collect_answers(secure_questions)
-avoidant_results = collect_answers(avoidant_questions)
+anxious_results: dict[str, int] = collect_answers(anxious_questions)
+secure_results: dict[str, int] = collect_answers(secure_questions)
+avoidant_results: dict[str, int] = collect_answers(avoidant_questions)
 
 # Calculate the score
-anxious_score = sum(anxious_results.values())
-secure_score = sum(secure_results.values())
-avoidant_score = sum(avoidant_results.values())
+anxious_score: int = sum(anxious_results.values())
+secure_score: int = sum(secure_results.values())
+avoidant_score: int = sum(avoidant_results.values())
 
+# Build the plot
+n: int = len(anxious_questions) # length of the scala
+fig, ax = plt.subplots()  # Create a figure containing a single axes
+plt.xlim(0,14)
+plt.ylim(0,14)
+plt.grid(True)
+ax.set_xticks(list(range(0,15)))
+ax.set_yticks(list(range(0,15)))
+plt.axhline(7, color='brown', linewidth=1)
+plt.axvline(7, color='brown', linewidth=1) 
+ax.scatter(anxious_score, avoidant_score)
+plt.gca().invert_yaxis()
+plt.tick_params(axis='x', which='both', bottom=False, top=True, 
+                labelbottom=False, labeltop=True)
+plt.savefig('plot0.png')
+plt.xlabel("Anxiety")
+plt.xlabel("Avoidance")
+plt.title("Attachment Style Score")
+plt.show()
