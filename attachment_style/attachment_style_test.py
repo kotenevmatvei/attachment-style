@@ -97,3 +97,4 @@ plt.show()
 
 # TODO Delete periods
 # TODO scale 1 to 10
+# TODO random question selection
