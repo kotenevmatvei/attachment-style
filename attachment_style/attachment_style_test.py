@@ -32,10 +32,8 @@ avoidant_results: dict[str, int] = {}
 
 # Explain the rules
 print(
-    "\nAnswer the following questions by entering a number between 0 and 1 "
-    "indicating the extent to each statement applies to you. Please use . as "
-    "the decimal separator. For example, enter 0.8 if the statement is true of "
-    "you in most situations, but not always\n"
+    "\nAnswer the following questions by entering a number between 0 and 10 "
+    "indicating the extent to each statement applies to you.\n"
 )
 
 
@@ -47,13 +45,13 @@ def collect_answers(questions: list[str]) -> dict[str, float]:
         while input_valid == False:
             try:
                 answer = float(input(f"{question}:  "))
-                if answer >= 0 and answer <= 1:
+                if answer >= 0 and answer <= 10:
                     input_valid = True
-                    answers[question] = float(answer)
+                    answers[question] = float(answer)/10
                 else:
                     print(
                         "Invalid input, the answer must greater than or equal "
-                        "to 0 and less than or equal to 1."
+                        "to 0 and less than or equal to 10."
                     )
             except ValueError:
                 print("Invalid input. Please enter a number.")
@@ -96,5 +94,4 @@ plt.title("Attachment Style Score")
 plt.show()
 
 # TODO Delete periods
-# TODO scale 1 to 10
 # TODO random question selection
