@@ -89,7 +89,7 @@ plt.tick_params(
 )
 plt.savefig("plot0.png")
 plt.xlabel("Anxiety")
-plt.xlabel("Avoidance")
+plt.ylabel("Avoidance")
 plt.title("Attachment Style Score")
 plt.show()
 
