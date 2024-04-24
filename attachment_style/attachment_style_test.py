@@ -93,5 +93,4 @@ plt.xlabel("Avoidance")
 plt.title("Attachment Style Score")
 plt.show()
 
-# TODO Delete periods
 # TODO random question selection
