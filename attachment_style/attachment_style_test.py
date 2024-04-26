@@ -94,3 +94,4 @@ plt.title("Attachment Style Score")
 plt.show()
 
 # TODO random question selection
+# TODO 3d plot
