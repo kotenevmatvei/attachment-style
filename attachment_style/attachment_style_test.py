@@ -93,5 +93,6 @@ plt.ylabel("Avoidance")
 plt.title("Attachment Style Score")
 plt.show()
 
+
 # TODO random question selection
-# TODO 3d plot
+# TODO 3d plot - use plotly (and than dash!!)
