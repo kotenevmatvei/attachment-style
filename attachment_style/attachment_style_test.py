@@ -2,21 +2,22 @@
 import sys
 import matplotlib.pyplot as plt
 
-# Read the txt files with questions and build corresponding lists
-anxious_questions: list[str] = []
-secure_questions: list[str] = []
-avoidant_questions: list[str] = []
+def read_questions_file(questions_file: str) -> list[str]:
+    """Read the txt file with questions and add them to the corresponding list.
 
-# TODO Refactor to a function for improved modularity
-with open("anxious_questions.txt", "r") as file:
-    for line in file:
-        anxious_questions.append(line.strip())
-with open("secure_questions.txt", "r") as file:
-    for line in file:
-        secure_questions.append(line.strip())
-with open("avoidant_questions.txt", "r") as file:
-    for line in file:
-        avoidant_questions.append(line.strip())
+    :param questions_file: Path to the file with questions
+    :return: question_list List with questions #TODO variable name in ruturn?
+    """
+    questions_list: list[str] = []
+    with open(questions_file, "r") as file:
+        for line in file:
+            questions_list.append(line.strip())
+            
+    return questions_list
+    
+anxious_questions: list[str] = read_questions_file("anxious_questions.txt")
+secure_questions: list[str] = read_questions_file("secure_questions.txt")
+avoidant_questions: list[str] = read_questions_file("avoidant_questions.txt")
 
 # Check for the same number of questions
 list_same_length = (
