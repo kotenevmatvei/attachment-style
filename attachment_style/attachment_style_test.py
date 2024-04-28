@@ -96,3 +96,4 @@ plt.show()
 
 # TODO random question selection
 # TODO 3d plot - use plotly (and than dash!!)
+# TODO refactor existing code to separate functions
