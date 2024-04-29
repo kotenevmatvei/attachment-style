@@ -85,7 +85,8 @@ def build_plot(
 
 # TODO random question selection
 # TODO 3d plot - use plotly (and than dash!!)
-
+# TODO different plot types - abstract class, interface?
+# TODO Create a github repo
 
 def main() -> None:
     # read question files
