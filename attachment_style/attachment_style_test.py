@@ -1,15 +1,12 @@
 # Imports
 import sys
 import matplotlib.pyplot as plt
+import plotly.express as px
 
-def read_questions_file(questions_file: str) -> list[str]:
-    """Read the txt file with questions and add them to the corresponding list.
-
-    :param questions_file: Path to the file with questions
-    :return: question_list List with questions #TODO variable name in ruturn?
-    """
+def read_questions_file(questions_file_path: str) -> list[str]:
+    """Read the txt file with questions and add them to the corresponding list."""
     questions_list: list[str] = []
-    with open(questions_file, "r") as file:
+    with open(questions_file_path, "r") as file:
         for line in file:
             questions_list.append(line.strip())
             
@@ -49,12 +46,12 @@ def collect_answers(questions: list[str]) -> dict[str, float]:
                 print("Invalid input. Please enter a number.")
     return answers
 
-def build_plot(
+def build_matplotlib_2d_plot(
     number_of_questions: int,
     anxious_score: float,
     secure_score: float,
     avoidant_score: float
-    ) -> plt:
+) -> plt:
     
     n: int = number_of_questions  # length of the scala
     fig, ax = plt.subplots()  # Create a figure containing a single axes
@@ -82,11 +79,21 @@ def build_plot(
     
     return plt
 
+def build_plotly_3d_plot(
+    number_of_questions: int,
+    anxious_score: float,
+    secure_score: float,
+    avoidant_score: float
+) -> px.scatter_3d:
+    """Build a plotly 3d scatter figure"""
+
+    
 
 # TODO random question selection
 # TODO 3d plot - use plotly (and than dash!!)
 # TODO different plot types - abstract class, interface?
 # TODO Create a github repo
+# TODO Write a test
 
 def main() -> None:
     # read question files
@@ -124,7 +131,7 @@ def main() -> None:
     avoidant_score: float = sum(avoidant_results.values())
     
     # build the plot
-    plot = build_plot(
+    plot = build_matplotlib_2d_plot(
         number_of_questions=len(anxious_questions),
         anxious_score=anxious_score,
         secure_score=secure_score,

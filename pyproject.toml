@@ -8,6 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 matplotlib = "^3.8.4"
+plotly = "^5.21.0"
 
 
 [tool.poetry.group.dev.dependencies]
