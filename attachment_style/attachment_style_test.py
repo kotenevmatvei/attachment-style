@@ -94,6 +94,7 @@ def build_plotly_3d_plot(
 # TODO different plot types - abstract class, interface?
 # TODO Create a github repo
 # TODO Write a test
+# TODO make saving file optional
 
 def main() -> None:
     # read question files
