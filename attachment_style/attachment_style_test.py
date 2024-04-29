@@ -20,11 +20,14 @@ secure_questions: list[str] = read_questions_file("secure_questions.txt")
 avoidant_questions: list[str] = read_questions_file("avoidant_questions.txt")
 
 # Check for the same number of questions
-list_same_length = (
-    len(anxious_questions) == len(secure_questions) == len(avoidant_questions)
-)
-if not list_same_length:
-    sys.exit("Lists with questions must be the same length")
+def check_same_length() -> None:
+    list_same_length = (
+        len(anxious_questions) == len(secure_questions) == len(avoidant_questions)
+    )
+    if not list_same_length:
+        sys.exit("Lists with questions must be the same length")
+
+check_same_length()
 
 # Setup the lists to store the results
 anxious_results: dict[str, int] = {}
