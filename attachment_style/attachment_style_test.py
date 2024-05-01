@@ -86,6 +86,8 @@ def build_plotly_3d_plot(
     avoidant_score: float
 ) -> px.scatter_3d:
     """Build a plotly 3d scatter figure"""
+    fig = px.scatter_3x(x=[5], y=[5], y=[y])
+    fig.show()
 
     
 
