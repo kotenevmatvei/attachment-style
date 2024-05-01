@@ -81,12 +81,12 @@ def build_matplotlib_2d_plot(
 
 def build_plotly_3d_plot(
     number_of_questions: int,
-    anxious_score: float,
-    secure_score: float,
-    avoidant_score: float
+    anxious_score: list[float],
+    secure_score: list[float],
+    avoidant_score: list[float]
 ) -> px.scatter_3d:
     """Build a plotly 3d scatter figure"""
-    fig = px.scatter_3x(x=[5], y=[5], y=[y])
+    fig = px.scatter_3d(x=anxious_score, y=secure_score, z=avoidant_score)
     fig.show()
 
     
