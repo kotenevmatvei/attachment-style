@@ -9,6 +9,9 @@ readme = "README.md"
 python = "^3.10"
 matplotlib = "^3.8.4"
 plotly = "^5.21.0"
+pytest = "^8.2.0"
+pandas = "^2.2.2"
+nbformat = ">=4.2.0"
 
 
 [tool.poetry.group.dev.dependencies]

@@ -72,7 +72,6 @@ def build_matplotlib_2d_plot(
         labelbottom=False,
         labeltop=True,
     )
-    plt.savefig("plot0.png")
     plt.xlabel("Anxiety")
     plt.ylabel("Avoidance")
     plt.title("Attachment Style Score")
@@ -81,20 +80,18 @@ def build_matplotlib_2d_plot(
 
 def build_plotly_3d_plot(
     number_of_questions: int,
-    anxious_score: float,
-    secure_score: float,
-    avoidant_score: float
+    anxious_score: list[float],
+    secure_score: list[float],
+    avoidant_score: list[float]
 ) -> px.scatter_3d:
     """Build a plotly 3d scatter figure"""
+    fig = px.scatter_3d(x=anxious_score, y=secure_score, z=avoidant_score)
+    fig.show()
 
     
 
 # TODO random question selection
-# TODO 3d plot - use plotly (and than dash!!)
 # TODO different plot types - abstract class, interface?
-# TODO Create a github repo
-# TODO Write a test
-# TODO make saving file optional
 
 def main() -> None:
     # read question files
