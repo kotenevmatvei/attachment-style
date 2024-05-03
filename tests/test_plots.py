@@ -37,3 +37,4 @@ def test_plotly_3d_plot(plot_data) -> None:
         secure_score=plot_data["secure_score"],
         avoidant_score=plot_data["avoidant_score"]
     )
+    plot.show()

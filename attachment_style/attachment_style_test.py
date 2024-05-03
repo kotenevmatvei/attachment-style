@@ -85,9 +85,28 @@ def build_plotly_3d_plot(
     avoidant_score: list[float]
 ) -> px.scatter_3d:
     """Build a plotly 3d scatter figure"""
-    fig = px.scatter_3d(x=anxious_score, y=secure_score, z=avoidant_score)
-    fig.show()
-
+    fig = px.scatter_3d(
+        x=anxious_score,
+        y=secure_score, 
+        z=avoidant_score,
+        labels={
+                "x": "Anxiety",
+                "y": "Security",
+                "z": "Avoidance"
+        }
+    )
+    fig.update_layout(
+    title = "Attachment Style Test",
+    scene={
+        "xaxis_title": 'Anxiety',
+        "yaxis_title": 'Security',
+        "zaxis_title": 'Avoidance',
+        "xaxis": {"range": [0, 14]},
+        "yaxis": {"range": [0, 14]},
+        "zaxis": {"range": [0, 14]}
+    }
+)
+    return fig
     
 
 # TODO random question selection
