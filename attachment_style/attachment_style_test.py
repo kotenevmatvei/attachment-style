@@ -95,7 +95,6 @@ def build_plotly_3d_plot(
 # TODO 3d plot - use plotly (and than dash!!)
 # TODO different plot types - abstract class, interface?
 # TODO Create a github repo
-# TODO Write a test
 
 def main() -> None:
     # read question files
