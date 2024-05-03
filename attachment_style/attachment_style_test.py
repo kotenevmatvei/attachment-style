@@ -72,7 +72,6 @@ def build_matplotlib_2d_plot(
         labelbottom=False,
         labeltop=True,
     )
-    plt.savefig("plot0.png")
     plt.xlabel("Anxiety")
     plt.ylabel("Avoidance")
     plt.title("Attachment Style Score")
