@@ -1,7 +1,10 @@
 # Imports
 import sys
+from random import shuffle
 import matplotlib.pyplot as plt
 import plotly.express as px
+
+from .utils import combine_and_shuffle_lists
 
 def read_questions_file(questions_file_path: str) -> list[str]:
     """Read the txt file with questions and add them to the corresponding list."""
@@ -28,7 +31,7 @@ def check_same_length(
 def collect_answers(questions: list[str]) -> dict[str, float]:
     """Ask questions and store the results in dictionaries. """
     
-    answers: dict[str, float] = {}
+    answers: dict[str, list[str, float]] = {}
     for question in questions:
         input_valid = False
         while input_valid == False:
@@ -45,6 +48,19 @@ def collect_answers(questions: list[str]) -> dict[str, float]:
             except ValueError:
                 print("Invalid input. Please enter a number.")
     return answers
+
+def collect_answers_at_random(
+    #TODO not clear which answer belongs to which attachment style
+    anxious_questions: list[str],
+    secure_questions: list[str],
+    avoidant_questions: list[str]
+) -> dict[str]:
+    all_questions = combine_and_shuffle_lists(
+        anxious_questions,
+        secure_questions,
+        avoidant_questions
+    )
+    return collect_answers(all_questions) 
 
 def build_matplotlib_2d_plot(
     number_of_questions: int,
