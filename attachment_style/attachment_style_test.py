@@ -4,14 +4,14 @@ from random import shuffle
 import matplotlib.pyplot as plt
 import plotly.express as px
 
-from .utils import combine_and_shuffle_lists
+from utils import combine_and_shuffle_lists
 
-def read_questions_file(questions_file_path: str) -> list[str]:
+def read_questions_file(questions_file_path: str, attachment_style: str) -> list[str]:
     """Read the txt file with questions and add them to the corresponding list."""
     questions_list: list[str] = []
     with open(questions_file_path, "r") as file:
         for line in file:
-            questions_list.append(line.strip())
+            questions_list.append((line.strip(), attachment_style))
             
     return questions_list
 
@@ -28,18 +28,18 @@ def check_same_length(
     if not list_same_length:
         sys.exit("Lists with questions must be the same length")
 
-def collect_answers(questions: list[str]) -> dict[str, float]:
+def collect_answers(questions: list[tuple[str, str]]) -> dict[str, float]:
     """Ask questions and store the results in dictionaries. """
     
     answers: dict[str, list[str, float]] = {}
-    for question in questions:
+    for question, attachment_style in questions:
         input_valid = False
         while input_valid == False:
             try:
                 answer = float(input(f"{question}:  "))
                 if answer >= 0 and answer <= 10:
                     input_valid = True
-                    answers[question] = float(answer)/10
+                    answers[question] = (float(answer)/10, attachment_style)
                 else:
                     print(
                         "Invalid input, the answer must greater than or equal "
@@ -173,5 +173,5 @@ def main() -> None:
     
     plot.show()
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+    # main()
