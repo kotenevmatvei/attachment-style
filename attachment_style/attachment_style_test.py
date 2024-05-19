@@ -124,54 +124,97 @@ def build_plotly_3d_plot(
 )
     return fig
     
+# read question files
+anxious_questions: list[tuple[str, str]] = read_questions_file("anxious_questions.txt", "anxious")
+secure_questions: list[tuple[str, str]] = read_questions_file("secure_questions.txt", "secure")
+avoidant_questions: list[tuple[str, str]] = read_questions_file("avoidant_questions.txt", "avoidant")
 
-# TODO random question selection
+# check that there is the same number of questions
+check_same_length(
+    anxious_questions=anxious_questions,
+    secure_questions=secure_questions,
+    avoidant_questions=avoidant_questions
+)
+
+# setup the lists to store the results
+# Setup the lists to store the results
+anxious_results: dict[str, int] = {}
+secure_results: dict[str, int] = {}
+avoidant_results: dict[str, int] = {}
+
+# explain the rules
+print(
+    "\nAnswer the following questions by entering a number between 0 and 10 "
+    "indicating the extent to each statement applies to you.\n"
+)
+
+# collect answers
+anxious_results: dict[str, float] = collect_answers(anxious_questions)
+secure_results: dict[str, float] = collect_answers(secure_questions)
+avoidant_results: dict[str, float] = collect_answers(avoidant_questions)
+
+global results
+results: dict[str, tuple[float, str]] = collect_answers_at_random(
+    anxious_questions=anxious_questions,
+    secure_questions=secure_questions,
+    avoidant_questions=avoidant_questions
+)
+
+
 # TODO different plot types - abstract class, interface?
 
-def main() -> None:
-    # read question files
-    anxious_questions: list[str] = read_questions_file("anxious_questions.txt")
-    secure_questions: list[str] = read_questions_file("secure_questions.txt")
-    avoidant_questions: list[str] = read_questions_file("avoidant_questions.txt")
+# def main() -> None:
+#     # read question files
+#     anxious_questions: list[tuple[str, str]] = read_questions_file("anxious_questions.txt", "anxious")
+#     secure_questions: list[tuple[str, str]] = read_questions_file("secure_questions.txt", "secure")
+#     avoidant_questions: list[tuple[str, str]] = read_questions_file("avoidant_questions.txt", "avoidant5")
     
-    # check that there is the same number of questions
-    check_same_length(
-        anxious_questions=anxious_questions,
-        secure_questions=secure_questions,
-        avoidant_questions=avoidant_questions
-    )
+#     # check that there is the same number of questions
+#     check_same_length(
+#         anxious_questions=anxious_questions,
+#         secure_questions=secure_questions,
+#         avoidant_questions=avoidant_questions
+#     )
     
-    # setup the lists to store the results
-    # Setup the lists to store the results
-    anxious_results: dict[str, int] = {}
-    secure_results: dict[str, int] = {}
-    avoidant_results: dict[str, int] = {}
+#     # setup the lists to store the results
+#     # Setup the lists to store the results
+#     anxious_results: dict[str, int] = {}
+#     secure_results: dict[str, int] = {}
+#     avoidant_results: dict[str, int] = {}
     
-    # explain the rules
-    print(
-        "\nAnswer the following questions by entering a number between 0 and 10 "
-        "indicating the extent to each statement applies to you.\n"
-    )
+#     # explain the rules
+#     print(
+#         "\nAnswer the following questions by entering a number between 0 and 10 "
+#         "indicating the extent to each statement applies to you.\n"
+#     )
 
-    # collect answers
-    anxious_results: dict[str, float] = collect_answers(anxious_questions)
-    secure_results: dict[str, float] = collect_answers(secure_questions)
-    avoidant_results: dict[str, float] = collect_answers(avoidant_questions)
+#     # collect answers
+#     anxious_results: dict[str, float] = collect_answers(anxious_questions)
+#     secure_results: dict[str, float] = collect_answers(secure_questions)
+#     avoidant_results: dict[str, float] = collect_answers(avoidant_questions)
+    
+#     global results
+#     results: dict[str, tuple[float, str]] = collect_answers_at_random(
+#         anxious_questions=anxious_questions,
+#         secure_questions=secure_questions,
+#         avoidant_questions=avoidant_questions
+#     )
     
     # calculate the score
-    anxious_score: float = sum(anxious_results.values())
-    secure_score: float = sum(secure_results.values())
-    avoidant_score: float = sum(avoidant_results.values())
+    # anxious_score: float = sum(anxious_results.values())
+    # secure_score: float = sum(secure_results.values())
+    # avoidant_score: float = sum(avoidant_results.values())
     
     # build the plot
-    plot = build_matplotlib_2d_plot(
-        number_of_questions=len(anxious_questions),
-        anxious_score=anxious_score,
-        secure_score=secure_score,
-        avoidant_score=avoidant_score
-    )
+    # plot = build_matplotlib_2d_plot(
+    #     number_of_questions=len(anxious_questions),
+    #     anxious_score=anxious_score,
+    #     secure_score=secure_score,
+    #     avoidant_score=avoidant_score
+    # )
     
-    plot.show()
+    # plot.show()
 
 # if __name__ == "__main__":
-    # main()
+#     main()
+
