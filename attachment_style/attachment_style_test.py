@@ -153,7 +153,6 @@ anxious_results: dict[str, float] = collect_answers(anxious_questions)
 secure_results: dict[str, float] = collect_answers(secure_questions)
 avoidant_results: dict[str, float] = collect_answers(avoidant_questions)
 
-global results
 results: dict[str, tuple[float, str]] = collect_answers_at_random(
     anxious_questions=anxious_questions,
     secure_questions=secure_questions,
