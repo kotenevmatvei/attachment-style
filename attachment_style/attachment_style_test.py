@@ -29,15 +29,15 @@ def check_same_length(
 def collect_answers(questions: list[tuple[str, str]]) -> dict[str, float]:
     """Ask questions and store the results in dictionaries. """
     
-    answers: dict[str, list[str, float]] = {}
+    answers: list[dict[str, str|float]] = []
     for question, attachment_style in questions:
         input_valid = False
         while input_valid == False:
             try:
-                answer = float(input(f"{question}:  "))
-                if answer >= 0 and answer <= 10:
+                score = float(input(f"{question}:  "))
+                if score >= 0 and score <= 10:
                     input_valid = True
-                    answers[question] = (float(answer)/10, attachment_style)
+                    answers.append({"question": question, "attachment_style": attachment_style, "score": score/10})
                 else:
                     print(
                         "Invalid input, the answer must greater than or equal "
@@ -122,34 +122,33 @@ def build_plotly_3d_plot(
 )
     return fig
     
-# # read question files
-# anxious_questions: list[tuple[str, str]] = read_questions_file("anxious_questions.txt", "anxious")
-# secure_questions: list[tuple[str, str]] = read_questions_file("secure_questions.txt", "secure")
-# avoidant_questions: list[tuple[str, str]] = read_questions_file("avoidant_questions.txt", "avoidant")
+# read question files
+anxious_questions: list[tuple[str, str]] = read_questions_file("anxious_questions.txt", "anxious")
+secure_questions: list[tuple[str, str]] = read_questions_file("secure_questions.txt", "secure")
+avoidant_questions: list[tuple[str, str]] = read_questions_file("avoidant_questions.txt", "avoidant")
 
-# # check that there is the same number of questions
-# check_same_length(
-#     anxious_questions=anxious_questions,
-#     secure_questions=secure_questions,
-#     avoidant_questions=avoidant_questions
-# )
+# check that there is the same number of questions
+check_same_length(
+    anxious_questions=anxious_questions,
+    secure_questions=secure_questions,
+    avoidant_questions=avoidant_questions
+)
 
-# # setup the lists to store the results
-# # Setup the lists to store the results
-# anxious_results: dict[str, int] = {}
-# secure_results: dict[str, int] = {}
-# avoidant_results: dict[str, int] = {}
+# Setup the lists to store the results
+anxious_results: dict[str, int] = {}
+secure_results: dict[str, int] = {}
+avoidant_results: dict[str, int] = {}
 
-# # explain the rules
-# print(
-#     "\nAnswer the following questions by entering a number between 0 and 10 "
-#     "indicating the extent to each statement applies to you.\n"
-# )
+# explain the rules
+print(
+    "\nAnswer the following questions by entering a number between 0 and 10 "
+    "indicating the extent to each statement applies to you.\n"
+)
 
-# # collect answers
-# anxious_results: dict[str, float] = collect_answers(anxious_questions)
-# secure_results: dict[str, float] = collect_answers(secure_questions)
-# avoidant_results: dict[str, float] = collect_answers(avoidant_questions)
+# collect answers
+anxious_results: dict[str, float] = collect_answers(anxious_questions)
+secure_results: dict[str, float] = collect_answers(secure_questions)
+avoidant_results: dict[str, float] = collect_answers(avoidant_questions)
 
 # results: dict[str, tuple[float, str]] = collect_answers_at_random(
 #     anxious_questions=anxious_questions,
