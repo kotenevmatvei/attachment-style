@@ -99,26 +99,24 @@ app.layout = dbc.Container(
                 )
             )
         ),
-        dcc.Store(id="question-count", data=1),
+        dcc.Store(id="question-count-store", data=1),
     ],
     fluid=True,
 )
 
-
+# Reveal the hidden elements after the click on start
 @app.callback(
     [
         Output("question-count", "is_open"),
         Output("question-text", "is_open"),
         Output("answer-input", "is_open"),
-        Output("result", "is_open"),
         Output("start-button", "children"),
-    ],  # Add this line
+    ],
     [Input("start-button", "n_clicks")],
     [
         State("question-count", "is_open"),
         State("question-text", "is_open"),
         State("answer-input", "is_open"),
-        State("result", "is_open"),
     ],
 )
 def toggle_collapse(
@@ -126,21 +124,18 @@ def toggle_collapse(
     is_open_question_count,
     is_open_question_text,
     is_open_answer_input,
-    is_open_result,
 ):
     if n_clicks:
         return (
             True if not is_open_question_count else is_open_question_count,
             True if not is_open_question_text else is_open_question_text,
             True if not is_open_answer_input else is_open_answer_input,
-            True if not is_open_result else is_open_result,
             "Start Again" if n_clicks >= 1 else "Start",
         )  # Add this line
     return (
         is_open_question_count,
         is_open_question_text,
         is_open_answer_input,
-        is_open_result,
         "Start",
     )  # Add "Start"
 
