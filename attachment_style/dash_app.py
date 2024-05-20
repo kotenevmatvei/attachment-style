@@ -160,7 +160,7 @@ def update_question(n_submit, question_count_store, score, answers):
             questions[question_count_store - 1][0],
             answers,
         )
-    elif n_submit is not None and question_count_store < 42:
+    elif n_submit is not None and question_count_store < len(questions):
         answers.append(
             {
                 "question": questions[question_count_store - 1][0],
@@ -171,12 +171,12 @@ def update_question(n_submit, question_count_store, score, answers):
         question_count_store += 1
         return (
             question_count_store,
-            f"Question {question_count_store}/42",
+            f"Question {question_count_store}/{len(questions)}",
             questions[question_count_store - 1][0],
             answers
         )
     for answer in answers: print(answer)
-    return question_count_store, "Question 42/42", "No more questions", answers
+    return question_count_store, f"Question {len(questions)}/{len(questions)}", "No more questions", answers
 
 
 if __name__ == "__main__":
