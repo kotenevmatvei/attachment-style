@@ -2,7 +2,10 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import html, dcc, Input, Output, State
 
-from attachment_style_test import read_questions_file, check_same_length
+from attachment_style_test import (
+    read_questions_file,
+    check_same_length,
+)
 from utils import combine_and_shuffle_lists
 
 # read question files
@@ -27,12 +30,6 @@ questions: list[tuple[str, str]] = combine_and_shuffle_lists(
     anxious_questions, secure_questions, avoidant_questions
 )
 
-# setup the lists to store the results
-# Setup the lists to store the results
-anxious_results: dict[str, int] = {}
-secure_results: dict[str, int] = {}
-avoidant_results: dict[str, int] = {}
-
 # Initialize the Dash app with Bootstrap theme
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -48,9 +45,13 @@ app.layout = dbc.Container(
         dbc.Row(
             dbc.Col(
                 dbc.Button(
-                    "Start", id="start-button", n_clicks=0, color="primary", className="mb-4"
+                    "Start",
+                    id="start-button",
+                    n_clicks=0,
+                    color="primary",
+                    className="mb-4",
                 ),
-                class_name="text-center"
+                class_name="text-center",
             )
         ),
         dbc.Row(
@@ -100,9 +101,11 @@ app.layout = dbc.Container(
             )
         ),
         dcc.Store(id="question-count-store", data=1),
+        dcc.Store(id="answers", data=[]),
     ],
     fluid=True,
 )
+
 
 # Reveal the hidden elements after the click on start
 @app.callback(
@@ -139,21 +142,42 @@ def toggle_collapse(
         "Start",
     )
 
+
 # update the question count and question text on input submit
 @app.callback(
-    Output('question-count-store', 'data'),
+    Output("question-count-store", "data"),
     Output("question-count", "children"),
     Output("question-text", "children"),
+    Output("answers", "data"),
     [Input("answer-input-field", "n_submit")],
-    [State('question-count-store', 'data')]
+    [State("question-count-store", "data"), State("answer-input-field", "value"), State("answers", "data")],
 )
-def update_question(n_submit, question_count_store):
+def update_question(n_submit, question_count_store, score, answers):
     if n_submit is None:
-        return question_count_store, "Question 1/1", questions[question_count_store - 1][0]
+        return (
+            question_count_store,
+            "Question 1/1",
+            questions[question_count_store - 1][0],
+            answers,
+        )
     elif n_submit is not None and question_count_store < 42:
+        answers.append(
+            {
+                "question": questions[question_count_store - 1][0],
+                "attachment_style": questions[question_count_store - 1][1],
+                "score": score / 10,
+            }
+        )
         question_count_store += 1
-        return question_count_store, f"Question {question_count_store}/42", questions[question_count_store - 1][0]
-    return question_count_store, "Question 42/42", "No more questions"
-    
+        return (
+            question_count_store,
+            f"Question {question_count_store}/42",
+            questions[question_count_store - 1][0],
+            answers
+        )
+    for answer in answers: print(answer)
+    return question_count_store, "Question 42/42", "No more questions", answers
+
+
 if __name__ == "__main__":
     app.run_server(debug=True)
