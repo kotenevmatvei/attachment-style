@@ -48,7 +48,7 @@ app.layout = dbc.Container(
         dbc.Row(
             dbc.Col(
                 dbc.Button(
-                    "Start", id="start-button", color="primary", className="mb-4"
+                    "Start", id="start-button", n_clicks=0, color="primary", className="mb-4"
                 ),
                 class_name="text-center"
             )
@@ -93,7 +93,7 @@ app.layout = dbc.Container(
         dbc.Row(
             dbc.Col(
                 dbc.Collapse(
-                    html.Div("Result", className="mb-2 text-center"),
+                    html.Div("Result", className="mb-2 text-center border"),
                     id="result",
                     is_open=False,
                 )
@@ -131,36 +131,29 @@ def toggle_collapse(
             True if not is_open_question_text else is_open_question_text,
             True if not is_open_answer_input else is_open_answer_input,
             "Start Again" if n_clicks >= 1 else "Start",
-        )  # Add this line
+        )
     return (
         is_open_question_count,
         is_open_question_text,
         is_open_answer_input,
         "Start",
-    )  # Add "Start"
+    )
 
-
-# @app.callback(
-#     Output("question", "children"),
-#     [Input("answer-input-field", "n_submit")]
-# )
-# def update_question_count(n_submit):
-#     global question_count
-#     if n_submit is not None:
-#         question_count += 1
-#     return f"Question {question_count}/42"
-
-# @app.callback(
-#     Output('question-count', 'data'),
-#     Output("question", "children"),
-#     Output("question-text", "children"),
-#     [Input("answer-input-field", "n_submit")],
-#     [State('question-count', 'data')]
-# )
-# def update_question(n_submit, question_count):
-#     if n_submit is not None and question_count < 42:
-#         question_count += 1
-#     return question_count, f"Question {question_count}/42", questions[question_count - 1] if question_count <= len(questions) else "No more questions"
-
+# update the question count and question text on input submit
+@app.callback(
+    Output('question-count-store', 'data'),
+    Output("question-count", "children"),
+    Output("question-text", "children"),
+    [Input("answer-input-field", "n_submit")],
+    [State('question-count-store', 'data')]
+)
+def update_question(n_submit, question_count_store):
+    if n_submit is None:
+        return question_count_store, "Question 1/1", questions[question_count_store - 1][0]
+    elif n_submit is not None and question_count_store < 42:
+        question_count_store += 1
+        return question_count_store, f"Question {question_count_store}/42", questions[question_count_store - 1][0]
+    return question_count_store, "Question 42/42", "No more questions"
+    
 if __name__ == "__main__":
     app.run_server(debug=True)
