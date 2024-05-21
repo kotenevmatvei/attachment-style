@@ -94,6 +94,20 @@ app.layout = dbc.Container(
         dbc.Row(
             dbc.Col(
                 dbc.Collapse(
+                    dbc.Button(
+                        "Show Results",
+                        id="show-results-button",
+                        n_clicks=0,
+                        color="primary",
+                        className="mb-4",
+                    ),
+                    is_open=False,
+                )
+            )
+        )
+        dbc.Row(
+            dbc.Col(
+                dbc.Collapse(
                     html.Div("Result", className="mb-2 text-center border"),
                     id="result",
                     is_open=False,
@@ -149,6 +163,7 @@ def toggle_collapse(
     Output("question-count", "children"),
     Output("question-text", "children"),
     Output("answers", "data"),
+    Output("show-results-button")
     [Input("answer-input-field", "n_submit")],
     [State("question-count-store", "data"), State("answer-input-field", "value"), State("answers", "data")],
 )
