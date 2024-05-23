@@ -1,6 +1,7 @@
 import dash
 import dash_bootstrap_components as dbc
 from dash import html, dcc, Input, Output, State
+from plotly import express as px
 
 from attachment_style.attachment_style_api import (
     read_questions_file,
@@ -104,7 +105,10 @@ app.layout = dbc.Container(
         dbc.Row(
             dbc.Col(
                 dbc.Collapse(
-                    html.Div("Result", className="mb-2 text-center border"),
+                    children=[
+                        html.Div("Result", className="mb-2 text-center border"),
+                        dcc.Graph(figure=px.scatter(x=[1, 2, 3], y=[1, 4, 9])),
+                    ],
                     id="result-collapse",
                     is_open=False,
                 )
