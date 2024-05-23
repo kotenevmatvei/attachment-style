@@ -6,8 +6,15 @@ from plotly import express as px
 from attachment_style.attachment_style_api import (
     read_questions_file,
     check_same_length,
+    build_plotly_3d_plot
 )
 from utils import combine_and_shuffle_lists
+
+def calculate_scores(answers: list[dict[str, str]]) -> tuple[float, float, float]:
+    anxious_score = [sum([float(answer["score"]/10) for answer in answers if answer["attachment_style"] == "anxioius"])]
+    secure_score = [sum([float(answer["score"]/10) for answer in answers if answer["attachment_style"] == "secure"])]
+    avoidant_score = [sum([float(answer["score"]/10) for answer in answers if answer["attachment_style"] == "avoidant"])]
+    return anxious_score, secure_score, avoidant_score
 
 # read question files
 anxious_questions: list[tuple[str, str]] = read_questions_file(
@@ -107,7 +114,7 @@ app.layout = dbc.Container(
                 dbc.Collapse(
                     children=[
                         html.Div("Result", className="mb-2 text-center border"),
-                        dcc.Graph(figure=px.scatter(x=[1, 2, 3], y=[1, 4, 9])),
+                        dcc.Graph(figure=px.scatter([1,2,3]), id="3d-figure"),
                     ],
                     id="result-collapse",
                     is_open=False,
@@ -208,12 +215,27 @@ def update_question(n_submit, question_count_store, score, answers):
 
 
 @app.callback(
-    Output("result-collapse", "is_open"),
-    Input("show-results-button", "n_clicks")
+    [
+        Output("result-collapse", "is_open"),
+        Output("3d-figure", "figure")
+    ],
+    Input("show-results-button", "n_clicks"),
+    [
+        State("answers", "data")
+    ]
 )
-def show_result(n_clicks):
-    if n_clicks >= 1:
-        return True
+def show_result(n_clicks, data):
+    anxious_score, secure_score, avoidant_score = calculate_scores(data)
+    fig = build_plotly_3d_plot(
+        number_of_questions=len(questions),
+        anxious_score=anxious_score,
+        secure_score=secure_score,
+        avoidant_score=avoidant_score
+    )
+    if n_clicks == 0:
+        return False, px.scatter([1, 2])
+    else:
+        return True, fig
 
 if __name__ == "__main__":
     app.run_server(debug=True)

@@ -110,16 +110,16 @@ def build_plotly_3d_plot(
         }
     )
     fig.update_layout(
-    title = "Attachment Style Test",
-    scene={
-        "xaxis_title": 'Anxiety',
-        "yaxis_title": 'Security',
-        "zaxis_title": 'Avoidance',
-        "xaxis": {"range": [0, 14]},
-        "yaxis": {"range": [0, 14]},
-        "zaxis": {"range": [0, 14]}
-    }
-)
+        title = "Attachment Style Test",
+        scene={
+            "xaxis_title": 'Anxiety',
+            "yaxis_title": 'Security',
+            "zaxis_title": 'Avoidance',
+            "xaxis": {"range": [0, 14]},
+            "yaxis": {"range": [0, 14]},
+            "zaxis": {"range": [0, 14]}
+        }
+    )
     return fig
     
 # # read question files
