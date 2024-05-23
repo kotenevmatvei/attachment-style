@@ -94,7 +94,7 @@ app.layout = dbc.Container(
         dbc.Row(
             dbc.Col(
                 dbc.Collapse(
-                    dbc.Button("Show Results", id="show-results-button"),
+                    dbc.Button("Show Results", n_clicks=0, id="show-results-button"),
                     id = "show-results-collapse",
                     is_open=False,
                     class_name="text-center"
@@ -202,6 +202,14 @@ def update_question(n_submit, question_count_store, score, answers):
         True
     )
 
+
+@app.callback(
+    Output("result-collapse", "is_open"),
+    Input("show-results-button", "n_clicks")
+)
+def show_result(n_clicks):
+    if n_clicks >= 1:
+        return True
 
 if __name__ == "__main__":
     app.run_server(debug=True)
