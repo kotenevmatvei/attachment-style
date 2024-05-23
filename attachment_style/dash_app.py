@@ -94,8 +94,18 @@ app.layout = dbc.Container(
         dbc.Row(
             dbc.Col(
                 dbc.Collapse(
+                    dbc.Button("Show Results", id="show-results-button"),
+                    id = "show-results-collapse",
+                    is_open=False,
+                    class_name="text-center"
+                )
+            )
+        ),
+        dbc.Row(
+            dbc.Col(
+                dbc.Collapse(
                     html.Div("Result", className="mb-2 text-center border"),
-                    id="result",
+                    id="result-collapse",
                     is_open=False,
                 )
             )
@@ -149,16 +159,22 @@ def toggle_collapse(
     Output("question-count", "children"),
     Output("question-text", "children"),
     Output("answers", "data"),
+    Output("show-results-collapse", "is_open"),
     [Input("answer-input-field", "n_submit")],
-    [State("question-count-store", "data"), State("answer-input-field", "value"), State("answers", "data")],
+    [
+        State("question-count-store", "data"),
+        State("answer-input-field", "value"),
+        State("answers", "data"),
+    ],
 )
 def update_question(n_submit, question_count_store, score, answers):
     if n_submit is None:
         return (
             question_count_store,
-            "Question 1/1",
+            f"Question 1/{len(questions)}",
             questions[question_count_store - 1][0],
             answers,
+            False,
         )
     elif n_submit is not None and question_count_store < len(questions):
         answers.append(
@@ -173,10 +189,18 @@ def update_question(n_submit, question_count_store, score, answers):
             question_count_store,
             f"Question {question_count_store}/{len(questions)}",
             questions[question_count_store - 1][0],
-            answers
+            answers,
+            False
         )
-    for answer in answers: print(answer)
-    return question_count_store, f"Question {len(questions)}/{len(questions)}", "No more questions", answers
+    for answer in answers:
+        print(answer)
+    return (
+        question_count_store,
+        f"Question {len(questions)}/{len(questions)}",
+        "No more questions",
+        answers,
+        True
+    )
 
 
 if __name__ == "__main__":
