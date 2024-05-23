@@ -2,7 +2,7 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import html, dcc, Input, Output, State
 
-from attachment_style_test import (
+from attachment_style.attachment_style_api import (
     read_questions_file,
     check_same_length,
 )

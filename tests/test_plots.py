@@ -1,6 +1,6 @@
 import pytest
 
-from attachment_style.attachment_style_test import(
+from attachment_style.attachment_style_api import(
     build_matplotlib_2d_plot,
     build_plotly_3d_plot
     ) 
