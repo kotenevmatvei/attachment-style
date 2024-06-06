@@ -2,19 +2,46 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import html, dcc, Input, Output, State
 from plotly import express as px
+from random import shuffle
 
 from attachment_style.attachment_style_api import (
     read_questions_file,
     check_same_length,
-    build_plotly_3d_plot
+    build_plotly_3d_plot,
 )
 from utils import combine_and_shuffle_lists
 
+
 def calculate_scores(answers: list[dict[str, str]]) -> tuple[float, float, float]:
-    anxious_score = [sum([float(answer["score"]/10) for answer in answers if answer["attachment_style"] == "anxioius"])]
-    secure_score = [sum([float(answer["score"]/10) for answer in answers if answer["attachment_style"] == "secure"])]
-    avoidant_score = [sum([float(answer["score"]/10) for answer in answers if answer["attachment_style"] == "avoidant"])]
+    anxious_score = [
+        sum(
+            [
+                float(answer["score"])
+                for answer in answers
+                if answer["attachment_style"] == "anxious"
+            ]
+        )
+    ]
+    secure_score = [
+        sum(
+            [
+                float(answer["score"])
+                for answer in answers
+                if answer["attachment_style"] == "secure"
+            ]
+        )
+    ]
+    avoidant_score = [
+        sum(
+            [
+                float(answer["score"])
+                for answer in answers
+                if answer["attachment_style"] == "avoidant"
+            ]
+        )
+    ]
     return anxious_score, secure_score, avoidant_score
+
 
 # read question files
 anxious_questions: list[tuple[str, str]] = read_questions_file(
@@ -103,9 +130,9 @@ app.layout = dbc.Container(
             dbc.Col(
                 dbc.Collapse(
                     dbc.Button("Show Results", n_clicks=0, id="show-results-button"),
-                    id = "show-results-collapse",
+                    id="show-results-collapse",
                     is_open=False,
-                    class_name="text-center"
+                    class_name="text-center",
                 )
             )
         ),
@@ -114,18 +141,25 @@ app.layout = dbc.Container(
                 dbc.Collapse(
                     children=[
                         html.Div("Result", className="mb-2 text-center border"),
-                        dcc.Graph(figure=px.scatter([1,2,3]), id="3d-figure"),
+                        dcc.Graph(figure=px.scatter([1, 2, 3]), id="3d-figure"),
                     ],
                     id="result-collapse",
                     is_open=False,
                 )
             )
         ),
+        dcc.Store(id="questions-store", storage_type="session"),
         dcc.Store(id="question-count-store", data=1),
         dcc.Store(id="answers", data=[]),
     ],
     fluid=True,
 )
+
+
+@app.callback(Output("questions-store", "data"))
+def shuffle_questions():
+    shuffled_questions = shuffle(questions)
+    return shuffled_questions
 
 
 # Reveal the hidden elements after the click on start
@@ -192,7 +226,7 @@ def update_question(n_submit, question_count_store, score, answers):
             {
                 "question": questions[question_count_store - 1][0],
                 "attachment_style": questions[question_count_store - 1][1],
-                "score": score / 10,
+                "score": score / 14,
             }
         )
         question_count_store += 1
@@ -201,28 +235,28 @@ def update_question(n_submit, question_count_store, score, answers):
             f"Question {question_count_store}/{len(questions)}",
             questions[question_count_store - 1][0],
             answers,
-            False
+            False,
         )
-    for answer in answers:
-        print(answer)
+    answers.append(
+        {
+            "question": questions[-1][0],
+            "attachment_style": questions[-1][1],
+            "score": score / 14,
+        }
+    )
     return (
         question_count_store,
         f"Question {len(questions)}/{len(questions)}",
         "No more questions",
         answers,
-        True
+        True,
     )
 
 
 @app.callback(
-    [
-        Output("result-collapse", "is_open"),
-        Output("3d-figure", "figure")
-    ],
+    [Output("result-collapse", "is_open"), Output("3d-figure", "figure")],
     Input("show-results-button", "n_clicks"),
-    [
-        State("answers", "data")
-    ]
+    [State("answers", "data")],
 )
 def show_result(n_clicks, data):
     anxious_score, secure_score, avoidant_score = calculate_scores(data)
@@ -230,12 +264,14 @@ def show_result(n_clicks, data):
         number_of_questions=len(questions),
         anxious_score=anxious_score,
         secure_score=secure_score,
-        avoidant_score=avoidant_score
+        avoidant_score=avoidant_score,
     )
+    print(data)
     if n_clicks == 0:
         return False, px.scatter([1, 2])
     else:
         return True, fig
+
 
 if __name__ == "__main__":
     app.run_server(debug=True)
