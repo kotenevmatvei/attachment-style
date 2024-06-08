@@ -93,7 +93,7 @@ app.layout = dbc.Container(
             dbc.Col(
                 dbc.Collapse(
                     html.Div(f"Question {question_count}/42", className="mb-2"),
-                    id="question-count",
+                    id="question-count-collapse",
                     is_open=False,
                 ),
                 className="text-center",
@@ -148,31 +148,37 @@ app.layout = dbc.Container(
                 )
             )
         ),
-        dcc.Store(id="questions-store", storage_type="session"),
+        dcc.Interval(id="page-load", interval=1, max_intervals=1),
+        dcc.Store(id="questions-store", data=questions),
         dcc.Store(id="question-count-store", data=1),
         dcc.Store(id="answers", data=[]),
     ],
     fluid=True,
 )
 
+# app.layout = layout
 
-@app.callback(Output("questions-store", "data"))
-def shuffle_questions():
-    shuffled_questions = shuffle(questions)
+@app.callback(
+    Output('questions-store', 'data'),
+    (Input('page-load', 'n_intervals'),)  # Change this line
+)
+def shuffle_questions(n):
+    shuffled_questions = questions.copy()
+    shuffle(shuffled_questions)
     return shuffled_questions
 
 
 # Reveal the hidden elements after the click on start
 @app.callback(
     [
-        Output("question-count", "is_open"),
+        Output("question-count-collapse", "is_open"),
         Output("question-text", "is_open"),
         Output("answer-input", "is_open"),
         Output("start-button", "children"),
     ],
     [Input("start-button", "n_clicks")],
     [
-        State("question-count", "is_open"),
+        State("question-count-collapse", "is_open"),
         State("question-text", "is_open"),
         State("answer-input", "is_open"),
     ],
@@ -201,18 +207,22 @@ def toggle_collapse(
 # update the question count and question text on input submit
 @app.callback(
     Output("question-count-store", "data"),
-    Output("question-count", "children"),
+    Output("question-count-collapse", "children"),
     Output("question-text", "children"),
     Output("answers", "data"),
     Output("show-results-collapse", "is_open"),
-    [Input("answer-input-field", "n_submit")],
+    [
+        Input("answer-input-field", "n_submit"),
+        Input("questions-store", "data")
+    ],
     [
         State("question-count-store", "data"),
         State("answer-input-field", "value"),
         State("answers", "data"),
     ],
 )
-def update_question(n_submit, question_count_store, score, answers):
+def update_question(n_submit, questions, question_count_store, score, answers):
+    questions = questions
     if n_submit is None:
         return (
             question_count_store,
