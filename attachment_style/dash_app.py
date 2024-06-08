@@ -156,14 +156,14 @@ app.layout = dbc.Container(
     fluid=True,
 )
 
+# shuffle questions on page load
 @app.callback(
     Output('questions-store', 'data'),
     (Input('page-load-interval', 'n_intervals'),)  # Change this line
 )
 def shuffle_questions(n):
-    shuffled_questions = questions.copy()
-    random.shuffle(shuffled_questions)
-    return shuffled_questions
+    random.shuffle(questions)
+    return questions
 
 
 # Reveal the hidden elements after the click on start
