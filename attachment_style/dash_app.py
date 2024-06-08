@@ -1,8 +1,8 @@
 import dash
+import random
 import dash_bootstrap_components as dbc
 from dash import html, dcc, Input, Output, State
 from plotly import express as px
-from random import shuffle
 
 from attachment_style.attachment_style_api import (
     read_questions_file,
@@ -103,7 +103,7 @@ app.layout = dbc.Container(
             dbc.Col(
                 dbc.Collapse(
                     html.Div("Text of the question", className="mb-2"),
-                    id="question-text",
+                    id="question-text-collapse",
                     is_open=False,
                 ),
                 class_name="text-center",
@@ -156,15 +156,13 @@ app.layout = dbc.Container(
     fluid=True,
 )
 
-# app.layout = layout
-
 @app.callback(
     Output('questions-store', 'data'),
     (Input('page-load', 'n_intervals'),)  # Change this line
 )
 def shuffle_questions(n):
     shuffled_questions = questions.copy()
-    shuffle(shuffled_questions)
+    random.shuffle(shuffled_questions)
     return shuffled_questions
 
 
@@ -172,14 +170,14 @@ def shuffle_questions(n):
 @app.callback(
     [
         Output("question-count-collapse", "is_open"),
-        Output("question-text", "is_open"),
+        Output("question-text-collapse", "is_open"),
         Output("answer-input", "is_open"),
         Output("start-button", "children"),
     ],
     [Input("start-button", "n_clicks")],
     [
         State("question-count-collapse", "is_open"),
-        State("question-text", "is_open"),
+        State("question-text-collapse", "is_open"),
         State("answer-input", "is_open"),
     ],
 )
@@ -208,7 +206,7 @@ def toggle_collapse(
 @app.callback(
     Output("question-count-store", "data"),
     Output("question-count-collapse", "children"),
-    Output("question-text", "children"),
+    Output("question-text-collapse", "children"),
     Output("answers", "data"),
     Output("show-results-collapse", "is_open"),
     [
