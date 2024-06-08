@@ -221,6 +221,7 @@ def toggle_collapse(
 )
 def update_question(n_submit, questions, question_count_store, score, answers):
     questions = questions
+    # first question
     if n_submit is None:
         return (
             question_count_store,
@@ -229,6 +230,7 @@ def update_question(n_submit, questions, question_count_store, score, answers):
             answers,
             False,
         )
+    # questions between first and last
     elif n_submit is not None and question_count_store < len(questions):
         answers.append(
             {
@@ -245,20 +247,26 @@ def update_question(n_submit, questions, question_count_store, score, answers):
             answers,
             False,
         )
-    answers.append(
-        {
-            "question": questions[-1][0],
-            "attachment_style": questions[-1][1],
-            "score": score / 14,
-        }
-    )
-    return (
-        question_count_store,
-        f"Question {len(questions)}/{len(questions)}",
-        "No more questions",
-        answers,
-        True,
-    )
+    # last question
+    elif n_submit is not None and question_count_store == len(questions):
+        answers.append(
+            {
+                "question": questions[-1][0],
+                "attachment_style": questions[-1][1],
+                "score": score / 14,
+            }
+        )
+        question_count_store += 1
+        return (
+            question_count_store,
+            f"Question {len(questions)}/{len(questions)}",
+            "No more questions",
+            answers,
+            True,
+        )
+    # stop counting after last question
+    else:
+        return question_count_store, f"{len(questions)}/{len(questions)}", "No more questions", answers, True
 
 
 @app.callback(
