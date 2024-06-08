@@ -142,7 +142,6 @@ app.layout = dbc.Container(
             dbc.Col(
                 dbc.Collapse(
                     children=[
-                        html.Div("Result", className="mb-2 text-center border"),
                         dcc.Graph(figure=px.scatter([1, 2, 3]), id="3d-figure"),
                     ],
                     id="result-collapse",
