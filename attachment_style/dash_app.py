@@ -1,7 +1,7 @@
 import dash
 import random
 import dash_bootstrap_components as dbc
-from dash import html, dcc, Input, Output, State
+from dash import html, dcc, Input, Output, State, ctx
 from plotly import express as px
 
 from attachment_style.attachment_style_api import (
@@ -213,7 +213,8 @@ def toggle_collapse(
     Output("show-results-collapse", "is_open"),
     [
         Input("answer-input-field", "n_submit"),
-        Input("questions-store", "data")
+        Input("questions-store", "data"),
+        Input("start-button", "n_clicks")
     ],
     [
         State("question-count-store", "data"),
@@ -221,55 +222,59 @@ def toggle_collapse(
         State("answers-store", "data"),
     ],
 )
-def update_question(n_submit, questions, question_count_store, score, answers):
-    questions = questions
-    # first question
-    if n_submit is None:
-        return (
-            question_count_store,
-            f"Question 1/{len(questions)}",
-            questions[question_count_store - 1][0],
-            answers,
-            False,
-        )
-    # questions between first and last
-    elif n_submit is not None and question_count_store < len(questions):
-        answers.append(
-            {
-                "question": questions[question_count_store - 1][0],
-                "attachment_style": questions[question_count_store - 1][1],
-                "score": score / 14,
-            }
-        )
-        question_count_store += 1
-        return (
-            question_count_store,
-            f"Question {question_count_store}/{len(questions)}",
-            questions[question_count_store - 1][0],
-            answers,
-            False,
-        )
-    # last question
-    elif n_submit is not None and question_count_store == len(questions):
-        answers.append(
-            {
-                "question": questions[-1][0],
-                "attachment_style": questions[-1][1],
-                "score": score / 14,
-            }
-        )
-        question_count_store += 1
-        return (
-            question_count_store,
-            f"Question {len(questions)}/{len(questions)}",
-            "No more questions",
-            answers,
-            True,
-        )
-    # stop counting after last question
-    else:
-        return question_count_store, f"{len(questions)}/{len(questions)}", "No more questions", answers, True
-
+def update_question(n_submit, questions, button, question_count_store, score, answers):
+    triggered_id = ctx.triggered_id
+    if triggered_id == "answer-input-field":
+        questions = questions
+        # first question
+        if n_submit is None:
+            return (
+                question_count_store,
+                f"Question 1/{len(questions)}",
+                questions[question_count_store - 1][0],
+                answers,
+                False,
+            )
+        # questions between first and last
+        elif n_submit is not None and question_count_store < len(questions):
+            answers.append(
+                {
+                    "question": questions[question_count_store - 1][0],
+                    "attachment_style": questions[question_count_store - 1][1],
+                    "score": score / 14,
+                }
+            )
+            question_count_store += 1
+            return (
+                question_count_store,
+                f"Question {question_count_store}/{len(questions)}",
+                questions[question_count_store - 1][0],
+                answers,
+                False,
+            )
+        # last question
+        elif n_submit is not None and question_count_store == len(questions):
+            answers.append(
+                {
+                    "question": questions[-1][0],
+                    "attachment_style": questions[-1][1],
+                    "score": score / 14,
+                }
+            )
+            question_count_store += 1
+            return (
+                question_count_store,
+                f"Question {len(questions)}/{len(questions)}",
+                "No more questions",
+                answers,
+                True,
+            )
+        # stop counting after last question
+        else:
+            return question_count_store, f"{len(questions)}/{len(questions)}", "No more questions", answers, True
+        
+    # return by default or if "start-again" was triggered
+    return 1, f"1/{len(questions)}", questions[0][0], [], False
 
 @app.callback(
     [Output("result-collapse", "is_open"), Output("3d-figure", "figure")],
