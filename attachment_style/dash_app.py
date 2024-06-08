@@ -151,7 +151,7 @@ app.layout = dbc.Container(
         dcc.Interval(id="page-load-interval", interval=1, max_intervals=1),
         dcc.Store(id="questions-store", data=questions),
         dcc.Store(id="question-count-store", data=1),
-        dcc.Store(id="answers", data=[]),
+        dcc.Store(id="answers-store", data=[]),
     ],
     fluid=True,
 )
@@ -207,7 +207,7 @@ def toggle_collapse(
     Output("question-count-store", "data"),
     Output("question-count-collapse", "children"),
     Output("question-text-collapse", "children"),
-    Output("answers", "data"),
+    Output("answers-store", "data"),
     Output("show-results-collapse", "is_open"),
     [
         Input("answer-input-field", "n_submit"),
@@ -216,7 +216,7 @@ def toggle_collapse(
     [
         State("question-count-store", "data"),
         State("answer-input-field", "value"),
-        State("answers", "data"),
+        State("answers-store", "data"),
     ],
 )
 def update_question(n_submit, questions, question_count_store, score, answers):
@@ -264,7 +264,7 @@ def update_question(n_submit, questions, question_count_store, score, answers):
 @app.callback(
     [Output("result-collapse", "is_open"), Output("3d-figure", "figure")],
     Input("show-results-button", "n_clicks"),
-    [State("answers", "data")],
+    [State("answers-store", "data")],
 )
 def show_result(n_clicks, data):
     anxious_score, secure_score, avoidant_score = calculate_scores(data)
