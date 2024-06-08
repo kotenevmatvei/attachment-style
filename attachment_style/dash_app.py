@@ -120,7 +120,7 @@ app.layout = dbc.Container(
                             className="short-input mb-4",
                         )
                     ),
-                    id="answer-input",
+                    id="answer-input-collapse",
                     class_name="text-center",
                     is_open=False,
                 )
@@ -171,14 +171,14 @@ def shuffle_questions(n):
     [
         Output("question-count-collapse", "is_open"),
         Output("question-text-collapse", "is_open"),
-        Output("answer-input", "is_open"),
+        Output("answer-input-collapse", "is_open"),
         Output("start-button", "children"),
     ],
     [Input("start-button", "n_clicks")],
     [
         State("question-count-collapse", "is_open"),
         State("question-text-collapse", "is_open"),
-        State("answer-input", "is_open"),
+        State("answer-input-collapse", "is_open"),
     ],
 )
 def toggle_collapse(
