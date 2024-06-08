@@ -142,7 +142,6 @@ app.layout = dbc.Container(
             dbc.Col(
                 dbc.Collapse(
                     children=[
-                        html.Div("Result", className="mb-2 text-center border"),
                         dcc.Graph(figure=px.scatter([1, 2, 3]), id="3d-figure"),
                     ],
                     id="result-collapse",
@@ -222,7 +221,7 @@ def toggle_collapse(
         State("answers-store", "data"),
     ],
 )
-def update_question(n_submit, questions, button, question_count_store, score, answers):
+def update_question(n_submit, questions, start_button, question_count_store, score, answers):
     triggered_id = ctx.triggered_id
     if triggered_id == "answer-input-field":
         questions = questions
