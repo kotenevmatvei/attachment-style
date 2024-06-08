@@ -116,7 +116,9 @@ app.layout = dbc.Container(
                         dcc.Input(
                             id="answer-input-field",
                             type="number",
-                            value=7,
+                            value=5,
+                            min=0,
+                            max=10,
                             className="short-input mb-4",
                         )
                     ),
