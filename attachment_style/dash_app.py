@@ -148,7 +148,7 @@ app.layout = dbc.Container(
                 )
             )
         ),
-        dcc.Interval(id="page-load", interval=1, max_intervals=1),
+        dcc.Interval(id="page-load-interval", interval=1, max_intervals=1),
         dcc.Store(id="questions-store", data=questions),
         dcc.Store(id="question-count-store", data=1),
         dcc.Store(id="answers", data=[]),
@@ -158,7 +158,7 @@ app.layout = dbc.Container(
 
 @app.callback(
     Output('questions-store', 'data'),
-    (Input('page-load', 'n_intervals'),)  # Change this line
+    (Input('page-load-interval', 'n_intervals'),)  # Change this line
 )
 def shuffle_questions(n):
     shuffled_questions = questions.copy()
