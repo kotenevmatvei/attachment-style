@@ -224,10 +224,12 @@ def toggle_collapse(
     Output("answers-store", "data"),
     Output("show-results-collapse", "is_open"),
     Output("result-collapse","is_open"),
+    Output("go-back-collapse", "is_open"),
     [
         Input("answer-input-field", "n_submit"),
         Input("questions-store", "data"),
-        Input("start-button", "n_clicks")
+        Input("start-button", "n_clicks"),
+        Input("go-back-button", "n_clicks")
     ],
     [
         State("question-count-store", "data"),
@@ -235,7 +237,7 @@ def toggle_collapse(
         State("answers-store", "data"),
     ],
 )
-def update_question(n_submit, questions, start_button, question_count_store, score, answers):
+def update_question(n_submit, questions, start_button, go_back_button, question_count_store, score, answers):
     triggered_id = ctx.triggered_id
     if triggered_id == "answer-input-field":
         questions = questions
@@ -246,6 +248,7 @@ def update_question(n_submit, questions, start_button, question_count_store, sco
                 f"Question 1/{len(questions)}",
                 questions[question_count_store - 1][0],
                 answers,
+                False,
                 False,
                 False
             )
@@ -266,6 +269,7 @@ def update_question(n_submit, questions, start_button, question_count_store, sco
                 answers,
                 False,
                 False,
+                True
             )
         # last question
         elif n_submit is not None and question_count_store == len(questions):
@@ -283,14 +287,53 @@ def update_question(n_submit, questions, start_button, question_count_store, sco
                 "No more questions",
                 answers,
                 True,
-                False
+                False,
+                True
             )
         # stop counting after last question
         else:
-            return question_count_store, f"{len(questions)}/{len(questions)}", "No more questions", answers, True, False
-        
+            return (
+                question_count_store, 
+                f"Question {len(questions)}/{len(questions)}", 
+                "No more questions", 
+                answers, 
+                True, 
+                False, 
+                True)
+            
+    elif triggered_id == "go-back-button":
+        if question_count_store == 2:
+            return (
+                question_count_store - 1,
+                f"Question {question_count_store-1}/{len(questions)}",
+                questions[question_count_store-2][0],
+                [],
+                False,
+                False,
+                True
+            )
+        elif question_count_store == 1:
+            return (
+                question_count_store,
+                f"Question 1/{len(questions)}",
+                questions[0][0],
+                [],
+                False,
+                False,
+                False
+            )
+        return (
+            question_count_store - 1,
+            f"Question {question_count_store-1}/{len(questions)}",
+            questions[question_count_store-2][0],
+            answers[:-1],
+            False,
+            False,
+            True
+        )
+    
     # return by default or if "start-again" was triggered
-    return 1, f"1/{len(questions)}", questions[0][0], [], False, False
+    return 1, f"Question 1/{len(questions)}", questions[0][0], [], False, False, False
 
 @app.callback(
     [

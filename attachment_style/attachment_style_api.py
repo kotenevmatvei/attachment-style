@@ -110,7 +110,7 @@ def build_plotly_3d_plot(
         }
     )
     fig.update_layout(
-        title = "Attachment Style Test",
+        title = "Attachment Style 3d-Figure",
         scene={
             "xaxis_title": 'Anxiety',
             "yaxis_title": 'Security',
