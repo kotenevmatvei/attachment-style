@@ -97,7 +97,8 @@ app.layout = dbc.Container(
                     is_open=False,
                 ),
                 className="text-center",
-            )
+            ),
+            class_name="mb-4"
         ),
         dbc.Row(
             dbc.Col(
@@ -107,26 +108,38 @@ app.layout = dbc.Container(
                     is_open=False,
                 ),
                 class_name="text-center",
-            )
+            ),
+            class_name="mb-4"
         ),
         dbc.Row(
-            dbc.Col(
-                dbc.Collapse(
-                    html.Div(
-                        dcc.Input(
-                            id="answer-input-field",
-                            type="number",
-                            value=5,
-                            min=0,
-                            max=10,
-                            className="short-input mb-4",
-                        )
+            [
+                dbc.Col(
+                    dbc.Collapse(
+                        html.Div(
+                            dcc.Input(
+                                id="answer-input-field",
+                                type="number",
+                                value=5,
+                                min=0,
+                                max=10,
+                                className="short-input mb-4",
+                            )
+                        ),
+                        id="answer-input-collapse",
+                        class_name="text-center",
+                        is_open=False,
                     ),
-                    id="answer-input-collapse",
-                    class_name="text-center",
-                    is_open=False,
+                    width={"size":1, "offset":5}
+                ),
+                dbc.Col(
+                    dbc.Collapse(
+                        dbc.Button("Previous question", n_clicks=0, id="go-back-button"),
+                        id="go-back-collapse",
+                        is_open=True,
+                    ),
+                    width={"size":2}
                 )
-            )
+            ]
         ),
         dbc.Row(
             dbc.Col(
