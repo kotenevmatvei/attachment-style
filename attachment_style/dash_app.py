@@ -210,6 +210,7 @@ def toggle_collapse(
     Output("question-text-collapse", "children"),
     Output("answers-store", "data"),
     Output("show-results-collapse", "is_open"),
+    Output("result-collapse","is_open"),
     [
         Input("answer-input-field", "n_submit"),
         Input("questions-store", "data"),
@@ -233,6 +234,7 @@ def update_question(n_submit, questions, start_button, question_count_store, sco
                 questions[question_count_store - 1][0],
                 answers,
                 False,
+                False
             )
         # questions between first and last
         elif n_submit is not None and question_count_store < len(questions):
@@ -249,6 +251,7 @@ def update_question(n_submit, questions, start_button, question_count_store, sco
                 f"Question {question_count_store}/{len(questions)}",
                 questions[question_count_store - 1][0],
                 answers,
+                False,
                 False,
             )
         # last question
@@ -267,18 +270,23 @@ def update_question(n_submit, questions, start_button, question_count_store, sco
                 "No more questions",
                 answers,
                 True,
+                False
             )
         # stop counting after last question
         else:
-            return question_count_store, f"{len(questions)}/{len(questions)}", "No more questions", answers, True
+            return question_count_store, f"{len(questions)}/{len(questions)}", "No more questions", answers, True, False
         
     # return by default or if "start-again" was triggered
-    return 1, f"1/{len(questions)}", questions[0][0], [], False
+    return 1, f"1/{len(questions)}", questions[0][0], [], False, False
 
 @app.callback(
-    [Output("result-collapse", "is_open"), Output("3d-figure", "figure")],
+    [
+        Output("result-collapse", "is_open", allow_duplicate=True),
+        Output("3d-figure", "figure")
+    ],
     Input("show-results-button", "n_clicks"),
     [State("answers-store", "data")],
+    prevent_initial_call=True
 )
 def show_result(n_clicks, data):
     anxious_score, secure_score, avoidant_score = calculate_scores(data)
