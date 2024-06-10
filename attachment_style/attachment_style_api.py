@@ -121,6 +121,21 @@ def build_plotly_3d_plot(
         }
     )
     return fig
+
+# build a pie chart
+def build_pie_chart(
+    anxious_score: list[float],
+    secure_score: list[float],
+    avoidant_score: list[float]
+) -> px.pie:
+    
+    # Create a list of labels and corresponding scores
+    labels = ['Anxious', 'Secure', 'Avoidant']
+    scores = [sum(anxious_score), sum(secure_score), sum(avoidant_score)]
+    # Create the pie chart
+    fig = px.pie(values=scores, names=labels, title='Attachment Style Pie Chart')
+
+    return fig
     
 # # read question files
 # anxious_questions: list[tuple[str, str]] = read_questions_file("anxious_questions.txt", "anxious")

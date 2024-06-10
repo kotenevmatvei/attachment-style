@@ -8,6 +8,7 @@ from attachment_style.attachment_style_api import (
     read_questions_file,
     check_same_length,
     build_plotly_3d_plot,
+    build_pie_chart
 )
 from utils import combine_and_shuffle_lists
 
@@ -346,8 +347,7 @@ def update_question(n_submit, questions, start_button, go_back_button, question_
 )
 def show_result(n_clicks, data):
     anxious_score, secure_score, avoidant_score = calculate_scores(data)
-    fig = build_plotly_3d_plot(
-        number_of_questions=len(questions),
+    fig = build_pie_chart(
         anxious_score=anxious_score,
         secure_score=secure_score,
         avoidant_score=avoidant_score,
