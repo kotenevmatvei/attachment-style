@@ -129,15 +129,15 @@ app.layout = dbc.Container(
                         class_name="text-center",
                         is_open=False,
                     ),
-                    width={"size":1, "offset":5}
+                    width={"size":2, "offset":5}
                 ),
                 dbc.Col(
                     dbc.Collapse(
                         dbc.Button("Previous question", n_clicks=0, id="go-back-button"),
                         id="go-back-collapse",
-                        is_open=True,
+                        is_open=False,
                     ),
-                    width={"size":2}
+                    width={"size":2, "offset": 1}
                 )
             ]
         ),
