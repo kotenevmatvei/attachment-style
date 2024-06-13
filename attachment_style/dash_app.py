@@ -5,14 +5,12 @@ from dash import html, dcc, Input, Output, State, ctx
 from plotly import express as px
 
 from utils import combine_and_shuffle_lists
-from attachment_style.attachment_style_api import (
+from attachment_style_api import (
     read_questions_file,
     check_same_length,
     build_plotly_3d_plot,
     build_pie_chart
 )
-
-
 def calculate_scores(answers: list[dict[str, str]]) -> tuple[float, float, float]:
     anxious_score = [
         sum(
@@ -138,7 +136,7 @@ app.layout = dbc.Container(
                         id="go-back-collapse",
                         is_open=False,
                     ),
-                    width={"size":2, "offset": 1}
+                    width={"size":2}
                 )
             ]
         ),
