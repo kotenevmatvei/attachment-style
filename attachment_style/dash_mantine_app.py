@@ -4,21 +4,29 @@ from dash import Dash, Input, Output, State, html
 app = Dash(__name__)
 
 app.layout = dmc.MantineProvider(
-    children = [dmc.Button("toggle button", id='toggle-button'),
-    dmc.Text(id='my-text', children='This is some text'),
-    dmc.Text("More Text yoo")
-    ]
+    dmc.AppShell(
+        [
+            dmc.AppShellHeader("Header", px=25),
+            dmc.AppShellNavbar("Navbar"),
+            dmc.AppShellAside("Aside"),
+            dmc.AppShellMain(children=[dmc.Text("Hello World")]),
+        ],
+        header={"height": 70},
+        padding="xl",
+        zIndex=1400,
+        navbar={
+            "width": 300,
+            "breakpoint": "sm",
+            "collapsed": {"mobile": True},
+        },
+        aside={
+            "width": 300,
+            "breakpoint": "xl",
+            "collapsed": {"desktop": False, "mobile": True},
+        },
+    )
 )
 
-@app.callback(
-    Output('my-text', 'style'),
-    Input('toggle-button', 'n_clicks'),
-)
-def toggle_text(n_clicks):
-    if n_clicks is None or n_clicks % 2 == 0:
-        return {'display': 'block'}  # Show the text
-    else:
-        return {'display': 'none'}  # Hide the text
 
 if __name__ == "__main__":
     app.run_server(debug=True)
