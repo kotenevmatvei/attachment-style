@@ -10,6 +10,12 @@ app.layout = dmc.MantineProvider(
             dmc.AppShellMain("Main"),
             dmc.AppShellFooter("Footer")
         ],
+        header={
+            "height": 70,
+        },
+        footer={
+            "height": 70
+        }
     )
 )
 
