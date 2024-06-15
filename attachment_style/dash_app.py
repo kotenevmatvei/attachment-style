@@ -74,7 +74,19 @@ question_count = 1
 app.layout = dbc.Container(
     [
         dbc.Row(
-            dbc.Col(html.H1("Attachment Style Test"), className="mb-4 text-center")
+            [
+                dbc.Col(
+                    html.Header("Attachment Style Test", className="fs-1"),
+                    width={"size": 4, "offset": 4},
+                    className="mb-4 text-center border"
+                ),
+                dbc.Col(
+                    dbc.Button("Language", className="float-end mr-4 mt-2 mb-0"),
+                    width=4,
+                    className="mb-4 border"
+                ),
+            ],
+            className="border"
         ),
         dbc.Row(
             dbc.Col(
@@ -85,8 +97,9 @@ app.layout = dbc.Container(
                     color="primary",
                     className="mb-4",
                 ),
-                class_name="text-center",
-            )
+                class_name="text-center border",
+            ),
+            className="border"
         ),
         dbc.Row(
             dbc.Col(
