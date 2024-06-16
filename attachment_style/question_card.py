@@ -23,7 +23,7 @@ QuestionCard = dbc.Row(
                     dcc.Slider(min=0, max=10, step=.1, value=5, marks=None, tooltip={"placement": "bottom", "always_visible": True})
                 )
             ],
-            style={"width": "50rem"},
+            style={"width": "45rem"},
             className="border text-center"
         ),
         className="mb-4 d-flex justify-content-center"
