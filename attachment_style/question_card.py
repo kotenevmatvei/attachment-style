@@ -1,6 +1,4 @@
 import dash_bootstrap_components as dbc
-# from dash_mantine_components import ActionIcon
-# from dash_iconify import DashIconify
 from dash import dcc, html
 
 QuestionCard = dbc.Row(
