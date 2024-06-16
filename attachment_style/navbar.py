@@ -1,6 +1,6 @@
 import dash_bootstrap_components as dbc
 
-navbar = dbc.Row(
+Navbar = dbc.Row(
     dbc.Col(
         dbc.NavbarSimple(
             children=[
@@ -22,6 +22,6 @@ navbar = dbc.Row(
             color="primary",
             dark=True,
         ),
-        className="mb-4"
+        className="mb-4",
     )
 )

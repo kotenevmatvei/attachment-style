@@ -13,9 +13,9 @@ from attachment_style_api import ( # type: ignore
     build_pie_chart
 )
 
-from header import navbar
-from description import description
-from question_card import question_card
+from navbar import Navbar
+from description import Description
+from question_card import QuestionCard
 
 def calculate_scores(answers: list[dict[str, str]]) -> tuple[float, float, float]:
     anxious_score = [
@@ -79,9 +79,9 @@ question_count = 1
 # Define the layout of the app
 app.layout = dmc.MantineProvider(
     [
-        navbar,
-        description,
-        question_card,
+        Navbar,
+        Description,
+        QuestionCard,
         dbc.Row(
             dbc.Col(
                 dbc.Button(
