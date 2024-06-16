@@ -14,6 +14,7 @@ from attachment_style_api import ( # type: ignore
 )
 
 from header import navbar
+from description import description
 
 def calculate_scores(answers: list[dict[str, str]]) -> tuple[float, float, float]:
     anxious_score = [
@@ -78,6 +79,7 @@ question_count = 1
 app.layout = dmc.MantineProvider(
     [
         navbar,
+        description,
         dbc.Row(
             dbc.Col(
                 dbc.Button(
