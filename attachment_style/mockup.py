@@ -13,7 +13,7 @@ app.layout = html.Div([
     Navbar,
     Description,
     QuestionCard,
-    html.Div(dbc.Button("Submit"), className="text-center")
+    html.Div(dbc.Button("Submit"), className="text-center border")
 ])
 
 if __name__ == "__main__":
