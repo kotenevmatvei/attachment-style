@@ -50,13 +50,13 @@ def calculate_scores(answers: list[dict[str, str]]) -> tuple[float, float, float
 
 # read question files
 anxious_questions: list[tuple[str, str]] = read_questions_file(
-    "anxious_questions.txt", "anxious"
+    "data/anxious_questions.txt", "anxious"
 )
 secure_questions: list[tuple[str, str]] = read_questions_file(
-    "secure_questions.txt", "secure"
+    "data/secure_questions.txt", "secure"
 )
 avoidant_questions: list[tuple[str, str]] = read_questions_file(
-    "avoidant_questions.txt", "avoidant"
+    "data/avoidant_questions.txt", "avoidant"
 )
 
 # check that there is the same number of questions
