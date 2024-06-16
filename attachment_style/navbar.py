@@ -6,6 +6,7 @@ Navbar = dbc.Row(
             children=[
                 dbc.NavItem(dbc.NavLink("Test Yourself", href="#")),
                 dbc.NavItem(dbc.NavLink("Test Your Partner", href="#")),
+                dbc.NavItem(dbc.NavLink("About", href="#")),
                 dbc.DropdownMenu(
                     children=[
                         dbc.DropdownMenuItem("English", header=True),
