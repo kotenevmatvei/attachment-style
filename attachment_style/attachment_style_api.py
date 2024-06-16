@@ -2,7 +2,7 @@
 import sys
 import matplotlib.pyplot as plt
 import plotly.express as px
-from utils import combine_and_shuffle_lists
+from attachment_style.utils.utils import combine_and_shuffle_lists
 
 def read_questions_file(questions_file_path: str, attachment_style: str) -> list[tuple[str, str]]:
     """Read the txt file with questions and add them to the corresponding list."""

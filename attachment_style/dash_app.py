@@ -5,7 +5,7 @@ import dash_mantine_components as dmc
 from dash import html, dcc, Input, Output, State, ctx
 from plotly import express as px
 
-from utils import combine_and_shuffle_lists # type: ignore
+from attachment_style.utils.utils import combine_and_shuffle_lists # type: ignore
 from attachment_style_api import ( # type: ignore
     read_questions_file,
     check_same_length,
@@ -13,9 +13,9 @@ from attachment_style_api import ( # type: ignore
     build_pie_chart
 )
 
-from navbar import Navbar
-from description import Description
-from question_card import QuestionCard
+from attachment_style.components.navbar import Navbar
+from attachment_style.components.description import Description
+from attachment_style.components.question_card import QuestionCard
 
 def calculate_scores(answers: list[dict[str, str]]) -> tuple[float, float, float]:
     anxious_score = [

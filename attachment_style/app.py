@@ -1,10 +1,10 @@
-from dash import Dash, dcc, html
+from dash import Dash, html
 import dash_bootstrap_components as dbc
 
-from navbar import Navbar
-from description import Description
-from question_card import QuestionCard
-from dashboard import Dashboard
+from attachment_style.components.navbar import Navbar
+from attachment_style.components.description import Description
+from attachment_style.components.question_card import QuestionCard
+from attachment_style.components.dashboard import Dashboard
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY, dbc.icons.BOOTSTRAP])
 
