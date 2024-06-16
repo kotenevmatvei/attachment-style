@@ -16,7 +16,7 @@ app.layout = html.Div([
     QuestionCard,
     html.Div(dbc.Button("Submit Test"), className="mb-4 text-center border"),
     Dashboard,
-    html.Div(dbc.Button("Download Report"), className="text-center border"),
+    html.Div(dbc.Button("Download Report", id="submit-button"), className="text-center border"),
     # storage
     dcc.Store(id="questions", data=read_questions(), storage_type="local"),
     dcc.Store(id="answers", storage_type="memory")
