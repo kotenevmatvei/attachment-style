@@ -1,7 +1,5 @@
 from dash import Dash, dcc, html
 import dash_bootstrap_components as dbc
-# import dash_mantine_components as dmc
-
 
 from navbar import Navbar
 from description import Description
