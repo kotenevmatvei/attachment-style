@@ -18,7 +18,8 @@ QuestionCard = dbc.Row(
                     dcc.Markdown("Text of the question")
                 ),
                 dbc.CardFooter(
-                    dcc.Slider(min=0, max=10, step=.1, value=5, marks=None, tooltip={"placement": "bottom", "always_visible": False})
+                    dcc.Slider(min=0, max=10, step=.1, value=5, marks=None, tooltip={"placement": "bottom", "always_visible": False}),
+                    style={"height": "2rem"}
                 )
             ],
             style={"width": "45rem"},
