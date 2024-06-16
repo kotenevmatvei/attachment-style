@@ -1,6 +1,7 @@
 import dash
 import random
 import dash_bootstrap_components as dbc
+import dash_mantine_components as dmc
 from dash import html, dcc, Input, Output, State, ctx
 from plotly import express as px
 
@@ -11,6 +12,9 @@ from attachment_style_api import ( # type: ignore
     build_plotly_3d_plot,
     build_pie_chart
 )
+
+from header import navbar
+
 def calculate_scores(answers: list[dict[str, str]]) -> tuple[float, float, float]:
     anxious_score = [
         sum(
@@ -65,29 +69,15 @@ questions: list[tuple[str, str]] = combine_and_shuffle_lists(
 )
 
 # Initialize the Dash app with Bootstrap theme
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
 
 # Define a variable to store the question count
 question_count = 1
 
 # Define the layout of the app
-app.layout = dbc.Container(
+app.layout = dmc.MantineProvider(
     [
-        dbc.Row(
-            [
-                dbc.Col(
-                    html.Header("Attachment Style Test", className="fs-1"),
-                    width={"size": 4, "offset": 4},
-                    className="mb-4 text-center border"
-                ),
-                dbc.Col(
-                    dbc.Button("Language", className="float-end mr-4 mt-2 mb-0"),
-                    width=4,
-                    className="mb-4 border"
-                ),
-            ],
-            className="border"
-        ),
+        navbar,
         dbc.Row(
             dbc.Col(
                 dbc.Button(
@@ -99,7 +89,6 @@ app.layout = dbc.Container(
                 ),
                 class_name="text-center border",
             ),
-            className="border"
         ),
         dbc.Row(
             dbc.Col(
@@ -179,7 +168,7 @@ app.layout = dbc.Container(
         dcc.Store(id="question-count-store", data=1),
         dcc.Store(id="answers-store", data=[]),
     ],
-    fluid=True,
+    # fluid=True,
 )
 
 # shuffle questions on page load
