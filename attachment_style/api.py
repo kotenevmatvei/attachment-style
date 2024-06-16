@@ -4,28 +4,6 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 from attachment_style.utils.utils import combine_and_shuffle_lists
 
-def read_questions_file(questions_file_path: str, attachment_style: str) -> list[tuple[str, str]]:
-    """Read the txt file with questions and add them to the corresponding list."""
-    questions_list: list[str] = []
-    with open(questions_file_path, "r") as file:
-        for line in file:
-            questions_list.append((line.strip(), attachment_style))
-            
-    return questions_list
-
-def check_same_length(
-    anxious_questions: list[str],
-    secure_questions: list[str],
-    avoidant_questions: list[str]
-    ) -> None:
-    """Check if there is the same number of all types of questions."""
-    
-    list_same_length = (
-        len(anxious_questions) == len(secure_questions) == len(avoidant_questions)
-    )
-    if not list_same_length:
-        sys.exit("Lists with questions must be the same length")
-
 def collect_answers(questions: list[tuple[str, str]]) -> dict[str, float]:
     """Ask questions and store the results in dictionaries. """
     
