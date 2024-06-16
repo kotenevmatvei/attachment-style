@@ -60,68 +60,6 @@ def collect_answers_at_random(
     )
     return collect_answers(all_questions) 
 
-def build_matplotlib_2d_plot(
-    number_of_questions: int,
-    anxious_score: float,
-    secure_score: float,
-    avoidant_score: float
-) -> plt:
-    
-    n: int = number_of_questions  # length of the scala
-    fig, ax = plt.subplots()  # Create a figure containing a single axes
-    plt.xlim(0, 14)
-    plt.ylim(0, 14)
-    plt.grid(True)
-    ax.set_xticks(list(range(0, 15)))
-    ax.set_yticks(list(range(0, 15)))
-    plt.axhline(7, color="brown", linewidth=1)
-    plt.axvline(7, color="brown", linewidth=1)
-    ax.scatter(anxious_score, avoidant_score)
-    plt.gca().invert_yaxis()
-    plt.tick_params(
-        axis="x",
-        which="both",
-        bottom=False,
-        top=True,
-        labelbottom=False,
-        labeltop=True,
-    )
-    plt.xlabel("Anxiety")
-    plt.ylabel("Avoidance")
-    plt.title("Attachment Style Score")
-    
-    return plt
-
-def build_plotly_3d_plot(
-    number_of_questions: int,
-    anxious_score: list[float],
-    secure_score: list[float],
-    avoidant_score: list[float]
-) -> px.scatter_3d:
-    """Build a plotly 3d scatter figure"""
-    fig = px.scatter_3d(
-        x=anxious_score,
-        y=secure_score, 
-        z=avoidant_score,
-        labels={
-                "x": "Anxiety",
-                "y": "Security",
-                "z": "Avoidance"
-        }
-    )
-    fig.update_layout(
-        title = "Attachment Style 3d-Figure",
-        scene={
-            "xaxis_title": 'Anxiety',
-            "yaxis_title": 'Security',
-            "zaxis_title": 'Avoidance',
-            "xaxis": {"range": [0, 14]},
-            "yaxis": {"range": [0, 14]},
-            "zaxis": {"range": [0, 14]}
-        }
-    )
-    return fig
-
 # build a pie chart
 def build_pie_chart(
     anxious_score: list[float],

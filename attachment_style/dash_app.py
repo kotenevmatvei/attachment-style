@@ -6,7 +6,7 @@ from dash import html, dcc, Input, Output, State, ctx
 from plotly import express as px
 
 from attachment_style.utils.utils import combine_and_shuffle_lists # type: ignore
-from attachment_style_api import ( # type: ignore
+from api import ( # type: ignore
     read_questions_file,
     check_same_length,
     build_plotly_3d_plot,
