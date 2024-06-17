@@ -18,7 +18,7 @@ app.layout = html.Div([
     Dashboard,
     html.Div(dbc.Button("Download Report", id="submit-button"), className="text-center border"),
     # storage
-    dcc.Store(id="questions", data=read_questions(), storage_type="local"),
+    dcc.Store(id="questions", data=read_questions(), storage_type="session"),
     dcc.Store(id="answers")
 ])
 
