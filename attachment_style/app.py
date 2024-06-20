@@ -20,7 +20,8 @@ app.layout = html.Div([
     # storage
     dcc.Store(id="questions-storage", data=read_questions(), storage_type="session"),
     dcc.Store(id="question-count-storage", data=0),
-    dcc.Store(id="answers-storage")
+    dcc.Store(id="answers-storage"),
+    dcc.Store(id="last-question-visited-flag")
 ])
 
 
