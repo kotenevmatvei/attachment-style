@@ -22,14 +22,6 @@ app.layout = html.Div([
     dcc.Store(id="answers")
 ])
 
-@app.callback(
-    Output("question-text", "children"),
-    Input("questions", "data")
-)
-def set_question(questions):
-    print(questions)
-    return questions[0][0]
-
 
 if __name__ == "__main__":
     app.run_server(debug=True)
