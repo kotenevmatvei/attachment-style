@@ -33,6 +33,7 @@ app.layout = html.Div([
 def update_question_count_ref(answers):
     return f"log: {answers}"
 
+
 @app.callback(
     [
         Output("question-count-storage", "data"),
@@ -114,7 +115,6 @@ def update_question(
                     answers,
                     answers[f"{question_count - 2}"]
                 )
-
 
     # first question / initial state
     return (
