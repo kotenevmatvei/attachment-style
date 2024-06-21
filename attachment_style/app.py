@@ -14,6 +14,7 @@ app.layout = html.Div([
     Navbar,
     Description,
     QuestionCard,
+    html.Div(id="log"),
     html.Div(dbc.Button("Submit Test"), className="mb-4 text-center border"),
     Dashboard,
     html.Div(dbc.Button("Download Report", id="submit-button"), className="text-center border"),
@@ -26,6 +27,13 @@ app.layout = html.Div([
 
 
 @app.callback(
+    Output("log", "children"),
+    Input("answers-storage", "data"),
+)
+def update_question_count_ref(answers):
+    return f"log: {answers}"
+
+@app.callback(
     [
         Output("question-count-storage", "data"),
         Output("question-count-text", "children"),
@@ -34,6 +42,7 @@ app.layout = html.Div([
     ],
     [
         Input("right-button", "n_clicks"),
+        Input("left-button", "n_clicks"),
         Input("slider", "value")
     ],
     [
@@ -44,6 +53,7 @@ app.layout = html.Div([
 )
 def update_question(
         r_clicks: int,
+        l_clicks: int,
         slider_value: float,
         question_count: int,
         questions: list[tuple[str, str]],
@@ -67,7 +77,7 @@ def update_question(
             # last question
             else:
                 answers[question_count-1] = slider_value
-                print(answers)
+                print(question_count-1, answers[question_count-1])
                 return (
                     question_count,
                     f"Question {n}/{n}",
@@ -75,14 +85,32 @@ def update_question(
                     answers
                 )
 
+        case "left-button":
+            if question_count == 1:
+                answers[0] = slider_value
+                return (
+                    1,
+                    f"Question 1/{n}",
+                    questions[0][0],
+                    answers
+                )
+            else:
+                answers[question_count-1] = slider_value
+                print(question_count)
+                return (
+                    question_count-1,
+                    f"Question {question_count-1}/{n}",
+                    questions[question_count-2][0],
+                    answers
+                )
+
     # first question / initial state
-    if r_clicks is None:
-        return (
-            1,
-            f"Question {1}/{n}",
-            questions[0][0],
-            answers,
-        )
+    return (
+        1,
+        f"Question {1}/{n}",
+        questions[0][0],
+        answers,
+    )
 
 
 if __name__ == "__main__":
