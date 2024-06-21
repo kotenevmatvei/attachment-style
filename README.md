@@ -1,0 +1,3 @@
+- remember slider value for visited questions
+- store type of question in answers
+- shuffle question on page load

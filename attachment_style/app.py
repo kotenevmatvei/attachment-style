@@ -38,7 +38,8 @@ def update_question_count_ref(answers):
         Output("question-count-storage", "data"),
         Output("question-count-text", "children"),
         Output("question-text", "children"),
-        Output("answers-storage", "data")
+        Output("answers-storage", "data"),
+        Output("slider", "value"),
     ],
     [
         Input("right-button", "n_clicks"),
@@ -57,7 +58,7 @@ def update_question(
         slider_value: float,
         question_count: int,
         questions: list[tuple[str, str]],
-        answers: dict[int, float]
+        answers: dict[str, float]
 ):
     n: int = len(questions)
     id_triggered = ctx.triggered_id
@@ -65,44 +66,55 @@ def update_question(
         case "right-button" | "slider":
             # questions between first and last
             if question_count < n:
-                answers[question_count-1] = slider_value
-                print(question_count-1, answers[question_count-1])
+                answers[f"{question_count-1}"] = slider_value
                 question_count += 1
-                return (
-                    question_count,
-                    f"Question {question_count}/{n}",
-                    questions[question_count-1][0],
-                    answers
-                )
+                if f"{question_count}" in answers.keys():
+                    return (
+                        question_count,
+                        f"Question {question_count}/{n}",
+                        questions[question_count-1][0],
+                        answers,
+                        answers[f"{question_count}"]
+                    )
+                else:
+                    return (
+                        question_count,
+                        f"Question {question_count}/{n}",
+                        questions[question_count-1][0],
+                        answers,
+                        0
+                    )
             # last question
             else:
-                answers[question_count-1] = slider_value
-                print(question_count-1, answers[question_count-1])
+                answers[f"{question_count-1}"] = slider_value
                 return (
                     question_count,
                     f"Question {n}/{n}",
                     questions[n-1][0],
-                    answers
+                    answers,
+                    answers[f"{question_count-1}"]
                 )
 
         case "left-button":
             if question_count == 1:
-                answers[0] = slider_value
+                answers["0"] = slider_value
                 return (
                     1,
                     f"Question 1/{n}",
                     questions[0][0],
-                    answers
+                    answers,
+                    answers["0"]
                 )
             else:
-                answers[question_count-1] = slider_value
-                print(question_count)
+                answers[f"{question_count-1}"] = slider_value
                 return (
                     question_count-1,
                     f"Question {question_count-1}/{n}",
                     questions[question_count-2][0],
-                    answers
+                    answers,
+                    answers[f"{question_count - 2}"]
                 )
+
 
     # first question / initial state
     return (
@@ -110,6 +122,7 @@ def update_question(
         f"Question {1}/{n}",
         questions[0][0],
         answers,
+        0
     )
 
 
