@@ -1,4 +1,4 @@
-from dash import Dash, html, dcc, Input, Output
+from dash import Dash, html, dcc, Input, Output, State
 import dash_bootstrap_components as dbc
 
 from attachment_style.components.navbar import Navbar
@@ -24,6 +24,45 @@ app.layout = html.Div([
     dcc.Store(id="last-question-visited-flag")
 ])
 
+@app.callback(
+    [
+        Output("question-count-storage", "data"),
+        Output("question-count-text", "children"),
+        Output("question-text", "children"),
+    ],
+    [
+        Input("right-button", "n_clicks")
+    ],
+    [
+        State("question-count-storage", "data"),
+        State("questions-storage", "data"),
+        State("answers-storage", "data"),
+    ]
+)
+def update_question(r_clicks, question_count, questions, answers):
+    n = len(questions)
+    # first question / inital state
+    if r_clicks is None:
+        return (
+            1,
+            f"Question {1}/{n}",
+            questions[0][0]
+        )
+    # questions between first and last
+    elif question_count < n:
+        question_count += 1
+        return (
+            question_count,
+            f"Question {question_count}/{n}",
+            questions[question_count-1][0]
+        )
+    # last question
+    else:
+        return (
+            question_count,
+            f"Question {n}/{n}",
+            questions[n-1][0],
+        )
 
 if __name__ == "__main__":
     app.run_server(debug=True)
