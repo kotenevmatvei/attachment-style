@@ -1,2 +1,2 @@
-- shuffle question on page load
+- 
 - submit collapse after last question visited

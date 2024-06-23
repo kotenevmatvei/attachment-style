@@ -27,7 +27,7 @@ QuestionCard = dbc.Row(
                         marks=None,
                         tooltip={
                             "placement": "bottom",
-                            "always_visible": False,
+                            "always_visible": True,
                         }
                     ),
                 ),
