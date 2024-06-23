@@ -1,4 +1,5 @@
 from dash import Dash, html, dcc, Input, Output, State, ctx
+from random import shuffle
 import dash_bootstrap_components as dbc
 
 from attachment_style.components.navbar import Navbar
@@ -22,7 +23,8 @@ app.layout = html.Div([
     dcc.Store(id="questions-storage", data=read_questions(), storage_type="session"),
     dcc.Store(id="question-count-storage", data=0),
     dcc.Store(id="answers-storage", data={}),
-    dcc.Store(id="lb-visited-last-storage")
+    dcc.Store(id="lb-visited-last-storage"),
+    dcc.Interval(id="page-load-interval", interval=1, max_intervals=1),
 ])
 
 
@@ -33,6 +35,17 @@ app.layout = html.Div([
 )
 def update_question_count_ref(answers, lb_last_visited):
     return f"log: last_visited: {lb_last_visited}, {answers}"
+
+
+# shuffle questions on page load
+@app.callback(
+    Output('questions-storage', 'data'),
+    Input('page-load-interval', 'n_intervals'),
+    State("questions-storage", "data")
+)
+def shuffle_questions(n, questions):
+    shuffle(questions)
+    return questions
 
 
 @app.callback(
@@ -56,6 +69,8 @@ def update_question_count_ref(answers, lb_last_visited):
         State("lb-visited-last-storage", "data")
     ]
 )
+
+
 def update_question(
         r_clicks: int,
         l_clicks: int,
