@@ -16,7 +16,7 @@ app.layout = html.Div([
     Description,
     QuestionCard,
     html.Div(id="log"),
-    html.Div(dbc.Button("Submit Test"), className="mb-4 text-center border"),
+    html.Div(dbc.Button("Submit Test"), id="submit-test-div", hidden=True, className="mb-4 text-center border"),
     Dashboard,
     html.Div(dbc.Button("Download Report", id="submit-button"), className="text-center border"),
     # storage
@@ -24,6 +24,7 @@ app.layout = html.Div([
     dcc.Store(id="question-count-storage", data=0),
     dcc.Store(id="answers-storage", data={}),
     dcc.Store(id="lb-visited-last-storage"),
+    dcc.Store(id="last-question-visited"),
     dcc.Interval(id="page-load-interval", interval=1, max_intervals=1),
 ])
 
@@ -48,6 +49,15 @@ def shuffle_questions(n, questions):
     return questions
 
 
+# show submit button after last question visited
+@app.callback(
+    Output("submit-test-div", "hidden"),
+    Input("last-question-visited", "data"),
+)
+def show_submit_button(last_question_visited: bool) -> bool:
+    return not last_question_visited
+
+
 @app.callback(
     [
         Output("question-count-storage", "data"),
@@ -55,7 +65,8 @@ def shuffle_questions(n, questions):
         Output("question-text", "children"),
         Output("answers-storage", "data"),
         Output("slider", "value"),
-        Output("lb-visited-last-storage", "data")
+        Output("lb-visited-last-storage", "data"),
+        Output("last-question-visited", "data"),
     ],
     [
         Input("right-button", "n_clicks"),
@@ -66,7 +77,8 @@ def shuffle_questions(n, questions):
         State("question-count-storage", "data"),
         State("questions-storage", "data"),
         State("answers-storage", "data"),
-        State("lb-visited-last-storage", "data")
+        State("lb-visited-last-storage", "data"),
+        State("last-question-visited", "data"),
     ]
 )
 
@@ -78,60 +90,121 @@ def update_question(
         question_count: int,
         questions: list[tuple[str, str]],
         answers: dict[str, tuple[str, float]],
-        lb_visited_last: bool
+        lb_visited_last: bool,
+        last_question_visited: bool,
 ):
     n: int = len(questions)
     id_triggered = ctx.triggered_id
-    match id_triggered:
-        case "right-button":
-            # questions between first and last
-            if question_count < n:
+    if not last_question_visited:
+        match id_triggered:
+            case "right-button":
                 answers[f"{question_count-1}"] = (questions[question_count-1][1], slider_value)
-                question_count += 1
-                if f"{question_count}" in answers.keys():
-                    return (
-                        question_count,
-                        f"Question {question_count}/{n}",
-                        questions[question_count-1][0],
-                        answers,
-                        answers[f"{question_count-1}"][1],
-                        False
-                    )
+                # questions between first and one before last one
+                if question_count < n-1:
+                    question_count += 1
+                    if f"{question_count-1}" in answers.keys():
+                        return (
+                            question_count,
+                            f"Question {question_count}/{n}",
+                            questions[question_count-1][0],
+                            answers,
+                            answers[f"{question_count-1}"][1],
+                            False,
+                            False
+                        )
+                    else:
+                        return (
+                            question_count,
+                            f"Question {question_count}/{n}",
+                            questions[question_count-1][0],
+                            answers,
+                            0,
+                            False,
+                            False
+                        )
+                # question before last one (show submit button next)
+                elif question_count == n-1:
+                    question_count += 1
+                    if f"{question_count-1}" in answers.keys():
+                        return (
+                            question_count,
+                            f"Question {question_count}/{n}",
+                            questions[question_count-1][0],
+                            answers,
+                            answers[f"{question_count-1}"][1],
+                            False,
+                            True
+                        )
+                    else:
+                        return (
+                            question_count,
+                            f"Question {question_count}/{n}",
+                            questions[question_count-1][0],
+                            answers,
+                            0,
+                            False,
+                            True
+                        )
+                # last question
                 else:
                     return (
                         question_count,
-                        f"Question {question_count}/{n}",
-                        questions[question_count-1][0],
+                        f"Question {n}/{n}",
+                        questions[n-1][0],
                         answers,
-                        0,
-                        False
+                        answers[f"{question_count-1}"][1],
+                        False,
+                        True
                     )
-            # last question
-            else:
-                answers[f"{question_count-1}"] = (questions[question_count-1][1], slider_value)
-                return (
-                    question_count,
-                    f"Question {n}/{n}",
-                    questions[n-1][0],
-                    answers,
-                    answers[f"{question_count-1}"][1],
-                    False
-                )
 
-        case "slider":
-            # questions between first and last
-            if question_count < n:
+            case "slider":
                 answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value)
-                if not lb_visited_last:
-                    question_count += 1
-                    if f"{question_count}" in answers.keys():
+                # questions between first and last
+                if question_count < n-1:
+                    if not lb_visited_last:
+                        question_count += 1
+                        if f"{question_count-1}" in answers.keys():
+                            return (
+                                question_count,
+                                f"Question {question_count}/{n}",
+                                questions[question_count - 1][0],
+                                answers,
+                                answers[f"{question_count}"][1],
+                                False,
+                                False
+                            )
+                        else:
+                            return (
+                                question_count,
+                                f"Question {question_count}/{n}",
+                                questions[question_count - 1][0],
+                                answers,
+                                0,
+                                False,
+                                False
+                            )
+                    else:
                         return (
                             question_count,
                             f"Question {question_count}/{n}",
                             questions[question_count - 1][0],
                             answers,
-                            answers[f"{question_count}"][1],
+                            answers[f"{question_count-1}"][1],
+                            False,
                             False
+                        )
+                # question before last one (show submit button next)
+                elif question_count == n - 1:
+                    question_count += 1
+                    if f"{question_count-1}" in answers.keys():
+                        return (
+                            question_count,
+                            f"Question {question_count}/{n}",
+                            questions[question_count - 1][0],
+                            answers,
+                            answers[f"{question_count - 1}"][1],
+                            False,
+                            True
                         )
                     else:
                         return (
@@ -140,50 +213,157 @@ def update_question(
                             questions[question_count - 1][0],
                             answers,
                             0,
-                            False
+                            False,
+                            True
                         )
+                # last question
                 else:
                     return (
                         question_count,
-                        f"Question {question_count}/{n}",
-                        questions[question_count - 1][0],
+                        f"Question {n}/{n}",
+                        questions[n - 1][0],
                         answers,
-                        answers[f"{question_count-1}"][1],
+                        answers[f"{question_count - 1}"][1],
+                        False,
+                        True
+                    )
+
+            case "left-button":
+                if question_count == 1:
+                    answers["0"] = (questions[0][1], slider_value)
+                    return (
+                        1,
+                        f"Question 1/{n}",
+                        questions[0][0],
+                        answers,
+                        answers["0"][1],
+                        True,
                         False
                     )
-            # last question
-            else:
-                answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value)
-                return (
-                    question_count,
-                    f"Question {n}/{n}",
-                    questions[n - 1][0],
-                    answers,
-                    answers[f"{question_count - 1}"][1],
-                    False
-                )
+                else:
+                    answers[f"{question_count-1}"] = (questions[question_count-1][1], slider_value)
+                    return (
+                        question_count-1,
+                        f"Question {question_count-1}/{n}",
+                        questions[question_count-2][0],
+                        answers,
+                        answers[f"{question_count - 2}"][1],
+                        True,
+                        False
+                    )
 
-        case "left-button":
-            if question_count == 1:
-                answers["0"] = (questions[0][1], slider_value)
-                return (
-                    1,
-                    f"Question 1/{n}",
-                    questions[0][0],
-                    answers,
-                    answers["0"][1],
-                    True
-                )
-            else:
-                answers[f"{question_count-1}"] = (questions[question_count-1][1], slider_value)
-                return (
-                    question_count-1,
-                    f"Question {question_count-1}/{n}",
-                    questions[question_count-2][0],
-                    answers,
-                    answers[f"{question_count - 2}"][1],
-                    True
-                )
+    else:
+        match id_triggered:
+            case "right-button":
+                # questions between first and last
+                if question_count < n:
+                    answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value)
+                    question_count += 1
+                    if f"{question_count-1}" in answers.keys():
+                        return (
+                            question_count,
+                            f"Question {question_count}/{n}",
+                            questions[question_count - 1][0],
+                            answers,
+                            answers[f"{question_count - 1}"][1],
+                            False,
+                            True
+                        )
+                    else:
+                        return (
+                            question_count,
+                            f"Question {question_count}/{n}",
+                            questions[question_count - 1][0],
+                            answers,
+                            0,
+                            False,
+                            True
+                        )
+                # last question
+                else:
+                    answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value)
+                    return (
+                        question_count,
+                        f"Question {n}/{n}",
+                        questions[n - 1][0],
+                        answers,
+                        answers[f"{question_count - 1}"][1],
+                        False,
+                        True
+                    )
+
+            case "slider":
+                # questions between first and last
+                if question_count < n:
+                    answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value)
+                    if not lb_visited_last:
+                        question_count += 1
+                        if f"{question_count-1}" in answers.keys():
+                            return (
+                                question_count,
+                                f"Question {question_count}/{n}",
+                                questions[question_count - 1][0],
+                                answers,
+                                answers[f"{question_count}"][1],
+                                False,
+                                True
+                            )
+                        else:
+                            return (
+                                question_count,
+                                f"Question {question_count}/{n}",
+                                questions[question_count - 1][0],
+                                answers,
+                                0,
+                                False,
+                                True
+                            )
+                    else:
+                        return (
+                            question_count,
+                            f"Question {question_count}/{n}",
+                            questions[question_count - 1][0],
+                            answers,
+                            answers[f"{question_count - 1}"][1],
+                            False,
+                            True
+                        )
+                # last question
+                else:
+                    answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value)
+                    return (
+                        question_count,
+                        f"Question {n}/{n}",
+                        questions[n - 1][0],
+                        answers,
+                        answers[f"{question_count - 1}"][1],
+                        False,
+                        True
+                    )
+
+            case "left-button":
+                if question_count == 1:
+                    answers["0"] = (questions[0][1], slider_value)
+                    return (
+                        1,
+                        f"Question 1/{n}",
+                        questions[0][0],
+                        answers,
+                        answers["0"][1],
+                        True,
+                        True
+                    )
+                else:
+                    answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value)
+                    return (
+                        question_count - 1,
+                        f"Question {question_count - 1}/{n}",
+                        questions[question_count - 2][0],
+                        answers,
+                        answers[f"{question_count - 2}"][1],
+                        True,
+                        True
+                    )
 
     # first question / initial state
     return (
@@ -192,9 +372,9 @@ def update_question(
         questions[0][0],
         answers,
         0,
+        False,
         False
     )
-
 
 if __name__ == "__main__":
     app.run_server(debug=True)
