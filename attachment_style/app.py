@@ -16,7 +16,7 @@ app.layout = html.Div([
     Description,
     QuestionCard,
     html.Div(id="log"),
-    html.Div(dbc.Button("Submit Test", id="submit-test-button"), id="submit-test-div", hidden=True, className="mb-4 text-center border"),
+    dbc.Collapse(dbc.Button("Submit Test", id="submit-test-button"), id="submit-test-collapse", is_open=False, className="mb-4 text-center border"),
     Dashboard,
     dbc.Collapse(dbc.Button("Download Report", id="download-report-button"), id="download-report-collapse", is_open=False, className="text-center border"),
     # storage
@@ -51,16 +51,16 @@ def shuffle_questions(n, questions):
 
 # show submit button after last question visited
 @app.callback(
-    Output("submit-test-div", "hidden"),
+    Output("submit-test-collapse", "is_open"),
     Input("last-question-visited", "data"),
 )
 def show_submit_button(last_question_visited: bool) -> bool:
-    return not last_question_visited
+    return last_question_visited
 
 
 @app.callback(
     [
-        Output("dashboard-div", "hidden"),
+        Output("dashboard-collapse", "is_open"),
         Output("pie-chart", "figure"),
         Output("type-description-markdown", "children"),
         Output("download-report-collapse", "is_open")
@@ -87,7 +87,7 @@ def generate_dashboard(n_clicks, answers):
             secure_score=secure_score,
             avoidant_score=avoidant_score,
         )
-        return False, fig, description, True
+        return True, fig, description, True
 
 
 @app.callback(
