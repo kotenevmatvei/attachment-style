@@ -1,1 +1,10 @@
-- 
+- write unit tests?
+- generate and show pie chart on submit-button click
+- show type description on submit-button click
+- show download-report button on submit button click
+- come up with a pdf outline for the report
+- generate-report
+- make downloadable
+- style
+- deploy 1.0.0!
+- refactor 1.1.0
