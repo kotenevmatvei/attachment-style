@@ -1,4 +1,5 @@
-# import sys
+import plotly.express as px
+
 
 def read_questions_file(questions_file_path: str, attachment_style: str) -> list[tuple[str, str]]:
     """Read the txt file with questions and add them to the corresponding list."""
@@ -8,6 +9,52 @@ def read_questions_file(questions_file_path: str, attachment_style: str) -> list
             questions_list.append((line.strip(), attachment_style))
 
     return questions_list
+
+
+def calculate_scores(answers: dict[int, tuple[str, float]]) -> tuple[list[float], list[float], list[float]]:
+    anxious_score = [
+        sum(
+            [
+                answers[_][1]
+                for _ in answers.keys()
+                if answers[_][0] == "anxious"
+            ]
+        )
+    ]
+    secure_score = [
+        sum(
+            [
+                answers[_][1]
+                for _ in answers.keys()
+                if answers[_][0] == "secure"
+            ]
+        )
+    ]
+    avoidant_score = [
+        sum(
+            [
+                answers[_][1]
+                for _ in answers.keys()
+                if answers[_][0] == "avoidant"
+            ]
+        )
+    ]
+    return anxious_score, secure_score, avoidant_score
+
+
+# build a pie chart
+def build_pie_chart(
+        anxious_score: list[float],
+        secure_score: list[float],
+        avoidant_score: list[float]
+) -> px.pie:
+    # Create a list of labels and corresponding scores
+    labels = ['Anxious', 'Secure', 'Avoidant']
+    scores = [sum(anxious_score), sum(secure_score), sum(avoidant_score)]
+    # Create the pie chart
+    fig = px.pie(values=scores, names=labels, title='Attachment Style Pie Chart')
+
+    return fig
 
 # def check_same_length(
 #         anxious_questions: list[str],

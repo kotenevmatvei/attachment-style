@@ -7,7 +7,7 @@ from attachment_style.components.description import Description
 from attachment_style.components.question_card import QuestionCard
 from attachment_style.components.dashboard import Dashboard
 
-from utils.utils import read_questions
+from utils.utils import read_questions, calculate_scores, build_pie_chart
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY, dbc.icons.BOOTSTRAP])
 
@@ -16,7 +16,7 @@ app.layout = html.Div([
     Description,
     QuestionCard,
     html.Div(id="log"),
-    html.Div(dbc.Button("Submit Test"), id="submit-test-div", hidden=True, className="mb-4 text-center border"),
+    html.Div(dbc.Button("Submit Test", id="submit-test-button"), id="submit-test-div", hidden=True, className="mb-4 text-center border"),
     Dashboard,
     html.Div(dbc.Button("Download Report", id="submit-button"), className="text-center border"),
     # storage
@@ -56,6 +56,28 @@ def shuffle_questions(n, questions):
 )
 def show_submit_button(last_question_visited: bool) -> bool:
     return not last_question_visited
+
+
+@app.callback(
+    [
+        Output("dashboard-div", "hidden"),
+        Output("pie-chart", "figure"),
+    ],
+    Input("submit-test-button", "n_clicks"),
+    [
+        State("answers-storage", "data"),
+    ],
+    prevent_initial_call=True,
+)
+def generate_dashboard(n_clicks, answers):
+    if n_clicks:
+        anxious_score, secure_score, avoidant_score = calculate_scores(answers)
+        fig = build_pie_chart(
+            anxious_score=anxious_score,
+            secure_score=secure_score,
+            avoidant_score=avoidant_score,
+        )
+        return False, fig
 
 
 @app.callback(

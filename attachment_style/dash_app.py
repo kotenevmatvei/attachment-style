@@ -17,37 +17,6 @@ from attachment_style.components.navbar import Navbar
 from attachment_style.components.description import Description
 from attachment_style.components.question_card import QuestionCard
 
-def calculate_scores(answers: list[dict[str, str]]) -> tuple[float, float, float]:
-    anxious_score = [
-        sum(
-            [
-                float(answer["score"])
-                for answer in answers
-                if answer["attachment_style"] == "anxious"
-            ]
-        )
-    ]
-    secure_score = [
-        sum(
-            [
-                float(answer["score"])
-                for answer in answers
-                if answer["attachment_style"] == "secure"
-            ]
-        )
-    ]
-    avoidant_score = [
-        sum(
-            [
-                float(answer["score"])
-                for answer in answers
-                if answer["attachment_style"] == "avoidant"
-            ]
-        )
-    ]
-    return anxious_score, secure_score, avoidant_score
-
-
 # read question files
 anxious_questions: list[tuple[str, str]] = read_questions_file(
     "data/anxious_questions.txt", "anxious"

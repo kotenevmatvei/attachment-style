@@ -2,7 +2,6 @@
 import sys
 import matplotlib.pyplot as plt
 import plotly.express as px
-from attachment_style.utils.utils import combine_and_shuffle_lists
 
 def collect_answers(questions: list[tuple[str, str]]) -> dict[str, float]:
     """Ask questions and store the results in dictionaries. """
