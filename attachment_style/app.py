@@ -169,7 +169,7 @@ def update_question(
                                 f"Question {question_count}/{n}",
                                 questions[question_count - 1][0],
                                 answers,
-                                answers[f"{question_count}"][1],
+                                answers[f"{question_count-1}"][1],
                                 False,
                                 False
                             )
@@ -304,7 +304,7 @@ def update_question(
                                 f"Question {question_count}/{n}",
                                 questions[question_count - 1][0],
                                 answers,
-                                answers[f"{question_count}"][1],
+                                answers[f"{question_count - 1}"][1],
                                 False,
                                 True
                             )
