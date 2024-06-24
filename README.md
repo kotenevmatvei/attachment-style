@@ -1,4 +1,9 @@
 - generate report
+  - empty page with title
+  - add chart
+  - add dominant description
+  - add two other descriptions
+  - add q&a
 - make it downloadable
 - write unit tests?
 - style
