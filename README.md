@@ -1,5 +1,4 @@
-- show download-report button on submit button click
-- come up with a pdf outline for the report
+- store questions with answers
 - generate-report
 - make it downloadable
 - write unit tests?

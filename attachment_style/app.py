@@ -121,7 +121,7 @@ def update_question(
         slider_value: float,
         question_count: int,
         questions: list[tuple[str, str]],
-        answers: dict[str, tuple[str, float]],
+        answers: dict[str, tuple[str, float, str]],
         lb_visited_last: bool,
         last_question_visited: bool,
 ):
@@ -130,7 +130,7 @@ def update_question(
     if not last_question_visited:
         match id_triggered:
             case "right-button":
-                answers[f"{question_count-1}"] = (questions[question_count-1][1], slider_value)
+                answers[f"{question_count-1}"] = (questions[question_count-1][1], slider_value, questions[question_count-1][0])
                 # questions between first and one before last one
                 if question_count < n-1:
                     question_count += 1
@@ -190,7 +190,7 @@ def update_question(
                     )
 
             case "slider":
-                answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value)
+                answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value, questions[question_count-1][0])
                 # questions between first and last
                 if question_count < n-1:
                     if not lb_visited_last:
@@ -273,7 +273,7 @@ def update_question(
                         False
                     )
                 else:
-                    answers[f"{question_count-1}"] = (questions[question_count-1][1], slider_value)
+                    answers[f"{question_count-1}"] = (questions[question_count-1][1], slider_value, questions[question_count-1][0])
                     return (
                         question_count-1,
                         f"Question {question_count-1}/{n}",
@@ -289,7 +289,7 @@ def update_question(
             case "right-button":
                 # questions between first and last
                 if question_count < n:
-                    answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value)
+                    answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value, questions[question_count-1][0])
                     question_count += 1
                     if f"{question_count-1}" in answers.keys():
                         return (
@@ -313,7 +313,7 @@ def update_question(
                         )
                 # last question
                 else:
-                    answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value)
+                    answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value, questions[question_count-1][0])
                     return (
                         question_count,
                         f"Question {n}/{n}",
@@ -327,7 +327,7 @@ def update_question(
             case "slider":
                 # questions between first and last
                 if question_count < n:
-                    answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value)
+                    answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value, questions[question_count-1][0])
                     if not lb_visited_last:
                         question_count += 1
                         if f"{question_count-1}" in answers.keys():
@@ -362,7 +362,7 @@ def update_question(
                         )
                 # last question
                 else:
-                    answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value)
+                    answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value, questions[question_count-1][0])
                     return (
                         question_count,
                         f"Question {n}/{n}",
@@ -386,7 +386,7 @@ def update_question(
                         True
                     )
                 else:
-                    answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value)
+                    answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value, questions[question_count-1][0])
                     return (
                         question_count - 1,
                         f"Question {question_count - 1}/{n}",
