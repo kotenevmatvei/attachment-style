@@ -1,4 +1,3 @@
-- submit last question on submit-test click if its currently open
 - show download-report button on submit button click
 - come up with a pdf outline for the report
 - generate-report
