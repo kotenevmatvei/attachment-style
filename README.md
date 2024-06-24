@@ -1,7 +1,7 @@
 - show download-report button on submit button click
 - come up with a pdf outline for the report
 - generate-report
-- make downloadable
+- make it downloadable
 - write unit tests?
 - style
 - deploy 1.0.0!

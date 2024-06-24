@@ -18,7 +18,7 @@ app.layout = html.Div([
     html.Div(id="log"),
     html.Div(dbc.Button("Submit Test", id="submit-test-button"), id="submit-test-div", hidden=True, className="mb-4 text-center border"),
     Dashboard,
-    html.Div(dbc.Button("Download Report", id="submit-button"), className="text-center border"),
+    dbc.Collapse(dbc.Button("Download Report", id="download-report-button"), id="download-report-collapse", is_open=False, className="text-center border"),
     # storage
     dcc.Store(id="questions-storage", data=read_questions(), storage_type="session"),
     dcc.Store(id="question-count-storage", data=0),
@@ -63,6 +63,7 @@ def show_submit_button(last_question_visited: bool) -> bool:
         Output("dashboard-div", "hidden"),
         Output("pie-chart", "figure"),
         Output("type-description-markdown", "children"),
+        Output("download-report-collapse", "is_open")
     ],
     Input("submit-test-button", "n_clicks"),
     [
@@ -86,7 +87,7 @@ def generate_dashboard(n_clicks, answers):
             secure_score=secure_score,
             avoidant_score=avoidant_score,
         )
-        return False, fig, description
+        return False, fig, description, True
 
 
 @app.callback(
