@@ -11,50 +11,85 @@ def read_questions_file(questions_file_path: str, attachment_style: str) -> list
     return questions_list
 
 
-def calculate_scores(answers: dict[int, tuple[str, float]]) -> tuple[list[float], list[float], list[float]]:
-    anxious_score = [
-        sum(
-            [
-                answers[_][1]
-                for _ in answers.keys()
-                if answers[_][0] == "anxious"
-            ]
-        )
-    ]
-    secure_score = [
-        sum(
-            [
-                answers[_][1]
-                for _ in answers.keys()
-                if answers[_][0] == "secure"
-            ]
-        )
-    ]
-    avoidant_score = [
-        sum(
-            [
-                answers[_][1]
-                for _ in answers.keys()
-                if answers[_][0] == "avoidant"
-            ]
-        )
-    ]
+def calculate_scores(answers: dict[int, tuple[str, float]]) -> tuple[float,float, float]:
+    anxious_score = sum(
+        [
+            answers[_][1]
+            for _ in answers.keys()
+            if answers[_][0] == "anxious"
+        ]
+    )
+    secure_score = sum(
+        [
+            answers[_][1]
+            for _ in answers.keys()
+            if answers[_][0] == "secure"
+        ]
+    )
+    avoidant_score = sum(
+        [
+            answers[_][1]
+            for _ in answers.keys()
+            if answers[_][0] == "avoidant"
+        ]
+    )
     return anxious_score, secure_score, avoidant_score
 
 
 # build a pie chart
 def build_pie_chart(
-        anxious_score: list[float],
-        secure_score: list[float],
-        avoidant_score: list[float]
+        anxious_score: float,
+        secure_score: float,
+        avoidant_score: float
 ) -> px.pie:
     # Create a list of labels and corresponding scores
     labels = ['Anxious', 'Secure', 'Avoidant']
-    scores = [sum(anxious_score), sum(secure_score), sum(avoidant_score)]
+    scores = [anxious_score, secure_score, avoidant_score]
     # Create the pie chart
     fig = px.pie(values=scores, names=labels, title='Attachment Style Pie Chart')
 
     return fig
+
+
+def generate_type_description(attachment_type: str) -> str:
+    anxious_description = """
+    Anxious: You love to be very close to your romantic partners and have the capacity 
+    for great intimacy. You often fear, however, that your partner does not wish to be as 
+    close as you would like him/her to be. Relationships tend to consume a large part of 
+    your emotional energy. You tend to be very sensitive to small fluctuations in your 
+    partner’s moods and actions, and although your senses are often accurate, you take 
+    your partner’s behaviors too personally. You experience a lot of negative emotions 
+    within the relationship and get easily upset. As a result, you tend to act out and 
+    say things you later regret. If the other person provides a lot of security and 
+    reassurance, however, you are able to shed much of your preoccupation and feel 
+    contented.
+    """
+    secure_description = """
+    Secure: Being warm and loving in a relationship comes naturally to you. You 
+    enjoy being intimate without becoming overly worried about your relationships. 
+    You take things in stride when it comes to romance and don’t get easily upset 
+    over relationship matters. You effectively communicate your needs and feelings 
+    to your partner and are strong at reading your partner’s emotional cues and 
+    responding to them. You share your successes and problems with your mate, and 
+    are able to be there for him or her in times of need.
+    """
+    avoidant_description = """
+    Avoidant: It is very important for you to maintain your independence and 
+    self-sufficiency and you often prefer autonomy to intimate relationships. Even 
+    though you do want to be close to others, you feel uncomfortable with too much 
+    closeness and tend to keep your partner at arm’s length. You don’t spend much 
+    time  worrying about your romantic relationships or about being rejected. You 
+    tend not to open up to your partners and they often complain that you are 
+    emotionally distant. In relationships, you are often on high alert for any signs 
+    of control or impingement on your territory by your partner.
+    """
+    match attachment_type:
+        case "anxious":
+            return anxious_description
+        case "secure":
+            return secure_description
+        case "avoidant":
+            return avoidant_description
 
 # def check_same_length(
 #         anxious_questions: list[str],

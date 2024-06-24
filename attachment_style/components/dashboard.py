@@ -4,9 +4,17 @@ from dash import html
 from dash import dcc
 
 Dashboard = html.Div(
-    children=[
-        dcc.Graph(figure=px.pie([1, 2, 3]), id="pie-chart")
-    ],
+    dbc.Row(
+        [
+            dbc.Col(dcc.Graph(figure=px.pie([1, 2, 3]), id="pie-chart")),
+            dbc.Col(dcc.Markdown(id="type-description-markdown"))
+        ],
+        className="d-flex align-items-center"
+    ),
+    # children=[
+    #     dcc.Graph(figure=px.pie([1, 2, 3]), id="pie-chart"),
+    #     dcc.Markdown(id="type-description-markdown")
+    # ],
     id="dashboard-div",
     hidden=True,
     className="mb-4 text-center border"

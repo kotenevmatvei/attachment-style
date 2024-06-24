@@ -7,7 +7,7 @@ from attachment_style.components.description import Description
 from attachment_style.components.question_card import QuestionCard
 from attachment_style.components.dashboard import Dashboard
 
-from utils.utils import read_questions, calculate_scores, build_pie_chart
+from utils.utils import read_questions, calculate_scores, build_pie_chart, generate_type_description
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY, dbc.icons.BOOTSTRAP])
 
@@ -62,6 +62,7 @@ def show_submit_button(last_question_visited: bool) -> bool:
     [
         Output("dashboard-div", "hidden"),
         Output("pie-chart", "figure"),
+        Output("type-description-markdown", "children"),
     ],
     Input("submit-test-button", "n_clicks"),
     [
@@ -71,13 +72,21 @@ def show_submit_button(last_question_visited: bool) -> bool:
 )
 def generate_dashboard(n_clicks, answers):
     if n_clicks:
-        anxious_score, secure_score, avoidant_score = calculate_scores(answers)
+        (anxious_score, secure_score, avoidant_score) = calculate_scores(answers)
+        print(anxious_score, secure_score, avoidant_score)
+        if anxious_score >= secure_score and anxious_score >= avoidant_score:
+            description = generate_type_description("anxious")
+        if secure_score >= avoidant_score and secure_score >= anxious_score:
+            description = generate_type_description("secure")
+        if avoidant_score >= secure_score and avoidant_score >= anxious_score:
+            description = generate_type_description("avoidant")
+
         fig = build_pie_chart(
             anxious_score=anxious_score,
             secure_score=secure_score,
             avoidant_score=avoidant_score,
         )
-        return False, fig
+        return False, fig, description
 
 
 @app.callback(
