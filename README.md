@@ -1,7 +1,7 @@
 - generate report
-  - empty page with title
-  - add chart
-  - add dominant description
+  - make font in the chart bigger preserving other proportions
+    - refactor generate report into function
+    - adapt font for the download figure
   - add two other descriptions
   - add q&a- make it downloadable
 - write unit tests?
