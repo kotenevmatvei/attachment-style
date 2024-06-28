@@ -1,5 +1,6 @@
 from dash import Dash, html, dcc, Input, Output, State, ctx
 from random import shuffle
+import plotly.io as pio
 import dash_bootstrap_components as dbc
 
 from attachment_style.components.navbar import Navbar
@@ -87,6 +88,7 @@ def generate_dashboard(n_clicks, answers):
             secure_score=secure_score,
             avoidant_score=avoidant_score,
         )
+        pio.write_image(fig, 'data/figure.png')
         return True, fig, description, True
 
 
