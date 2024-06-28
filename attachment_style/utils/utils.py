@@ -47,13 +47,6 @@ def build_pie_chart(
     scores = [anxious_score, secure_score, avoidant_score]
     # Create the pie chart
     fig = px.pie(values=scores, names=labels, title='Attachment Style Pie Chart')
-    # fig.update_layout(
-    #     title_font={"size": 25},
-    #     legend_font={"size": 25},
-    #
-    # )
-    # # modify the font size
-    # fig.update_traces(insidetextfont=dict(size=20))
 
     return fig
 
@@ -117,6 +110,17 @@ def read_questions() -> list[tuple[str, str]]:
     questions.extend(read_questions_file(questions_file_path="data/secure_questions.txt", attachment_style="secure"))
     questions.extend(read_questions_file(questions_file_path="data/avoidant_questions.txt", attachment_style="avoidant"))
     return questions
+
+
+def increase_figure_font(fig: px.pie) -> None:
+    # adjust font for the figure
+    fig.update_layout(
+        title_font={"size": 25},
+        legend_font={"size": 25},
+
+    )
+    # modify the font size
+    fig.update_traces(insidetextfont=dict(size=20))
 
 
 # def combine_and_shuffle_lists(*lists):

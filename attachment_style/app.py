@@ -1,5 +1,6 @@
 from dash import Dash, html, dcc, Input, Output, State, ctx
 from random import shuffle
+import copy
 import plotly.io as pio
 import dash_bootstrap_components as dbc
 
@@ -8,7 +9,7 @@ from attachment_style.components.description import Description
 from attachment_style.components.question_card import QuestionCard
 from attachment_style.components.dashboard import Dashboard
 
-from utils.utils import read_questions, calculate_scores, build_pie_chart, generate_type_description
+from utils.utils import read_questions, calculate_scores, build_pie_chart, generate_type_description, increase_figure_font
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY, dbc.icons.BOOTSTRAP])
 
@@ -88,7 +89,11 @@ def generate_dashboard(n_clicks, answers):
             secure_score=secure_score,
             avoidant_score=avoidant_score,
         )
-        pio.write_image(fig, 'data/figure.png', width=700*1.5, height=500*1.5)
+
+        fig_to_download = copy.deepcopy(fig)
+        increase_figure_font(fig_to_download)
+
+        pio.write_image(fig_to_download, 'data/figure.png', width=700*1.5, height=500*1.5)
         return True, fig, description, True
 
 
