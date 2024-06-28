@@ -641,6 +641,16 @@ unicode = ["unicodedata2 (>=15.1.0)"]
 woff = ["brotli (>=1.0.1)", "brotlicffi (>=0.8.0)", "zopfli (>=0.1.4)"]
 
 [[package]]
+name = "fpdf"
+version = "1.7.2"
+description = "Simple PDF generation for Python"
+optional = false
+python-versions = "*"
+files = [
+    {file = "fpdf-1.7.2.tar.gz", hash = "sha256:125840783289e7d12552b1e86ab692c37322e7a65b96a99e0ea86cca041b6779"},
+]
+
+[[package]]
 name = "idna"
 version = "3.7"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -875,6 +885,17 @@ traitlets = ">=5.3"
 [package.extras]
 docs = ["myst-parser", "pydata-sphinx-theme", "sphinx-autodoc-typehints", "sphinxcontrib-github-alt", "sphinxcontrib-spelling", "traitlets"]
 test = ["ipykernel", "pre-commit", "pytest (<8)", "pytest-cov", "pytest-timeout"]
+
+[[package]]
+name = "kaleido"
+version = "0.1.0.post1"
+description = "Static image export for web-based visualization libraries with zero dependencies"
+optional = false
+python-versions = "*"
+files = [
+    {file = "kaleido-0.1.0.post1-py2.py3-none-win32.whl", hash = "sha256:636aedcd89f359f54687b4fe331776a7224f7c31c27d03230e4e13c7cf4cb66a"},
+    {file = "kaleido-0.1.0.post1-py2.py3-none-win_amd64.whl", hash = "sha256:2a942606a13c70dfd0a02e092ec140a1083e093ae06661c5e1b1179e477a9e44"},
+]
 
 [[package]]
 name = "kiwisolver"
@@ -2087,4 +2108,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "jaraco.test", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "3efc633a1151de45200b12d286acd8e8f8c7aa82e83dd8c37defbae85ae9c985"
+content-hash = "b85f16dc8eb19f7401ab74938a89191705efcafdba1d57815302c654f545df5a"

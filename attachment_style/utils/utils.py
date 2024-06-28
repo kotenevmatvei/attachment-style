@@ -47,6 +47,13 @@ def build_pie_chart(
     scores = [anxious_score, secure_score, avoidant_score]
     # Create the pie chart
     fig = px.pie(values=scores, names=labels, title='Attachment Style Pie Chart')
+    # fig.update_layout(
+    #     title_font={"size": 25},
+    #     legend_font={"size": 25},
+    #
+    # )
+    # # modify the font size
+    # fig.update_traces(insidetextfont=dict(size=20))
 
     return fig
 

@@ -3,8 +3,7 @@
   - add chart
   - add dominant description
   - add two other descriptions
-  - add q&a
-- make it downloadable
+  - add q&a- make it downloadable
 - write unit tests?
 - style
 - deploy 1.0.0!

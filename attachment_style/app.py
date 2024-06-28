@@ -88,7 +88,7 @@ def generate_dashboard(n_clicks, answers):
             secure_score=secure_score,
             avoidant_score=avoidant_score,
         )
-        pio.write_image(fig, 'data/figure.png')
+        pio.write_image(fig, 'data/figure.png', width=700*1.5, height=500*1.5)
         return True, fig, description, True
 
 
