@@ -120,7 +120,10 @@ def increase_figure_font(fig: px.pie) -> None:
 
     )
     # modify the font size
-    fig.update_traces(insidetextfont=dict(size=20))
+    fig.update_traces(
+        insidetextfont={"size": 20},
+        outsidetextfont={"size": 20}
+    )
 
 
 # def combine_and_shuffle_lists(*lists):
