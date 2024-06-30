@@ -77,5 +77,25 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
         answer_paragraph = Paragraph(answer_text, styles["Normal"])
         story.append(answer_paragraph)
         story.append(Spacer(0, 5))
+    # add secure answers
+    story.append(Paragraph("<b>Secure</b>:"))
+    anxious_answers = [(value[2], value[1]) for value in answers.values() if value[0] == "secure"]
+    for answer in anxious_answers:
+        question = Paragraph(answer[0], styles["Normal"])
+        story.append(question)
+        answer_text = f"Answer: {answer[1]}"
+        answer_paragraph = Paragraph(answer_text, styles["Normal"])
+        story.append(answer_paragraph)
+        story.append(Spacer(0, 5))
+    # add avoidant answers
+    story.append(Paragraph("<b>Avoidant</b>:"))
+    anxious_answers = [(value[2], value[1]) for value in answers.values() if value[0] == "avoidant"]
+    for answer in anxious_answers:
+        question = Paragraph(answer[0], styles["Normal"])
+        story.append(question)
+        answer_text = f"Answer: {answer[1]}"
+        answer_paragraph = Paragraph(answer_text, styles["Normal"])
+        story.append(answer_paragraph)
+        story.append(Spacer(0, 5))
     # Building the story into the document template
     doc.build(story)
