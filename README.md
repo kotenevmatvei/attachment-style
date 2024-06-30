@@ -1,5 +1,5 @@
 - generate report
-  - add q&a
+  - turn q&a into table
   - make it downloadable
 - write unit tests?
 - style
