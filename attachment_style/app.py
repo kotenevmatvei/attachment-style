@@ -93,7 +93,7 @@ def generate_dashboard(n_clicks, answers):
         fig_to_download = copy.deepcopy(fig)
         increase_figure_font(fig_to_download)
 
-        pio.write_image(fig_to_download, 'data/figure.png', width=700*1.5, height=500*1.5)
+        pio.write_image(fig_to_download, 'assets/figure.png', width=700 * 1.5, height=500 * 1.5)
         return True, fig, description, True
 
 
