@@ -18,9 +18,9 @@ app.layout = html.Div([
     Navbar,
     Description,
     QuestionCard,
-    dbc.Collapse(dbc.Button("Submit Test", id="submit-test-button"), id="submit-test-collapse", is_open=False, className="mb-4 text-center border"),
+    dbc.Collapse(dbc.Button("Submit Test", id="submit-test-button"), id="submit-test-collapse", is_open=False, className="mb-4 text-center"),
     Dashboard,
-    dbc.Collapse(dbc.Button("Download Full Report", id="download-report-button"), id="download-report-collapse", is_open=False, className="text-center border"),
+    dbc.Collapse(dbc.Button("Download Full Report", id="download-report-button"), id="download-report-collapse", is_open=False, className="text-center"),
     dbc.Collapse(dcc.Markdown("Thank you for trying out the attachment style test!", className="mt-4 text-center"), id="thank-you-collapse", is_open=False),
     # storage
     dcc.Store(id="questions-storage", data=read_questions(), storage_type="session"),

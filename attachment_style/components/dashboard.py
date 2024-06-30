@@ -17,5 +17,5 @@ Dashboard = dbc.Collapse(
     # ],
     id="dashboard-collapse",
     is_open=False,
-    className="mb-4 text-center border"
+    className="mb-4 text-center"
 )

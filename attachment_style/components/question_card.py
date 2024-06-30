@@ -36,7 +36,7 @@ QuestionCard = dbc.Row(
                 ),
             ],
             style={"width": "45rem"},
-            className="border text-center"
+            className="text-center"
         ),
         className="mb-4 d-flex justify-content-center"
     )
