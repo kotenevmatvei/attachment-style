@@ -6,7 +6,7 @@ from reportlab.lib import colors
 def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
     top_margin = 0.5 * 72
     # Create a SimpleDocTemplate
-    doc = SimpleDocTemplate("data/report.pdf", topMargin=top_margin)
+    doc = SimpleDocTemplate("data/attachment style report.pdf", topMargin=top_margin)
     # Fetch the built-in styles, and return a list to append elements to
     styles = getSampleStyleSheet()
     story = []

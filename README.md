@@ -1,3 +1,4 @@
+- clean up
 - write unit tests?
 - style
 - deploy 1.0.0!

@@ -18,11 +18,10 @@ app.layout = html.Div([
     Navbar,
     Description,
     QuestionCard,
-    html.Div(id="log"),
     dbc.Collapse(dbc.Button("Submit Test", id="submit-test-button"), id="submit-test-collapse", is_open=False, className="mb-4 text-center border"),
     Dashboard,
     dbc.Collapse(dbc.Button("Download Full Report", id="download-report-button"), id="download-report-collapse", is_open=False, className="text-center border"),
-    dbc.Collapse(dcc.Markdown("Thank you for trying out the attachment style test"), id="thank-you-collapse", is_open=False),
+    dbc.Collapse(dcc.Markdown("Thank you for trying out the attachment style test!", className="mt-4 text-center"), id="thank-you-collapse", is_open=False),
     # storage
     dcc.Store(id="questions-storage", data=read_questions(), storage_type="session"),
     dcc.Store(id="question-count-storage", data=0),
@@ -33,15 +32,6 @@ app.layout = html.Div([
     # download
     dcc.Download(id="download-report")
 ])
-
-
-@app.callback(
-    Output("log", "children"),
-    Input("answers-storage", "data"),
-    Input("lb-visited-last-storage", "data")
-)
-def update_question_count_ref(answers, lb_last_visited):
-    return f"log: last_visited: {lb_last_visited}, {answers}"
 
 
 # shuffle questions on page load
@@ -113,7 +103,7 @@ def generate_dashboard(n_clicks, answers):
 def load_report(n_clicks, answers):
     if n_clicks:
         generate_report(answers)
-        return True, dcc.send_file("./data/report.pdf", type="pdf")
+        return True, dcc.send_file("./data/attachment style report.pdf", type="pdf")
 
 
 @app.callback(
