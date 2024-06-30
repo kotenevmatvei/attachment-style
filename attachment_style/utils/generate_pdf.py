@@ -3,10 +3,10 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from plotly.express import pie
 
 
-def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
+def generate_report() -> None:
     top_margin = 0.5 * 72
     # Create a SimpleDocTemplate
-    doc = SimpleDocTemplate("../assets/report.pdf", topMargin=top_margin)
+    doc = SimpleDocTemplate("../data/report.pdf", topMargin=top_margin)
     # Fetch the built-in styles, and return a list to append elements to
     styles = getSampleStyleSheet()
     story = []
@@ -16,7 +16,7 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
     # add space
     story.append(Spacer(0, 10))
     # add chart
-    chart = Image("../assets/figure.png", width=700 / 2, height=500 / 2)
+    chart = Image("../data/figure.png", width=700 / 2, height=500 / 2)
     story.append(chart)
     # add a horizontal ruler to divide next section
     story.append(HRFlowable(width="90%", thickness=1, lineCap='round', spaceBefore=15, spaceAfter=10, hAlign='CENTER', vAlign='BOTTOM', dash=None))
@@ -72,3 +72,4 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
     # Building the story into the document template
     doc.build(story)
 
+generate_report()
