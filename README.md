@@ -1,6 +1,3 @@
-- generate report
-  - turn q&a into table
-  - make it downloadable
 - write unit tests?
 - style
 - deploy 1.0.0!

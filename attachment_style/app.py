@@ -30,6 +30,8 @@ app.layout = html.Div([
     dcc.Store(id="lb-visited-last-storage"),
     dcc.Store(id="last-question-visited"),
     dcc.Interval(id="page-load-interval", interval=1, max_intervals=1),
+    # download
+    dcc.Download(id="download-report")
 ])
 
 
@@ -100,14 +102,18 @@ def generate_dashboard(n_clicks, answers):
 
 
 @app.callback(
-    Output("thank-you-collapse", "is_open"),
+    [
+        Output("thank-you-collapse", "is_open"),
+        Output("download-report", "data")
+    ],
     Input("download-report-button", "n_clicks"),
-    State("answers-storage", "data")
+    State("answers-storage", "data"),
+    prevent_initial_call=True,
 )
 def load_report(n_clicks, answers):
     if n_clicks:
         generate_report(answers)
-        return True
+        return True, dcc.send_file("./data/report.pdf", type="pdf")
 
 
 @app.callback(
