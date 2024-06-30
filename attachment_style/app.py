@@ -10,6 +10,7 @@ from attachment_style.components.question_card import QuestionCard
 from attachment_style.components.dashboard import Dashboard
 
 from utils.utils import read_questions, calculate_scores, build_pie_chart, generate_type_description, increase_figure_font
+from utils.generate_pdf import generate_report
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY, dbc.icons.BOOTSTRAP])
 
@@ -21,6 +22,7 @@ app.layout = html.Div([
     dbc.Collapse(dbc.Button("Submit Test", id="submit-test-button"), id="submit-test-collapse", is_open=False, className="mb-4 text-center border"),
     Dashboard,
     dbc.Collapse(dbc.Button("Download Full Report", id="download-report-button"), id="download-report-collapse", is_open=False, className="text-center border"),
+    dbc.Collapse(dcc.Markdown("Thank you for trying out the attachment style test"), id="thank-you-collapse", is_open=False),
     # storage
     dcc.Store(id="questions-storage", data=read_questions(), storage_type="session"),
     dcc.Store(id="question-count-storage", data=0),
@@ -95,6 +97,17 @@ def generate_dashboard(n_clicks, answers):
 
         pio.write_image(fig_to_download, 'data/figure.png', width=700 * 1.5, height=500 * 1.5)
         return True, fig, description, True
+
+
+@app.callback(
+    Output("thank-you-collapse", "is_open"),
+    Input("download-report-button", "n_clicks"),
+    State("answers-storage", "data")
+)
+def load_report(n_clicks, answers):
+    if n_clicks:
+        generate_report(answers)
+        return True
 
 
 @app.callback(
