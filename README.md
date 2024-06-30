@@ -1,4 +1,4 @@
-- clean up
+- scroll at the end
 - write unit tests?
 - style
 - deploy 1.0.0!
