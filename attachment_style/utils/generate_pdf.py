@@ -1,6 +1,6 @@
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Image, Spacer, HRFlowable
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Image, Spacer, HRFlowable, Table, TableStyle
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from plotly.express import pie
+from reportlab.lib import colors
 
 
 def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
@@ -67,35 +67,39 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
     # add anxious Q&A
     centered = ParagraphStyle(name="Centered", parent=styles['Heading3'], alignment=1)
     story.append(Paragraph("Your Answers:", centered))
-    story.append(Paragraph("<b>Anxious</b>:"))
+    story.append(Paragraph("<u><b>Anxious</b></u>:"))
+    story.append(Spacer(0, 10))
     anxious_answers = [(value[2], value[1]) for value in answers.values() if value[0] == "anxious"]
-    print(answers)
+    data_anxious = []
     for answer in anxious_answers:
-        question = Paragraph(answer[0], styles["Normal"])
-        story.append(question)
-        answer_text = f"Answer: {answer[1]}"
-        answer_paragraph = Paragraph(answer_text, styles["Normal"])
-        story.append(answer_paragraph)
-        story.append(Spacer(0, 5))
+        question = Paragraph(answer[0])
+        answer_text = answer[1]
+        data_anxious.append([question, answer[1]])
+    table_anxious = Table(data_anxious, colWidths=[400, 50], style=[("GRID", (0, 0), (-1, -1), 1, colors.gray)])
+    story.append(table_anxious)
     # add secure answers
-    story.append(Paragraph("<b>Secure</b>:"))
-    anxious_answers = [(value[2], value[1]) for value in answers.values() if value[0] == "secure"]
-    for answer in anxious_answers:
-        question = Paragraph(answer[0], styles["Normal"])
-        story.append(question)
-        answer_text = f"Answer: {answer[1]}"
-        answer_paragraph = Paragraph(answer_text, styles["Normal"])
-        story.append(answer_paragraph)
-        story.append(Spacer(0, 5))
-    # add avoidant answers
-    story.append(Paragraph("<b>Avoidant</b>:"))
-    anxious_answers = [(value[2], value[1]) for value in answers.values() if value[0] == "avoidant"]
-    for answer in anxious_answers:
-        question = Paragraph(answer[0], styles["Normal"])
-        story.append(question)
-        answer_text = f"Answer: {answer[1]}"
-        answer_paragraph = Paragraph(answer_text, styles["Normal"])
-        story.append(answer_paragraph)
-        story.append(Spacer(0, 5))
+    story.append(Spacer(0, 10))
+    story.append(Paragraph("<u><b>Secure</b></u>:"))
+    story.append(Spacer(0, 10))
+    secure_answers = [(value[2], value[1]) for value in answers.values() if value[0] == "secure"]
+    data_secure = []
+    for answer in secure_answers:
+        question = Paragraph(answer[0])
+        answer_text = answer[1]
+        data_secure.append([question, answer[1]])
+    table_secure = Table(data_secure, colWidths=[400, 50], style=[("GRID", (0, 0), (-1, -1), 1, colors.gray)])
+    story.append(table_secure)
+    # add avoidant questions
+    story.append(Spacer(0, 10))
+    story.append(Paragraph("<u><b>Avoidant</b></u>:"))
+    story.append(Spacer(0, 10))
+    avoidant_answers = [(value[2], value[1]) for value in answers.values() if value[0] == "avoidant"]
+    data_avoidant = []
+    for answer in avoidant_answers:
+        question = Paragraph(answer[0])
+        answer_text = answer[1]
+        data_avoidant.append([question, answer[1]])
+    table_avoidant = Table(data_avoidant, colWidths=[400, 50], style=[("GRID", (0, 0), (-1, -1), 1, colors.gray)])
+    story.append(table_avoidant)
     # Building the story into the document template
     doc.build(story)
