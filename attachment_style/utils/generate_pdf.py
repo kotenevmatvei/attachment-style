@@ -1,6 +1,8 @@
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Image, Spacer, HRFlowable, Table, TableStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Image, Spacer, HRFlowable, Table, TableStyle, Indenter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
+import codecs
+import markdown
 
 
 def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
@@ -72,7 +74,25 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
     anxious_answers = [(value[2], value[1]) for value in answers.values() if value[0] == "anxious"]
     data_anxious = []
     for answer in anxious_answers:
-        question = Paragraph(answer[0])
+        # Convert markdown to HTML
+        text = answer[0]
+        indenter_on = Indenter(left=10)
+        indenter_off = Indenter(left=-10)
+        markdown_lines = text.split("\n")
+        bullet_points = []
+        for line in markdown_lines:
+            if line.startswith("**"):
+                header = Paragraph("<b>" + line[2:-2] + "</b>", styles["BodyText"])
+                # story.append(header)
+            else:
+                # story.append(Indenter(left=10))
+                bullet_points.append(Paragraph(u"\u2022" + line[1:], styles["BodyText"]))
+                # story.append(bullet_point)
+                # story.append(Indenter(left=-10))
+            # story.append(Spacer(1, 12))
+
+        # question = Paragraph(answer[0])
+        question = [header, indenter_on, bullet_points, indenter_off]
         answer_text = answer[1]
         data_anxious.append([question, answer[1]])
     table_anxious = Table(data_anxious, colWidths=[400, 50], style=[("GRID", (0, 0), (-1, -1), 1, colors.gray)])
