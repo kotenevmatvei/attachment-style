@@ -25,9 +25,9 @@ app.layout = dbc.Container(
         dbc.Collapse(dbc.Button("Download Full Report", id="download-report-button"), id="download-report-collapse", is_open=False, className="mb-4 text-center"),
         dbc.Collapse(dcc.Markdown("Thank you for trying out the attachment style test!", className="mt-4 text-center"), id="thank-you-collapse", is_open=False),
         # storage
-        dcc.Store(id="questions-storage", data=read_questions("partner")),
+        dcc.Store(id="questions-storage", data=read_questions("partner"), storage_type="memory"),
         dcc.Store(id="question-count-storage", data=0),
-        dcc.Store(id="answers-storage", data={}),
+        dcc.Store(id="answers-storage", data={}, storage_type="memory"),
         dcc.Store(id="lb-visited-last-storage"),
         dcc.Store(id="last-question-visited"),
         dcc.Interval(id="page-load-interval", interval=1, max_intervals=1),
@@ -105,6 +105,7 @@ def generate_dashboard(n_clicks, answers):
 )
 def load_report(n_clicks, answers):
     if n_clicks:
+        print(answers)
         generate_report(answers)
         return True, dcc.send_file("data/attachment style report.pdf", type="pdf")
 

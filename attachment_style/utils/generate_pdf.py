@@ -81,6 +81,7 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
         indenter_off = Indenter(left=-10)
         markdown_lines = text.split("\n")
         single_question = Paragraph("")
+        header = Paragraph("")
         bullet_points = []
         for line in markdown_lines:
             if line.startswith("**"):
@@ -106,6 +107,7 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
         indenter_off = Indenter(left=-10)
         markdown_lines = text.split("\n")
         single_question = Paragraph("")
+        header = Paragraph("")
         bullet_points = []
         for line in markdown_lines:
             if line.startswith("**"):
@@ -131,6 +133,7 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
         indenter_off = Indenter(left=-10)
         markdown_lines = text.split("\n")
         single_question = Paragraph("")
+        header = Paragraph("")
         bullet_points = []
         for line in markdown_lines:
             if line.startswith("**"):
@@ -143,3 +146,5 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
         data_avoidant.append([question, answer[1]])
     table_avoidant = Table(data_avoidant, colWidths=[400, 50], style=[("GRID", (0, 0), (-1, -1), 1, colors.gray)])
     story.append(table_avoidant)
+    # build the PDF document
+    doc.build(story)
