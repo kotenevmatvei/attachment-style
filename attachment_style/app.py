@@ -106,7 +106,7 @@ def generate_dashboard(n_clicks, answers):
 def load_report(n_clicks, answers):
     if n_clicks:
         generate_report(answers)
-        return True, dcc.send_file("attachment_style/data/attachment style report.pdf", type="pdf")
+        return True, dcc.send_file("data/attachment style report.pdf", type="pdf")
 
 
 @app.callback(
