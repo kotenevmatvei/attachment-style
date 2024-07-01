@@ -1,5 +1,5 @@
 - add test your partner
-  - PoC
+  - link switch
 - refactor
   - plan
   - differentiate outcomes more (e.g. equal scores for different types)

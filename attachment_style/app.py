@@ -25,11 +25,12 @@ app.layout = dbc.Container(
         dbc.Collapse(dbc.Button("Download Full Report", id="download-report-button"), id="download-report-collapse", is_open=False, className="mb-4 text-center"),
         dbc.Collapse(dcc.Markdown("Thank you for trying out the attachment style test!", className="mt-4 text-center"), id="thank-you-collapse", is_open=False),
         # storage
-        dcc.Store(id="questions-storage", data=read_questions("partner"), storage_type="memory"),
+        dcc.Store(id="questions-storage", data=read_questions("you"), storage_type="memory"),
         dcc.Store(id="question-count-storage", data=0),
         dcc.Store(id="answers-storage", data={}, storage_type="memory"),
         dcc.Store(id="lb-visited-last-storage"),
         dcc.Store(id="last-question-visited"),
+        dcc.Store(id="current-subject-storage", data="you"),
         dcc.Interval(id="page-load-interval", interval=1, max_intervals=1),
         # download
         dcc.Download(id="download-report")
@@ -56,6 +57,38 @@ def shuffle_questions(n, questions):
 def show_submit_button(last_question_visited: bool) -> bool:
     return last_question_visited
 
+# switch subject to partner
+@app.callback(
+    [
+        Output("questions-storage", "data", allow_duplicate=True),
+        Output("question-count-storage", "data", allow_duplicate=True),
+        Output("question-count-text", "children", allow_duplicate=True),
+        Output("answers-storage", "data", allow_duplicate=True),
+        Output("current-subject-storage", "data", allow_duplicate=True),
+        Output("submit-test-collapse", "is_open", allow_duplicate=True),
+        Output("dashboard-collapse", "is_open", allow_duplicate=True),
+        Output("download-report-collapse", "is_open", allow_duplicate=True),
+        Output("thank-you-collapse", "is_open", allow_duplicate=True)
+
+    ],
+    Input("test-your-partner", "n_clicks"),
+    [
+        State("questions-storage", "data"),
+    ],
+    prevent_initial_call=True
+)
+def switch_subject(n_clicks, questions):
+    if n_clicks:
+        return read_questions("partner"), 0, f"Question 1/{len(questions)}", {}, "partner", False, False, False, False
+
+@app.callback(
+    Output("question-text", "children", allow_duplicate=True),
+    Input("current-subject-storage", "data"),
+    State("questions-storage", "data"),
+    prevent_initial_call=True
+)
+def update_subject_question(subject, questions):
+    return questions[0][0]
 
 @app.callback(
     [
