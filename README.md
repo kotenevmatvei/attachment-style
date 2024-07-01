@@ -1,5 +1,6 @@
-- deploy 1.0.0!
-- refactor 1.1.0
+- add test your partner
+  - PoC
+- refactor
   - plan
   - differentiate outcomes more (e.g. equal scores for different types)
   - scroll to the end
