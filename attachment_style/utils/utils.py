@@ -105,11 +105,19 @@ def generate_type_description(attachment_type: str) -> str:
 #     if not list_same_length:
 #         sys.exit("Lists with questions must be the same length")
 
-def read_questions() -> list[tuple[str, str]]:
+def read_questions(subject: str) -> list[tuple[str, str]]:
     questions: list[tuple[str, str]] = []
-    questions.extend(read_questions_file(questions_file_path="data/anxious_questions.txt", attachment_style="anxious"))
-    questions.extend(read_questions_file(questions_file_path="data/secure_questions.txt", attachment_style="secure"))
-    questions.extend(read_questions_file(questions_file_path="data/avoidant_questions.txt", attachment_style="avoidant"))
+    if subject == "you":
+        questions.extend(read_questions_file(questions_file_path="data/anxious_questions.txt", attachment_style="anxious"))
+        questions.extend(read_questions_file(questions_file_path="data/secure_questions.txt", attachment_style="secure"))
+        questions.extend(read_questions_file(questions_file_path="data/avoidant_questions.txt", attachment_style="avoidant"))
+    else:
+        questions.extend(
+            read_questions_file(questions_file_path="data/anxious_partner.txt", attachment_style="anxious"))
+        questions.extend(
+            read_questions_file(questions_file_path="data/secure_partner.txt", attachment_style="secure"))
+        questions.extend(
+            read_questions_file(questions_file_path="data/avoidant_partner.txt", attachment_style="avoidant"))
     return questions
 
 
