@@ -90,7 +90,7 @@ def generate_dashboard(n_clicks, answers):
         fig_to_download = copy.deepcopy(fig)
         increase_figure_font(fig_to_download)
 
-        pio.write_image(fig_to_download, 'data/figure.png', width=700 * 1.5, height=500 * 1.5)
+        pio.write_image(fig_to_download, 'attachment_style/data/figure.png', width=700 * 1.5, height=500 * 1.5)
         return True, fig, description, True
 
 
@@ -106,7 +106,7 @@ def generate_dashboard(n_clicks, answers):
 def load_report(n_clicks, answers):
     if n_clicks:
         generate_report(answers)
-        return True, dcc.send_file("./data/attachment style report.pdf", type="pdf")
+        return True, dcc.send_file("attachment_style/data/attachment style report.pdf", type="pdf")
 
 
 @app.callback(
@@ -281,7 +281,7 @@ def update_question(
 
             case "left-button":
                 if question_count == 1:
-                    answers["0"] = (questions[0][1], slider_value)
+                    answers["0"] = (questions[0][1], slider_value, questions[question_count-1][0])
                     return (
                         1,
                         f"Question 1/{n}",
