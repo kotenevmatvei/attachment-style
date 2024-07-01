@@ -1,12 +1,13 @@
 import plotly.express as px
-
+import codecs
 
 def read_questions_file(questions_file_path: str, attachment_style: str) -> list[tuple[str, str]]:
     """Read the txt file with questions and add them to the corresponding list."""
     questions_list: list[tuple[str, str]] = []
     with open(questions_file_path, "r") as file:
         for line in file:
-            questions_list.append((line.strip(), attachment_style))
+            decoded_line = codecs.decode(line.strip(), 'unicode_escape')
+            questions_list.append((decoded_line, attachment_style))
 
     return questions_list
 

@@ -9,7 +9,7 @@ from components.description import Description
 from components.question_card import QuestionCard
 from components.dashboard import Dashboard
 
-from utils.utils import read_questions, calculate_scores, build_pie_chart, generate_type_description, increase_figure_font
+from utils.utils import read_questions, calculate_scores, build_pie_chart, generate_type_description, increase_figure_font, read_questions_file
 from utils.generate_pdf import generate_report
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY, dbc.icons.BOOTSTRAP])
@@ -25,7 +25,7 @@ app.layout = dbc.Container(
         dbc.Collapse(dbc.Button("Download Full Report", id="download-report-button"), id="download-report-collapse", is_open=False, className="mb-4 text-center"),
         dbc.Collapse(dcc.Markdown("Thank you for trying out the attachment style test!", className="mt-4 text-center"), id="thank-you-collapse", is_open=False),
         # storage
-        dcc.Store(id="questions-storage", data=read_questions(), storage_type="session"),
+        dcc.Store(id="questions-storage", data=read_questions_file("data/secure_partner", "avoidant"), storage_type="session"),
         dcc.Store(id="question-count-storage", data=0),
         dcc.Store(id="answers-storage", data={}),
         dcc.Store(id="lb-visited-last-storage"),
