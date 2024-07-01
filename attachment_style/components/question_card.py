@@ -31,7 +31,7 @@ QuestionCard = dbc.Row(
                                 "always_visible": True,
                             }
                         ),
-                        style={"width": "40rem"}
+                        style={"width": "80%"}
                     )
                 ),
             ],

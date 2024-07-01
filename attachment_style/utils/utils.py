@@ -106,9 +106,9 @@ def generate_type_description(attachment_type: str) -> str:
 
 def read_questions() -> list[tuple[str, str]]:
     questions: list[tuple[str, str]] = []
-    questions.extend(read_questions_file(questions_file_path="attachment_style/data/anxious_questions.txt", attachment_style="anxious"))
-    questions.extend(read_questions_file(questions_file_path="attachment_style/data/secure_questions.txt", attachment_style="secure"))
-    questions.extend(read_questions_file(questions_file_path="attachment_style/data/avoidant_questions.txt", attachment_style="avoidant"))
+    questions.extend(read_questions_file(questions_file_path="data/anxious_questions.txt", attachment_style="anxious"))
+    questions.extend(read_questions_file(questions_file_path="data/secure_questions.txt", attachment_style="secure"))
+    questions.extend(read_questions_file(questions_file_path="data/avoidant_questions.txt", attachment_style="avoidant"))
     return questions
 
 
