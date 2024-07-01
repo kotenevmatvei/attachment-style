@@ -280,7 +280,7 @@ def update_question(
 
             case "left-button":
                 if question_count == 1:
-                    answers["0"] = (questions[0][1], slider_value)
+                    answers["0"] = (questions[0][1], slider_value, questions[0][0])
                     return (
                         1,
                         f"Question 1/{n}",
