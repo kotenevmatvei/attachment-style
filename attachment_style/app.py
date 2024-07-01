@@ -13,6 +13,7 @@ from utils.utils import read_questions, calculate_scores, build_pie_chart, gener
 from utils.generate_pdf import generate_report
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY, dbc.icons.BOOTSTRAP])
+server = app.server
 
 app.layout = dbc.Container(
     [

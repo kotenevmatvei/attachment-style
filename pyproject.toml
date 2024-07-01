@@ -18,6 +18,7 @@ dash-iconify = "^0.1.2"
 reportlab = "^4.2.2"
 kaleido = "0.1.0.post1"
 fpdf = "^1.7.2"
+gunicorn = "^22.0.0"
 
 
 [tool.poetry.group.dev.dependencies]
