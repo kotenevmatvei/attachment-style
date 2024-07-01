@@ -9,8 +9,8 @@ from attachment_style.components.description import Description
 from attachment_style.components.question_card import QuestionCard
 from attachment_style.components.dashboard import Dashboard
 
-from utils.utils import read_questions, calculate_scores, build_pie_chart, generate_type_description, increase_figure_font
-from utils.generate_pdf import generate_report
+from attachment_style.utils.utils import read_questions, calculate_scores, build_pie_chart, generate_type_description, increase_figure_font
+from attachment_style.utils.generate_pdf import generate_report
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY, dbc.icons.BOOTSTRAP])
 server = app.server
