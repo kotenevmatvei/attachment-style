@@ -6,6 +6,8 @@ import markdown
 
 
 def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
+    # sort answers
+    answers = dict(sorted(answers.items()))
     top_margin = 0.5 * 72
     # Create a SimpleDocTemplate
     doc = SimpleDocTemplate("data/attachment style report.pdf", topMargin=top_margin)
