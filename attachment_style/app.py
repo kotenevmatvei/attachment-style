@@ -81,6 +81,32 @@ def switch_subject(n_clicks, questions):
     if n_clicks:
         return read_questions("partner"), 0, f"Question 1/{len(questions)}", {}, "partner", False, False, False, False
 
+
+# switch subject to you
+@app.callback(
+    [
+        Output("questions-storage", "data", allow_duplicate=True),
+        Output("question-count-storage", "data", allow_duplicate=True),
+        Output("question-count-text", "children", allow_duplicate=True),
+        Output("answers-storage", "data", allow_duplicate=True),
+        Output("current-subject-storage", "data", allow_duplicate=True),
+        Output("submit-test-collapse", "is_open", allow_duplicate=True),
+        Output("dashboard-collapse", "is_open", allow_duplicate=True),
+        Output("download-report-collapse", "is_open", allow_duplicate=True),
+        Output("thank-you-collapse", "is_open", allow_duplicate=True)
+
+    ],
+    Input("test-yourself", "n_clicks"),
+    [
+        State("questions-storage", "data"),
+    ],
+    prevent_initial_call=True
+)
+def switch_subject(n_clicks, questions):
+    if n_clicks:
+        return read_questions("you"), 0, f"Question 1/{len(questions)}", {}, "you", False, False, False, False
+
+
 @app.callback(
     Output("question-text", "children", allow_duplicate=True),
     Input("current-subject-storage", "data"),
