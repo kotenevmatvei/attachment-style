@@ -1,7 +1,6 @@
-- scroll at the end
-- write unit tests?
-- style
 - deploy 1.0.0!
 - refactor 1.1.0
   - plan
   - differentiate outcomes more (e.g. equal scores for different types)
+  - scroll to the end
+  - style

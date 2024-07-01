@@ -14,24 +14,26 @@ from utils.generate_pdf import generate_report
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY, dbc.icons.BOOTSTRAP])
 
-app.layout = dbc.Container([
-    Navbar,
-    Description,
-    QuestionCard,
-    dbc.Collapse(dbc.Button("Submit Test", id="submit-test-button"), id="submit-test-collapse", is_open=False, className="mb-4 text-center"),
-    Dashboard,
-    dbc.Collapse(dbc.Button("Download Full Report", id="download-report-button"), id="download-report-collapse", is_open=False, className="mb-4 text-center"),
-    dbc.Collapse(dcc.Markdown("Thank you for trying out the attachment style test!", className="mt-4 text-center"), id="thank-you-collapse", is_open=False),
-    # storage
-    dcc.Store(id="questions-storage", data=read_questions(), storage_type="session"),
-    dcc.Store(id="question-count-storage", data=0),
-    dcc.Store(id="answers-storage", data={}),
-    dcc.Store(id="lb-visited-last-storage"),
-    dcc.Store(id="last-question-visited"),
-    dcc.Interval(id="page-load-interval", interval=1, max_intervals=1),
-    # download
-    dcc.Download(id="download-report")
-])
+app.layout = dbc.Container(
+    [
+        Navbar,
+        Description,
+        QuestionCard,
+        dbc.Collapse(dbc.Button("Submit Test", id="submit-test-button"), id="submit-test-collapse", is_open=False, className="mb-4 text-center"),
+        Dashboard,
+        dbc.Collapse(dbc.Button("Download Full Report", id="download-report-button"), id="download-report-collapse", is_open=False, className="mb-4 text-center"),
+        dbc.Collapse(dcc.Markdown("Thank you for trying out the attachment style test!", className="mt-4 text-center"), id="thank-you-collapse", is_open=False),
+        # storage
+        dcc.Store(id="questions-storage", data=read_questions(), storage_type="session"),
+        dcc.Store(id="question-count-storage", data=0),
+        dcc.Store(id="answers-storage", data={}),
+        dcc.Store(id="lb-visited-last-storage"),
+        dcc.Store(id="last-question-visited"),
+        dcc.Interval(id="page-load-interval", interval=1, max_intervals=1),
+        # download
+        dcc.Download(id="download-report")
+    ],
+)
 
 
 # shuffle questions on page load
