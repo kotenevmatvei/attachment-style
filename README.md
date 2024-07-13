@@ -1,5 +1,5 @@
-- add test your partner
-  - link switch
+- redeploy
+- add about page
 - refactor
   - plan
   - differentiate outcomes more (e.g. equal scores for different types)
