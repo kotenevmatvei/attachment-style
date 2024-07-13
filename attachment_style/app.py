@@ -73,7 +73,8 @@ def show_submit_button(last_question_visited: bool) -> bool:
         Output("submit-test-collapse", "is_open", allow_duplicate=True),
         Output("dashboard-collapse", "is_open", allow_duplicate=True),
         Output("download-report-collapse", "is_open", allow_duplicate=True),
-        Output("thank-you-collapse", "is_open", allow_duplicate=True)
+        Output("thank-you-collapse", "is_open", allow_duplicate=True),
+        Output("last-question-visited", "data", allow_duplicate=True)
 
     ],
     [
@@ -87,11 +88,11 @@ def switch_subject(yourself_clicks, partner_clicks):
     if id_triggered == "test-yourself":
         questions = read_questions("you")
         shuffle(questions)
-        return questions, 1, {}, questions[0][0], f"Question 1/{len(questions)}", False, False, False, False
+        return questions, 1, {}, questions[0][0], f"Question 1/{len(questions)}", False, False, False, False, False
     else:
         questions = read_questions("partner")
         shuffle(questions)
-        return questions, 1, {}, questions[0][0], f"Question 1/{len(questions)}", False, False, False, False
+        return questions, 1, {}, questions[0][0], f"Question 1/{len(questions)}", False, False, False, False, False
 
 
 @app.callback(
