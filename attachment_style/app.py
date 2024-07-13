@@ -37,7 +37,6 @@ app.layout = dbc.Container(
     ],
 )
 
-
 # shuffle questions on page load
 @app.callback(
     [
@@ -61,63 +60,39 @@ def shuffle_questions(n, questions):
 def show_submit_button(last_question_visited: bool) -> bool:
     return last_question_visited
 
-# switch subject to partner
-@app.callback(
-    [
-        Output("questions-storage", "data", allow_duplicate=True),
-        Output("question-count-storage", "data", allow_duplicate=True),
-        Output("question-count-text", "children", allow_duplicate=True),
-        Output("answers-storage", "data", allow_duplicate=True),
-        Output("current-subject-storage", "data", allow_duplicate=True),
-        Output("submit-test-collapse", "is_open", allow_duplicate=True),
-        Output("dashboard-collapse", "is_open", allow_duplicate=True),
-        Output("download-report-collapse", "is_open", allow_duplicate=True),
-        Output("thank-you-collapse", "is_open", allow_duplicate=True)
 
-    ],
-    Input("test-your-partner", "n_clicks"),
-    [
-        State("questions-storage", "data"),
-    ],
-    prevent_initial_call=True
-)
-def switch_subject(n_clicks, questions):
-    if n_clicks:
-        return read_questions("partner"), 1, f"Question 1/{len(questions)}", {}, "partner", False, False, False, False
-
-
-# switch subject to you
+# switch subject
 @app.callback(
     [
         Output("questions-storage", "data", allow_duplicate=True),
         Output("question-count-storage", "data", allow_duplicate=True),
         Output("answers-storage", "data", allow_duplicate=True),
-        Output("current-subject-storage", "data", allow_duplicate=True),
-        Output("submit-test-collapse", "is_open", allow_duplicate=True),
-        Output("dashboard-collapse", "is_open", allow_duplicate=True),
-        Output("download-report-collapse", "is_open", allow_duplicate=True),
-        Output("thank-you-collapse", "is_open", allow_duplicate=True)
-
-    ],
-    Input("test-yourself", "n_clicks"),
-    prevent_initial_call=True
-)
-def switch_subject(n_clicks):
-    return read_questions("you"), 1, {}, "you", False, False, False, False
-
-
-@app.callback(
-    [
         Output("question-text", "children", allow_duplicate=True),
         Output("question-count-text", "children", allow_duplicate=True),
+        # Output("slider", "value", allow_duplicate=True),
+        Output("submit-test-collapse", "is_open", allow_duplicate=True),
+        Output("dashboard-collapse", "is_open", allow_duplicate=True),
+        Output("download-report-collapse", "is_open", allow_duplicate=True),
+        Output("thank-you-collapse", "is_open", allow_duplicate=True)
+
     ],
-    Input("current-subject-storage", "data"),
-    State("questions-storage", "data"),
+    [
+        Input("test-yourself", "n_clicks"),
+        Input("test-your-partner", "n_clicks")
+    ],
     prevent_initial_call=True
 )
-def update_subject_question(subject, questions):
-    shuffle(questions)
-    return questions[0][0], f"Question 1/{len(questions)}"
+def switch_subject(yourself_clicks, partner_clicks):
+    id_triggered = ctx.triggered_id
+    if id_triggered == "test-yourself":
+        questions = read_questions("you")
+        shuffle(questions)
+        return questions, 1, {}, questions[0][0], f"Question 1/{len(questions)}", False, False, False, False
+    else:
+        questions = read_questions("partner")
+        shuffle(questions)
+        return questions, 1, {}, questions[0][0], f"Question 1/{len(questions)}", False, False, False, False
+
 
 @app.callback(
     [
