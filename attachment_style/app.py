@@ -40,13 +40,17 @@ app.layout = dbc.Container(
 
 # shuffle questions on page load
 @app.callback(
-    Output('questions-storage', 'data'),
+    [
+        Output('questions-storage', 'data'),
+        Output("question-text", "children", allow_duplicate=True)
+    ],
     Input('page-load-interval', 'n_intervals'),
-    State("questions-storage", "data")
+    State("questions-storage", "data"),
+    prevent_initial_call=True
 )
 def shuffle_questions(n, questions):
     shuffle(questions)
-    return questions
+    return questions, questions[0][0]
 
 
 # show submit button after last question visited
@@ -79,7 +83,7 @@ def show_submit_button(last_question_visited: bool) -> bool:
 )
 def switch_subject(n_clicks, questions):
     if n_clicks:
-        return read_questions("partner"), 0, f"Question 1/{len(questions)}", {}, "partner", False, False, False, False
+        return read_questions("partner"), 1, f"Question 1/{len(questions)}", {}, "partner", False, False, False, False
 
 
 # switch subject to you
@@ -87,7 +91,6 @@ def switch_subject(n_clicks, questions):
     [
         Output("questions-storage", "data", allow_duplicate=True),
         Output("question-count-storage", "data", allow_duplicate=True),
-        Output("question-count-text", "children", allow_duplicate=True),
         Output("answers-storage", "data", allow_duplicate=True),
         Output("current-subject-storage", "data", allow_duplicate=True),
         Output("submit-test-collapse", "is_open", allow_duplicate=True),
@@ -97,24 +100,24 @@ def switch_subject(n_clicks, questions):
 
     ],
     Input("test-yourself", "n_clicks"),
-    [
-        State("questions-storage", "data"),
-    ],
     prevent_initial_call=True
 )
-def switch_subject(n_clicks, questions):
-    if n_clicks:
-        return read_questions("you"), 0, f"Question 1/{len(questions)}", {}, "you", False, False, False, False
+def switch_subject(n_clicks):
+    return read_questions("you"), 1, {}, "you", False, False, False, False
 
 
 @app.callback(
-    Output("question-text", "children", allow_duplicate=True),
+    [
+        Output("question-text", "children", allow_duplicate=True),
+        Output("question-count-text", "children", allow_duplicate=True),
+    ],
     Input("current-subject-storage", "data"),
     State("questions-storage", "data"),
     prevent_initial_call=True
 )
 def update_subject_question(subject, questions):
-    return questions[0][0]
+    shuffle(questions)
+    return questions[0][0], f"Question 1/{len(questions)}"
 
 @app.callback(
     [

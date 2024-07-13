@@ -6,8 +6,6 @@ import markdown
 
 
 def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
-    # sort answers
-    answers = dict(sorted(answers.items()))
     top_margin = 0.5 * 72
     # Create a SimpleDocTemplate
     doc = SimpleDocTemplate("data/attachment style report.pdf", topMargin=top_margin)
@@ -75,6 +73,8 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
     story.append(Paragraph("<u><b>Anxious</b></u>:"))
     story.append(Spacer(0, 10))
     anxious_answers = [(value[2], value[1]) for value in answers.values() if value[0] == "anxious"]
+    # sort anxious answers
+    anxious_answers = sorted(anxious_answers)
     data_anxious = []
     for answer in anxious_answers:
         # Convert markdown to HTML
@@ -101,6 +101,8 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
     story.append(Paragraph("<u><b>Secure</b></u>:"))
     story.append(Spacer(0, 10))
     secure_answers = [(value[2], value[1]) for value in answers.values() if value[0] == "secure"]
+    # sort secure answers
+    secure_answers = sorted(secure_answers)
     data_secure = []
     for answer in secure_answers:
         # Convert markdown to HTML
@@ -127,6 +129,8 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
     story.append(Paragraph("<u><b>Avoidant</b></u>:"))
     story.append(Spacer(0, 10))
     avoidant_answers = [(value[2], value[1]) for value in answers.values() if value[0] == "avoidant"]
+    # sort avoidant answers
+    avoidant_answers = sorted(avoidant_answers)
     data_avoidant = []
     for answer in avoidant_answers:
         # Convert markdown to HTML
