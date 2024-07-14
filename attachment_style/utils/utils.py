@@ -5,7 +5,7 @@ from datetime import datetime as dt
 from attachment_style.models import TestYourself, TestYourPartner
 from sqlalchemy import create_engine
 
-url = "sqlite:///mydatabase.db"
+url = "postgresql://avnadmin:AVNS_hppOVDRplQceY1kcoEA@attachment-style-attachment-style.f.aivencloud.com:17403/defaultdb?sslmode=require"
 engine = create_engine(url=url)
 
 
