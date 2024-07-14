@@ -20,6 +20,8 @@ kaleido = "0.1.0.post1"
 fpdf = "^1.7.2"
 gunicorn = "^22.0.0"
 markdown = "^3.6"
+sqlalchemy = "^2.0.31"
+alembic = "^1.13.2"
 
 
 [tool.poetry.group.dev.dependencies]
