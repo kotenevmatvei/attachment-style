@@ -2,6 +2,7 @@ import plotly.express as px
 import codecs
 from sqlalchemy.orm import Session
 from datetime import datetime as dt
+from datetime import timedelta
 from models import TestYourself, TestYourPartner # import works while utils imported in app.py
 from sqlalchemy import create_engine
 
@@ -154,7 +155,7 @@ def upload_to_db(answers: dict[str, tuple[str, float, str]]):
 
     if len(values) == 42:
         result_object = TestYourself(
-            timestamp=dt.now(),
+            timestamp=dt.now() + timedelta(hours=2),
             q1=values[0],
             q2=values[1],
             q3=values[2],
@@ -200,7 +201,7 @@ def upload_to_db(answers: dict[str, tuple[str, float, str]]):
         )
     elif len(values) == 33:
         result_object = TestYourPartner(
-            timestamp=dt.now(),
+            timestamp=dt.now() + timedelta(hours=2),
             q1=values[0],
             q2=values[1],
             q3=values[2],
