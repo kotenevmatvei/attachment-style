@@ -2,7 +2,7 @@ import plotly.express as px
 import codecs
 from sqlalchemy.orm import Session
 from datetime import datetime as dt
-from attachment_style.models import TestYourself
+from attachment_style.models import TestYourself, TestYourPartner
 from sqlalchemy import create_engine
 
 url = "sqlite:///mydatabase.db"
@@ -152,54 +152,92 @@ def upload_to_db(answers: dict[str, tuple[str, float, str]]):
     values.extend([value[1] for value in secure_answers])
     values.extend([value[1] for value in avoidant_answers])
 
-    test_yourself_db = TestYourself(
-        timestamp=dt.now(),
-        q1=values[0],
-        q2=values[1],
-        q3=values[2],
-        q4=values[3],
-        q5=values[4],
-        q6=values[5],
-        q7=values[6],
-        q8=values[7],
-        q9=values[8],
-        q10=values[9],
-        q11=values[10],
-        q12=values[11],
-        q13=values[12],
-        q14=values[13],
-        q15=values[14],
-        q16=values[15],
-        q17=values[16],
-        q18=values[17],
-        q19=values[18],
-        q20=values[19],
-        q21=values[20],
-        q22=values[21],
-        q23=values[22],
-        q24=values[23],
-        q25=values[24],
-        q26=values[25],
-        q27=values[26],
-        q28=values[27],
-        q29=values[28],
-        q30=values[29],
-        q31=values[30],
-        q32=values[31],
-        q33=values[32],
-        q34=values[33],
-        q35=values[34],
-        q36=values[35],
-        q37=values[36],
-        q38=values[37],
-        q39=values[38],
-        q40=values[39],
-        q41=values[40],
-        q42=values[41]
-    )
+    if len(values) == 42:
+        result_object = TestYourself(
+            timestamp=dt.now(),
+            q1=values[0],
+            q2=values[1],
+            q3=values[2],
+            q4=values[3],
+            q5=values[4],
+            q6=values[5],
+            q7=values[6],
+            q8=values[7],
+            q9=values[8],
+            q10=values[9],
+            q11=values[10],
+            q12=values[11],
+            q13=values[12],
+            q14=values[13],
+            q15=values[14],
+            q16=values[15],
+            q17=values[16],
+            q18=values[17],
+            q19=values[18],
+            q20=values[19],
+            q21=values[20],
+            q22=values[21],
+            q23=values[22],
+            q24=values[23],
+            q25=values[24],
+            q26=values[25],
+            q27=values[26],
+            q28=values[27],
+            q29=values[28],
+            q30=values[29],
+            q31=values[30],
+            q32=values[31],
+            q33=values[32],
+            q34=values[33],
+            q35=values[34],
+            q36=values[35],
+            q37=values[36],
+            q38=values[37],
+            q39=values[38],
+            q40=values[39],
+            q41=values[40],
+            q42=values[41]
+        )
+    else:
+        result_object = TestYourPartner(
+            timestamp=dt.now(),
+            q1=values[0],
+            q2=values[1],
+            q3=values[2],
+            q4=values[3],
+            q5=values[4],
+            q6=values[5],
+            q7=values[6],
+            q8=values[7],
+            q9=values[8],
+            q10=values[9],
+            q11=values[10],
+            q12=values[11],
+            q13=values[12],
+            q14=values[13],
+            q15=values[14],
+            q16=values[15],
+            q17=values[16],
+            q18=values[17],
+            q19=values[18],
+            q20=values[19],
+            q21=values[20],
+            q22=values[21],
+            q23=values[22],
+            q24=values[23],
+            q25=values[24],
+            q26=values[25],
+            q27=values[26],
+            q28=values[27],
+            q29=values[28],
+            q30=values[29],
+            q31=values[30],
+            q32=values[31],
+            q33=values[32],
+        )
 
     with Session(engine) as session:
-        session.add(test_yourself_db)
+        session.add(result_object)
         session.commit()
 
 # def combine_and_shuffle_lists(*lists):
