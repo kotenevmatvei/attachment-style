@@ -111,6 +111,9 @@ def switch_subject(yourself_clicks, partner_clicks):
     prevent_initial_call=True,
 )
 def generate_dashboard(n_clicks, answers):
+    # load to db
+    upload_to_db(answers)
+
     if n_clicks:
         (anxious_score, secure_score, avoidant_score) = calculate_scores(answers)
         print(anxious_score, secure_score, avoidant_score)
@@ -146,7 +149,6 @@ def generate_dashboard(n_clicks, answers):
 def load_report(n_clicks, answers):
     if n_clicks:
         print(answers)
-        upload_to_db(answers)
         generate_report(answers)
         return True, dcc.send_file("data/attachment style report.pdf", type="pdf")
 
