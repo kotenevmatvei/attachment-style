@@ -198,7 +198,7 @@ def upload_to_db(answers: dict[str, tuple[str, float, str]]):
             q41=values[40],
             q42=values[41]
         )
-    else:
+    elif len(values) == 33:
         result_object = TestYourPartner(
             timestamp=dt.now(),
             q1=values[0],
