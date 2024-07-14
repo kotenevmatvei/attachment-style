@@ -2,7 +2,7 @@ import plotly.express as px
 import codecs
 from sqlalchemy.orm import Session
 from datetime import datetime as dt
-from attachment_style.models import TestYourself, TestYourPartner
+from models import TestYourself, TestYourPartner # import works while utils imported in app.py
 from sqlalchemy import create_engine
 
 url = "postgresql://avnadmin:AVNS_hppOVDRplQceY1kcoEA@attachment-style-attachment-style.f.aivencloud.com:17403/defaultdb?sslmode=require"
