@@ -107,15 +107,19 @@ def switch_subject(yourself_clicks, partner_clicks):
     Input("submit-test-button", "n_clicks"),
     [
         State("answers-storage", "data"),
+        State("question-count-storage", "data"),
+        State("questions-storage", "data"),
+        State("slider", "value")
     ],
     prevent_initial_call=True,
 )
-def generate_dashboard(n_clicks, answers):
+def generate_dashboard(n_clicks, answers, question_count, questions, slider_value):
+    if question_count == len(questions):
+        answers[f"{question_count-1}"] = (questions[question_count-1][1], slider_value, questions[question_count-1][0])
     # load to db
     upload_to_db(answers)
     if n_clicks:
         (anxious_score, secure_score, avoidant_score) = calculate_scores(answers)
-        print(anxious_score, secure_score, avoidant_score)
         if anxious_score >= secure_score and anxious_score >= avoidant_score:
             description = generate_type_description("anxious")
         if secure_score >= avoidant_score and secure_score >= anxious_score:
