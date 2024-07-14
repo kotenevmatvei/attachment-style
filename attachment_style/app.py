@@ -1,5 +1,6 @@
 from dash import Dash, html, dcc, Input, Output, State, ctx
 from random import shuffle
+from sqlalchemy.orm import Session
 import copy
 import plotly.io as pio
 import dash_bootstrap_components as dbc
@@ -9,8 +10,10 @@ from components.description import Description
 from components.question_card import QuestionCard
 from components.dashboard import Dashboard
 
-from utils.utils import read_questions, calculate_scores, build_pie_chart, generate_type_description, increase_figure_font, read_questions_file
+from utils.utils import read_questions, calculate_scores, build_pie_chart, generate_type_description, increase_figure_font, upload_to_db
 from utils.generate_pdf import generate_report
+
+from models import TestYourself
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY, dbc.icons.BOOTSTRAP])
 server = app.server
@@ -69,7 +72,6 @@ def show_submit_button(last_question_visited: bool) -> bool:
         Output("answers-storage", "data", allow_duplicate=True),
         Output("question-text", "children", allow_duplicate=True),
         Output("question-count-text", "children", allow_duplicate=True),
-        # Output("slider", "value", allow_duplicate=True),
         Output("submit-test-collapse", "is_open", allow_duplicate=True),
         Output("dashboard-collapse", "is_open", allow_duplicate=True),
         Output("download-report-collapse", "is_open", allow_duplicate=True),
@@ -144,6 +146,7 @@ def generate_dashboard(n_clicks, answers):
 def load_report(n_clicks, answers):
     if n_clicks:
         print(answers)
+        upload_to_db(answers)
         generate_report(answers)
         return True, dcc.send_file("data/attachment style report.pdf", type="pdf")
 
