@@ -11,9 +11,6 @@ from components.question_card import QuestionCard
 from components.dashboard import Dashboard
 
 from utils.utils import read_questions, calculate_scores, build_pie_chart, generate_type_description, increase_figure_font, upload_to_db
-from utils.generate_pdf import generate_report
-
-from attachment_style.models import TestYourself
 
 register_page(__name__, path="/")
 
