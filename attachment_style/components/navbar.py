@@ -4,9 +4,9 @@ Navbar = dbc.Row(
     dbc.Col(
         dbc.NavbarSimple(
             children=[
-                dbc.NavItem(dbc.NavLink("Test Yourself", id="test-yourself"), style={'cursor': 'pointer'}),
-                dbc.NavItem(dbc.NavLink("Test Your Partner", id="test-your-partner"), style={'cursor': 'pointer'}),
-                # dbc.NavItem(dbc.NavLink("About", href="#")),
+                dbc.NavItem(dbc.NavLink("Test Yourself", href="/", id="test-yourself"), style={'cursor': 'pointer'}),
+                dbc.NavItem(dbc.NavLink("Test Your Partner", href="/", id="test-your-partner"), style={'cursor': 'pointer'}),
+                dbc.NavItem(dbc.NavLink("About", href="/about")),
                 # dbc.DropdownMenu(
                 #     children=[
                 #         dbc.DropdownMenuItem("English", header=True),
@@ -19,7 +19,7 @@ Navbar = dbc.Row(
                 # ),
             ],
             brand="Attachment Style Test",
-            brand_href="#",
+            brand_href="/",
             color="primary",
             dark=True,
         ),
