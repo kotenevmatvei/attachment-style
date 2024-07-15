@@ -1,2 +1,7 @@
 - add about page
-- create tabs layout?
+- add personal questions such as age, gender, profession, etc.
+- think of the interesting data analysis options
+- translate
+- refactor
+  - welcome page
+  - create tabs layout?
