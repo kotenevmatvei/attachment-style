@@ -6,12 +6,12 @@ import plotly.io as pio
 import dash_bootstrap_components as dbc
 
 from attachment_style.components.navbar import Navbar
-from attachment_style.components.description import Description
-from attachment_style.components.question_card import QuestionCard
-from attachment_style.components.dashboard import Dashboard
+from components.description import Description
+from components.question_card import QuestionCard
+from components.dashboard import Dashboard
 
-from attachment_style.utils.utils import read_questions, calculate_scores, build_pie_chart, generate_type_description, increase_figure_font, upload_to_db
-from attachment_style.utils.generate_pdf import generate_report
+from utils.utils import read_questions, calculate_scores, build_pie_chart, generate_type_description, increase_figure_font, upload_to_db
+from utils.generate_pdf import generate_report
 
 from attachment_style.models import TestYourself
 
