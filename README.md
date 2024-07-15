@@ -1,7 +1,2 @@
-- redeploy
 - add about page
-- refactor
-  - plan
-  - differentiate outcomes more (e.g. equal scores for different types)
-  - scroll to the end
-  - style
+- create tabs layout?
