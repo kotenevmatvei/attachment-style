@@ -117,7 +117,8 @@ def generate_dashboard(n_clicks, answers, question_count, questions, slider_valu
     if question_count == len(questions):
         answers[f"{question_count-1}"] = (questions[question_count-1][1], slider_value, questions[question_count-1][0])
     # load to db
-    upload_to_db(answers)
+    if n_clicks == 1:  # only save on the first click
+        upload_to_db(answers)
     if n_clicks:
         (anxious_score, secure_score, avoidant_score) = calculate_scores(answers)
         if anxious_score >= secure_score and anxious_score >= avoidant_score:
