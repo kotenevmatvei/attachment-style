@@ -5,7 +5,6 @@ import copy
 import plotly.io as pio
 import dash_bootstrap_components as dbc
 
-from attachment_style.components.navbar import Navbar
 from components.description import Description
 from components.question_card import QuestionCard
 from components.dashboard import Dashboard
