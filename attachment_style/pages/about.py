@@ -19,7 +19,7 @@ def layout(**kwargs):
             used a conversation starter for someone struggling in a relationship.
             - The option to be more differentiated in your answers - on the scale from 0 to 10 instead of the standard
             "strongly disagree" to "neutral" to "strongly agree".
-            - A more practical, behaviour-based questioner with examples that can be completed with regard to someone 
+            - A more practical, behaviour-based questionnaire with examples that can be completed with regard to someone 
             else, for example your partner.
             
             Future functionality may include a dashboard presenting the results of the test over different age groups,
