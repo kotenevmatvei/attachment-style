@@ -26,6 +26,6 @@ def layout(**kwargs):
             genders etc. For this, the data is already collected anonymously in a database.
             """
         ),
-        style={"width": "70%"},
+        style={"width": "50rem"},
         className="d-flex justify-content-center"
     )
