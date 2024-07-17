@@ -1,4 +1,4 @@
-- add about page
+- change home page
 - add personal questions such as age, gender, profession, etc.
 - think of the interesting data analysis options
 - translate
