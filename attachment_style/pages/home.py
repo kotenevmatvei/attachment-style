@@ -50,7 +50,8 @@ def layout(**kwargs):
                             color="primary",
                             className="d-flex justify-content-center",
                         ),
-                        width={"size":3, "offset":3},
+                        width={"size":5, "offset":1}, 
+                        sm={"size":3, "offset":3}
                     ),
                     
                     dbc.Col(
@@ -60,7 +61,8 @@ def layout(**kwargs):
                             color="primary",
                             className="d-flex justify-content-center",
                         ),
-                        width={"size":3},
+                        width={"size":5, "offset":0}, 
+                        sm={"size":3, "offset":0}
                     ),
                 ]
             )
