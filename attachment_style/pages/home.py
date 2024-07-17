@@ -21,23 +21,18 @@ def layout(**kwargs):
                         dcc.Markdown(
                             """                
                             Attachment style theory is a psychological model that describes 
-                            how we interact with others in our relationships.                    
-                            """,
-                            className="text-center",
-                        ),
-                        dcc.Markdown(
-                            """
+                            how we interact with others in our relationships.\n                 
                             This test includes 
                             two questionnaires to help you determine your attachment style, or 
                             that of your partner or someone else. [Test Yourself] is a rather 
                             subjective version that one can only really answer for oneself. 
                             [Test Your Partner] offers more behavior-based questions that can 
                             be answered with regard to someone else - *as well as yourself*.  
-                            """
+                            """,
                         )                        
                     ],
                     width=12,
-                    xl=10,
+                    xl=8,
                     className="mx-auto",
                 )
             ),
