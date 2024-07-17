@@ -50,7 +50,7 @@ def layout(**kwargs):
                             color="primary",
                             className="d-flex justify-content-center",
                         ),
-                        width={"size":5, "offset":1}, 
+                        width=6,
                         sm={"size":3, "offset":3}
                     ),
                     
@@ -61,7 +61,7 @@ def layout(**kwargs):
                             color="primary",
                             className="d-flex justify-content-center",
                         ),
-                        width={"size":5, "offset":0}, 
+                        width=6,
                         sm={"size":3, "offset":0}
                     ),
                 ]
