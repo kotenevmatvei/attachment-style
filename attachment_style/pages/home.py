@@ -19,10 +19,13 @@ def layout(**kwargs):
                 dbc.Col(
                     dcc.Markdown(
                         """                
-                        Attachment style theory is a psychological model that describes the
-                        way we interact with others in our relationships. This test offers
-                        two questionnaires to help you determine your attachment style
-                        
+                        Attachment style theory is a psychological model that describes 
+                        how we interact with others in our relationships. This test includes 
+                        two questionnaires to help you determine your attachment style, or 
+                        that of your partner or someone else. [Test Yourself] is a rather 
+                        subjective version that one can only really answer for oneself. 
+                        [Test Your Partner] offers more behavior-based questions that can 
+                        be answered with regard to someone else - *as well as yourself*.                      
                         """,
                     ),
                     width=12,
@@ -30,5 +33,28 @@ def layout(**kwargs):
                     className="mx-auto",
                 )
             ),
+            dbc.Row(
+                [
+                    dbc.Col(
+                        dbc.Button(
+                            "Test Yourself",
+                            href="/test-yourself",
+                            color="primary",
+                            className="d-flex justify-content-center",
+                        ),
+                        width={"size":3, "offset":3},
+                    ),
+                    
+                    dbc.Col(
+                        dbc.Button(
+                            "Test Your Partner",
+                            href="/test-your-partner",
+                            color="primary",
+                            className="d-flex justify-content-center",
+                        ),
+                        width={"size":3},
+                    ),
+                ]
+            )
         ]   
     )
