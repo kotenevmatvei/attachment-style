@@ -11,7 +11,7 @@ def layout(**kwargs):
                 dbc.Col(
                     html.H3(
                         "Welcome to the Attachment Style Quiz!",
-                        className="d-flex justify-content-center",
+                        className="d-flex text-center justify-content-center",
                     ),               
                 )   
             ),
