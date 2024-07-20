@@ -3,5 +3,10 @@
 - create the chart
 - translate
 - add feedback survey
+- migrate to koyeb with a docker image
+  - move pie-chart and report.pdf to output folder
+  - setup the docker image with crom job to clean up the output folder every day or hour
+  - host the docker image on koyeb
+  - setup continuous deployment
 - refactor
   - optimize question upddate
