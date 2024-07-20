@@ -13,4 +13,5 @@
 - refactor
   - clean up code
   - optimize question upddate
+  - clean up dependencies (by creating a fresh env and adding what needed one by one)
   - style
