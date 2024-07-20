@@ -1,3 +1,4 @@
+- make lins on home page work
 - add personal questions such as age, gender, profession, etc.
 - update models
 - create the chart
