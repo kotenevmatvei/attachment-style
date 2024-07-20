@@ -1,4 +1,6 @@
 - add personal questions such as age, gender, profession, etc.
+- update models
+- create the chart
 - translate
 - add feedback survey
 - refactor
