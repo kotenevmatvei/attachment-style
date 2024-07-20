@@ -1,7 +1,8 @@
-- change home page
+- create page for test-your-partner
+  - delete questions-storage
+  - rename ids to be unique
 - add personal questions such as age, gender, profession, etc.
-- think of the interesting data analysis options
 - translate
+- add feedback survey
 - refactor
-  - welcome page
-  - create tabs layout?
+  - optimize question upddate

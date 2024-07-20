@@ -26,15 +26,3 @@ Description = html.Div(
         ]
     )
 )
-
-@callback(
-    Output("subject-title", "children"),
-    [
-        Input("questions-storage", "data")
-    ]
-)
-def update_subject_title(questions):
-    if len(questions) == 42:
-        return "Test Yourself"
-    else:
-        return "Test Your Partner"
