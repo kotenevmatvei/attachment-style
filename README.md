@@ -1,6 +1,3 @@
-- create page for test-your-partner
-  - delete questions-storage
-  - rename ids to be unique
 - add personal questions such as age, gender, profession, etc.
 - translate
 - add feedback survey
