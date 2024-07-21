@@ -1,4 +1,5 @@
 - add personal questions such as age, gender, profession, etc.
+- setup development db
 - update models
 - create the chart
 - translate
