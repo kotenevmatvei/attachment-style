@@ -50,7 +50,6 @@ def layout(**kwargs):
             dcc.Store(id="answers-storage", data={}, storage_type="memory"),
             dcc.Store(id="lb-visited-last-storage"),
             dcc.Store(id="last-question-visited"),
-            dcc.Store(id="current-subject-storage", data="you"),
             dcc.Interval(id="page-load-interval", interval=1, max_intervals=1),
             # download
             dcc.Download(id="download-report")
