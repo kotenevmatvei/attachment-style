@@ -1,6 +1,7 @@
 - add personal questions such as age, gender, profession, etc.
   - setup development db
   - update models
+  - move the password to the environment variable
 - create the chart
 - translate
 - add feedback survey
