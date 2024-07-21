@@ -8,8 +8,8 @@ PersonalQuestionnairePartner = dbc.Container(
             dbc.Col(
                 html.Div(
                     """
-                    Please fill out the following form with regard to the person you are completing the test for
-                    to your best knowledge:
+                    Please fill out the following form (to your best knowledge) with 
+                    regard to the person you are completing the test for:
                     """,
                 ),
                 className="text-center mb-2"
@@ -20,7 +20,7 @@ PersonalQuestionnairePartner = dbc.Container(
                 dbc.Col(
                     [
                         html.Div("Your age in years:"),
-                        dbc.Input(type="number", id="age-partner", min=0, max=100)
+                        dbc.Input(type="number", id="age-partner")
                     ],
                     sm={"size": 4, "offset": 2},
                     width=12,
@@ -86,7 +86,6 @@ PersonalQuestionnairePartner = dbc.Container(
         dbc.Row(
             dbc.Col(
                 html.Div(
-                        "Please fill out all fields before continuing",
                         id="personal-questionnaire-error-partner", 
                         className="text-center text-danger mt-2", 
                         hidden=True

@@ -50,6 +50,7 @@ def layout(**kwargs):
             dcc.Store(id="answers-storage-partner", data={}, storage_type="memory"),
             dcc.Store(id="lb-visited-last-storage-partner"),
             dcc.Store(id="last-question-visited-partner"),
+            dcc.Store(id="personal-answers-partner"),
             dcc.Interval(id="page-load-interval-partner", interval=1, max_intervals=1),
             # download
             dcc.Download(id="download-report-partner")
@@ -63,6 +64,9 @@ def layout(**kwargs):
         Output("personal-questionnaire-collapse-partner", "is_open"),
         Output("question-card-collapse-partner", "is_open"),
         Output("personal-questionnaire-error-partner", "hidden"),
+        Output("personal-answers-partner", "data"),
+        Output("personal-questionnaire-error-partner", "children")
+        
     ],
     Input("submit-personal-questionnaire-partner", "n_clicks"),
     [
@@ -81,10 +85,23 @@ def sumbmit_personal_questionnaire(
 ):
     if n_clicks:
         if all([age, relationship_status, gender, therapy_experience]):
-            return False, True, True
+            if age < 0 or age > 100:
+                return True, False, False, {}, "Please enter a valid age"
+            return (
+                False, 
+                True, 
+                True, 
+                {
+                    "age": age,
+                    "relationship_status": relationship_status,
+                    "gender": gender,
+                    "therapy_experience": therapy_experience
+                },
+                ""  
+            ) 
         else:
-            return True, False, False
-    return True, False, True
+            return True, False, False, {}, "Please fill out all fields before contnuing"
+    return True, False, True, {}, ""
 
 
 # shuffle questions on page load
@@ -125,16 +142,17 @@ def show_submit_button(last_question_visited: bool) -> bool:
         State("answers-storage-partner", "data"),
         State("question-count-storage-partner", "data"),
         State("questions-storage-partner", "data"),
-        State("slider-partner", "value")
+        State("slider-partner", "value"),
+        State("personal-answers-partner", "data")
     ],
     prevent_initial_call=True,
 )
-def generate_dashboard(n_clicks, answers, question_count, questions, slider_value):
+def generate_dashboard(n_clicks, answers, question_count, questions, slider_value, personal_answers):
     if question_count == len(questions):
         answers[f"{question_count-1}"] = (questions[question_count-1][1], slider_value, questions[question_count-1][0])
     # load to db
     if n_clicks == 1:  # only save on the first click
-        upload_to_db(answers)
+        upload_to_db(answers, personal_answers)
     if n_clicks:
         (anxious_score, secure_score, avoidant_score) = calculate_scores(answers)
         if anxious_score >= secure_score and anxious_score >= avoidant_score:
