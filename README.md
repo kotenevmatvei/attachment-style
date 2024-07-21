@@ -1,5 +1,3 @@
-- add personal questions such as age, gender, profession, etc.
-  - move the password to the environment variable
 - update layout
   - switch to button instead of slider
   - move forward back button to the sides of the card
