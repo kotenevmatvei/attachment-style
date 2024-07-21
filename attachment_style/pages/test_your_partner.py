@@ -11,6 +11,7 @@ import plotly.io as pio
 from components.description import Description
 from components.question_card_partner import QuestionCardPartner
 from components.dashboard_partner import DashboardPartner
+from components.personal_questionnaire_partner import PersonalQuestionnairePartner
 
 register_page(__name__, path="/test-your-partner")
 
@@ -18,30 +19,23 @@ register_page(__name__, path="/test-your-partner")
 def layout(**kwargs):
     return html.Div(
         [
-            dbc.Container(
-                [
-                    dbc.Row(
-                        dbc.Col(
-                            html.H3("Test Your Partner", id="subject-title"),
-                            className="d-flex justify-content-center"
-                        )
-                    ),
-                    dbc.Row(
-                        dbc.Col(
-                            dcc.Markdown(
-                                """
-                                Please evaluate how much you can relate to the following statements on the scale from 0 to 10.
-                                """,
-                                className="text-center"
-                            ),
-                            width=12,
-                            sm=8,
-                            className="mb-4 mx-auto"
-                        )
-                    )  
-                ]
+            html.H3("Test Your Partner", className="text-center"),
+            dbc.Collapse(
+                PersonalQuestionnairePartner,
+                id="personal-questionnaire-collapse-partner",
+                is_open=True
             ),
-            QuestionCardPartner,
+            dbc.Collapse(
+                [
+                    dcc.Markdown(
+                        "Please evaluate how much you can relate to the following statements on the scale from 0 to 10.",
+                        className="text-center",
+                    ),
+                    QuestionCardPartner,
+                ],
+                id="question-card-collapse-partner",
+                is_open=False,
+            ),
             dbc.Collapse(dbc.Button("Submit Test", id="submit-test-button-partner"), id="submit-test-collapse-partner", is_open=False,
                          className="mb-4 text-center"),
             DashboardPartner,
@@ -61,6 +55,36 @@ def layout(**kwargs):
             dcc.Download(id="download-report-partner")
         ]
     )
+
+
+# submit personal questionnaire
+@callback(
+    [
+        Output("personal-questionnaire-collapse-partner", "is_open"),
+        Output("question-card-collapse-partner", "is_open"),
+        Output("personal-questionnaire-error-partner", "hidden"),
+    ],
+    Input("submit-personal-questionnaire-partner", "n_clicks"),
+    [
+        State("age-partner", "value"),
+        State("relationship-status-partner", "value"),
+        State("gender-partner", "value"),
+        State("therapy-experience-partner", "value"),
+    ]
+)
+def sumbmit_personal_questionnaire(
+    n_clicks,
+    age,
+    relationship_status,
+    gender,
+    therapy_experience
+):
+    if n_clicks:
+        if all([age, relationship_status, gender, therapy_experience]):
+            return False, True, True
+        else:
+            return True, False, False
+    return True, False, True
 
 
 # shuffle questions on page load
