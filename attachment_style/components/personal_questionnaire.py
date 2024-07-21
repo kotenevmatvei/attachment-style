@@ -85,7 +85,6 @@ PersonalQuestionnaire = dbc.Container(
         dbc.Row(
             dbc.Col(
                 html.Div(
-                        "Please fill out all fields before continuing",
                         id="personal-questionnaire-error", 
                         className="text-center text-danger mt-2", 
                         hidden=True

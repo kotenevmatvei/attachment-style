@@ -63,7 +63,8 @@ def layout(**kwargs):
         Output("personal-questionnaire-collapse", "is_open"),
         Output("question-card-collapse", "is_open"),
         Output("personal-questionnaire-error", "hidden"),
-        Output("personal-answers", "data")
+        Output("personal-answers", "data"),
+        Output("personal-questionnaire-error", "children")
     ],
     Input("submit-personal-questionnaire", "n_clicks"),
     [
@@ -82,15 +83,24 @@ def sumbmit_personal_questionnaire(
 ):
     if n_clicks:
         if all([age, relationship_status, gender, therapy_experience]):
-            return False, True, True, {
-                "age": age,
-                "relationship_status": relationship_status,
-                "gender": gender,
-                "therapy_experience": therapy_experience
-            }
+            if age < 0 or age > 100:
+                return True, False, False, {}, "Please enter a valid age"
+            return (
+                False, 
+                True, 
+                True, 
+                {
+                        "age": age,
+                        "relationship_status": relationship_status,
+                        "gender": gender,
+                        "therapy_experience": therapy_experience
+                },
+                ""
+            )
+        
         else:
-            return True, False, False, {}
-    return True, False, True, {}
+            return True, False, False, {}, "Please fill out all fields before continuing"
+    return True, False, True, {}, ""
 
 # shuffle questions on page load
 @callback(

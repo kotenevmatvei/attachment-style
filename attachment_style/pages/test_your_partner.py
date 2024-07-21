@@ -100,7 +100,7 @@ def sumbmit_personal_questionnaire(
                 ""  
             ) 
         else:
-            return True, False, False, {}, "Please fill in all the fields"
+            return True, False, False, {}, "Please fill out all fields before contnuing"
     return True, False, True, {}, ""
 
 
