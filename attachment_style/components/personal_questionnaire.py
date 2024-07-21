@@ -21,7 +21,9 @@ PersonalQuestionnaire = dbc.Container(
                         html.Div("Your age in years:"),
                         dbc.Input(type="number", id="age", min=0, max=100)
                     ],
-                    width={"size": 4, "offset": 2}
+                    sm={"size": 4, "offset": 2},
+                    width=8,
+                    className="mx-auto-xs"
                 ),
                 dbc.Col(
                     [
@@ -35,10 +37,12 @@ PersonalQuestionnaire = dbc.Container(
                             ]
                         )
                     ],
-                    width=4,
+                    sm=4,
+                    width=8,
+                    className="mx-auto-xs",
                 )
             ],
-            className="mb-4"
+            className="mb-4 mb-2-xs"
         ),
         dbc.Row(
             [
@@ -55,7 +59,8 @@ PersonalQuestionnaire = dbc.Container(
                         )
                     ],
                     sm={"size": 4, "offset": 2},
-                    width=8
+                    width=8,
+                    className="mx-auto-xs"
                 ),
                 dbc.Col(
                     [
@@ -69,7 +74,8 @@ PersonalQuestionnaire = dbc.Container(
                         )
                     ],
                     sm=4,
-                    width=8
+                    width=8,
+                    className="mx-auto-xs"
                 )
             ],
             className="mb-4"

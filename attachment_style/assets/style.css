@@ -1,0 +1,12 @@
+@media (max-width: 575.98px) {
+    .mx-auto-xs {
+        margin-right: auto !important;
+        margin-left: auto !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .mb-2-xs {
+        margin-bottom: 0 !important;
+    }
+}
