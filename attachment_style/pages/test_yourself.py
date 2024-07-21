@@ -8,6 +8,7 @@ import dash_bootstrap_components as dbc
 from components.description import Description
 from components.question_card import QuestionCard
 from components.dashboard import Dashboard
+from components.personal_questionnaire import PersonalQuestionnaire
 
 from utils.utils import read_questions, calculate_scores, build_pie_chart, generate_type_description, increase_figure_font, upload_to_db
 from utils.generate_pdf import generate_report
@@ -18,8 +19,23 @@ register_page(__name__, path="/test-yourself")
 def layout(**kwargs):
     return html.Div(
         [
-            Description,
-            QuestionCard,
+            html.H3("Test Yourself", className="text-center"),
+            dbc.Collapse(
+                PersonalQuestionnaire,
+                id="personal-questionnaire-collapse",
+                is_open=True
+            ),
+            dbc.Collapse(
+                [
+                    dcc.Markdown(
+                        "Please evaluate how much you can relate to the following statements on the scale from 0 to 10.",
+                        className="text-center",
+                    ),
+                    QuestionCard,
+                ],
+                id="question-card-collapse",
+                is_open=False,
+            ),
             dbc.Collapse(dbc.Button("Submit Test", id="submit-test-button"), id="submit-test-collapse", is_open=False,
                          className="mb-4 text-center"),
             Dashboard,
@@ -41,6 +57,34 @@ def layout(**kwargs):
         ]
     )
 
+# submit personal questionnaire
+@callback(
+    [
+        Output("personal-questionnaire-collapse", "is_open"),
+        Output("question-card-collapse", "is_open"),
+        Output("personal-questionnaire-error", "hidden"),
+    ],
+    Input("submit-personal-questionnaire", "n_clicks"),
+    [
+        State("age", "value"),
+        State("relationship-status", "value"),
+        State("gender", "value"),
+        State("therapy-experience", "value"),
+    ]
+)
+def sumbmit_personal_questionnaire(
+    n_clicks,
+    age,
+    relationship_status,
+    gender,
+    therapy_experience
+):
+    if n_clicks:
+        if all([age, relationship_status, gender, therapy_experience]):
+            return False, True, True
+        else:
+            return True, False, False
+    return True, False, True
 
 # shuffle questions on page load
 @callback(

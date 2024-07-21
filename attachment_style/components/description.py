@@ -20,7 +20,7 @@ Description = html.Div(
                     ),
                     width=12,
                     sm=8,
-                    className="mb-4 mx-auto"
+                    className="mb-2 mx-auto"
                 )
             )  
         ]
