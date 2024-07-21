@@ -19,7 +19,7 @@ PersonalQuestionnaire = dbc.Container(
                 dbc.Col(
                     [
                         html.Div("Your age in years:"),
-                        dbc.Input(type="number", id="age", min=0, max=100)
+                        dbc.Input(type="number", id="age")
                     ],
                     sm={"size": 4, "offset": 2},
                     width=12,
