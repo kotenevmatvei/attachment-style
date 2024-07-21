@@ -54,7 +54,8 @@ PersonalQuestionnaire = dbc.Container(
                             ]
                         )
                     ],
-                    width={"size": 4, "offset": 2}
+                    sm={"size": 4, "offset": 2},
+                    width=4
                 ),
                 dbc.Col(
                     [
