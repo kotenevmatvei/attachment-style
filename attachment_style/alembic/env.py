@@ -4,6 +4,14 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
+import os
+
+# Get the URL from the environment variable
+sqlalchemy_url = str(os.getenv('ATTACHMENT_STYLE_DB_URL'))
+
+config = context.config
+# Set the sqlalchemy.url in alembic.ini to the environment variable
+config.set_main_option('sqlalchemy.url', sqlalchemy_url)
 
 from models import Base
 

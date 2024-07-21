@@ -1,4 +1,5 @@
 import plotly.express as px
+import os
 import codecs
 from sqlalchemy.orm import Session
 from datetime import datetime as dt
@@ -7,9 +8,9 @@ from models import TestYourself, TestYourPartner # import works while utils impo
 from sqlalchemy import create_engine
 
 # production url
-url = "postgresql://avnadmin:AVNS_hppOVDRplQceY1kcoEA@attachment-style-attachment-style.f.aivencloud.com:17403/defaultdb?sslmode=require"
+url = str(os.getenv("ATTACHMENT_STYLE_DB_URL"))
 # dev url
-url = "postgresql://postgres:password@localhost:32772/"
+# url = "postgresql://postgres:password@localhost:32772/"
 
 engine = create_engine(url=url)
 
