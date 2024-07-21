@@ -6,7 +6,11 @@ from datetime import timedelta
 from models import TestYourself, TestYourPartner # import works while utils imported in app.py
 from sqlalchemy import create_engine
 
+# production url
 url = "postgresql://avnadmin:AVNS_hppOVDRplQceY1kcoEA@attachment-style-attachment-style.f.aivencloud.com:17403/defaultdb?sslmode=require"
+# dev url
+url = "postgresql://postgres:password@localhost:32772/"
+
 engine = create_engine(url=url)
 
 
@@ -144,7 +148,7 @@ def increase_figure_font(fig: px.pie) -> None:
     )
 
 
-def upload_to_db(answers: dict[str, tuple[str, float, str]]):
+def upload_to_db(answers: dict[str, tuple[str, float, str]], personal_answers: dict[str, str]):
     anxious_answers = sorted([(value[2], value[1]) for value in answers.values() if value[0] == "anxious"])
     secure_answers = sorted([(value[2], value[1]) for value in answers.values() if value[0] == "secure"])
     avoidant_answers = sorted([(value[2], value[1]) for value in answers.values() if value[0] == "avoidant"])
@@ -156,6 +160,10 @@ def upload_to_db(answers: dict[str, tuple[str, float, str]]):
     if len(values) == 42:
         result_object = TestYourself(
             timestamp=dt.now() + timedelta(hours=2),
+            age=personal_answers["age"],
+            relationship_status=personal_answers["relationship_status"],
+            gender=personal_answers["gender"],
+            therapy_experience=personal_answers["therapy_experience"],
             q1=values[0],
             q2=values[1],
             q3=values[2],
@@ -202,6 +210,10 @@ def upload_to_db(answers: dict[str, tuple[str, float, str]]):
     elif len(values) == 33:
         result_object = TestYourPartner(
             timestamp=dt.now() + timedelta(hours=2),
+            age=personal_answers["age"],
+            relationship_status=personal_answers["relationship_status"],
+            gender=personal_answers["gender"],
+            therapy_experience=personal_answers["therapy_experience"],
             q1=values[0],
             q2=values[1],
             q3=values[2],

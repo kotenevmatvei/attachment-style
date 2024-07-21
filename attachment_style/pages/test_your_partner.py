@@ -133,16 +133,17 @@ def show_submit_button(last_question_visited: bool) -> bool:
         State("answers-storage-partner", "data"),
         State("question-count-storage-partner", "data"),
         State("questions-storage-partner", "data"),
-        State("slider-partner", "value")
+        State("slider-partner", "value"),
+        State("personal-answers-partner", "data")
     ],
     prevent_initial_call=True,
 )
-def generate_dashboard(n_clicks, answers, question_count, questions, slider_value):
+def generate_dashboard(n_clicks, answers, question_count, questions, slider_value, personal_answers):
     if question_count == len(questions):
         answers[f"{question_count-1}"] = (questions[question_count-1][1], slider_value, questions[question_count-1][0])
     # load to db
     if n_clicks == 1:  # only save on the first click
-        upload_to_db(answers)
+        upload_to_db(answers, personal_answers)
     if n_clicks:
         (anxious_score, secure_score, avoidant_score) = calculate_scores(answers)
         if anxious_score >= secure_score and anxious_score >= avoidant_score:
