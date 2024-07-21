@@ -23,7 +23,6 @@ PersonalQuestionnaire = dbc.Container(
                     ],
                     sm={"size": 4, "offset": 2},
                     width=12,
-                    # className="mx-auto-xs"
                 ),
                 dbc.Col(
                     [
@@ -39,7 +38,6 @@ PersonalQuestionnaire = dbc.Container(
                     ],
                     sm=4,
                     width=12,
-                    # className="mx-auto-xs",
                 )
             ],
             className="mb-4 mb-2-xs"
@@ -60,7 +58,6 @@ PersonalQuestionnaire = dbc.Container(
                     ],
                     sm={"size": 4, "offset": 2},
                     width=12,
-                    # className="mx-auto-xs"
                 ),
                 dbc.Col(
                     [
@@ -75,7 +72,6 @@ PersonalQuestionnaire = dbc.Container(
                     ],
                     sm=4,
                     width=12,
-                    # className="mx-auto-xs"
                 )
             ],
             className="mb-4"
