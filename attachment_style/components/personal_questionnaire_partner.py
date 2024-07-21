@@ -8,8 +8,8 @@ PersonalQuestionnairePartner = dbc.Container(
             dbc.Col(
                 html.Div(
                     """
-                    Please fill out the following form with regard to the person you are completing the test for
-                    to your best knowledge:
+                    Please fill out the following form (to your best knowledge) with 
+                    regard to the person you are completing the test for:
                     """,
                 ),
                 className="text-center mb-2"
