@@ -50,6 +50,7 @@ def layout(**kwargs):
             dcc.Store(id="answers-storage-partner", data={}, storage_type="memory"),
             dcc.Store(id="lb-visited-last-storage-partner"),
             dcc.Store(id="last-question-visited-partner"),
+            dcc.Store(id="personal-answers-partner"),
             dcc.Interval(id="page-load-interval-partner", interval=1, max_intervals=1),
             # download
             dcc.Download(id="download-report-partner")
@@ -63,6 +64,8 @@ def layout(**kwargs):
         Output("personal-questionnaire-collapse-partner", "is_open"),
         Output("question-card-collapse-partner", "is_open"),
         Output("personal-questionnaire-error-partner", "hidden"),
+        Output("personal-answers-partner", "data")
+        
     ],
     Input("submit-personal-questionnaire-partner", "n_clicks"),
     [
@@ -81,10 +84,15 @@ def sumbmit_personal_questionnaire(
 ):
     if n_clicks:
         if all([age, relationship_status, gender, therapy_experience]):
-            return False, True, True
+            return False, True, True, {
+                "age": age,
+                "relationship_status": relationship_status,
+                "gender": gender,
+                "therapy_experience": therapy_experience
+            }
         else:
-            return True, False, False
-    return True, False, True
+            return True, False, False, {}
+    return True, False, True, {}
 
 
 # shuffle questions on page load
