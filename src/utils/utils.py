@@ -270,24 +270,46 @@ def get_data_from_db():
 
 def aggregate_scores(test_yourself_df, test_your_partner_df):
     # calculate scores
-    test_yourself_df["anxious_score"] = test_yourself_df.iloc[:, 6:20].sum(axis=1)
-    test_yourself_df["secure_score"] = test_yourself_df.iloc[:, 20:34].sum(axis=1)
-    test_yourself_df["avoidant_score"] = test_yourself_df.iloc[:, 34:48].sum(axis=1)
-    test_your_partner_df["anxious_score"] = test_your_partner_df.iloc[:, 6:17].sum(axis=1)
-    test_your_partner_df["secure_score"] = test_your_partner_df.iloc[:, 17:28].sum(axis=1)
-    test_your_partner_df["avoidant_score"] = test_your_partner_df.iloc[:, 28:39].sum(axis=1)
+    # Add a column with the sum of all columns starting with "anxious"
+    test_yourself_df['anxious_score'] = test_yourself_df.filter(like='anxious').sum(axis=1)/14
+    test_your_partner_df['anxious_score'] = test_your_partner_df.filter(like='anxious').sum(axis=1)/11
+    # Add a column with the sum of all columns starting with "secure"
+    test_yourself_df['secure_score'] = test_yourself_df.filter(like='secure').sum(axis=1)/14
+    test_your_partner_df['secure_score'] = test_your_partner_df.filter(like='secure').sum(axis=1)/11
+    # Add a column with the sum of all columns starting with "avoidant"
+    test_yourself_df['avoidant_score'] = test_yourself_df.filter(like='avoidant').sum(axis=1)/14
+    test_your_partner_df['avoidant_score'] = test_your_partner_df.filter(like='avoidant').sum(axis=1)/11
     
     return test_yourself_df, test_your_partner_df
-    
+
 # create 3d chart
 def create_3d_chart(test_yourself, test_your_partner):
     # create a 3d chart
     fig = px.scatter_3d(
         test_yourself,
-        x="anxious",
-        y="secure",
-        z="avoidant",
-        color="relationship_status",
+        x="anxious_score",
+        y="secure_score",
+        z="avoidant_score",
+        color="age",
+        symbol="gender",
+    )
+    
+    # modify axes length
+    fig.update_layout(scene=dict(
+        xaxis=dict(range=[0, 10]),
+        yaxis=dict(range=[0, 10]),
+        zaxis=dict(range=[0, 10])
+    ))
+    
+    # make the figure wider
+    fig.update_layout(width=800)
+    
+    # adjust legend positions
+    fig.update_layout(
+        legend=dict(
+            x=0,  # x position of the legend
+            y=1,  # y position of the legend
+        )
     )
     
     return fig
