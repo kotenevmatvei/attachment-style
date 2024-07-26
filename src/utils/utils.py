@@ -296,9 +296,9 @@ def create_3d_chart(test_yourself, test_your_partner):
     
     # modify axes length
     fig.update_layout(scene=dict(
-        xaxis=dict(range=[0, 10]),
-        yaxis=dict(range=[0, 10]),
-        zaxis=dict(range=[0, 10])
+        xaxis=dict(range=[0, 12]),
+        yaxis=dict(range=[0, 12]),
+        zaxis=dict(range=[0, 12])
     ))
     
     # make the figure wider
