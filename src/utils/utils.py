@@ -283,16 +283,27 @@ def aggregate_scores(test_yourself_df, test_your_partner_df):
     return test_yourself_df, test_your_partner_df
 
 # create 3d chart
-def create_3d_chart(test_yourself, test_your_partner):
+def create_3d_chart(test_yourself, test_your_partner, subject):
     # create a 3d chart
-    fig = px.scatter_3d(
-        test_yourself,
-        x="anxious_score",
-        y="secure_score",
-        z="avoidant_score",
-        color="age",
-        symbol="gender",
-    )
+    if subject == "you":
+        fig = px.scatter_3d(
+            test_yourself,
+            x="anxious_score",
+            y="secure_score",
+            z="avoidant_score",
+            color="age",
+            symbol="gender",
+        )
+    else:
+        fig = px.scatter_3d(
+            test_your_partner,
+            x="anxious_score",
+            y="secure_score",
+            z="avoidant_score",
+            color="age",
+            symbol="gender",
+        )
+        
     
     # modify axes length
     fig.update_layout(scene=dict(
