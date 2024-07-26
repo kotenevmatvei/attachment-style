@@ -7,7 +7,7 @@ from alembic import context
 import os
 
 # Get the URL from the environment variable
-sqlalchemy_url = str(os.getenv('ATTACHMENT_STYLE_DB_URL'))
+sqlalchemy_url = str(os.getenv('DB_URL'))
 
 config = context.config
 # Set the sqlalchemy.url in alembic.ini to the environment variable

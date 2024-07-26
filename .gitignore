@@ -1,5 +1,6 @@
 **/__pycache__/
 .idea
 .venv
+.env
 /attachment_style/data/attachment style report.pdf
 /attachment_style/data/figure.png
