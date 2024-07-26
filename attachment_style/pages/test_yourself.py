@@ -53,7 +53,7 @@ def layout(**kwargs):
             dcc.Store(id="question-count-storage", data=0),
             dcc.Store(id="answers-storage", data={}, storage_type="memory"),
             dcc.Store(id="lb-visited-last-storage"),
-            dcc.Store(id="last-question-visited"),
+            dcc.Store(id="last-question-visited", data=False),
             dcc.Store(id="personal-answers"),
             dcc.Interval(id="page-load-interval", interval=1, max_intervals=1),
             # download
@@ -236,9 +236,9 @@ def load_report(n_clicks, answers):
     [
         Input("right-button", "n_clicks"),
         Input("left-button", "n_clicks"),
-        Input("slider", "value")
     ],
     [
+        State("slider", "value"),
         State("question-count-storage", "data"),
         State("questions-storage", "data"),
         State("answers-storage", "data"),
@@ -318,77 +318,6 @@ def update_question(
                         questions[n-1][0],
                         answers,
                         answers[f"{question_count-1}"][1],
-                        False,
-                        True
-                    )
-
-            case "slider":
-                answers[f"{question_count - 1}"] = (questions[question_count - 1][1], slider_value, questions[question_count-1][0])
-                # questions between first and last
-                if question_count < n-1:
-                    if not lb_visited_last:
-                        question_count += 1
-                        if f"{question_count-1}" in answers.keys():
-                            return (
-                                question_count,
-                                f"Question {question_count}/{n}",
-                                questions[question_count - 1][0],
-                                answers,
-                                answers[f"{question_count-1}"][1],
-                                False,
-                                False
-                            )
-                        else:
-                            return (
-                                question_count,
-                                f"Question {question_count}/{n}",
-                                questions[question_count - 1][0],
-                                answers,
-                                0,
-                                False,
-                                False
-                            )
-                    else:
-                        return (
-                            question_count,
-                            f"Question {question_count}/{n}",
-                            questions[question_count - 1][0],
-                            answers,
-                            answers[f"{question_count-1}"][1],
-                            False,
-                            False
-                        )
-                # question before last one (show submit button next)
-                elif question_count == n - 1:
-                    question_count += 1
-                    if f"{question_count-1}" in answers.keys():
-                        return (
-                            question_count,
-                            f"Question {question_count}/{n}",
-                            questions[question_count - 1][0],
-                            answers,
-                            answers[f"{question_count - 1}"][1],
-                            False,
-                            True
-                        )
-                    else:
-                        return (
-                            question_count,
-                            f"Question {question_count}/{n}",
-                            questions[question_count - 1][0],
-                            answers,
-                            0,
-                            False,
-                            True
-                        )
-                # last question
-                else:
-                    return (
-                        question_count,
-                        f"Question {n}/{n}",
-                        questions[n - 1][0],
-                        answers,
-                        answers[f"{question_count - 1}"][1],
                         False,
                         True
                     )
