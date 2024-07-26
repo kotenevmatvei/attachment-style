@@ -8,7 +8,7 @@ from models import TestYourself, TestYourPartner # import works while utils impo
 from sqlalchemy import create_engine
 
 # production url
-url = str(os.getenv("ATTACHMENT_STYLE_DB_URL"))
+url = str(os.getenv("DB_URL"))
 # dev url
 # url = "postgresql://postgres:password@localhost:32772/"
 
