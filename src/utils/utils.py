@@ -255,20 +255,22 @@ def upload_to_db(answers: dict[str, tuple[str, float, str]], personal_answers: d
         session.add(result_object)
         session.commit()
 
+
 # get data from the database
 def get_data_from_db():
     with Session(engine) as session:
         test_yourself = session.query(TestYourself).all()
         test_your_partner = session.query(TestYourPartner).all()
         # Convert query results to DataFrame
-        test_yourself_df = pd.DataFrame([sorted(t.__dict__) for t in test_yourself])
-        test_your_partner_df = pd.DataFrame([sorted(t.__dict__) for t in test_your_partner])
+        test_yourself_df = pd.DataFrame([dict(sorted({k: v for k, v in t.__dict__.items() if k != '_sa_instance_state'}.items())) for t in test_yourself])
+        test_your_partner_df = pd.DataFrame([dict(sorted({k: v for k, v in t.__dict__.items() if k != '_sa_instance_state'}.items())) for t in test_your_partner])
         # Drop the SQLAlchemy state column
         # test_yourself_df.drop('_sa_instance_state', inplace=True)
         # test_your_partner_df.drop('_sa_instance_state', inplace=True)
         
         session.commit()
         return test_yourself_df, test_your_partner_df
+    
     
 # create 3d chart
 def create_3d_chart(test_yourself, test_your_partner):
