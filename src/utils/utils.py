@@ -1,14 +1,15 @@
 import plotly.express as px
+import pandas as pd
 import os
 import codecs
 from sqlalchemy.orm import Session
 from datetime import datetime as dt
 from datetime import timedelta
-from models import TestYourself, TestYourPartner # import works while utils imported in app.py
+from src.models import TestYourself, TestYourPartner # import works while utils imported in app.py
 from sqlalchemy import create_engine
 
 # production url
-url = str(os.getenv("ATTACHMENT_STYLE_DB_URL"))
+url = str(os.getenv("DB_URL"))
 # dev url
 # url = "postgresql://postgres:password@localhost:32772/"
 
@@ -254,7 +255,29 @@ def upload_to_db(answers: dict[str, tuple[str, float, str]], personal_answers: d
         session.add(result_object)
         session.commit()
 
-# def combine_and_shuffle_lists(*lists):
-#     combined_list = [item for sublist in lists for item in sublist]
-#     random.shuffle(combined_list)
-#     return combined_list
+# get data from the database
+def get_data_from_db():
+    with Session(engine) as session:
+        test_yourself = session.query(TestYourself).all()
+        test_your_partner = session.query(TestYourPartner).all()
+        # Convert query results to DataFrame
+        test_yourself_df = pd.DataFrame([sorted(t.__dict__) for t in test_yourself])
+        test_your_partner_df = pd.DataFrame([sorted(t.__dict__) for t in test_your_partner])
+        # Drop the SQLAlchemy state column
+        # test_yourself_df.drop('_sa_instance_state', inplace=True)
+        # test_your_partner_df.drop('_sa_instance_state', inplace=True)
+        
+        session.commit()
+        return test_yourself_df, test_your_partner_df
+    
+# create 3d chart
+def create_3d_chart(test_yourself, test_your_partner):
+    # create a 3d chart
+    fig = px.scatter_3d(
+        test_yourself,
+        x="anxious",
+        y="secure",
+        z="avoidant",
+        color="relationship_status",
+    )
+    
