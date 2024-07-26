@@ -6,6 +6,7 @@ Navbar = dbc.Row(
             children=[
                 dbc.NavItem(dbc.NavLink("Test Yourself", href="/test-yourself", id="test-yourself"), style={'cursor': 'pointer'}),
                 dbc.NavItem(dbc.NavLink("Test Your Partner", href="/test-your-partner", id="test-your-partner"), style={'cursor': 'pointer'}),
+                dbc.NavItem(dbc.NavLink("Chart", href="/chart"), style={'cursor': 'pointer'}),
                 dbc.NavItem(dbc.NavLink("About", href="/about")),
                 # dbc.DropdownMenu(
                 #     children=[

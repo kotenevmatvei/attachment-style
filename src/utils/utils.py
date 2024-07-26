@@ -324,4 +324,7 @@ def create_3d_chart(test_yourself, test_your_partner, subject, symbol_parameter)
         )
     )
     
+    # make symbols smaller
+    # fig.update_traces(marker=dict(size=4))
+    
     return fig

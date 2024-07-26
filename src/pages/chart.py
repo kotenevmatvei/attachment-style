@@ -1,16 +1,21 @@
 import os
 from sqlalchemy import create_engine
+from dash import Dash, html, dcc, Input, Output, State, ctx, page_container, callback, register_page
 from sqlalchemy.orm import Session
+from utils.utils import get_data_from_db, aggregate_scores, create_3d_chart
 
-# production url
-url = str(os.getenv("ATTACHMENT_STYLE_DB_URL"))
-# dev url
-# url = "postgresql://postgres:password@localhost:32772/"
-
-engine = create_engine(url=url)
+register_page(__name__)
 
 # get the data from the database
-with Session(engine) as session:
-# create a plot for test-yourself
+ty, tp = get_data_from_db()
+aggregate_scores(ty, tp)
+# create a plot
+fig = create_3d_chart(ty, tp, "you", "gender")
 
-# create a plot for test-your-partner
+def layout(**kwargs):
+    return html.Div(
+        [
+            html.H1("3D Chart"),
+            dcc.Graph(figure=fig),
+        ]
+    )
