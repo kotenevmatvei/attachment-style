@@ -8,10 +8,7 @@ def layout(**kwargs):
     return dbc.Container(
         dcc.Markdown(
             """
-            This test is mainly a personal coding exercise. It has been inspired by Amir Levine's book 
-            [*"Attached: The New Science of Adult Attachment  and How It Can Help You Find - and Keep - Love"*]
-            (https://www.amazon.de/-/en/Attached-Science-Attachment-Find-Keep-Love/dp/1585429139), which I highly
-            recommend if you are interested in learning more about the attachment style theory. 
+            This test is mainly a personal coding exercise.  
             
             The main advantages of this quiz compared to others that may be found on the internet are:
             
