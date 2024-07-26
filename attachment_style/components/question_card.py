@@ -21,7 +21,7 @@ QuestionCard = dbc.Row(
                     dbc.Container(
                         dbc.ButtonGroup(
                             [
-                                dbc.Button("Strongly Disagree", id="strongly-disagree-btn", color="danger"),
+                                dbc.Button("Strongly Disagree", id="strongly-disagree-btn", color="danger", style={"opacity": "0.5"}),
                                 dbc.Button("Disagree", id="disagree-btn", color="warning"),
                                 dbc.Button("Neutral", id="neutral-btn", color="secondary"),
                                 dbc.Button("Agree", id="agree-btn", color="info"),
