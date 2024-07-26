@@ -166,48 +166,48 @@ def upload_to_db(answers: dict[str, tuple[str, float, str]], personal_answers: d
             relationship_status=personal_answers["relationship_status"],
             gender=personal_answers["gender"],
             therapy_experience=personal_answers["therapy_experience"],
-            q1=values[0],
-            q2=values[1],
-            q3=values[2],
-            q4=values[3],
-            q5=values[4],
-            q6=values[5],
-            q7=values[6],
-            q8=values[7],
-            q9=values[8],
-            q10=values[9],
-            q11=values[10],
-            q12=values[11],
-            q13=values[12],
-            q14=values[13],
-            q15=values[14],
-            q16=values[15],
-            q17=values[16],
-            q18=values[17],
-            q19=values[18],
-            q20=values[19],
-            q21=values[20],
-            q22=values[21],
-            q23=values[22],
-            q24=values[23],
-            q25=values[24],
-            q26=values[25],
-            q27=values[26],
-            q28=values[27],
-            q29=values[28],
-            q30=values[29],
-            q31=values[30],
-            q32=values[31],
-            q33=values[32],
-            q34=values[33],
-            q35=values[34],
-            q36=values[35],
-            q37=values[36],
-            q38=values[37],
-            q39=values[38],
-            q40=values[39],
-            q41=values[40],
-            q42=values[41]
+            anxious_q1=values[0],
+            anxious_q2=values[1],
+            anxious_q3=values[2],
+            anxious_q4=values[3],
+            anxious_q5=values[4],
+            anxious_q6=values[5],
+            anxious_q7=values[6],
+            anxious_q8=values[7],
+            anxious_q9=values[8],
+            anxious_q10=values[9],
+            anxious_q11=values[10],
+            anxious_q12=values[11],
+            anxious_q13=values[12],
+            anxious_q14=values[13],
+            secure_q1=values[14],
+            secure_q2=values[15],
+            secure_q3=values[16],
+            secure_q4=values[17],
+            secure_q5=values[18],
+            secure_q6=values[19],
+            secure_q7=values[20],
+            secure_q8=values[21],
+            secure_q9=values[22],
+            secure_q10=values[23],
+            secure_q11=values[24],
+            secure_q12=values[25],
+            secure_q13=values[26],
+            secure_q14=values[27],
+            avoidant_q1=values[28],
+            avoidant_q2=values[29],
+            avoidant_q3=values[30],
+            avoidant_q4=values[31],
+            avoidant_q5=values[32],
+            avoidant_q6=values[33],
+            avoidant_q7=values[34],
+            avoidant_q8=values[35],
+            avoidant_q9=values[36],
+            avoidant_q10=values[37],
+            avoidant_q11=values[38],
+            avoidant_q12=values[39],
+            avoidant_q13=values[40],
+            avoidant_q14=values[41]
         )
     elif len(values) == 33:
         result_object = TestYourPartner(
@@ -216,39 +216,39 @@ def upload_to_db(answers: dict[str, tuple[str, float, str]], personal_answers: d
             relationship_status=personal_answers["relationship_status"],
             gender=personal_answers["gender"],
             therapy_experience=personal_answers["therapy_experience"],
-            q1=values[0],
-            q2=values[1],
-            q3=values[2],
-            q4=values[3],
-            q5=values[4],
-            q6=values[5],
-            q7=values[6],
-            q8=values[7],
-            q9=values[8],
-            q10=values[9],
-            q11=values[10],
-            q12=values[11],
-            q13=values[12],
-            q14=values[13],
-            q15=values[14],
-            q16=values[15],
-            q17=values[16],
-            q18=values[17],
-            q19=values[18],
-            q20=values[19],
-            q21=values[20],
-            q22=values[21],
-            q23=values[22],
-            q24=values[23],
-            q25=values[24],
-            q26=values[25],
-            q27=values[26],
-            q28=values[27],
-            q29=values[28],
-            q30=values[29],
-            q31=values[30],
-            q32=values[31],
-            q33=values[32],
+            anxious_q1=values[0],
+            anxious_q2=values[1],
+            anxious_q3=values[2],
+            anxious_q4=values[3],
+            anxious_q5=values[4],
+            anxious_q6=values[5],
+            anxious_q7=values[6],
+            anxious_q8=values[7],
+            anxious_q9=values[8],
+            anxious_q10=values[9],
+            anxious_q11=values[10],
+            secure_q12=values[11],
+            secure_q13=values[12],
+            secure_q14=values[13],
+            secure_q15=values[14],
+            secure_q16=values[15],
+            secure_q17=values[16],
+            secure_q18=values[17],
+            secure_q19=values[18],
+            secure_q20=values[19],
+            secure_q21=values[20],
+            secure_q22=values[21],
+            avoidant_q23=values[22],
+            avoidant_q24=values[23],
+            avoidant_q25=values[24],
+            avoidant_q26=values[25],
+            avoidant_q27=values[26],
+            avoidant_q28=values[27],
+            avoidant_q29=values[28],
+            avoidant_q30=values[29],
+            avoidant_q31=values[30],
+            avoidant_q32=values[31],
+            avoidant_q33=values[32],
         )
 
     with Session(engine) as session:
@@ -264,13 +264,20 @@ def get_data_from_db():
         # Convert query results to DataFrame
         test_yourself_df = pd.DataFrame([dict(sorted({k: v for k, v in t.__dict__.items() if k != '_sa_instance_state'}.items())) for t in test_yourself])
         test_your_partner_df = pd.DataFrame([dict(sorted({k: v for k, v in t.__dict__.items() if k != '_sa_instance_state'}.items())) for t in test_your_partner])
-        # Drop the SQLAlchemy state column
-        # test_yourself_df.drop('_sa_instance_state', inplace=True)
-        # test_your_partner_df.drop('_sa_instance_state', inplace=True)
         
         session.commit()
         return test_yourself_df, test_your_partner_df
+
+def aggregate_scores(test_yourself_df, test_your_partner_df):
+    # calculate scores
+    test_yourself_df["anxious_score"] = test_yourself_df.iloc[:, 6:20].sum(axis=1)
+    test_yourself_df["secure_score"] = test_yourself_df.iloc[:, 20:34].sum(axis=1)
+    test_yourself_df["avoidant_score"] = test_yourself_df.iloc[:, 34:48].sum(axis=1)
+    test_your_partner_df["anxious_score"] = test_your_partner_df.iloc[:, 6:17].sum(axis=1)
+    test_your_partner_df["secure_score"] = test_your_partner_df.iloc[:, 17:28].sum(axis=1)
+    test_your_partner_df["avoidant_score"] = test_your_partner_df.iloc[:, 28:39].sum(axis=1)
     
+    return test_yourself_df, test_your_partner_df
     
 # create 3d chart
 def create_3d_chart(test_yourself, test_your_partner):
@@ -283,3 +290,4 @@ def create_3d_chart(test_yourself, test_your_partner):
         color="relationship_status",
     )
     
+    return fig
