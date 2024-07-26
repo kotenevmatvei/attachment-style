@@ -19,19 +19,16 @@ QuestionCardPartner = dbc.Row(
                 ),
                 dbc.CardFooter(
                     dbc.Container(
-                        dcc.Slider(
-                            id="slider-partner",
-                            min=0,
-                            max=10,
-                            step=1,
-                            value=0,
-                            marks=None,
-                            tooltip={
-                                "placement": "bottom",
-                                "always_visible": True,
-                            }
-                        ),
-                        style={"width": "90%"}
+                        dbc.ButtonGroup(
+                            [
+                                dbc.Button("Strongly Disagree", id="strongly-disagree-btn-partner", color="danger"),
+                                dbc.Button("Disagree", id="disagree-btn-partner", color="warning"),
+                                dbc.Button("Neutral", id="neutral-btn-partner", color="secondary"),
+                                dbc.Button("Agree", id="agree-btn-partner", color="info"),
+                                dbc.Button("Strongly Agree", id="strongly-agree-btn-partner", color="success"),
+                            ],
+                            className="d-flex justify-content-center",
+                        )
                     )
                 ),
             ],
