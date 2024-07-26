@@ -1,8 +1,8 @@
 """initial
 
-Revision ID: 39a0beada3b4
+Revision ID: 7fbca9aa75af
 Revises: 
-Create Date: 2024-07-26 19:31:18.749397
+Create Date: 2024-07-26 19:55:53.485773
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '39a0beada3b4'
+revision: str = '7fbca9aa75af'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -69,20 +69,20 @@ def upgrade() -> None:
     sa.Column('relationship_status', sa.String(), nullable=False),
     sa.Column('gender', sa.String(), nullable=False),
     sa.Column('therapy_experience', sa.String(), nullable=False),
-    sa.Column('anxioius_q1', sa.Integer(), nullable=False),
-    sa.Column('anxioius_q2', sa.Integer(), nullable=False),
-    sa.Column('anxioius_q3', sa.Integer(), nullable=False),
-    sa.Column('anxioius_q4', sa.Integer(), nullable=False),
-    sa.Column('anxioius_q5', sa.Integer(), nullable=False),
-    sa.Column('anxioius_q6', sa.Integer(), nullable=False),
-    sa.Column('anxioius_q7', sa.Integer(), nullable=False),
-    sa.Column('anxioius_q8', sa.Integer(), nullable=False),
-    sa.Column('anxioius_q9', sa.Integer(), nullable=False),
-    sa.Column('anxioius_q10', sa.Integer(), nullable=False),
-    sa.Column('anxioius_q11', sa.Integer(), nullable=False),
-    sa.Column('anxioius_q12', sa.Integer(), nullable=False),
-    sa.Column('anxioius_q13', sa.Integer(), nullable=False),
-    sa.Column('anxioius_q14', sa.Integer(), nullable=False),
+    sa.Column('anxious_q1', sa.Integer(), nullable=False),
+    sa.Column('anxious_q2', sa.Integer(), nullable=False),
+    sa.Column('anxious_q3', sa.Integer(), nullable=False),
+    sa.Column('anxious_q4', sa.Integer(), nullable=False),
+    sa.Column('anxious_q5', sa.Integer(), nullable=False),
+    sa.Column('anxious_q6', sa.Integer(), nullable=False),
+    sa.Column('anxious_q7', sa.Integer(), nullable=False),
+    sa.Column('anxious_q8', sa.Integer(), nullable=False),
+    sa.Column('anxious_q9', sa.Integer(), nullable=False),
+    sa.Column('anxious_q10', sa.Integer(), nullable=False),
+    sa.Column('anxious_q11', sa.Integer(), nullable=False),
+    sa.Column('anxious_q12', sa.Integer(), nullable=False),
+    sa.Column('anxious_q13', sa.Integer(), nullable=False),
+    sa.Column('anxious_q14', sa.Integer(), nullable=False),
     sa.Column('secure_q15', sa.Integer(), nullable=False),
     sa.Column('secure_q16', sa.Integer(), nullable=False),
     sa.Column('secure_q17', sa.Integer(), nullable=False),
