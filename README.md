@@ -1,6 +1,6 @@
 To Do:
 - create the chart
-  - add dropdowns
+  - connect to koyeb db
   - setup the callback
 - translate
 - add feedback survey

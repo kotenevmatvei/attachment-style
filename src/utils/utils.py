@@ -250,7 +250,9 @@ def upload_to_db(answers: dict[str, tuple[str, float, str]], personal_answers: d
             avoidant_q32=values[31],
             avoidant_q33=values[32],
         )
-
+    else:
+        raise ValueError("The number of answers is not correct")
+    
     with Session(engine) as session:
         session.add(result_object)
         session.commit()
