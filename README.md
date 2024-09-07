@@ -1,7 +1,5 @@
 To Do:
 - create the chart
-  - make choice of gender vs therapy_experience vs relationship_status dynamic
-  - create the page
   - add dropdowns
   - setup the callback
 - translate
