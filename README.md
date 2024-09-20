@@ -3,7 +3,7 @@ To Do:
   - connect to koyeb db - maybe done
   - setup the callback
 - translate
-- add feedback survey
+- add feedback survey - how and where to store?
 - migrate to koyeb with a docker image
   - move pie-chart and report.pdf to output folder
   - setup the docker image with crom job to clean up the output folder every day or hour
@@ -14,3 +14,6 @@ To Do:
   - optimize question upddate
   - clean up dependencies (by creating a fresh env and adding what needed one by one)
   - style
+    - fold navbar automatically on click
+  - document special features
+  - document what i learned
