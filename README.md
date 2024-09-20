@@ -1,4 +1,5 @@
 To Do:
+- add test column to db
 - create the chart
   - connect to koyeb db - maybe done
   - setup the callback
