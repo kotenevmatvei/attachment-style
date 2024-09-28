@@ -10,7 +10,7 @@ sys.path.append(dirname(dirname(__file__)))
 from utils.utils import upload_to_db
 
 # Define the number of test users and questions
-NUM_USERS = 10
+NUM_USERS = 1000
 NUM_QUESTIONS_YOURSELF = 42
 NUM_QUESTIONS_PARTNER = 33
 
@@ -29,8 +29,6 @@ def generate_random_answers_yourself():
         answer = random.choice(possible_answers)
         attachment_style = random.choice(attachment_styles)
         answers[i] = (attachment_style, answer, "question_text")
-    print(answers)
-    print(len(answers))
     return answers
 
 # Generate random answers for the quiz
@@ -63,12 +61,12 @@ def main():
     for _ in range(NUM_USERS):
         answers = generate_random_answers_yourself()
         personal_info = generate_random_personal_info()
-        upload_to_db(answers, personal_info)
+        upload_to_db(answers, personal_info, test=True)
 
     for _ in range(NUM_USERS):
         answers = generate_random_answers_partner()
         personal_info = generate_random_personal_info()
-        upload_to_db(answers, personal_info)
+        upload_to_db(answers, personal_info, test=True)
         
 if __name__ == "__main__":
     main()

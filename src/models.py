@@ -10,6 +10,7 @@ class TestYourself(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     timestamp: Mapped[datetime]
+    test: Mapped[bool]
     age: Mapped[int]
     relationship_status: Mapped[str]
     gender: Mapped[str]
@@ -62,6 +63,7 @@ class TestYourPartner(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     timestamp: Mapped[datetime]
+    test: Mapped[bool]
     age: Mapped[int]
     relationship_status: Mapped[str]
     gender: Mapped[str]

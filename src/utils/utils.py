@@ -150,7 +150,7 @@ def increase_figure_font(fig: px.pie) -> None:
     )
 
 
-def upload_to_db(answers: dict[str, tuple[str, float, str]], personal_answers: dict[str, str]):
+def upload_to_db(answers: dict[str, tuple[str, float, str]], personal_answers: dict[str, str], test: bool = False):
     anxious_answers = sorted([(value[2], value[1]) for value in answers.values() if value[0] == "anxious"])
     secure_answers = sorted([(value[2], value[1]) for value in answers.values() if value[0] == "secure"])
     avoidant_answers = sorted([(value[2], value[1]) for value in answers.values() if value[0] == "avoidant"])
@@ -162,6 +162,7 @@ def upload_to_db(answers: dict[str, tuple[str, float, str]], personal_answers: d
     if len(values) == 42:
         result_object = TestYourself(
             timestamp=dt.now() + timedelta(hours=2),
+            test=test,
             age=personal_answers["age"],
             relationship_status=personal_answers["relationship_status"],
             gender=personal_answers["gender"],
@@ -212,6 +213,7 @@ def upload_to_db(answers: dict[str, tuple[str, float, str]], personal_answers: d
     elif len(values) == 33:
         result_object = TestYourPartner(
             timestamp=dt.now() + timedelta(hours=2),
+            test=test,
             age=personal_answers["age"],
             relationship_status=personal_answers["relationship_status"],
             gender=personal_answers["gender"],
@@ -259,10 +261,12 @@ def upload_to_db(answers: dict[str, tuple[str, float, str]], personal_answers: d
 
 
 # get data from the database
-def get_data_from_db():
+def get_data_from_db(test: bool = True):
     with Session(engine) as session:
-        test_yourself = session.query(TestYourself).all()
-        test_your_partner = session.query(TestYourPartner).all()
+        test_yourself = session.query(
+            TestYourself).filter(TestYourself.test == test).all()
+        test_your_partner = session.query(
+            TestYourPartner).filter(TestYourPartner.test == test).all()
         # Convert query results to DataFrame
         test_yourself_df = pd.DataFrame([dict(sorted({k: v for k, v in t.__dict__.items() if k != '_sa_instance_state'}.items())) for t in test_yourself])
         test_your_partner_df = pd.DataFrame([dict(sorted({k: v for k, v in t.__dict__.items() if k != '_sa_instance_state'}.items())) for t in test_your_partner])
