@@ -1,6 +1,10 @@
 To Do:
+- test data
+  - speed up test upload by uploading all objects at the end
+  - create a more even distribution
 - create the chart
   - setup the callback
+- Think of more visualization options
 - translate
 - add feedback survey - how and where to store?
 - migrate to koyeb with a docker image
