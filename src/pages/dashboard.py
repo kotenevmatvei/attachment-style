@@ -24,6 +24,77 @@ data = {
 df = pd.DataFrame(data)
 df = df1
 
+import pandas as pd
+import numpy as np
+
+# Set a random seed for reproducibility
+np.random.seed(42)
+
+# Number of data points
+n = 100
+
+# Age distribution: Normal distribution around 30 years with a standard deviation of 8, clipped between 18 and 65
+ages = np.clip(np.random.normal(loc=30, scale=8, size=n), 18, 65).astype(int)
+
+# Therapy experience distribution
+therapy_experience_options = ['None', 'Some', 'Extensive']
+therapy_experience_probs = [0.5, 0.3, 0.2]  # 50% None, 30% Some, 20% Extensive
+therapy_experience = np.random.choice(therapy_experience_options, size=n, p=therapy_experience_probs)
+
+# Gender distribution
+gender_options = ['Male', 'Female', 'Other']
+gender_probs = [0.48, 0.50, 0.02]  # Approximate global gender distribution
+genders = np.random.choice(gender_options, size=n, p=gender_probs)
+
+# Relationship status distribution
+relationship_status_options = ['Single', 'In a relationship', 'Married']
+relationship_status_probs = [0.4, 0.35, 0.25]  # 40% Single, 35% In a relationship, 25% Married
+relationship_status = np.random.choice(relationship_status_options, size=n, p=relationship_status_probs)
+
+# Secure scores: Normal distribution around 6 with std dev of 2, clipped between 0 and 10
+secure_scores = np.clip(np.random.normal(loc=6, scale=2, size=n), 0, 10)
+
+# Initialize avoidant and anxious scores
+avoidant_scores = np.zeros(n)
+anxious_scores = np.zeros(n)
+
+# Generate avoidant and anxious scores based on gender
+for i in range(n):
+    if genders[i] == 'Male':
+        # Men are more likely to be avoidant when not secure
+        avoidant_mean = 6
+        anxious_mean = 4
+    elif genders[i] == 'Female':
+        # Women are more likely to be anxious when not secure
+        avoidant_mean = 4
+        anxious_mean = 6
+    else:
+        # For 'Other' gender, use a neutral mean
+        avoidant_mean = 5
+        anxious_mean = 5
+    
+    # Adjust means based on secure score: Lower secure scores amplify the effect
+    if secure_scores[i] < 5:
+        avoidant_mean += (5 - secure_scores[i]) * (0.5 if genders[i] == 'Male' else -0.5)
+        anxious_mean += (5 - secure_scores[i]) * (0.5 if genders[i] == 'Female' else -0.5)
+    
+    # Generate scores with a standard deviation of 2, clipped between 0 and 10
+    avoidant_scores[i] = np.clip(np.random.normal(loc=avoidant_mean, scale=2), 0, 10)
+    anxious_scores[i] = np.clip(np.random.normal(loc=anxious_mean, scale=2), 0, 10)
+
+# Create the DataFrame
+df = pd.DataFrame({
+    'age': ages,
+    'therapy_experience': therapy_experience,
+    'gender': genders,
+    'relationship_status': relationship_status,
+    'avoidant_score': avoidant_scores.round(1),
+    'secure_score': secure_scores.round(1),
+    'anxious_score': anxious_scores.round(1)
+})
+
+
+
 # Initialize the app
 app = dash.Dash(__name__)
 

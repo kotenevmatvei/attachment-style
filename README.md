@@ -2,9 +2,13 @@ To Do:
 - test data
   <!-- - speed up test upload by uploading all objects at the end -->
   <!-- - create a more even distribution -->
-- create the chart
-  - setup the callback
-- Think of more visualization options
+- chart
+  - finish the test-data (make it reflect all the expected distributions)
+  - add the density plot
+  - cluster analysis - normal 3d scatter plot
+  - add the option include/exclude test data from the plot
+  - embed it into layout as page
+  - style
 - translate
 - add feedback survey - how and where to store?
 - migrate to koyeb with a docker image
