@@ -1,7 +1,7 @@
 To Do:
 - test data
-  - speed up test upload by uploading all objects at the end
-  - create a more even distribution
+  <!-- - speed up test upload by uploading all objects at the end -->
+  <!-- - create a more even distribution -->
 - create the chart
   - setup the callback
 - Think of more visualization options
