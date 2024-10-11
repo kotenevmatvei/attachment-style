@@ -1,11 +1,13 @@
 # generate test data and upload to the database
-
+import numpy as np
+import pandas as pd
 import random
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
 import sys
 from os.path import dirname
+
 sys.path.append(dirname(dirname(__file__)))
 from utils.utils import upload_to_db
 
@@ -21,6 +23,7 @@ genders = ["male", "female", "other"]
 attachment_styles = ["secure", "anxious", "avoidant"]
 therapy_experiences = ["none", "some", "extensive"]
 
+
 # Generate random answers for the quiz
 def generate_random_answers_yourself():
     answers = {}
@@ -30,6 +33,7 @@ def generate_random_answers_yourself():
         attachment_style = random.choice(attachment_styles)
         answers[i] = (attachment_style, answer, "question_text")
     return answers
+
 
 # Generate random answers for the quiz
 def generate_random_answers_partner():
@@ -41,6 +45,7 @@ def generate_random_answers_partner():
         answers[i] = (attachment_style, answer, "question_text")
     return answers
 
+
 # Generate random personal information
 def generate_random_personal_info():
     age = random.randint(18, 70)
@@ -51,13 +56,40 @@ def generate_random_personal_info():
         "age": age,
         "relationship_status": relationship_status,
         "gender": gender,
-        "therapy_experience": therapy_experience
+        "therapy_experience": therapy_experience,
     }
     return personl_info
 
+
+def generate_test_data(
+    gender: str, age: int, relationship_status: str, therapy_experience: str
+) -> pd.DataFrame:
+    rng = np.random.default_rng()
+    anxious_mean, secure_mean, avoidant_mean = 5, 5, 5
+    # gender
+    if gender == "male":
+        anxious_mean -= 1
+        avoidant_mean += 1
+    elif "female":
+        anxious_mean += 1
+        avoidant_mean -= 1
+    # relationship status
+    if relationship_status == "married":
+        secure_mean += 1
+    # therapy experience
+    if therapy_experience == "yes":
+        secure_mean += 1
+        anxious_mean -= 1
+        avoidant_mean -= 1
+    # age
+    if age > 50:
+        secure_mean += 2
+    elif age > 30:
+        secure_mean += 2
+
+
 # Main function to generate test data and upload to the database
 def main():
-
     for _ in range(NUM_USERS):
         answers = generate_random_answers_yourself()
         personal_info = generate_random_personal_info()
@@ -67,6 +99,7 @@ def main():
         answers = generate_random_answers_partner()
         personal_info = generate_random_personal_info()
         upload_to_db(answers, personal_info, test=True)
-        
+
+
 if __name__ == "__main__":
     main()

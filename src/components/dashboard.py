@@ -7,9 +7,9 @@ Dashboard = dbc.Collapse(
     dbc.Row(
         [
             dbc.Col(dcc.Graph(figure=px.pie([1, 2, 3]), id="pie-chart")),
-            dbc.Col(dcc.Markdown(id="type-description-markdown"))
+            dbc.Col(dcc.Markdown(id="type-description-markdown")),
         ],
-        className="d-flex align-items-center"
+        className="d-flex align-items-center",
     ),
     # children=[
     #     dcc.Graph(figure=px.pie([1, 2, 3]), id="pie-chart"),
@@ -17,5 +17,5 @@ Dashboard = dbc.Collapse(
     # ],
     id="dashboard-collapse",
     is_open=False,
-    className="mb-4 text-center"
+    className="mb-4 text-center",
 )

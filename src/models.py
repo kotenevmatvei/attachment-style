@@ -2,8 +2,10 @@ import re
 from datetime import datetime
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
+
 class Base(DeclarativeBase):
     pass
+
 
 class TestYourself(Base):
     __tablename__ = "test_yourself"
@@ -57,6 +59,7 @@ class TestYourself(Base):
     avoidant_q40: Mapped[int]
     avoidant_q41: Mapped[int]
     avoidant_q42: Mapped[int]
+
 
 class TestYourPartner(Base):
     __tablename__ = "test_your_partner"

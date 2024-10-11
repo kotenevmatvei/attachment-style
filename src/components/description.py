@@ -7,7 +7,7 @@ Description = html.Div(
             dbc.Row(
                 dbc.Col(
                     html.H3("Test Yourself", id="subject-title"),
-                    className="d-flex justify-content-center"
+                    className="d-flex justify-content-center",
                 )
             ),
             dbc.Row(
@@ -16,13 +16,13 @@ Description = html.Div(
                         """
                         Please evaluate how much you can relate to the following statements on the scale from 0 to 10.
                         """,
-                        className="text-center"
+                        className="text-center",
                     ),
                     width=12,
                     sm=8,
-                    className="mb-2 mx-auto"
+                    className="mb-2 mx-auto",
                 )
-            )  
+            ),
         ]
     )
 )
