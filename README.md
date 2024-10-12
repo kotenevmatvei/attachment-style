@@ -17,6 +17,7 @@ To Do:
   - host the docker image on koyeb
   - setup continuous deployment with github actions
 - refactor
+  - isolate db_connector
   - clean up code
   - optimize question upddate
   - clean up dependencies (by creating a fresh env and adding what needed one by one)

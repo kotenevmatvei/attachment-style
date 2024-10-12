@@ -24,6 +24,7 @@ sqlalchemy = "^2.0.31"
 alembic = "^1.13.2"
 psycopg2 = "^2.9.9"
 scikit-learn = "^1.5.2"
+python-dotenv = "^1.0.1"
 
 
 [tool.poetry.group.dev.dependencies]

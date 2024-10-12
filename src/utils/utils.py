@@ -7,13 +7,20 @@ from sqlalchemy.orm import Session
 from datetime import datetime as dt
 from datetime import timedelta
 from src.models import (
+    Base,
     TestYourself,
     TestYourPartner,
 )  # import works while utils imported in app.py
 from sqlalchemy import create_engine
+from dotenv import load_dotenv
+
+load_dotenv("../../.env")
+
+
 
 # production url
 url = str(os.getenv("DB_URL"))
+
 # dev url
 # url = "postgresql://postgres:password@localhost:32772/"
 
@@ -489,3 +496,10 @@ def generate_test_data_stupid_chargpt():
             "anxious_score": anxious_scores.round(1),
         }
     )
+
+def upload_objects_to_db(objects: list[Base]):
+    with Session(engine) as session:
+        session.add_all(objects)
+        session.commit()
+    
+        
