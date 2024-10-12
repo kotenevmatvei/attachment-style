@@ -4,14 +4,11 @@ from psycopg2.extensions import register_adapter, AsIs
 from src.models import TestYourself, TestYourPartner
 from src.utils.utils import upload_objects_to_db
 
-import random
-
 register_adapter(np.int64, AsIs)
 register_adapter(np.int32, AsIs)
 
 # Define the number of test users and questions
-NUM_TEST_YOURSELF = 1000
-NUM_TEST_YOUR_PARTNER = 1000
+NUM_DATAPOINTS = 1000
 
 # Define possible answers and personal information
 possible_answers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -19,6 +16,7 @@ relationship_statuses = ["single", "relationship", "married"]
 genders = ["male", "female", "other"]
 attachment_styles = ["secure", "anxious", "avoidant"]
 therapy_experiences = ["none", "some", "extensive"]
+subjects = ["you", "partner"]
 
 
 def generate_test_personal_info():
@@ -27,8 +25,10 @@ def generate_test_personal_info():
     age = rng.integers(18, 70, endpoint=True)
     relationship_status = rng.choice(relationship_statuses)
     therapy_experience = rng.choice(therapy_experiences)
-    
-    return gender, age, relationship_status, therapy_experience
+    subject = rng.choice(subjects)
+
+    return gender, age, relationship_status, therapy_experience, subject
+
 
 def generate_test_scores(
     gender: str,
@@ -88,7 +88,6 @@ def build_db_entry(
     secure_scores: np.array,
     avoidant_scores: np.array,
 ) -> TestYourPartner | TestYourself:
-    
     n = 14 if subject == "you" else 11
     base_dict = {
         "timestamp": datetime.now(),
@@ -96,12 +95,12 @@ def build_db_entry(
         "gender": gender,
         "therapy_experience": therapy_experience,
         "relationship_status": relationship_status,
-        "test": True
+        "test": True,
     }
     keys = [
         f"{style}_q{i}"
         for style in ("anxious", "secure", "avoidant")
-        for i in range(1, n+1)
+        for i in range(1, n + 1)
     ]
     values = np.concatenate((anxious_scores, secure_scores, avoidant_scores))
     scores_dict = dict(zip(keys, values))
@@ -109,31 +108,38 @@ def build_db_entry(
 
     if subject == "you":
         db_entry = TestYourself(**base_dict)
-    elif subject == "parther":
+    elif subject == "partner":
         db_entry = TestYourPartner(**base_dict)
     else:
         raise ValueError(f"Unknown subject {subject}")
-    
-    return db_entry
-    
 
-def main(number_of_datapoints: int):
+    return db_entry
+
+
+def main(num_datapoints: int):
     db_entries = []
-    for i in range(number_of_datapoints):
-        gender, age, relationship_status, therapy_experience = generate_test_personal_info()
+    for i in range(num_datapoints):
+        gender, age, relationship_status, therapy_experience, subject = (
+            generate_test_personal_info()
+        )
         anxious_scores, secure_scores, avoidant_scores = generate_test_scores(
-            gender, age, relationship_status, therapy_experience, "you"
+            gender, age, relationship_status, therapy_experience, subject
         )
         db_entry = build_db_entry(
-            gender, age, relationship_status, therapy_experience, "you",
-            anxious_scores, secure_scores, avoidant_scores
+            gender,
+            age,
+            relationship_status,
+            therapy_experience,
+            subject,
+            anxious_scores,
+            secure_scores,
+            avoidant_scores,
         )
         db_entries.append(db_entry)
 
     upload_objects_to_db(db_entries)
 
-# Main function to generate test data and upload to the databas
-
 
 if __name__ == "__main__":
-    main(100)
+    main(NUM_DATAPOINTS)
+    print(f"Successfully uploaded {NUM_DATAPOINTS} test datapoints")
