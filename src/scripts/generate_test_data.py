@@ -1,16 +1,31 @@
 import numpy as np
+import logging
+import time
 from datetime import datetime
 from psycopg2.extensions import register_adapter, AsIs
 from src.models import TestYourself, TestYourPartner
 from src.utils.utils import upload_objects_to_db
 
+logging.basicConfig(
+	level=logging.INFO,
+	format="{asctime} - {levelname} - {message}",
+	style="{",
+	datefmt="%Y-%m-%d %H:%M",
+)
+
 register_adapter(np.int64, AsIs)
 register_adapter(np.int32, AsIs)
 
-# Define the number of test users and questions
-NUM_DATAPOINTS = 1000
+# define the constants
+NUM_DATAPOINTS = 10000
+SIGMA = 1.5
+MEAN_INITIAL = 5
+MEAN_INCREMENT = 0.5
+TEST_YOURSELF_NUMBER_OF_QUESTIONS = 14
+TEST_YOUR_PARTNER_NUMBER_OF_QUESTIONS = 14
 
-# Define possible answers and personal information
+
+# define possible answers and personal information
 possible_answers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 relationship_statuses = ["single", "relationship", "married"]
 genders = ["male", "female", "other"]
@@ -18,128 +33,149 @@ attachment_styles = ["secure", "anxious", "avoidant"]
 therapy_experiences = ["none", "some", "extensive"]
 subjects = ["you", "partner"]
 
+rng = np.random.default_rng(42)
+
 
 def generate_test_personal_info():
-    rng = np.random.default_rng()
-    gender = rng.choice(genders)
-    age = rng.integers(18, 70, endpoint=True)
-    relationship_status = rng.choice(relationship_statuses)
-    therapy_experience = rng.choice(therapy_experiences)
-    subject = rng.choice(subjects)
+	gender = rng.choice(genders)
+	age = rng.integers(18, 70, endpoint=True)
+	relationship_status = rng.choice(relationship_statuses)
+	therapy_experience = rng.choice(therapy_experiences)
+	subject = rng.choice(subjects)
 
-    return gender, age, relationship_status, therapy_experience, subject
+	return gender, age, relationship_status, therapy_experience, subject
 
 
 def generate_test_scores(
-    gender: str,
-    age: int,
-    relationship_status: str,
-    therapy_experience: str,
-    subject: str,
+	gender: str,
+	age: int,
+	relationship_status: str,
+	therapy_experience: str,
+	subject: str,
 ) -> tuple[np.array, np.array, np.array]:
-    rng = np.random.default_rng()
-    anxious_mean, secure_mean, avoidant_mean = 5, 5, 5
-    # adjust means according to the (very rough) assumptions about population
-    # gender
-    if gender == "male":
-        anxious_mean -= 1
-        avoidant_mean += 1
-    elif "female":
-        anxious_mean += 1
-        avoidant_mean -= 1
-    # relationship_status
-    if relationship_status == "married":
-        secure_mean += 1
-    # therapy_experience
-    if therapy_experience == "some":
-        secure_mean += 1
-        anxious_mean -= 1
-    elif therapy_experience == "extensive":
-        avoidant_mean -= 2
-        anxious_mean -= 2
-        avoidant_mean -= 2
-    # age
-    if age > 50:
-        secure_mean += 2
-    elif age > 30:
-        secure_mean += 2
+	anxious_mean, avoidant_mean, secure_mean = adjust_means(
+		age, gender, relationship_status, therapy_experience
+	)
 
-    # set the standard deviations (~1/3 of the smaller interval)
-    anxious_sigma = 0.33 * min(anxious_mean, 10 - anxious_mean)
-    secure_sigma = 0.33 * min(secure_mean, 10 - secure_mean)
-    avoidant_sigma = 0.33 * min(avoidant_mean, 10 - avoidant_mean)
+	# generate scores
+	n = 14 if subject == "you" else 11
+	anxious_scores = np.clip(
+		np.rint(rng.normal(anxious_mean, SIGMA, n)).astype(int), 0, 10
+	)
+	secure_scores = np.clip(
+		np.rint(rng.normal(secure_mean, SIGMA, n)).astype(int), 0, 10
+	)
+	avoidant_scores = np.clip(
+		np.rint(rng.normal(avoidant_mean, SIGMA, n)).astype(int), 0, 10
+	)
 
-    # generate scores
-    n = 14 if subject == "you" else 11
-    anxious_scores = np.rint(rng.normal(anxious_mean, anxious_sigma, n)).astype(int)
-    secure_scores = np.rint(rng.normal(secure_mean, secure_sigma, n)).astype(int)
-    avoidant_scores = np.rint(rng.normal(avoidant_mean, avoidant_sigma, n)).astype(int)
+	return anxious_scores, secure_scores, avoidant_scores
 
-    return anxious_scores, secure_scores, avoidant_scores
+
+def adjust_means(
+	age: int, gender: str, relationship_status: str, therapy_experience: str
+) -> tuple[float, float, float]:
+	anxious_mean, secure_mean, avoidant_mean = (
+		MEAN_INITIAL,
+		MEAN_INITIAL,
+		MEAN_INITIAL,
+	)
+	# adjust means according to the (very rough) assumptions about population
+	# gender
+	if gender == "male":
+		anxious_mean -= MEAN_INCREMENT
+		avoidant_mean += MEAN_INCREMENT
+	elif gender == "female":
+		anxious_mean += MEAN_INCREMENT
+		avoidant_mean -= MEAN_INCREMENT
+	# relationship_status
+	if relationship_status == "married":
+		secure_mean += MEAN_INCREMENT
+	# therapy_experience
+	if therapy_experience == "some":
+		anxious_mean -= MEAN_INCREMENT
+		secure_mean += MEAN_INCREMENT
+		avoidant_mean += MEAN_INCREMENT
+	elif therapy_experience == "extensive":
+		anxious_mean -= 2 * MEAN_INCREMENT
+		secure_mean += 2 * MEAN_INCREMENT
+		avoidant_mean -= 2 * MEAN_INCREMENT
+	# age
+	if age > 50:
+		secure_mean += 2 * MEAN_INCREMENT
+	elif age > 30:
+		secure_mean += MEAN_INCREMENT
+	return anxious_mean, avoidant_mean, secure_mean
 
 
 def build_db_entry(
-    gender: str,
-    age: int,
-    relationship_status: str,
-    therapy_experience: str,
-    subject: str,
-    anxious_scores: np.array,
-    secure_scores: np.array,
-    avoidant_scores: np.array,
+	gender: str,
+	age: int,
+	relationship_status: str,
+	therapy_experience: str,
+	subject: str,
+	anxious_scores: np.array,
+	secure_scores: np.array,
+	avoidant_scores: np.array,
 ) -> TestYourPartner | TestYourself:
-    n = 14 if subject == "you" else 11
-    base_dict = {
-        "timestamp": datetime.now(),
-        "age": age,
-        "gender": gender,
-        "therapy_experience": therapy_experience,
-        "relationship_status": relationship_status,
-        "test": True,
-    }
-    keys = [
-        f"{style}_q{i}"
-        for style in ("anxious", "secure", "avoidant")
-        for i in range(1, n + 1)
-    ]
-    values = np.concatenate((anxious_scores, secure_scores, avoidant_scores))
-    scores_dict = dict(zip(keys, values))
-    base_dict.update(scores_dict)
+	n = 14 if subject == "you" else 11
+	base_dict = {
+		"timestamp": datetime.utcnow(),
+		"age": age,
+		"gender": gender,
+		"therapy_experience": therapy_experience,
+		"relationship_status": relationship_status,
+		"test": True,
+	}
+	keys = [
+		f"{style}_q{i}"
+		for style in ("anxious", "secure", "avoidant")
+		for i in range(1, n + 1)
+	]
+	values = np.concatenate((anxious_scores, secure_scores, avoidant_scores))
+	scores_dict = dict(zip(keys, values))
+	base_dict.update(scores_dict)
 
-    if subject == "you":
-        db_entry = TestYourself(**base_dict)
-    elif subject == "partner":
-        db_entry = TestYourPartner(**base_dict)
-    else:
-        raise ValueError(f"Unknown subject {subject}")
+	if subject == "you":
+		db_entry = TestYourself(**base_dict)
+	elif subject == "partner":
+		db_entry = TestYourPartner(**base_dict)
+	else:
+		raise ValueError(f"Unknown subject {subject}")
 
-    return db_entry
+	return db_entry
 
 
 def main(num_datapoints: int):
-    db_entries = []
-    for i in range(num_datapoints):
-        gender, age, relationship_status, therapy_experience, subject = (
-            generate_test_personal_info()
-        )
-        anxious_scores, secure_scores, avoidant_scores = generate_test_scores(
-            gender, age, relationship_status, therapy_experience, subject
-        )
-        db_entry = build_db_entry(
-            gender,
-            age,
-            relationship_status,
-            therapy_experience,
-            subject,
-            anxious_scores,
-            secure_scores,
-            avoidant_scores,
-        )
-        db_entries.append(db_entry)
+	logging.info("Uploading test data...")
+	db_entries = []
 
-    upload_objects_to_db(db_entries)
+	start_time = time.time()
+	for i in range(num_datapoints):
+		gender, age, relationship_status, therapy_experience, subject = (
+			generate_test_personal_info()
+		)
+		anxious_scores, secure_scores, avoidant_scores = generate_test_scores(
+			gender, age, relationship_status, therapy_experience, subject
+		)
+		db_entry = build_db_entry(
+			gender,
+			age,
+			relationship_status,
+			therapy_experience,
+			subject,
+			anxious_scores,
+			secure_scores,
+			avoidant_scores,
+		)
+		db_entries.append(db_entry)
+	elapsed_time = time.time() - start_time
+	logging.info(f"Created {NUM_DATAPOINTS} db objects in {elapsed_time}s")
+	start_time = time.time()
+	upload_objects_to_db(db_entries)
+	elapsed_time = time.time() - start_time
+	logging.info(f"Uploaded {NUM_DATAPOINTS} test datapoints to db in {elapsed_time}s")
 
 
 if __name__ == "__main__":
-    main(NUM_DATAPOINTS)
-    print(f"Successfully uploaded {NUM_DATAPOINTS} test datapoints")
+	main(NUM_DATAPOINTS)
