@@ -3,7 +3,8 @@ To Do:
   <!-- - speed up test upload by uploading all objects at the end -->
   <!-- - create a more even distribution -->
 - chart
-  - finish the test-data (make it reflect all the expected distributions)
+
+[//]: # (  - finish the test-data &#40;make it reflect all the expected distributions&#41;)
   - add the density plot
   - cluster analysis - normal 3d scatter plot
   - add the option include/exclude test data from the plot
