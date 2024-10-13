@@ -2,6 +2,8 @@ import numpy as np
 import logging
 import time
 from datetime import datetime
+
+import pandas as pd
 from psycopg2.extensions import register_adapter, AsIs
 from src.models import TestYourself, TestYourPartner
 from src.utils.utils import upload_objects_to_db
@@ -118,6 +120,7 @@ def build_db_entry(
 	secure_scores: np.array,
 	avoidant_scores: np.array,
 ) -> TestYourPartner | TestYourself:
+
 	n = 14 if subject == "you" else 11
 	base_dict = {
 		"timestamp": datetime.utcnow(),
@@ -127,13 +130,12 @@ def build_db_entry(
 		"relationship_status": relationship_status,
 		"test": True,
 	}
-	keys = [
-		f"{style}_q{i}"
-		for style in ("anxious", "secure", "avoidant")
-		for i in range(1, n + 1)
-	]
-	values = np.concatenate((anxious_scores, secure_scores, avoidant_scores))
-	scores_dict = dict(zip(keys, values))
+
+	scores_dict = {
+		f"{style}_q{i}": score
+		for style, scores in zip(("anxious", "secure", "avoidant"), (anxious_scores, secure_scores, avoidant_scores))
+		for i, score in enumerate(scores, 1)
+	}
 	base_dict.update(scores_dict)
 
 	if subject == "you":
@@ -147,9 +149,8 @@ def build_db_entry(
 
 
 def main(num_datapoints: int):
-	logging.info("Uploading test data...")
-	db_entries = []
 
+	db_entries = []
 	start_time = time.time()
 	for i in range(num_datapoints):
 		gender, age, relationship_status, therapy_experience, subject = (
