@@ -19,7 +19,7 @@ Navbar = dbc.Row(
                     style={"cursor": "pointer"},
                 ),
                 dbc.NavItem(
-                    dbc.NavLink("Chart", href="/chart"), style={"cursor": "pointer"}
+                    dbc.NavLink("Chart", href="/dashboard"), style={"cursor": "pointer"}
                 ),
                 dbc.NavItem(dbc.NavLink("About", href="/about")),
                 # dbc.DropdownMenu(

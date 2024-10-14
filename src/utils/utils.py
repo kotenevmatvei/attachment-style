@@ -20,6 +20,7 @@ load_dotenv("../../.env")
 
 # production url
 url = str(os.getenv("DB_URL"))
+url = "postgresql://koyeb-adm:DsanX26eJSmM@ep-autumn-pond-a2sga02t.eu-central-1.pg.koyeb.app/koyebdb"
 
 # dev url
 # url = "postgresql://postgres:password@localhost:32772/"

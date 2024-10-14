@@ -10,6 +10,7 @@ To Do:
   - add the option include/exclude test data from the plot
   - embed it into layout as page
   - style
+- show numbers on slider
 - translate
 - add feedback survey - how and where to store?
 - migrate to koyeb with a docker image
@@ -19,6 +20,10 @@ To Do:
   - setup continuous deployment with github actions
 - refactor
   - isolate db_connector
+  - switch to polars
+  - switch to uv
+  - switch to core components/html & css
+  - test data to pkl
   - clean up code
   - optimize question upddate
   - clean up dependencies (by creating a fresh env and adding what needed one by one)

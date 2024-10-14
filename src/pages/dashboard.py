@@ -1,5 +1,5 @@
 import dash
-from dash import dcc, html
+from dash import dcc, html, register_page, callback
 from dash.dependencies import Input, Output
 import plotly.express as px
 import plotly.figure_factory as ff
@@ -8,12 +8,16 @@ import pandas as pd
 from sklearn.cluster import KMeans
 from src.utils.utils import get_data_from_db, aggregate_scores
 
+register_page(__name__)
+
 df1, df2 = get_data_from_db()
 df1, df2 = aggregate_scores(df1, df2)
-
+df = df1
 
 # Initialize the app
 app = dash.Dash(__name__)
+
+
 
 # Get unique values for dropdown options
 attachment_styles = ["avoidant_score", "secure_score", "anxious_score"]
@@ -21,8 +25,10 @@ therapy_experiences = df["therapy_experience"].unique().tolist()
 genders = df["gender"].unique().tolist()
 relationship_statuses = df["relationship_status"].unique().tolist()
 
+
 # App layout
-app.layout = html.Div(
+def layout(**kwargs):
+    return html.Div(
     [
         html.H1(
             "Attachment Style Quiz Results Dashboard", style={"textAlign": "center"}
@@ -253,7 +259,7 @@ app.layout = html.Div(
 
 
 # Callbacks for interactivity
-@app.callback(
+@callback(
     Output("distribution-histogram", "figure"),
     Input("attachment-style-dropdown", "value"),
 )
@@ -271,7 +277,7 @@ def update_distribution(selected_style):
     return fig
 
 
-@app.callback(
+@callback(
     Output("demographic-boxplot", "figure"),
     [
         Input("demographic-radio", "value"),
@@ -292,7 +298,7 @@ def update_demographic_boxplot(demographic, selected_style):
     return fig
 
 
-@app.callback(
+@callback(
     Output("scatter-plot", "figure"),
     [
         Input("scatter-x-dropdown", "value"),
@@ -321,7 +327,7 @@ def update_scatter_plot(x_var, y_var, color_var):
     return fig
 
 
-@app.callback(
+@callback(
     Output("radar-chart", "figure"), Input("radar-demographic-dropdown", "value")
 )
 def update_radar_chart(demographic):
@@ -348,7 +354,7 @@ def update_radar_chart(demographic):
     return fig
 
 
-@app.callback(
+@callback(
     Output("correlation-heatmap", "figure"),
     Input("correlation-heatmap", "id"),  # Dummy input to trigger the callback
 )
@@ -367,7 +373,7 @@ def update_correlation_heatmap(_):
     return fig
 
 
-@app.callback(Output("cluster-plot", "figure"), Input("cluster-slider", "value"))
+@callback(Output("cluster-plot", "figure"), Input("cluster-slider", "value"))
 def update_cluster_plot(n_clusters):
     X = df[["avoidant_score", "secure_score", "anxious_score"]]
     kmeans = KMeans(n_clusters=n_clusters, random_state=0).fit(X)
@@ -391,7 +397,7 @@ def update_cluster_plot(n_clusters):
     return fig
 
 
-@app.callback(
+@callback(
     Output("parallel-categories", "figure"),
     [
         Input("parallel-categories-dropdown", "value"),
@@ -411,5 +417,5 @@ def update_parallel_categories(selected_dims, color_by):
     return fig
 
 
-if __name__ == "__main__":
-    app.run_server(debug=True)
+# if __name__ == "__main__":
+#     app.run_server(debug=True)
