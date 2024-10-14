@@ -3,6 +3,7 @@ import dash_bootstrap_components as dbc
 
 register_page(__name__, path="/")
 
+
 def layout(**kwargs):
     return dbc.Container(
         [
@@ -12,8 +13,8 @@ def layout(**kwargs):
                     html.H3(
                         "Welcome to the Attachment Style Quiz!",
                         className="d-flex text-center justify-content-center",
-                    ),               
-                )   
+                    ),
+                )
             ),
             dbc.Row(
                 dbc.Col(
@@ -29,7 +30,7 @@ def layout(**kwargs):
                             [Test Your Partner](/test-your-partner) offers more behavior-based questions that can 
                             be answered with regard to someone else - *as well as yourself*.  
                             """,
-                        )                        
+                        )
                     ],
                     width=12,
                     xl=8,
@@ -46,9 +47,8 @@ def layout(**kwargs):
                             className="d-flex justify-content-center",
                         ),
                         width=6,
-                        sm={"size":3, "offset":3}
+                        sm={"size": 3, "offset": 3},
                     ),
-                    
                     dbc.Col(
                         dbc.Button(
                             "Test Your Partner",
@@ -57,9 +57,9 @@ def layout(**kwargs):
                             className="d-flex justify-content-center",
                         ),
                         width=6,
-                        sm={"size":3, "offset":0}
+                        sm={"size": 3, "offset": 0},
                     ),
                 ]
-            )
-        ]   
+            ),
+        ]
     )

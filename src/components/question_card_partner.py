@@ -7,12 +7,22 @@ QuestionCardPartner = dbc.Row(
             children=[
                 dbc.CardHeader(
                     [
-                        dbc.Button(id="left-button-partner", className="bi bi-arrow-left-circle d-flex align-items-center"),
-                        dcc.Markdown("##### Question 1/42", id="question-count-text-partner", className="mx-2 px-3 pt-1 border border-3 rounded"),
-                        dbc.Button(id="right-button-partner", className="bi bi-arrow-right-circle d-flex align-items-center"),
+                        dbc.Button(
+                            id="left-button-partner",
+                            className="bi bi-arrow-left-circle d-flex align-items-center",
+                        ),
+                        dcc.Markdown(
+                            "##### Question 1/42",
+                            id="question-count-text-partner",
+                            className="mx-2 px-3 pt-1 border border-3 rounded",
+                        ),
+                        dbc.Button(
+                            id="right-button-partner",
+                            className="bi bi-arrow-right-circle d-flex align-items-center",
+                        ),
                     ],
                     className="d-flex align-items-center justify-content-center",
-                    style={"height": "3.5rem"}
+                    style={"height": "3.5rem"},
                 ),
                 dbc.CardBody(
                     dcc.Markdown("Text of the question", id="question-text-partner")
@@ -29,16 +39,15 @@ QuestionCardPartner = dbc.Row(
                             tooltip={
                                 "placement": "bottom",
                                 "always_visible": True,
-                            }
+                            },
                         ),
-                        style={"width": "90%"}
+                        style={"width": "90%"},
                     )
                 ),
             ],
             style={"width": "45rem"},
             # className="text-center"
         ),
-        className="mb-4 d-flex justify-content-center"
+        className="mb-4 d-flex justify-content-center",
     )
 )
-

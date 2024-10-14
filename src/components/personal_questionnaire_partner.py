@@ -12,7 +12,7 @@ PersonalQuestionnairePartner = dbc.Container(
                     regard to the person you are completing the test for:
                     """,
                 ),
-                className="text-center mb-2"
+                className="text-center mb-2",
             )
         ),
         dbc.Row(
@@ -20,7 +20,7 @@ PersonalQuestionnairePartner = dbc.Container(
                 dbc.Col(
                     [
                         html.Div("Your age in years:"),
-                        dbc.Input(type="number", id="age-partner")
+                        dbc.Input(type="number", id="age-partner"),
                     ],
                     sm={"size": 4, "offset": 2},
                     width=12,
@@ -34,14 +34,14 @@ PersonalQuestionnairePartner = dbc.Container(
                                 {"label": "Single", "value": "single"},
                                 {"label": "In a relationship", "value": "relationship"},
                                 {"label": "Married", "value": "married"},
-                            ]
-                        )
+                            ],
+                        ),
                     ],
                     sm=4,
                     width=12,
-                )
+                ),
             ],
-            className="mb-4 mb-2-xs"
+            className="mb-4 mb-2-xs",
         ),
         dbc.Row(
             [
@@ -54,8 +54,8 @@ PersonalQuestionnairePartner = dbc.Container(
                                 {"label": "Male", "value": "male"},
                                 {"label": "Female", "value": "female"},
                                 {"label": "Other", "value": "other"},
-                            ]
-                        )
+                            ],
+                        ),
                     ],
                     sm={"size": 4, "offset": 2},
                     width=12,
@@ -68,29 +68,33 @@ PersonalQuestionnairePartner = dbc.Container(
                             options=[
                                 {"label": "Yes", "value": "yes"},
                                 {"label": "No", "value": "no"},
-                            ]
-                        )
+                            ],
+                        ),
                     ],
                     sm=4,
                     width=12,
-                )
+                ),
             ],
-            className="mb-4"
+            className="mb-4",
         ),
         dbc.Row(
             dbc.Col(
-                dbc.Button("Continue to the test", color="primary", id="submit-personal-questionnaire-partner"),
-                className="d-flex justify-content-center"
+                dbc.Button(
+                    "Continue to the test",
+                    color="primary",
+                    id="submit-personal-questionnaire-partner",
+                ),
+                className="d-flex justify-content-center",
             )
         ),
         dbc.Row(
             dbc.Col(
                 html.Div(
-                        id="personal-questionnaire-error-partner", 
-                        className="text-center text-danger mt-2", 
-                        hidden=True
+                    id="personal-questionnaire-error-partner",
+                    className="text-center text-danger mt-2",
+                    hidden=True,
                 )
             )
-        )
+        ),
     ]
 )

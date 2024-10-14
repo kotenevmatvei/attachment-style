@@ -1,4 +1,13 @@
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Image, Spacer, HRFlowable, Table, TableStyle, Indenter
+from reportlab.platypus import (
+    SimpleDocTemplate,
+    Paragraph,
+    Image,
+    Spacer,
+    HRFlowable,
+    Table,
+    TableStyle,
+    Indenter,
+)
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 import codecs
@@ -21,7 +30,18 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
     chart = Image("data/figure.png", width=700 / 2, height=500 / 2)
     story.append(chart)
     # add a horizontal ruler to divide next section
-    story.append(HRFlowable(width="90%", thickness=1, lineCap='round', spaceBefore=15, spaceAfter=10, hAlign='CENTER', vAlign='BOTTOM', dash=None))
+    story.append(
+        HRFlowable(
+            width="90%",
+            thickness=1,
+            lineCap="round",
+            spaceBefore=15,
+            spaceAfter=10,
+            hAlign="CENTER",
+            vAlign="BOTTOM",
+            dash=None,
+        )
+    )
     # write anxious description
     anxious_description_text = """
         <b>Anxious</b>: You love to be very close to your romantic partners and have the capacity 
@@ -65,14 +85,27 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
     story.append(avoidant_description)
 
     # add a horizontal ruler to divide next section
-    story.append(HRFlowable(width="90%", thickness=1, lineCap='round', spaceBefore=15, spaceAfter=10, hAlign='CENTER', vAlign='BOTTOM', dash=None))
+    story.append(
+        HRFlowable(
+            width="90%",
+            thickness=1,
+            lineCap="round",
+            spaceBefore=15,
+            spaceAfter=10,
+            hAlign="CENTER",
+            vAlign="BOTTOM",
+            dash=None,
+        )
+    )
     # add anxious Q&A
-    centered = ParagraphStyle(name="Centered", parent=styles['Heading3'], alignment=1)
+    centered = ParagraphStyle(name="Centered", parent=styles["Heading3"], alignment=1)
     story.append(Paragraph("Your Answers:", centered))
     # add anxious answers
     story.append(Paragraph("<u><b>Anxious</b></u>:"))
     story.append(Spacer(0, 10))
-    anxious_answers = [(value[2], value[1]) for value in answers.values() if value[0] == "anxious"]
+    anxious_answers = [
+        (value[2], value[1]) for value in answers.values() if value[0] == "anxious"
+    ]
     # sort anxious answers
     anxious_answers = sorted(anxious_answers)
     data_anxious = []
@@ -89,18 +122,24 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
             if line.startswith("**"):
                 header = Paragraph("<b>" + line[2:-2] + "</b>")
             elif line.startswith("*"):
-                bullet_points.append(Paragraph(u"\u2022" + line[1:]))
+                bullet_points.append(Paragraph("\u2022" + line[1:]))
             else:
                 single_question = Paragraph(line)
         question = [header, indenter_on, bullet_points, indenter_off, single_question]
         data_anxious.append([question, answer[1]])
-    table_anxious = Table(data_anxious, colWidths=[400, 50], style=[("GRID", (0, 0), (-1, -1), 1, colors.gray)])
+    table_anxious = Table(
+        data_anxious,
+        colWidths=[400, 50],
+        style=[("GRID", (0, 0), (-1, -1), 1, colors.gray)],
+    )
     story.append(table_anxious)
     # add secure answers
     story.append(Spacer(0, 10))
     story.append(Paragraph("<u><b>Secure</b></u>:"))
     story.append(Spacer(0, 10))
-    secure_answers = [(value[2], value[1]) for value in answers.values() if value[0] == "secure"]
+    secure_answers = [
+        (value[2], value[1]) for value in answers.values() if value[0] == "secure"
+    ]
     # sort secure answers
     secure_answers = sorted(secure_answers)
     data_secure = []
@@ -117,18 +156,24 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
             if line.startswith("**"):
                 header = Paragraph("<b>" + line[2:-2] + "</b>")
             elif line.startswith("*"):
-                bullet_points.append(Paragraph(u"\u2022" + line[1:]))
+                bullet_points.append(Paragraph("\u2022" + line[1:]))
             else:
                 single_question = Paragraph(line)
         question = [single_question, header, indenter_on, bullet_points, indenter_off]
         data_secure.append([question, answer[1]])
-    table_secure = Table(data_secure, colWidths=[400, 50], style=[("GRID", (0, 0), (-1, -1), 1, colors.gray)])
+    table_secure = Table(
+        data_secure,
+        colWidths=[400, 50],
+        style=[("GRID", (0, 0), (-1, -1), 1, colors.gray)],
+    )
     story.append(table_secure)
     # add avoidant questions
     story.append(Spacer(0, 10))
     story.append(Paragraph("<u><b>Avoidant</b></u>:"))
     story.append(Spacer(0, 10))
-    avoidant_answers = [(value[2], value[1]) for value in answers.values() if value[0] == "avoidant"]
+    avoidant_answers = [
+        (value[2], value[1]) for value in answers.values() if value[0] == "avoidant"
+    ]
     # sort avoidant answers
     avoidant_answers = sorted(avoidant_answers)
     data_avoidant = []
@@ -145,12 +190,16 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
             if line.startswith("**"):
                 header = Paragraph("<b>" + line[2:-2] + "</b>")
             elif line.startswith("*"):
-                bullet_points.append(Paragraph(u"\u2022" + line[1:]))
+                bullet_points.append(Paragraph("\u2022" + line[1:]))
             else:
                 single_question = Paragraph(line)
         question = [single_question, header, indenter_on, bullet_points, indenter_off]
         data_avoidant.append([question, answer[1]])
-    table_avoidant = Table(data_avoidant, colWidths=[400, 50], style=[("GRID", (0, 0), (-1, -1), 1, colors.gray)])
+    table_avoidant = Table(
+        data_avoidant,
+        colWidths=[400, 50],
+        style=[("GRID", (0, 0), (-1, -1), 1, colors.gray)],
+    )
     story.append(table_avoidant)
     # build the PDF document
     doc.build(story)
