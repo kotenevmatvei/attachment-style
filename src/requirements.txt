@@ -20,3 +20,4 @@ sqlalchemy
 alembic
 psycopg2
 scikit-learn
+python-dotenv

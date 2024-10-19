@@ -1,12 +1,17 @@
 # Use the official Python image from the Docker Hub
-FROM python:3.9-slim
+FROM python:3.13-slim
+
+# Install PostgreSQL client libraries
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
 WORKDIR /app
 
 # Copy the requirements file into the container
 COPY src/requirements.txt .
-
 # Install the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 

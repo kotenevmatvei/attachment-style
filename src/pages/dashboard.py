@@ -6,7 +6,7 @@ import plotly.figure_factory as ff
 import plotly.graph_objects as go
 import pandas as pd
 from sklearn.cluster import KMeans
-from src.utils.utils import get_data_from_db, aggregate_scores
+from utils.utils import get_data_from_db, aggregate_scores
 
 register_page(__name__)
 
