@@ -158,7 +158,7 @@ def layout(**kwargs):
                                             "value": "relationship_status",
                                         },
                                     ],
-                                    value="None",
+                                    value="gender",
                                 ),
                                 dcc.Graph(id="scatter-plot"),
                             ]
@@ -196,11 +196,11 @@ def layout(**kwargs):
                     children=[html.Div([dcc.Graph(id="correlation-heatmap")])],
                 ),
                 dcc.Tab(
-                    label="Cluster Analysis",
+                    label="3D Plot",
                     children=[
                         html.Div(
                             [
-                                html.Label("Number of Clusters:"),
+                                # html.Label("Number of Clusters:"),
                                 dcc.Slider(
                                     id="cluster-slider",
                                     min=2,
@@ -376,15 +376,15 @@ def update_correlation_heatmap(_):
 @callback(Output("cluster-plot", "figure"), Input("cluster-slider", "value"))
 def update_cluster_plot(n_clusters):
     X = df[["avoidant_score", "secure_score", "anxious_score"]]
-    kmeans = KMeans(n_clusters=n_clusters, random_state=0).fit(X)
-    df["cluster"] = kmeans.labels_
+    # kmeans = KMeans(n_clusters=n_clusters, random_state=0).fit(X)
+    # df["cluster"] = kmeans.labels_
     fig = px.scatter_3d(
         df,
         x="avoidant_score",
         y="secure_score",
         z="anxious_score",
-        color="cluster",
-        symbol="cluster",
+        # color="cluster",
+        # symbol="cluster",
         title=f"K-means Clustering with {n_clusters} Clusters",
     )
     fig.update_layout(
