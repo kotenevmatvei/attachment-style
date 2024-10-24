@@ -30,33 +30,11 @@ relationship_statuses = df["relationship_status"].unique().tolist()
 def layout(**kwargs):
     return html.Div(
     [
-        html.H1(
-            "Attachment Style Quiz Results Dashboard", style={"textAlign": "center"}
-        ),
+        # html.H1(
+        #     "Attachment Style Quiz Results Dashboard", style={"textAlign": "center"}
+        # ),
         dcc.Tabs(
             [
-                dcc.Tab(
-                    label="Distributions",
-                    children=[
-                        html.Div(
-                            [
-                                html.Label("Select Attachment Style:"),
-                                dcc.Dropdown(
-                                    id="attachment-style-dropdown",
-                                    options=[
-                                        {
-                                            "label": style.split("_")[0].capitalize(),
-                                            "value": style,
-                                        }
-                                        for style in attachment_styles
-                                    ],
-                                    value="avoidant_score",
-                                ),
-                                dcc.Graph(id="distribution-histogram"),
-                            ]
-                        )
-                    ],
-                ),
                 dcc.Tab(
                     label="Demographic Comparisons",
                     children=[
@@ -95,6 +73,28 @@ def layout(**kwargs):
                                     value="avoidant_score",
                                 ),
                                 dcc.Graph(id="demographic-boxplot"),
+                            ]
+                        )
+                    ],
+                ),
+                dcc.Tab(
+                    label="Distributions",
+                    children=[
+                        html.Div(
+                            [
+                                html.Label("Select Attachment Style:"),
+                                dcc.Dropdown(
+                                    id="attachment-style-dropdown",
+                                    options=[
+                                        {
+                                            "label": style.split("_")[0].capitalize(),
+                                            "value": style,
+                                        }
+                                        for style in attachment_styles
+                                    ],
+                                    value="avoidant_score",
+                                ),
+                                dcc.Graph(id="distribution-histogram"),
                             ]
                         )
                     ],
