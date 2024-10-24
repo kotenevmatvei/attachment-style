@@ -30,12 +30,24 @@ QuestionCardPartner = dbc.Row(
                 dbc.CardFooter(
                     dbc.Container(
                         dcc.Slider(
-                            id="slider-partner",
+                            id="slider",
                             min=0,
                             max=10,
                             step=1,
                             value=0,
-                            marks=None,
+                            marks={
+                                0: "0",
+                                1: "1",
+                                2: "2",
+                                3: "3",
+                                4: "4",
+                                5: "5",
+                                6: "6",
+                                7: "7",
+                                8: "8",
+                                9: "9",
+                                10: "10",
+                            },
                             tooltip={
                                 "placement": "bottom",
                                 "always_visible": True,

@@ -1,4 +1,3 @@
-- numbers on slider for partner
 - rename chart page to dashboard - remove (change?) the title
 - add the density plot
 - cluster analysis - normal 3d scatter plot
