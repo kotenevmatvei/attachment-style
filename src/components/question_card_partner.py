@@ -30,7 +30,7 @@ QuestionCardPartner = dbc.Row(
                 dbc.CardFooter(
                     dbc.Container(
                         dcc.Slider(
-                            id="slider",
+                            id="slider-partner",
                             min=0,
                             max=10,
                             step=1,
