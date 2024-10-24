@@ -5,6 +5,7 @@
 - add the option include/exclude test data from the plot
 - do we need radar?
 - doe we need parallel?
+- new names for tabs: assess yourself & assess others
 - style
   - room between lines on the phone for chart parameters
   - smarter grouping for chart parameters on computer
