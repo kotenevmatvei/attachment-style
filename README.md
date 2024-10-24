@@ -20,6 +20,7 @@
 
 - refactor
     - dependencies
+    - dictionaries -> classes
     - isolate db stuff
     - clean up code
     - optimize question update
