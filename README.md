@@ -11,6 +11,7 @@
 - test data to pkl
 - test suite
 - write the readme
+- check for typos - (send to a few people, carina, mateo)
 
 - contact plotly guy
 
