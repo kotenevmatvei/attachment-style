@@ -1,3 +1,5 @@
+import itertools
+
 import dash
 from dash import dcc, html, register_page, callback
 from dash.dependencies import Input, Output
@@ -351,27 +353,36 @@ def update_scatter_plot(x_var, y_var, color_var):
 @callback(
     Output("radar-chart", "figure"), Input("radar-demographic-dropdown", "value")
 )
-def update_radar_chart(demographic):
-    groups = df[demographic].unique()
-    categories = ["Avoidant", "Secure", "Anxious"]
-    data = []
+def update_radar_chart(demogr):
+    categories = ("Anxious Score", "Secure Score", "Avoidant Score")
+    demographics = ["gender", "therapy_experience"]
+    values = (("male", "female", "other"), ("extensive", "some", "none"))
+    product = list(itertools.product(values[0], values[1]))
+    # zipped = zip(demographics, values)
+    fig = go.Figure()
+    for combo in product:
+        df_slice = df[(df["gender"] == combo[0]) & (df["therapy_experience"] == combo[1])]
+        # print(df)
+        # print(combo[0], combo[1])
+        print(df_slice)
+        fig.add_trace(go.Scatterpolar(
+            r = [df_slice["anxious_score"].mean(), df_slice["secure_score"].mean(), df_slice["avoidant_score"].mean()],
+            theta=categories,
+            fill="toself",
 
-    for group in groups:
-        subset = df[df[demographic] == group]
-        avg_scores = [
-            subset["avoidant_score"].mean(),
-            subset["secure_score"].mean(),
-            subset["anxious_score"].mean(),
-        ]
-        data.append(
-            go.Scatterpolar(r=avg_scores, theta=categories, fill="toself", name=group)
-        )
-
-    fig = go.Figure(data=data)
-    fig.update_layout(
-        polar=dict(radialaxis=dict(visible=True, range=[0, 10])),
-        title=f'Average Attachment Scores by {demographic.replace("_", " ").title()}',
-    )
+        ))
+    # fig.update_layout(
+    #     polar=dict(
+    #         radialaxis=dict(
+    #             visible=True,
+    #             range=[0, 10]
+    #         )),
+    #     showlegend=True
+    # )
+    # fig.update_layout(
+    #     polar=dict(radialaxis=dict(visible=True, range=[0, 10])),
+    #     title=f'Average Attachment Scores by {demographic.replace("_", " ").title()}',
+    # )
     return fig
 
 
