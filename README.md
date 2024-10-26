@@ -1,6 +1,3 @@
-- cluster analysis - normal 3d scatter plot
-  - set up input parameters to control color form etc.
-- correlation matrix heatmap - other variables
 - add the option include/exclude test data from the plot
 - do we need radar?
 - doe we need parallel?

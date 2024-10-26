@@ -7,6 +7,7 @@ import plotly.graph_objects as go
 import pandas as pd
 from sklearn.cluster import KMeans
 from utils.utils import get_data_from_db, aggregate_scores
+import dash_bootstrap_components as dbc
 
 register_page(__name__)
 
@@ -30,13 +31,13 @@ relationship_statuses = df["relationship_status"].unique().tolist()
 def layout(**kwargs):
     return html.Div(
     [
-        # html.H1(
-        #     "Attachment Style Quiz Results Dashboard", style={"textAlign": "center"}
-        # ),
+        html.H3(
+            "Attachment Style Quiz Results Dashboard", style={"textAlign": "center"}
+        ),
         dcc.Tabs(
             [
                 dcc.Tab(
-                    label="Demographic Comparisons",
+                    label="Box Plot",
                     children=[
                         html.Div(
                             [
@@ -78,29 +79,7 @@ def layout(**kwargs):
                     ],
                 ),
                 dcc.Tab(
-                    label="Distributions",
-                    children=[
-                        html.Div(
-                            [
-                                html.Label("Select Attachment Style:"),
-                                dcc.Dropdown(
-                                    id="attachment-style-dropdown",
-                                    options=[
-                                        {
-                                            "label": style.split("_")[0].capitalize(),
-                                            "value": style,
-                                        }
-                                        for style in attachment_styles
-                                    ],
-                                    value="avoidant_score",
-                                ),
-                                dcc.Graph(id="distribution-histogram"),
-                            ]
-                        )
-                    ],
-                ),
-                dcc.Tab(
-                    label="Scatter Plot Analysis",
+                    label="Scatter Plot",
                     children=[
                         html.Div(
                             [
@@ -166,7 +145,29 @@ def layout(**kwargs):
                     ],
                 ),
                 dcc.Tab(
-                    label="Radar Chart Profiles",
+                    label="Distributions",
+                    children=[
+                        html.Div(
+                            [
+                                html.Label("Select Attachment Style:"),
+                                dcc.Dropdown(
+                                    id="attachment-style-dropdown",
+                                    options=[
+                                        {
+                                            "label": style.split("_")[0].capitalize(),
+                                            "value": style,
+                                        }
+                                        for style in attachment_styles
+                                    ],
+                                    value="avoidant_score",
+                                ),
+                                dcc.Graph(id="distribution-histogram"),
+                            ]
+                        )
+                    ],
+                ),
+                dcc.Tab(
+                    label="Radar Chart",
                     children=[
                         html.Div(
                             [
@@ -192,21 +193,41 @@ def layout(**kwargs):
                     ],
                 ),
                 dcc.Tab(
-                    label="Correlation Heatmap",
-                    children=[html.Div([dcc.Graph(id="correlation-heatmap")])],
-                ),
-                dcc.Tab(
-                    label="3D Plot",
+                    label="3D Chart",
                     children=[
                         html.Div(
                             [
-                                # html.Label("Number of Clusters:"),
-                                dcc.Slider(
-                                    id="cluster-slider",
-                                    min=2,
-                                    max=6,
-                                    marks={i: "{}".format(i) for i in range(2, 7)},
-                                    value=3,
+                                html.Label("Color by:"),
+                                dcc.Dropdown(
+                                    id="3d-color-dropdown",
+                                    options=[
+                                        {"label": "Gender", "value": "gender"},
+                                        {
+                                            "label": "Therapy Experience",
+                                            "value": "therapy_experience",
+                                        },
+                                        {
+                                            "label": "Relationship Status",
+                                            "value": "relationship_status",
+                                        },
+                                    ],
+                                    value="therapy_experience",
+                                ),
+                                html.Label("Symbol by:"),
+                                dcc.Dropdown(
+                                    id="3d-symbol-dropdown",
+                                    options=[
+                                        {"label": "Gender", "value": "gender"},
+                                        {
+                                            "label": "Therapy Experience",
+                                            "value": "therapy_experience",
+                                        },
+                                        {
+                                            "label": "Relationship Status",
+                                            "value": "relationship_status",
+                                        },
+                                    ],
+                                    value="gender",
                                 ),
                                 dcc.Graph(id="cluster-plot"),
                             ]
@@ -214,7 +235,7 @@ def layout(**kwargs):
                     ],
                 ),
                 dcc.Tab(
-                    label="Parallel Categories Diagram",
+                    label="Parallel Categories",
                     children=[
                         html.Div(
                             [
@@ -354,28 +375,13 @@ def update_radar_chart(demographic):
     return fig
 
 
-@callback(
-    Output("correlation-heatmap", "figure"),
-    Input("correlation-heatmap", "id"),  # Dummy input to trigger the callback
+
+@callback(Output("cluster-plot", "figure"),
+          [Input("3d-color-dropdown", "value"),
+           Input("3d-symbol-dropdown", "value")]
 )
-def update_correlation_heatmap(_):
-    num_cols = ["avoidant_score", "secure_score", "anxious_score", "age"]
-    corr_matrix = df[num_cols].corr()
-    fig = ff.create_annotated_heatmap(
-        z=corr_matrix.values,
-        x=num_cols,
-        y=num_cols,
-        annotation_text=corr_matrix.round(2).values,
-        showscale=True,
-        colorscale="Viridis",
-    )
-    fig.update_layout(title="Correlation Matrix Heatmap")
-    return fig
-
-
-@callback(Output("cluster-plot", "figure"), Input("cluster-slider", "value"))
-def update_cluster_plot(n_clusters):
-    X = df[["avoidant_score", "secure_score", "anxious_score"]]
+def update_3d_plot(color, symbol):
+    # X = df[["avoidant_score", "secure_score", "anxious_score"]]
     # kmeans = KMeans(n_clusters=n_clusters, random_state=0).fit(X)
     # df["cluster"] = kmeans.labels_
     fig = px.scatter_3d(
@@ -383,15 +389,15 @@ def update_cluster_plot(n_clusters):
         x="avoidant_score",
         y="secure_score",
         z="anxious_score",
-        # color="cluster",
-        # symbol="cluster",
-        title=f"K-means Clustering with {n_clusters} Clusters",
+        color=color,
+        symbol=symbol,
+        title=f"3D-Chart",
     )
     fig.update_layout(
         scene=dict(
-            xaxis_title="Avoidant Score",
-            yaxis_title="Secure Score",
-            zaxis_title="Anxious Score",
+            xaxis_title="Avoidant",
+            yaxis_title="Secure",
+            zaxis_title="Anxious",
         )
     )
     return fig
