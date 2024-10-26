@@ -354,23 +354,24 @@ def update_scatter_plot(x_var, y_var, color_var):
     Output("radar-chart", "figure"), Input("radar-demographic-dropdown", "value")
 )
 def update_radar_chart(demogr):
-    categories = ("Anxious Score", "Secure Score", "Avoidant Score")
+    # categories = ("Anxious Score", "Secure Score", "Avoidant Score")
     demographics = ["gender", "therapy_experience"]
     values = (("male", "female", "other"), ("extensive", "some", "none"))
-    product = list(itertools.product(values[0], values[1]))
+    categories = list(itertools.product(values[0], values[1]))
     # zipped = zip(demographics, values)
     fig = go.Figure()
-    for combo in product:
-        df_slice = df[(df["gender"] == combo[0]) & (df["therapy_experience"] == combo[1])]
-        # print(df)
-        # print(combo[0], combo[1])
-        print(df_slice)
-        fig.add_trace(go.Scatterpolar(
-            r = [df_slice["anxious_score"].mean(), df_slice["secure_score"].mean(), df_slice["avoidant_score"].mean()],
-            theta=categories,
-            fill="toself",
 
-        ))
+    r = [
+        df[(df[demographics[0]] == combo[0]) & (df[demographics[1]] == combo[1])].anxious_score.mean()
+        for combo in categories
+    ]
+    fig.add_trace(go.Scatterpolar(
+        r=r,
+        theta=categories,
+        fill="toself",
+        name="Anxious Score"
+
+    ))
     # fig.update_layout(
     #     polar=dict(
     #         radialaxis=dict(
