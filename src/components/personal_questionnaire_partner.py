@@ -66,8 +66,9 @@ PersonalQuestionnairePartner = dbc.Container(
                         dbc.Select(
                             id="therapy-experience-partner",
                             options=[
-                                {"label": "Yes", "value": "yes"},
-                                {"label": "No", "value": "no"},
+                                {"label": "Extensive", "value": "extensive"},
+                                {"label": "Some", "value": "some"},
+                                {"label": "None", "value": "none"},
                             ],
                         ),
                     ],
