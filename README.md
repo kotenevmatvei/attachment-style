@@ -1,5 +1,5 @@
 - do we need radar - yes
-  - two option combos + 1 color (with input validation)
+  - input validation
 - add the option include/exclude test data from the plot
 - doe we need parallel?
 - new names for tabs: assess yourself & assess others

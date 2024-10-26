@@ -173,9 +173,19 @@ def layout(**kwargs):
                     children=[
                         html.Div(
                             [
-                                html.Label("Select Demographic Grouping:"),
+                                html.Label("Select the attachment style:"),
                                 dcc.Dropdown(
-                                    id="radar-demographic-dropdown",
+                                    id="radar-style-dropdown",
+                                    options=[
+                                        {"label": "Anxious", "value": "anxious_score"},
+                                        {"label": "Secure", "value": "secure_score"},
+                                        {"label": "Avoidant", "value": "avoidant_score"},
+                                    ],
+                                    value="anxious_score",
+                                ),
+                                html.Label("Select Demographic Grouping for the shape:"),
+                                dcc.Dropdown(
+                                    id="radar-shape-dropdown",
                                     options=[
                                         {"label": "Gender", "value": "gender"},
                                         {
@@ -187,7 +197,25 @@ def layout(**kwargs):
                                             "value": "relationship_status",
                                         },
                                     ],
-                                    value="gender",
+                                    value=["gender", "relationship_status"],
+                                    multi=True,
+                                ),
+                                html.Label("Select Demographic Grouping for the color:"),
+                                dcc.Dropdown(
+                                    id="radar-color-dropdown",
+                                    options=[
+                                        {"label": "Gender", "value": "gender"},
+                                        {
+                                            "label": "Therapy Experience",
+                                            "value": "therapy_experience",
+                                        },
+                                        {
+                                            "label": "Relationship Status",
+                                            "value": "relationship_status",
+                                        },
+                                    ],
+                                    value="therapy_experience",
+                                    multi=True,
                                 ),
                                 dcc.Graph(id="radar-chart"),
                             ]
@@ -351,28 +379,38 @@ def update_scatter_plot(x_var, y_var, color_var):
 
 
 @callback(
-    Output("radar-chart", "figure"), Input("radar-demographic-dropdown", "value")
+    Output("radar-chart", "figure"),
+    [Input("radar-style-dropdown", "value"),
+     Input("radar-shape-dropdown", "value"),
+     Input("radar-color-dropdown", "value")]
 )
-def update_radar_chart(demogr):
-    # categories = ("Anxious Score", "Secure Score", "Avoidant Score")
-    demographics = ["gender", "therapy_experience", "relationship_status"]
-    values = (("male", "female", "other"), ("extensive", "some", "none"), ("relationship", "single", "married"))
+def update_radar_chart(style, demographics_shape, demographics_color):
+    values = (df[demographic].unique() for demographic in demographics_shape)
     categories = list(itertools.product(*values))
-    # zipped = zip(demographics, values)
+    colors = df[demographics_color].unique()
+    print(colors)
     fig = go.Figure()
+    for color in colors:
+        if len(demographics_shape) == 1:
+            r = [
+                df[(df[demographics_shape[0]] == combo[0]) & (df[demographics_color] == color)][style].mean()
+                for combo in categories
+            ]
+        elif len(demographics_shape) == 2:
+            r = [
+                df[(df[demographics_shape[0]] == combo[0]) & (df[demographics_shape[1]] == combo[1]) & (df[demographics_color] == color)][style].mean()
+                for combo in categories
+            ]
+        else:
+            raise ValueError("The input for radar chart shape accepts the maximum of 2 options")
 
-    r = [
-        df[(df[demographics[0]] == combo[0]) & (df[demographics[1]] == combo[1])
-           & (df[demographics[2]] == combo[2])].anxious_score.mean()
-        for combo in categories
-    ]
-    fig.add_trace(go.Scatterpolar(
-        r=r,
-        theta=categories,
-        fill="toself",
-        name="Anxious Score"
+        fig.add_trace(go.Scatterpolar(
+            r=r,
+            theta=categories,
+            fill="tonext",
+            name=f"{demographics_color}: {color}"
 
-    ))
+        ))
     # fig.update_layout(
     #     polar=dict(
     #         radialaxis=dict(
