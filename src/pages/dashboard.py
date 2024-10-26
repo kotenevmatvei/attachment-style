@@ -355,14 +355,15 @@ def update_scatter_plot(x_var, y_var, color_var):
 )
 def update_radar_chart(demogr):
     # categories = ("Anxious Score", "Secure Score", "Avoidant Score")
-    demographics = ["gender", "therapy_experience"]
-    values = (("male", "female", "other"), ("extensive", "some", "none"))
-    categories = list(itertools.product(values[0], values[1]))
+    demographics = ["gender", "therapy_experience", "relationship_status"]
+    values = (("male", "female", "other"), ("extensive", "some", "none"), ("relationship", "single", "married"))
+    categories = list(itertools.product(*values))
     # zipped = zip(demographics, values)
     fig = go.Figure()
 
     r = [
-        df[(df[demographics[0]] == combo[0]) & (df[demographics[1]] == combo[1])].anxious_score.mean()
+        df[(df[demographics[0]] == combo[0]) & (df[demographics[1]] == combo[1])
+           & (df[demographics[2]] == combo[2])].anxious_score.mean()
         for combo in categories
     ]
     fig.add_trace(go.Scatterpolar(
