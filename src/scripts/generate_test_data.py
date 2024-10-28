@@ -19,7 +19,7 @@ register_adapter(np.int64, AsIs)
 register_adapter(np.int32, AsIs)
 
 # define the constants
-NUM_DATAPOINTS = 10000
+NUM_DATAPOINTS = 1000
 SIGMA = 1.5
 MEAN_INITIAL = 5
 MEAN_INCREMENT = 0.5
