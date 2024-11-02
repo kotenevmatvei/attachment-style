@@ -1,5 +1,6 @@
 - do we need radar - yes
   - input validation
+- pie chart for globl results
 - add the option include/exclude test data from the plot
 - doe we need parallel?
 - new names for tabs: assess yourself & assess others
