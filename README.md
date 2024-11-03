@@ -1,5 +1,5 @@
-- do we need radar - yes
-  - input validation
+- imports
+- implement radar chart for all combinations
 - pie chart for globl results
 - add the option include/exclude test data from the plot
 - doe we need parallel?
@@ -20,7 +20,7 @@
 
 - refactor
     - dependencies
-    - dictionaries -> classes
+    - dictionaries -> classes (answers)
     - isolate db stuff
     - clean up code
     - optimize question update
