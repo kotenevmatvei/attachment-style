@@ -473,17 +473,10 @@ def update_radar_chart(
 		for shape_combo in shape_combos
 		for color_combo in color_combos
 	)
-	df = pd.DataFrame({
-		"vertex_names": vertex_names,
-		"color_names": color_names,
-		"query": queries,
-		"mean": means
-	})
 	fig = px.line_polar(
-		data_frame=df,
-		r="mean",
-		theta="vertex_names",
-		color="color_names",
+		r=means,
+		theta=vertex_names,
+		color=color_names,
 		line_close=True,
 		color_discrete_sequence=px.colors.sequential.Plasma_r,
 		template="plotly_dark"
