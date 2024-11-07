@@ -81,7 +81,7 @@ def layout(**kwargs):
 												"label": style.split("_")[
 													0
 												].capitalize(),
-												"value": style,  # TODO bullshit!
+												"value": style,
 											}
 											for style in attachment_styles
 										],
