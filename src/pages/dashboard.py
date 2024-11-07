@@ -450,6 +450,7 @@ def update_radar_chart(
 		" & ".join(f"{k} == {repr(v)}" for k, v in zip(demographics_color, color_combo))
 		for color_combo in color_combos
 	)
+	# now and below: the order of nested comprehension matters!
 	queries: tuple[str, ...] = tuple(
 		" & ".join(f"{k} == {repr(v)}"
 		for k, v in zip(demographics_shape, shape_combo))
