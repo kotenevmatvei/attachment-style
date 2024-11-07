@@ -7,6 +7,7 @@
 - doe we need parallel?
 - new names for tabs: assess yourself & assess others
 - style
+  - make download report button more noticeable
   - room between lines on the phone for chart parameters
   - smarter grouping for chart parameters on computer
   - drop bar for chart selection
