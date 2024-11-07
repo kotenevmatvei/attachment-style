@@ -1,4 +1,5 @@
 - proper attachment style selection for radar chart
+- relationship -> in_relationship
 - implement input validation for radar chart
 - implement legend for radar chart
 - pie chart for globl results
