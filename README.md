@@ -1,3 +1,4 @@
+- proper attachment style selection for radar chart
 - implement input validation for radar chart
 - implement legend for radar chart
 - pie chart for globl results
