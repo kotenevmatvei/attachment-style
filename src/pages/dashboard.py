@@ -204,10 +204,12 @@ def layout(**kwargs):
 												"value": "avoidant_score",
 											},
 										],
+										clearable=False,
 										value="anxious_score",
 									),
 									html.Label(
-										"Select Demographic Grouping for the shape:"
+										"Select Demographic Grouping for the shape "
+										"(at least one):"
 									),
 									dcc.Dropdown(
 										id="radar-shape-dropdown",
@@ -223,6 +225,7 @@ def layout(**kwargs):
 											},
 										],
 										value=["gender", "relationship_status"],
+										clearable=False,
 										multi=True,
 									),
 									html.Label(
@@ -407,12 +410,16 @@ def update_scatter_plot(x_var, y_var, color_var):
 	return fig
 
 
-# only suggest by-color demographic options that have not already been chosen for shape
+# only suggest by-color demographic options that have not already been chosen for shape.
+# & adjust accordingly, if no options are chosen
 @callback(
 	Output("radar-color-dropdown", "options"),
-	Input("radar-shape-dropdown", "value")
+	[
+		Input("radar-shape-dropdown", "value"),
+	]
 )
 def update_radar_color_options(used_shape_options: list[str]) -> list[dict[str, str]]:
+
 	not_used_options = [
 		{"label": key, "value": val}
 		for key, val in all_radar_options.items()
@@ -433,6 +440,10 @@ def update_radar_chart(
 	attachment_style: str, demographics_shape: list[str], demographics_color: list[str]
 ) -> go.Figure:
 
+	# if no options are chosen return empty figure
+	if not (demographics_shape or demographics_color):
+		return px.line_polar(template="plotly_dark")
+
 	# for the chosen demographics get the tuples with corresponding values
 	shape_options: tuple[tuple[str, ...], ...] = tuple(
 		demographics_options[demographic] for demographic in demographics_shape
@@ -445,19 +456,32 @@ def update_radar_chart(
 	color_combos: tuple[tuple[str, ...], ...] = tuple(itertools.product(*color_options))
 	shape_combos: tuple[tuple[str, ...], ...] = tuple(itertools.product(*shape_options))
 
-	# calculate the means for all combos
-	color_queries: tuple[str, ...] = tuple(
-		" & ".join(f"{k} == {repr(v)}" for k, v in zip(demographics_color, color_combo))
-		for color_combo in color_combos
-	)
-	# now and below: the order of nested comprehension matters!
-	queries: tuple[str, ...] = tuple(
-		" & ".join(f"{k} == {repr(v)}"
-		for k, v in zip(demographics_shape, shape_combo))
-		+ " & " + color_query  # dependent on color!
-		for shape_combo in shape_combos
-		for color_query in color_queries
-	)
+	# construct the queries
+	if not demographics_color:  # if no options for color chosen
+		queries: tuple[str, ...] = tuple(
+			" & ".join(f"{k} == {repr(v)}"
+			for k, v in zip(demographics_shape, shape_combo))
+			for shape_combo in shape_combos
+		)
+	elif not demographics_shape:  # if no options for shape chosen
+		queries: tuple[str, ...] = tuple(
+			" & ".join(f"{k} == {repr(v)}"
+			for k, v in zip(demographics_color, color_combo))
+			for color_combo in color_combos
+		)
+	else:  # if options for color and shape chosen
+		color_queries: tuple[str, ...] = tuple(
+			" & ".join(f"{k} == {repr(v)}"
+			for k, v in zip(demographics_color, color_combo))
+			for color_combo in color_combos
+		)
+		queries: tuple[str, ...] = tuple(
+			" & ".join(f"{k} == {repr(v)}"
+			for k, v in zip(demographics_shape, shape_combo))
+			+ " & " + color_query  # dependent on color!
+			for shape_combo in shape_combos
+			for color_query in color_queries
+		)
 	means: tuple[float, ...] = tuple(
 		answers_df.query(query)[attachment_style].mean() for query in queries
 	)

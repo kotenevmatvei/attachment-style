@@ -1,4 +1,3 @@
-- implement input validation for radar chart
 - implement legend for radar chart
 - pie chart for globl results
 - add the option include/exclude test data from the plot
