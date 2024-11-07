@@ -91,10 +91,14 @@ def adjust_means(
 		anxious_mean += MEAN_INCREMENT
 		avoidant_mean -= MEAN_INCREMENT
 	# relationship_status
-	if relationship_status == "married":
+	if relationship_status == "in_relationship":
+		anxious_mean -= MEAN_INCREMENT
 		secure_mean += MEAN_INCREMENT
-	elif relationship_status == "in_relationship":
+		avoidant_mean -= MEAN_INCREMENT
+	elif relationship_status == "married":
+		anxious_mean -= 2 * MEAN_INCREMENT
 		secure_mean += 2 * MEAN_INCREMENT
+		avoidant_mean -= 2 * MEAN_INCREMENT
 	# therapy_experience
 	if therapy_experience == "some":
 		anxious_mean -= MEAN_INCREMENT
