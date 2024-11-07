@@ -29,7 +29,7 @@ TEST_YOUR_PARTNER_NUMBER_OF_QUESTIONS = 14
 
 # define possible answers and personal information
 possible_answers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-relationship_statuses = ["single", "relationship", "married"]
+relationship_statuses = ["single", "in_relationship", "married"]
 genders = ["male", "female", "other"]
 attachment_styles = ["secure", "anxious", "avoidant"]
 therapy_experiences = ["none", "some", "extensive"]
@@ -93,11 +93,13 @@ def adjust_means(
 	# relationship_status
 	if relationship_status == "married":
 		secure_mean += MEAN_INCREMENT
+	elif relationship_status == "in_relationship":
+		secure_mean += 2 * MEAN_INCREMENT
 	# therapy_experience
 	if therapy_experience == "some":
 		anxious_mean -= MEAN_INCREMENT
 		secure_mean += MEAN_INCREMENT
-		avoidant_mean += MEAN_INCREMENT
+		avoidant_mean -= MEAN_INCREMENT
 	elif therapy_experience == "extensive":
 		anxious_mean -= 2 * MEAN_INCREMENT
 		secure_mean += 2 * MEAN_INCREMENT

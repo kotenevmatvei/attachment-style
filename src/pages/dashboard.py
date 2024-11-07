@@ -35,7 +35,7 @@ all_radar_options: dict[str, str] = {
 demographics_options: dict[str, tuple[str, ...]] = {
 	"gender": ("male", "female", "other"),
 	"therapy_experience": ("extensive", "some", "none"),
-	"relationship_status": ("married", "relationship", "single"),
+	"relationship_status": ("married", "in_relationship", "single"),
 }
 
 
