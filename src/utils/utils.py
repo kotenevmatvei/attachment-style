@@ -6,7 +6,7 @@ import codecs
 from sqlalchemy.orm import Session
 from datetime import datetime as dt
 from datetime import timedelta
-from models import (
+from src.models import (
     Base,
     TestYourself,
     TestYourPartner,
