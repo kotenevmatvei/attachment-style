@@ -495,7 +495,6 @@ def update_radar_chart(
 		theta=vertex_names,
 		color=color_names,
 		line_close=True,
-		color_discrete_sequence=px.colors.sequential.Plasma_r,
 		template="plotly_dark"
 	)
 
