@@ -335,6 +335,54 @@ def layout(**kwargs):
 							)
 						],
 					),
+					dcc.Tab(
+						label="Global Pie Chart",
+						children=[
+							html.Div(
+								[
+									html.Label("Select the attachment style"),
+									dcc.Dropdown(
+										id="global-pie-chart-dropdown-attachment-style",
+										options=[
+											{
+												"label": "Anxious",
+												"value": "anxious_score",
+											},
+											{
+												"label": "Secure",
+												"value": "secure_score",
+											},
+											{
+												"label": "Avoidant",
+												"value": "avoidant_score",
+											},
+										],
+										value="anxious_score"
+									),
+									html.Label("Select the demographic"),
+									dcc.Dropdown(
+										id="global-pie-chart-dropdown-demographic",
+										options=[
+											{
+												"label": "Gender",
+												"value": "gender",
+											},
+											{
+												"label": "Therapy Experience",
+												"value": "therapy_experience",
+											},
+											{
+												"label": "Relationship Status",
+												"value": "relationship_status",
+											},
+										],
+										value="gender"
+									),
+									dcc.Graph(id="global-pie-chart-graph")
+								]
+							)
+						]
+					)
 				]
 			),
 		]
@@ -549,5 +597,32 @@ def update_parallel_categories(selected_dims, color_by):
 	return fig
 
 
-# if __name__ == "__main__":
-#     app.run_server(debug=True)
+@callback(
+	Output("global-pie-chart-graph", "figure"),
+	[
+		Input("global-pie-chart-dropdown-attachment-style", "value"),
+		Input("global-pie-chart-dropdown-demographic", "value")
+	]
+)
+def update_global_pie_chart(
+		attachment_style: str,
+		demographic: str
+) -> go.Figure:
+
+	options: tuple[str, ...] = tuple(
+		option for option in demographics_options[demographic]
+	)
+	values: tuple[float, ...] = tuple(
+		answers_df[answers_df[demographic] == option][attachment_style].mean()
+		for option in options
+	)
+
+	fig = px.pie(
+		values=values,
+		names=options,
+		title=f"{attachment_style.replace('_', ' ').capitalize()} distribution"
+			  f" by {demographic.replace('_', ' ')}",
+		template="plotly_dark"
+	)
+
+	return fig
