@@ -1,6 +1,6 @@
 - pie chart for globl results
 - add the option include/exclude test data from the plot
-- doe we need parallel?
+- scatter - input validation
 - new names for tabs: assess yourself & assess others
 - style
   - make download report button more noticeable
