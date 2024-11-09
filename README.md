@@ -1,7 +1,8 @@
 - add the option include/exclude test data from the plot
 - everywhere - input validation
 - add any to attachment style options in parallel vars chart
-- new names for tabs: assess yourself & assess others
+- new names for tabs: assess yourself & assess others, chart -> dashboard
+- change the location of downloaded report and png
 - style
   - make download report button more noticeable
   - room between lines on the phone for chart parameters
