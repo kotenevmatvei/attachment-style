@@ -1,6 +1,7 @@
 - pie chart for globl results
 - add the option include/exclude test data from the plot
 - everywhere - input validation
+- add any to attachment style options in parallel vars chart
 - new names for tabs: assess yourself & assess others
 - style
   - make download report button more noticeable
