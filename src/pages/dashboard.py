@@ -441,7 +441,7 @@ def update_radar_chart(
 ) -> go.Figure:
 
 	# if no options are chosen return empty figure
-	if not (demographics_shape or demographics_color):
+	if not demographics_shape:
 		return px.line_polar(template="plotly_dark")
 
 	# for the chosen demographics get the tuples with corresponding values
@@ -457,19 +457,13 @@ def update_radar_chart(
 	shape_combos: tuple[tuple[str, ...], ...] = tuple(itertools.product(*shape_options))
 
 	# construct the queries
-	if not demographics_color:  # if no options for color chosen
+	if not demographics_color:  # without color
 		queries: tuple[str, ...] = tuple(
 			" & ".join(f"{k} == {repr(v)}"
 			for k, v in zip(demographics_shape, shape_combo))
 			for shape_combo in shape_combos
 		)
-	elif not demographics_shape:  # if no options for shape chosen
-		queries: tuple[str, ...] = tuple(
-			" & ".join(f"{k} == {repr(v)}"
-			for k, v in zip(demographics_color, color_combo))
-			for color_combo in color_combos
-		)
-	else:  # if options for color and shape chosen
+	else:  # with color
 		color_queries: tuple[str, ...] = tuple(
 			" & ".join(f"{k} == {repr(v)}"
 			for k, v in zip(demographics_color, color_combo))
