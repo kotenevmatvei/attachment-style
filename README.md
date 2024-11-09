@@ -1,6 +1,6 @@
 - pie chart for globl results
 - add the option include/exclude test data from the plot
-- scatter - input validation
+- everywhere - input validation
 - new names for tabs: assess yourself & assess others
 - style
   - make download report button more noticeable
