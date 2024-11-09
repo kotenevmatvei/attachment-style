@@ -18,6 +18,7 @@
 - translate
 
 - refactor
+    - rename ids consistently
     - dependencies
     - dictionaries -> classes (answers)
     - isolate db stuff
