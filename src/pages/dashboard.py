@@ -495,6 +495,7 @@ def update_radar_chart(
 		theta=vertex_names,
 		color=color_names,
 		line_close=True,
+		labels={"color": " ".join(demographics_color)},
 		template="plotly_dark"
 	)
 
