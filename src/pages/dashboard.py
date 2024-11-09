@@ -411,7 +411,6 @@ def update_scatter_plot(x_var, y_var, color_var):
 
 
 # only suggest by-color demographic options that have not already been chosen for shape.
-# & adjust accordingly, if no options are chosen
 @callback(
 	Output("radar-color-dropdown", "options"),
 	[
