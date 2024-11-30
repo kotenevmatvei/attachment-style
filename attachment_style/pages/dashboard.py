@@ -20,10 +20,6 @@ df1, df2 = get_data_from_db(test=True)
 df1, df2 = aggregate_scores(df1, df2)
 answers_df = df1
 
-# Initialize the app
-app = dash.Dash(__name__)
-
-
 # Get unique values for dropdown options
 attachment_styles = ["avoidant_score", "secure_score", "anxious_score"]
 therapy_experiences = answers_df["therapy_experience"].unique().tolist()

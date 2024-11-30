@@ -11,6 +11,7 @@ from reportlab.platypus import (
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 import codecs
+kaleido = "0.1.0.post1"
 import markdown
 
 

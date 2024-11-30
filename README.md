@@ -1,4 +1,4 @@
-- add the option include/exclude test data from the plot
+- proof of concept for dbc modal
 - everywhere - input validation
 - add any to attachment style options in parallel vars chart
 - new names for tabs: assess yourself & assess others, chart -> dashboard
