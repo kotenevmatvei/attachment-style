@@ -1009,17 +1009,6 @@ docs = ["myst-parser", "pydata-sphinx-theme", "sphinx-autodoc-typehints", "sphin
 test = ["ipykernel", "pre-commit", "pytest (<8)", "pytest-cov", "pytest-timeout"]
 
 [[package]]
-name = "kaleido"
-version = "0.1.0.post1"
-description = "Static image export for web-based visualization libraries with zero dependencies"
-optional = false
-python-versions = "*"
-files = [
-    {file = "kaleido-0.1.0.post1-py2.py3-none-win32.whl", hash = "sha256:636aedcd89f359f54687b4fe331776a7224f7c31c27d03230e4e13c7cf4cb66a"},
-    {file = "kaleido-0.1.0.post1-py2.py3-none-win_amd64.whl", hash = "sha256:2a942606a13c70dfd0a02e092ec140a1083e093ae06661c5e1b1179e477a9e44"},
-]
-
-[[package]]
 name = "kiwisolver"
 version = "1.4.5"
 description = "A fast implementation of the Cassowary constraint solver"
@@ -2498,4 +2487,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "jaraco.test", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "feb35e28135ef3d6d5e22ad8864275c216e7267de1c3204a88d6aedee6e0062d"
+content-hash = "9616e6dd52d0a380ee02fb097cce03ccfb422e33133972ebd8d6c8d6cadc1656"

@@ -5,8 +5,8 @@ from datetime import datetime
 
 import pandas as pd
 from psycopg2.extensions import register_adapter, AsIs
-from src.models import TestYourself, TestYourPartner
-from src.utils.utils import upload_objects_to_db
+from attachment_style.models import TestYourself, TestYourPartner
+from attachment_style.utils.utils import upload_objects_to_db
 
 logging.basicConfig(
 	level=logging.INFO,
@@ -134,7 +134,7 @@ def build_db_entry(
 		"gender": gender,
 		"therapy_experience": therapy_experience,
 		"relationship_status": relationship_status,
-		"test": True,
+		"test": False,
 	}
 
 	scores_dict = {
