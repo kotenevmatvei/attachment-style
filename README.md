@@ -1,3 +1,4 @@
+- add docker db instance in wsl
 - proof of concept for dbc modal
 - everywhere - input validation
 - add any to attachment style options in parallel vars chart
