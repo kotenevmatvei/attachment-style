@@ -1,4 +1,3 @@
-- proof of concept for dbc modal
 - add docker db instance in wsl
 - everywhere - input validation
 - add any to attachment style options in parallel vars chart

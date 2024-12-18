@@ -18,9 +18,7 @@ distro = html.Div(
             id="attachment-style-dropdown",
             options=[
                 {
-                    "label": style.split("_")[
-                        0
-                    ].capitalize(),
+                    "label": style.split("_")[0].capitalize(),
                     "value": style,
                 }
                 for style in attachment_styles
@@ -31,10 +29,31 @@ distro = html.Div(
     ]
 )
 
+# distro_mini = html.Div(
+#     [
+#         dcc.Graph(id="distribution-histogram-modal"),
+#         dbc.Button("Open modal", id="open", n_clicks=0),
+#     ]
+# )
+
+
 def layout(**kwargs):
     return html.Div(
         [
-            dbc.Button("Open modal", id="open", n_clicks=0),
+            # dbc.Button("Open modal", id="open", n_clicks=0),
+            dbc.Row(
+                dbc.Col(
+                    dbc.Container(
+                        html.Div(
+                            [
+                                dcc.Graph(id="distribution-histogram-thumbnail"),
+                                dbc.Button("Open modal", id="open", n_clicks=0),
+                            ],
+                        ),
+                    ),
+                    width=4,
+                ),
+            ),
             dbc.Modal(
                 [
                     dbc.ModalHeader(dbc.ModalTitle("Header")),
@@ -63,13 +82,38 @@ def toggle_modal(n1, n2, is_open):
 
 # Callbacks for interactivity
 @callback(
+    Output("distribution-histogram-thumbnail", "figure"),
+    [
+        Input("attachment-style-dropdown", "value"),
+        # Input("data_store", "data"),
+    ],
+)
+def update_distribution(selected_style):  # , data):
+    # answers_df = pd.DataFrame(data)
+    fig = px.histogram(  # type: ignore
+        answers_df,
+        x=selected_style,
+        nbins=20,
+        title="Histogram",
+        width=400,
+        height=300,
+    )
+    fig.update_xaxes(
+        title=selected_style.split("_")[0].capitalize() + " Attachment Score"
+    )
+    fig.update_yaxes(title="Count")
+    return fig
+
+
+# Callbacks for interactivity
+@callback(
     Output("distribution-histogram-modal", "figure"),
     [
         Input("attachment-style-dropdown", "value"),
         # Input("data_store", "data"),
-    ]
+    ],
 )
-def update_distribution(selected_style):#, data):
+def update_distribution_thumbnail(selected_style):  # , data):
     # answers_df = pd.DataFrame(data)
     fig = px.histogram(  # type: ignore
         answers_df,
