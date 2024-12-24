@@ -49,7 +49,7 @@ def layout(**kwargs):
             dcc.Checklist(
                 ["Include test data"],
                 ["Include test data"],
-                id="include_test_data",
+
             ),
             dcc.Tabs(
                 [

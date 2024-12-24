@@ -25,7 +25,7 @@ MEAN_INITIAL = 5
 MEAN_INCREMENT = 0.5
 TEST_YOURSELF_NUMBER_OF_QUESTIONS = 14
 TEST_YOUR_PARTNER_NUMBER_OF_QUESTIONS = 14
-
+SUBJECT = "you"
 
 # define possible answers and personal information
 possible_answers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -43,8 +43,7 @@ def generate_test_personal_info():
 	age = rng.integers(18, 70, endpoint=True)
 	relationship_status = rng.choice(relationship_statuses)
 	therapy_experience = rng.choice(therapy_experiences)
-	subject = rng.choice(subjects)
-
+	subject = SUBJECT
 	return gender, age, relationship_status, therapy_experience, subject
 
 
@@ -134,7 +133,7 @@ def build_db_entry(
 		"gender": gender,
 		"therapy_experience": therapy_experience,
 		"relationship_status": relationship_status,
-		"test": False,
+		"test": True,
 	}
 
 	scores_dict = {

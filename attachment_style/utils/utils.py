@@ -20,8 +20,9 @@ load_dotenv("../../.env")
 
 # production url
 url = str(os.getenv("DB_URL"))
-url = "postgresql://koyeb-adm:DsanX26eJSmM@ep-autumn-pond-a2sga02t.eu-central-1.pg.koyeb.app/koyebdb"
-url = "postgresql://avnadmin:AVNS_hppOVDRplQceY1kcoEA@attachment-style-attachment-style.f.aivencloud.com:17403/defaultdb?sslmode=require"
+# url = "postgresql://koyeb-adm:DsanX26eJSmM@ep-autumn-pond-a2sga02t.eu-central-1.pg.koyeb.app/koyebdb"
+# url = "postgresql://avnadmin:AVNS_hppOVDRplQceY1kcoEA@attachment-style-attachment-style.f.aivencloud.com:17403/defaultdb?sslmode=require"
+# url = "postgresql://matvei:password@localhost:5433/asdb"
 url = "postgresql://user:password@localhost:5432/attachment_style_db"
 
 # dev url

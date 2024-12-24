@@ -2,6 +2,7 @@ import dash_bootstrap_components as dbc
 from dash import Input, Output, State, html, callback, register_page, dcc
 from attachment_style.utils.utils import get_data_from_db, aggregate_scores
 import plotly.express as px
+import pandas as pd
 
 register_page(__name__, path="/dashboard_modal")
 
@@ -29,40 +30,137 @@ distro = html.Div(
     ]
 )
 
-# distro_mini = html.Div(
-#     [
-#         dcc.Graph(id="distribution-histogram-modal"),
-#         dbc.Button("Open modal", id="open", n_clicks=0),
-#     ]
-# )
+scatter = html.Div(
+    [
+        html.Label("Select X-axis Variable:"),
+        dcc.Dropdown(
+            id="scatter-x-dropdown",
+            options=[
+                {"label": "Age", "value": "age"},
+                {
+                    "label": "Avoidant Score",
+                    "value": "avoidant_score",
+                },
+                {
+                    "label": "Secure Score",
+                    "value": "secure_score",
+                },
+                {
+                    "label": "Anxious Score",
+                    "value": "anxious_score",
+                },
+            ],
+            value="age",
+        ),
+        html.Label("Select Y-axis Variable:"),
+        dcc.Dropdown(
+            id="scatter-y-dropdown",
+            options=[
+                {
+                    "label": "Avoidant Score",
+                    "value": "avoidant_score",
+                },
+                {
+                    "label": "Secure Score",
+                    "value": "secure_score",
+                },
+                {
+                    "label": "Anxious Score",
+                    "value": "anxious_score",
+                },
+            ],
+            value="avoidant_score",
+        ),
+        html.Label("Color By:"),
+        dcc.Dropdown(
+            id="scatter-color-dropdown",
+            options=[
+                {"label": "None", "value": "None"},
+                {"label": "Gender", "value": "gender"},
+                {
+                    "label": "Therapy Experience",
+                    "value": "therapy_experience",
+                },
+                {
+                    "label": "Relationship Status",
+                    "value": "relationship_status",
+                },
+            ],
+            value="gender",
+        ),
+        dcc.Graph(id="scatter-plot"),
+    ]
+)
 
 
 def layout(**kwargs):
     return html.Div(
         [
-            # dbc.Button("Open modal", id="open", n_clicks=0),
             dbc.Row(
-                dbc.Col(
-                    dbc.Container(
-                        html.Div(
-                            [
-                                dcc.Graph(id="distribution-histogram-thumbnail"),
-                                dbc.Button("Open modal", id="open", n_clicks=0),
-                            ],
+                children=[
+                    dbc.Col(
+                        dbc.Container(
+                            html.Div(
+                                [
+                                    html.Div(
+                                        dcc.Graph(
+                                            id="distribution-histogram-thumbnail",
+                                            config={"staticPlot": True},
+                                            style={"cursor": "pointer"},
+                                        ),
+                                        id="histogram-container",
+                                    ),
+                                ],
+                            ),
                         ),
+                        width=4,
                     ),
-                    width=4,
-                ),
+                    dbc.Col(
+                        dbc.Container(
+                            html.Div(
+                                [
+                                    html.Div(
+                                        dcc.Graph(
+                                            id="scatter-thumbnail",
+                                            config={"staticPlot": True},
+                                            style={"cursor": "pointer"},
+                                        ),
+                                        id="scatter-container",
+                                    ),
+                                ],
+                            ),
+                        ),
+                        width=4,
+                    ),
+                ]
             ),
             dbc.Modal(
                 [
                     dbc.ModalHeader(dbc.ModalTitle("Header")),
                     dbc.ModalBody(distro),
                     dbc.ModalFooter(
-                        dbc.Button("Close", id="close", className="ms-auto", n_clicks=0)
+                        dbc.Button(
+                            "Close",
+                            id="close-histogram",
+                            className="ms-auto",
+                            n_clicks=0,
+                        )
                     ),
                 ],
-                id="modal",
+                id="modal-histogram",
+                is_open=False,
+            ),
+            dbc.Modal(
+                [
+                    dbc.ModalHeader(dbc.ModalTitle("Header")),
+                    dbc.ModalBody(distro),
+                    dbc.ModalFooter(
+                        dbc.Button(
+                            "Close", id="close-scatter", className="ms-auto", n_clicks=0
+                        )
+                    ),
+                ],
+                id="modal-scatter",
                 is_open=False,
             ),
         ]
@@ -70,11 +168,22 @@ def layout(**kwargs):
 
 
 @callback(
-    Output("modal", "is_open"),
-    [Input("open", "n_clicks"), Input("close", "n_clicks")],
-    [State("modal", "is_open")],
+    Output("modal-histogram", "is_open"),
+    [Input("histogram-container", "n_clicks"), Input("close-histogram", "n_clicks")],
+    [State("modal-histogram", "is_open")],
 )
-def toggle_modal(n1, n2, is_open):
+def toggle_histogram_modal(n1, n2, is_open):
+    if n1 or n2:
+        return not is_open
+    return is_open
+
+
+@callback(
+    Output("modal-scatter", "is_open"),
+    [Input("scatter-container", "n_clicks"), Input("close-scatter", "n_clicks")],
+    [State("modal-scatter", "is_open")],
+)
+def toggle_scatter_modal(n1, n2, is_open):
     if n1 or n2:
         return not is_open
     return is_open
@@ -88,7 +197,7 @@ def toggle_modal(n1, n2, is_open):
         # Input("data_store", "data"),
     ],
 )
-def update_distribution(selected_style):  # , data):
+def update_distribution_thumbnail(selected_style):  # , data):
     # answers_df = pd.DataFrame(data)
     fig = px.histogram(  # type: ignore
         answers_df,
@@ -113,7 +222,7 @@ def update_distribution(selected_style):  # , data):
         # Input("data_store", "data"),
     ],
 )
-def update_distribution_thumbnail(selected_style):  # , data):
+def update_distribution_modal(selected_style):  # , data):
     # answers_df = pd.DataFrame(data)
     fig = px.histogram(  # type: ignore
         answers_df,
@@ -125,4 +234,62 @@ def update_distribution_thumbnail(selected_style):  # , data):
         title=selected_style.split("_")[0].capitalize() + " Attachment Score"
     )
     fig.update_yaxes(title="Count")
+    return fig
+
+
+@callback(
+    Output("scatter-thumbnail", "figure"),
+    [
+        Input("scatter-x-dropdown", "value"),
+        Input("scatter-y-dropdown", "value"),
+        Input("scatter-color-dropdown", "value"),
+    ],
+)
+def update_scatter_thumbnail(x_var, y_var, color_var, data):
+    answers_df = pd.DataFrame(data)
+    if color_var == "None":
+        fig = px.scatter(
+            answers_df,
+            x=x_var,
+            y=y_var,
+            title=f'{y_var.split("_")[0].capitalize()} vs {x_var.capitalize()}',
+        )
+    else:
+        fig = px.scatter(
+            answers_df,
+            x=x_var,
+            y=y_var,
+            color=color_var,
+        )
+    fig.update_xaxes(title=x_var.replace("_", " ").title())
+    fig.update_yaxes(title=y_var.replace("_", " ").title())
+    return fig
+
+@callback(
+    Output("modal-scatter", "figure"),
+    [
+        Input("scatter-x-dropdown", "value"),
+        Input("scatter-y-dropdown", "value"),
+        Input("scatter-color-dropdown", "value"),
+    ],
+)
+def update_scatter_modal(x_var, y_var, color_var, data):
+    answers_df = pd.DataFrame(data)
+    if color_var == "None":
+        fig = px.scatter(
+            answers_df,
+            x=x_var,
+            y=y_var,
+            title=f'{y_var.split("_")[0].capitalize()} vs {x_var.capitalize()}',
+        )
+    else:
+        fig = px.scatter(
+            answers_df,
+            x=x_var,
+            y=y_var,
+            color=color_var,
+            title=f'{y_var.split("_")[0].capitalize()} vs {x_var.capitalize()} Colored by {color_var.replace("_", " ").title()}',
+        )
+    fig.update_xaxes(title=x_var.replace("_", " ").title())
+    fig.update_yaxes(title=y_var.replace("_", " ").title())
     return fig
