@@ -11,7 +11,7 @@
 # from attachment_style.utils.utils import get_data_from_db, aggregate_scores  # type: ignore
 # import dash_bootstrap_components as dbc  # type: ignore
 # 
-# register_page(__name__)
+# # register_page(__name__)
 # 
 # df1: pd.DataFrame
 # df2: pd.DataFrame
