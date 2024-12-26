@@ -1,4 +1,3 @@
-- new names for tabs: assess yourself & assess others, chart -> dashboard
 - change the location of downloaded report and png
 - style
   - make download report button more noticeable
