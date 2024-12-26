@@ -74,7 +74,8 @@ def layout(**kwargs):
                             ),
                             id="box-container",
                         ),
-                        width=4,
+                        width=12,
+                        lg=4,
                     ),
                     dbc.Col(
                         html.Div(
@@ -85,7 +86,8 @@ def layout(**kwargs):
                             ),
                             id="scatter-container",
                         ),
-                        width=4,
+                        width=12,
+                        lg=4,
                     ),
                     dbc.Col(
                         html.Div(
@@ -96,7 +98,8 @@ def layout(**kwargs):
                             ),
                             id="spider-container",
                         ),
-                        width=4,
+                        width=12,
+                        lg=4,
                     ),
                 ],
             ),
@@ -111,7 +114,8 @@ def layout(**kwargs):
                             ),
                             id="pie-container",
                         ),
-                        width=4,
+                        width=12,
+                        lg=4,
                     ),
                     dbc.Col(
                         html.Div(
@@ -122,7 +126,8 @@ def layout(**kwargs):
                             ),
                             id="histogram-container",
                         ),
-                        width=4,
+                        width=12,
+                        lg=4,
                     ),
                     dbc.Col(
                         html.Div(
@@ -133,7 +138,8 @@ def layout(**kwargs):
                             ),
                             id="parallel-container",
                         ),
-                        width=4,
+                        width=12,
+                        lg=4,
                     ),
                 ],
             ),

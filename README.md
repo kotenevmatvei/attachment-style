@@ -1,5 +1,4 @@
 - style mobile
-  - dashboard
   - fold navbar automatically on click
 - deploy
 - test speed

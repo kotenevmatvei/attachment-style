@@ -3,7 +3,6 @@ from dash import Dash, page_container, html
 import dash_bootstrap_components as dbc
 
 from components.navbar import Navbar
-from components.footer import Footer
 
 app = Dash(
     __name__,
@@ -25,7 +24,6 @@ app.layout = dbc.Container(
             dbc.Col(
                 html.Footer(
                     "Created by Matvei Kotenev. Contact via kotenev.matvei@gmail.com.",
-                    style={"margin": "0"}
                 )
             ),
             style={
