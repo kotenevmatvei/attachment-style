@@ -43,6 +43,7 @@ def layout(**kwargs):
                 ["Include test data"],
                 ["Include test data"],
                 id="include_test_data",
+                className="mb-2",
             ),
             dbc.Row(
                 children=[
@@ -785,7 +786,7 @@ def update_spider_thumbnail(
     answers_df = pd.DataFrame(data)
     # if no options are chosen return empty figure
     if not demographics_shape:
-        return px.line_polar(template="plotly_dark")
+        return px.line_polar()
 
     # for the chosen demographics get the tuples with corresponding values
     shape_options: tuple[tuple[str, ...], ...] = tuple(
@@ -879,7 +880,7 @@ def update_spider_chart(
     answers_df = pd.DataFrame(data)
     # if no options are chosen return empty figure
     if not demographics_shape:
-        return px.line_polar(template="plotly_dark")
+        return px.line_polar()
 
     # for the chosen demographics get the tuples with corresponding values
     shape_options: tuple[tuple[str, ...], ...] = tuple(
