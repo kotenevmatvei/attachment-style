@@ -61,20 +61,6 @@ def layout(**kwargs):
                 className="mb-4 text-center",
             ),
             Chart,
-            dbc.Collapse(
-                dbc.Button("Download Full Report", id="download-report-button"),
-                id="download-report-collapse",
-                is_open=False,
-                className="mb-4 text-center",
-            ),
-            dbc.Collapse(
-                dcc.Markdown(
-                    "Thank you for trying out the attachment style test!",
-                    className="mt-4 text-center",
-                ),
-                id="thank-you-collapse",
-                is_open=False,
-            ),
             # storage
             dcc.Store(
                 id="questions-storage",
@@ -176,7 +162,6 @@ def show_submit_button(last_question_visited: bool) -> bool:
         Output("submit-test-collapse", "is_open", allow_duplicate=True),
         Output("dashboard-collapse", "is_open", allow_duplicate=True),
         Output("download-report-collapse", "is_open", allow_duplicate=True),
-        Output("thank-you-collapse", "is_open", allow_duplicate=True),
         Output("last-question-visited", "data", allow_duplicate=True),
     ],
     [Input("assess-yourself", "n_clicks"), Input("asses-others", "n_clicks")],
@@ -197,7 +182,6 @@ def switch_subject(yourself_clicks, partner_clicks):
             False,
             False,
             False,
-            False,
         )
     else:
         questions = read_questions("partner")
@@ -208,7 +192,6 @@ def switch_subject(yourself_clicks, partner_clicks):
             {},
             questions[0][0],
             f"Question 1/{len(questions)}",
-            False,
             False,
             False,
             False,
@@ -270,7 +253,7 @@ def generate_dashboard(
 
 
 @callback(
-    [Output("thank-you-collapse", "is_open"), Output("download-report", "data")],
+    Output("download-report", "data"),
     Input("download-report-button", "n_clicks"),
     State("answers-storage", "data"),
     prevent_initial_call=True,
@@ -278,7 +261,7 @@ def generate_dashboard(
 def load_report(n_clicks, answers):
     if n_clicks:
         generate_report(answers)
-        return True, dcc.send_file("tmp/attachment_style_report.pdf", type="pdf")
+        return dcc.send_file("tmp/attachment_style_report.pdf", type="pdf")
 
 
 @callback(

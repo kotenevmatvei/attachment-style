@@ -17,7 +17,6 @@ from dotenv import load_dotenv
 load_dotenv("../../.env")
 
 
-
 # production url
 url = str(os.getenv("DB_URL"))
 # url = "postgresql://koyeb-adm:DsanX26eJSmM@ep-autumn-pond-a2sga02t.eu-central-1.pg.koyeb.app/koyebdb"
@@ -68,6 +67,7 @@ def build_pie_chart(
     scores = [anxious_score, secure_score, avoidant_score]
     # Create the pie chart
     fig = px.pie(values=scores, names=labels, title="Attachment Style Pie Chart")
+    fig.update_layout(margin={"t": 40})
 
     return fig
 
@@ -359,5 +359,3 @@ def upload_objects_to_db(objects: list[Base]):
     with Session(engine) as session:
         session.add_all(objects)
         session.commit()
-    
-        
