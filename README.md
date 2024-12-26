@@ -1,4 +1,3 @@
-- change the location of downloaded report and png
 - style
   - make download report button more noticeable
   - room between lines on the phone for chart parameters
