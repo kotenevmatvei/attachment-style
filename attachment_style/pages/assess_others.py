@@ -61,20 +61,6 @@ def layout(**kwargs):
                 className="mb-4 text-center",
             ),
             ChartOthers,
-            dbc.Collapse(
-                dbc.Button("Download Full Report", id="download-report-button-partner"),
-                id="download-report-collapse-partner",
-                is_open=False,
-                className="mb-4 text-center",
-            ),
-            dbc.Collapse(
-                dcc.Markdown(
-                    "Thank you for trying out the attachment style test!",
-                    className="mt-4 text-center",
-                ),
-                id="thank-you-collapse-partner",
-                is_open=False,
-            ),
             # storage
             dcc.Store(
                 id="questions-storage-partner",
@@ -214,10 +200,7 @@ def generate_dashboard(
 
 # Dwnload report
 @callback(
-    [
-        Output("thank-you-collapse-partner", "is_open"),
-        Output("download-report-partner", "data"),
-    ],
+    Output("download-report-partner", "data"),
     Input("download-report-button-partner", "n_clicks"),
     State("answers-storage-partner", "data"),
     prevent_initial_call=True,
@@ -225,7 +208,7 @@ def generate_dashboard(
 def load_report(n_clicks, answers):
     if n_clicks:
         generate_report(answers)
-        return True, dcc.send_file("tmp/attachment_style_report.pdf", type="pdf")
+        return dcc.send_file("tmp/attachment_style_report.pdf", type="pdf")
 
 
 @callback(

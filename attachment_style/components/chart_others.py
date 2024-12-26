@@ -1,17 +1,30 @@
 import dash_bootstrap_components as dbc
-from dash import dcc
+from dash import dcc, html
 
 import plotly.express as px
 
-ChartOthers = dbc.Collapse(
-    dbc.Row(
-        [
-            dbc.Col(dcc.Graph(figure=px.pie([1, 2, 3]), id="pie-chart-partner")),
-            dbc.Col(dcc.Markdown(id="type-description-markdown-partner")),
-        ],
-        className="d-flex align-items-center",
-    ),
+ChartOthers = dbc.Modal(
+    [
+        dbc.ModalHeader(dbc.ModalTitle("Your Results")),
+        dbc.ModalBody(
+            [
+                dcc.Graph(figure=px.pie([1, 2, 3]), id="pie-chart-partner"),
+                dcc.Markdown(id="type-description-markdown-partner"),
+            ],
+        ),
+        dbc.ModalFooter(
+            [
+                html.Div(
+                    "Here you can download your full report with all questions and answers:",
+                    style={"color": "purple", "margin-right":10},
+                ),
+                dbc.Button("PDF", id="download-report-button-partner"),
+            ],
+            id="download-report-collapse-partner",
+            className="d-flex",
+        ),
+    ],
     id="dashboard-collapse-partner",
     is_open=False,
-    className="mb-4 text-center",
+    size="lg",
 )
