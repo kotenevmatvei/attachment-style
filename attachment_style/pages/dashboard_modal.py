@@ -14,21 +14,20 @@ register_page(__name__, path="/dashboard_modal")
 df1, df2 = get_data_from_db(test=True)
 df1, df2 = aggregate_scores(df1, df2)
 answers_df = df1
-attachment_styles = ["avoidant_score", "secure_score", "anxious_score"]
 
-attachment_style_options = {
+attachment_style_options: dict[str, str] = {
     "Avoidant Score": "avoidant_score",
     "Secure Score": "secure_score",
     "Anxious Score": "anxious_score",
 }
 
-all_spider_options: dict[str, str] = {
+demographics_options: dict[str, str] = {
     "Gender": "gender",
     "Therapy Experience": "therapy_experience",
     "Relationship Status": "relationship_status",
 }
 
-demographics_options: dict[str, tuple[str, ...]] = {
+demographics_values: dict[str, tuple[str, ...]] = {
     "gender": ("male", "female", "other"),
     "therapy_experience": ("extensive", "some", "none"),
     "relationship_status": ("married", "in_relationship", "single"),
@@ -153,7 +152,7 @@ def layout(**kwargs):
                                         "label": style.split("_")[0].capitalize(),
                                         "value": style,
                                     }
-                                    for style in attachment_styles
+                                    for style in attachment_style_options.values()
                                 ],
                                 value="avoidant_score",
                             ),
@@ -186,7 +185,7 @@ def layout(**kwargs):
                                         "label": style.split("_")[0].capitalize(),
                                         "value": style,
                                     }
-                                    for style in attachment_styles
+                                    for style in attachment_style_options.values()
                                 ],
                                 value="avoidant_score",
                             ),
@@ -457,7 +456,7 @@ def layout(**kwargs):
                                         "label": style.split("_")[0].capitalize(),
                                         "value": style,
                                     }
-                                    for style in attachment_styles
+                                    for style in attachment_style_options.values()
                                 ],
                                 value="secure_score",
                             ),
@@ -761,7 +760,7 @@ def toggle_spider_modal(open_modal, close_modal, is_open):
 def update_spider_color_options(used_shape_options: list[str]) -> list[dict[str, str]]:
     not_used_options = [
         {"label": key, "value": val}
-        for key, val in all_spider_options.items()
+        for key, val in demographics_options.items()
         if val not in used_shape_options
     ]
     return not_used_options
@@ -790,10 +789,10 @@ def update_spider_thumbnail(
 
     # for the chosen demographics get the tuples with corresponding values
     shape_options: tuple[tuple[str, ...], ...] = tuple(
-        demographics_options[demographic] for demographic in demographics_shape
+        demographics_values[demographic] for demographic in demographics_shape
     )
     color_options: tuple[tuple[str, ...], ...] = tuple(
-        demographics_options[demographic] for demographic in demographics_color
+        demographics_values[demographic] for demographic in demographics_color
     )
 
     # create cartesian products representing all possible combinations
@@ -884,10 +883,10 @@ def update_spider_chart(
 
     # for the chosen demographics get the tuples with corresponding values
     shape_options: tuple[tuple[str, ...], ...] = tuple(
-        demographics_options[demographic] for demographic in demographics_shape
+        demographics_values[demographic] for demographic in demographics_shape
     )
     color_options: tuple[tuple[str, ...], ...] = tuple(
-        demographics_options[demographic] for demographic in demographics_color
+        demographics_values[demographic] for demographic in demographics_color
     )
 
     # create cartesian products representing all possible combinations
@@ -972,7 +971,7 @@ def update_global_pie_thumbnail(
 ) -> go.Figure:
     answers_df = pd.DataFrame(data)
     options: tuple[str, ...] = tuple(
-        option for option in demographics_options[demographic]
+        option for option in demographics_values[demographic]
     )
     values: tuple[float, ...] = tuple(
         answers_df[answers_df[demographic] == option][attachment_style].mean()
@@ -1009,7 +1008,7 @@ def update_global_pie_thumbnail(
 def update_global_pie_graph(attachment_style: str, demographic: str, data) -> go.Figure:
     answers_df = pd.DataFrame(data)
     options: tuple[str, ...] = tuple(
-        option for option in demographics_options[demographic]
+        option for option in demographics_values[demographic]
     )
     values: tuple[float, ...] = tuple(
         answers_df[answers_df[demographic] == option][attachment_style].mean()
