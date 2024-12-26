@@ -1,4 +1,3 @@
-from os import X_OK
 import dash_bootstrap_components as dbc
 import pandas as pd
 from dash import Input, Output, State, html, callback, register_page, dcc
@@ -32,6 +31,46 @@ demographics_values: dict[str, tuple[str, ...]] = {
     "therapy_experience": ("extensive", "some", "none"),
     "relationship_status": ("married", "in_relationship", "single"),
 }
+
+attachment_style_labels_values: tuple[dict[str, str], ...] = (
+    (
+        {
+            "label": "Anxious",
+            "value": "anxious_score",
+        },
+        {
+            "label": "Secure",
+            "value": "secure_score",
+        },
+        {
+            "label": "Avoidant",
+            "value": "avoidant_score",
+        },
+    ),
+)
+
+attachment_score_labels_values: tuple[dict[str, str], ...] = (
+    (
+        {
+            "label": "Anxious Score",
+            "value": "anxious_score",
+        },
+        {
+            "label": "Secure Score",
+            "value": "secure_score",
+        },
+        {
+            "label": "Avoidant Score",
+            "value": "avoidant_score",
+        },
+    ),
+)
+
+demographics_lables_values: tuple[dict[str, str], ...] = (
+    {"label": "Gender", "value": "gender"},
+    {"label": "Therapy Experience", "value": "therapy_experience"},
+    {"label": "Relationship Status", "value": "relationship_status"},
+)
 
 
 def layout(**kwargs):
@@ -126,17 +165,7 @@ def layout(**kwargs):
                             html.Label("Select Demographic Variable:"),
                             dcc.RadioItems(
                                 id="demographic-radio",
-                                options=[
-                                    {"label": "Gender", "value": "gender"},
-                                    {
-                                        "label": "Therapy Experience",
-                                        "value": "therapy_experience",
-                                    },
-                                    {
-                                        "label": "Relationship Status",
-                                        "value": "relationship_status",
-                                    },
-                                ],
+                                options=demographics_lables_values,
                                 value="gender",
                                 labelStyle={
                                     "display": "inline-block",
@@ -147,13 +176,9 @@ def layout(**kwargs):
                             html.Label("Select Attachment Style:"),
                             dcc.Dropdown(
                                 id="attachment-style-dropdown-demographics",
-                                options=[
-                                    {
-                                        "label": style.split("_")[0].capitalize(),
-                                        "value": style,
-                                    }
-                                    for style in attachment_style_options.values()
-                                ],
+                                options=attachment_style_labels_values[
+                                    0
+                                ],  # no idea why [0] is necessary for styles but not for demographics
                                 value="avoidant_score",
                             ),
                             dcc.Graph(id="box-graph"),
@@ -180,13 +205,7 @@ def layout(**kwargs):
                             html.Label("Select Attachment Style:"),
                             dcc.Dropdown(
                                 id="attachment-style-dropdown-histo",
-                                options=[
-                                    {
-                                        "label": style.split("_")[0].capitalize(),
-                                        "value": style,
-                                    }
-                                    for style in attachment_style_options.values()
-                                ],
+                                options=attachment_style_labels_values[0],
                                 value="avoidant_score",
                             ),
                             dcc.Graph(id="histogram-graph"),
@@ -213,40 +232,14 @@ def layout(**kwargs):
                             html.Label("Select X-axis Variable:"),
                             dcc.Dropdown(
                                 id="scatter-x-dropdown",
-                                options=[
-                                    {"label": "Age", "value": "age"},
-                                    {
-                                        "label": "Avoidant Score",
-                                        "value": "avoidant_score",
-                                    },
-                                    {
-                                        "label": "Secure Score",
-                                        "value": "secure_score",
-                                    },
-                                    {
-                                        "label": "Anxious Score",
-                                        "value": "anxious_score",
-                                    },
-                                ],
+                                options=({"label": "Age", "value": "age"},)
+                                + attachment_score_labels_values[0],
                                 value="age",
                             ),
                             html.Label("Select Y-axis Variable:"),
                             dcc.Dropdown(
                                 id="scatter-y-dropdown",
-                                options=[
-                                    {
-                                        "label": "Avoidant Score",
-                                        "value": "avoidant_score",
-                                    },
-                                    {
-                                        "label": "Secure Score",
-                                        "value": "secure_score",
-                                    },
-                                    {
-                                        "label": "Anxious Score",
-                                        "value": "anxious_score",
-                                    },
-                                ],
+                                options=attachment_score_labels_values[0],
                                 value="avoidant_score",
                             ),
                             html.Div(
@@ -258,18 +251,8 @@ def layout(**kwargs):
                             html.Label("Color By:"),
                             dcc.Dropdown(
                                 id="scatter-color-dropdown",
-                                options=[
-                                    {"label": "None", "value": "None"},
-                                    {"label": "Gender", "value": "gender"},
-                                    {
-                                        "label": "Therapy Experience",
-                                        "value": "therapy_experience",
-                                    },
-                                    {
-                                        "label": "Relationship Status",
-                                        "value": "relationship_status",
-                                    },
-                                ],
+                                options=({"label": "None", "value": "None"},)
+                                + demographics_lables_values,
                                 value="gender",
                             ),
                             dcc.Graph(id="scatter-graph"),
@@ -296,20 +279,7 @@ def layout(**kwargs):
                             html.Label("Select the attachment style:"),
                             dcc.Dropdown(
                                 id="spider-attachment-style-dropdown",
-                                options=[
-                                    {
-                                        "label": "Anxious",
-                                        "value": "anxious_score",
-                                    },
-                                    {
-                                        "label": "Secure",
-                                        "value": "secure_score",
-                                    },
-                                    {
-                                        "label": "Avoidant",
-                                        "value": "avoidant_score",
-                                    },
-                                ],
+                                options=attachment_style_labels_values[0],
                                 clearable=False,
                                 value="anxious_score",
                             ),
@@ -319,17 +289,7 @@ def layout(**kwargs):
                             ),
                             dcc.Dropdown(
                                 id="spider-shape-dropdown",
-                                options=[
-                                    {"label": "Gender", "value": "gender"},
-                                    {
-                                        "label": "Therapy Experience",
-                                        "value": "therapy_experience",
-                                    },
-                                    {
-                                        "label": "Relationship Status",
-                                        "value": "relationship_status",
-                                    },
-                                ],
+                                options=demographics_lables_values,
                                 value=["gender", "relationship_status"],
                                 clearable=False,
                                 multi=True,
@@ -337,17 +297,7 @@ def layout(**kwargs):
                             html.Label("Select Demographic Grouping for the color:"),
                             dcc.Dropdown(
                                 id="spider-color-dropdown",
-                                options=[
-                                    {"label": "Gender", "value": "gender"},
-                                    {
-                                        "label": "Therapy Experience",
-                                        "value": "therapy_experience",
-                                    },
-                                    {
-                                        "label": "Relationship Status",
-                                        "value": "relationship_status",
-                                    },
-                                ],
+                                options=demographics_lables_values,
                                 value=["therapy_experience"],
                                 multi=True,
                             ),
@@ -375,39 +325,13 @@ def layout(**kwargs):
                             html.Label("Select the attachment style"),
                             dcc.Dropdown(
                                 id="global-pie-chart-dropdown-attachment-style",
-                                options=[
-                                    {
-                                        "label": "Anxious",
-                                        "value": "anxious_score",
-                                    },
-                                    {
-                                        "label": "Secure",
-                                        "value": "secure_score",
-                                    },
-                                    {
-                                        "label": "Avoidant",
-                                        "value": "avoidant_score",
-                                    },
-                                ],
+                                options=attachment_style_labels_values[0],
                                 value="anxious_score",
                             ),
                             html.Label("Select the demographic"),
                             dcc.Dropdown(
                                 id="global-pie-chart-dropdown-demographic",
-                                options=[
-                                    {
-                                        "label": "Gender",
-                                        "value": "gender",
-                                    },
-                                    {
-                                        "label": "Therapy Experience",
-                                        "value": "therapy_experience",
-                                    },
-                                    {
-                                        "label": "Relationship Status",
-                                        "value": "relationship_status",
-                                    },
-                                ],
+                                options=demographics_lables_values,
                                 value="gender",
                             ),
                             dcc.Graph(id="pie-graph"),
@@ -434,30 +358,15 @@ def layout(**kwargs):
                             html.Label("Select Variables:"),
                             dcc.Dropdown(
                                 id="parallel-categories-dropdown",
-                                options=[
-                                    {"label": "Gender", "value": "gender"},
-                                    {
-                                        "label": "Therapy Experience",
-                                        "value": "therapy_experience",
-                                    },
-                                    {
-                                        "label": "Relationship Status",
-                                        "value": "relationship_status",
-                                    },
-                                ],
+                                options=demographics_lables_values,
                                 value=["gender", "therapy_experience"],
                                 multi=True,
                             ),
                             html.Label("Color By Attachment Style:"),
                             dcc.Dropdown(
                                 id="parallel-color-dropdown",
-                                options=[
-                                    {
-                                        "label": style.split("_")[0].capitalize(),
-                                        "value": style,
-                                    }
-                                    for style in attachment_style_options.values()
-                                ] + [{"label": "Any", "value": "any"}],
+                                options=attachment_style_labels_values[0]
+                                + ({"label": "Any", "value": "any"},),
                                 value="secure_score",
                             ),
                             dcc.Graph(id="parallel-graph"),
@@ -1042,15 +951,23 @@ def update_parallel_thumnail(selected_dims, color_by, data):
     answers_df = pd.DataFrame(data)
     if not selected_dims:
         selected_dims = ["gender"]
-    fig = px.parallel_categories(
-        answers_df,
-        dimensions=selected_dims,
-        color=color_by,
-        color_continuous_scale=px.colors.sequential.Inferno,
-        title="Parallel Categories Diagram",
-        width=400,
-        height=250,
-    )
+    if color_by == "any":
+        fig = px.parallel_categories(
+            answers_df,
+            dimensions=selected_dims,
+            color_continuous_scale=px.colors.sequential.Inferno,
+            title="Parallel Categories Diagram",
+        )
+    else:
+        fig = px.parallel_categories(
+            answers_df,
+            dimensions=selected_dims,
+            color=color_by,
+            color_continuous_scale=px.colors.sequential.Inferno,
+            title="Parallel Categories Diagram",
+            width=400,
+            height=250,
+        )
     fig.update_layout(
         title_x=0.5,
         title_y=0.98,
