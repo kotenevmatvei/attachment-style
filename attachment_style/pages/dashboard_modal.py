@@ -982,8 +982,7 @@ def update_global_pie_thumbnail(
     fig = px.pie(
         values=values,
         names=options,
-        title=f"{attachment_style.replace('_', ' ').capitalize()} distribution"
-        f" by {demographic.replace('_', ' ')}",
+        title="Global Pie Chart",
         width=400,
         height=250,
         # template="plotly_dark",
