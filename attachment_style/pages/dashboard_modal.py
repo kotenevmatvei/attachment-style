@@ -34,15 +34,15 @@ demographics_values: dict[str, tuple[str, ...]] = {
 
 # fmt: off
 attachment_style_labels_values: tuple[dict[str, str], ...] = ( 
-    { "label": "Anxious", "value": "anxious_score", },
-    { "label": "Secure", "value": "secure_score", },
-    { "label": "Avoidant", "value": "avoidant_score", },
+    {"label": "Anxious", "value": "anxious_score"},
+    {"label": "Secure", "value": "secure_score"},
+    {"label": "Avoidant", "value": "avoidant_score"},
 )
 
 attachment_score_labels_values: tuple[dict[str, str], ...] = (
-    { "label": "Anxious Score", "value": "anxious_score", },
-    { "label": "Secure Score", "value": "secure_score", },
-    { "label": "Avoidant Score", "value": "avoidant_score", },
+    {"label": "Anxious Score", "value": "anxious_score"},
+    {"label": "Secure Score", "value": "secure_score"},
+    {"label": "Avoidant Score", "value": "avoidant_score"},
 )
 # fmt: on
 
@@ -156,12 +156,7 @@ def layout(**kwargs):
                             html.Label("Select Attachment Style:"),
                             dcc.Dropdown(
                                 id="attachment-style-dropdown-demographics",
-                                # no idea why [0] is necessary for styles but not for
-                                # demographics below and all the times further. must be
-                                # something with the way plotly interprets arguments
-                                # for different input fields (automatcally wraps them
-                                # in a list in some cases, apparently)
-                                options=attachment_style_labels_values[0],
+                                options=attachment_style_labels_values,
                                 value="avoidant_score",
                             ),
                             dcc.Graph(id="box-graph"),
@@ -188,7 +183,7 @@ def layout(**kwargs):
                             html.Label("Select Attachment Style:"),
                             dcc.Dropdown(
                                 id="attachment-style-dropdown-histo",
-                                options=attachment_style_labels_values[0],
+                                options=attachment_style_labels_values,
                                 value="avoidant_score",
                             ),
                             dcc.Graph(id="histogram-graph"),
@@ -216,13 +211,13 @@ def layout(**kwargs):
                             dcc.Dropdown(
                                 id="scatter-x-dropdown",
                                 options=({"label": "Age", "value": "age"},)
-                                + attachment_score_labels_values[0],
+                                + attachment_score_labels_values,
                                 value="age",
                             ),
                             html.Label("Select Y-axis Variable:"),
                             dcc.Dropdown(
                                 id="scatter-y-dropdown",
-                                options=attachment_score_labels_values[0],
+                                options=attachment_score_labels_values,
                                 value="avoidant_score",
                             ),
                             html.Div(
@@ -262,7 +257,7 @@ def layout(**kwargs):
                             html.Label("Select the attachment style:"),
                             dcc.Dropdown(
                                 id="spider-attachment-style-dropdown",
-                                options=attachment_style_labels_values[0],
+                                options=attachment_style_labels_values,
                                 clearable=False,
                                 value="anxious_score",
                             ),
@@ -308,7 +303,7 @@ def layout(**kwargs):
                             html.Label("Select the attachment style"),
                             dcc.Dropdown(
                                 id="global-pie-chart-dropdown-attachment-style",
-                                options=attachment_style_labels_values[0],
+                                options=attachment_style_labels_values,
                                 value="anxious_score",
                             ),
                             html.Label("Select the demographic"),
@@ -348,7 +343,7 @@ def layout(**kwargs):
                             html.Label("Color By Attachment Style:"),
                             dcc.Dropdown(
                                 id="parallel-color-dropdown",
-                                options=attachment_style_labels_values[0]
+                                options=attachment_style_labels_values
                                 + ({"label": "Any", "value": "any"},),
                                 value="secure_score",
                             ),
