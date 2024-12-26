@@ -3,7 +3,6 @@ import logging
 import time
 from datetime import datetime
 
-import pandas as pd
 from psycopg2.extensions import register_adapter, AsIs
 from attachment_style.models import TestYourself, TestYourPartner
 from attachment_style.utils.utils import upload_objects_to_db
