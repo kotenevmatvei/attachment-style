@@ -1,7 +1,7 @@
 import dash_bootstrap_components as dbc
 from dash import dcc
 
-QuestionCardPartner = dbc.Row(
+QuestionCardOthers = dbc.Row(
     dbc.Col(
         dbc.Card(
             children=[

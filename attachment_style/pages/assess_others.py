@@ -23,7 +23,7 @@ from utils.generate_pdf import generate_report
 
 import plotly.io as pio
 
-from components.question_card_partner import QuestionCardPartner
+from components.question_card_others import QuestionCardOthers
 from components.chart_others import ChartOthers
 from components.demographics_questionnaire_others import DemographicQuestionnaireOthers
 
@@ -49,7 +49,7 @@ def layout(**kwargs):
                         """,
                         className="text-center",
                     ),
-                    QuestionCardPartner,
+                    QuestionCardOthers,
                 ],
                 id="question-card-collapse-partner",
                 is_open=False,
