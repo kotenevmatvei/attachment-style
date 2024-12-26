@@ -694,16 +694,6 @@ def update_scatter_y_options(x_value):
     return not_used_options
 
 
-# @callback(Output("scatter-x-dropdown", "options"), Input("scatter-y-dropdown", "value"))
-# def update_scatter_x_options(y_value):
-#     not_used_options = [
-#         {"label": key, "value": val}
-#         for key, val in attachment_style_options.items()
-#         if val != y_value
-#     ]
-#     return not_used_options
-
-
 # update scatter graph
 @callback(
     [Output("scatter-graph", "figure"), Output("scatter-y-warning", "hidden")],
