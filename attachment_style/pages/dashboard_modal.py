@@ -457,7 +457,7 @@ def layout(**kwargs):
                                         "value": style,
                                     }
                                     for style in attachment_style_options.values()
-                                ],
+                                ] + [{"label": "Any", "value": "any"}],
                                 value="secure_score",
                             ),
                             dcc.Graph(id="parallel-graph"),
@@ -1086,11 +1086,19 @@ def update_parallel_graph(selected_dims, color_by, data):
     answers_df = pd.DataFrame(data)
     if not selected_dims:
         selected_dims = ["gender"]
-    fig = px.parallel_categories(
-        answers_df,
-        dimensions=selected_dims,
-        color=color_by,
-        color_continuous_scale=px.colors.sequential.Inferno,
-        title="Parallel Categories Diagram",
-    )
+    if color_by == "any":
+        fig = px.parallel_categories(
+            answers_df,
+            dimensions=selected_dims,
+            color_continuous_scale=px.colors.sequential.Inferno,
+            title="Parallel Categories Diagram",
+        )
+    else:
+        fig = px.parallel_categories(
+            answers_df,
+            dimensions=selected_dims,
+            color=color_by,
+            color_continuous_scale=px.colors.sequential.Inferno,
+            title="Parallel Categories Diagram",
+        )
     return fig
