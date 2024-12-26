@@ -176,9 +176,12 @@ def layout(**kwargs):
                             html.Label("Select Attachment Style:"),
                             dcc.Dropdown(
                                 id="attachment-style-dropdown-demographics",
-                                options=attachment_style_labels_values[
-                                    0
-                                ],  # no idea why [0] is necessary for styles but not for demographics
+                                # no idea why [0] is necessary for styles but not for
+                                # demographics below and all the times further. must be
+                                # something with the way plotly interprets arguments
+                                # for different input fields (automatcally wraps them
+                                # in a list in some cases, apparently)
+                                options=attachment_style_labels_values[0],
                                 value="avoidant_score",
                             ),
                             dcc.Graph(id="box-graph"),
@@ -528,7 +531,8 @@ def update_histo_modal(selected_style, data):
         answers_df,
         x=selected_style,
         nbins=20,
-        title=f'Distribution of {selected_style.split("_")[0].capitalize()} Attachment Scores',
+        title=f'Distribution of {selected_style.split("_")[0].capitalize()} '
+        f'Attachment Scores',
     )
     fig.update_layout(
         xaxis_title=selected_style.split("_")[0].capitalize() + " Attachment Score",
