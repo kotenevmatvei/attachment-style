@@ -18,7 +18,7 @@ PersonalQuestionnaire = dbc.Container(
             [
                 dbc.Col(
                     [
-                        html.Div("Your age in years:"),
+                        html.Div("Age in years:"),
                         dbc.Input(type="number", id="age"),
                     ],
                     sm={"size": 4, "offset": 2},
@@ -26,7 +26,7 @@ PersonalQuestionnaire = dbc.Container(
                 ),
                 dbc.Col(
                     [
-                        html.Div("Your relationship status:"),
+                        html.Div("Relationship status:"),
                         dbc.Select(
                             id="relationship-status",
                             options=[
@@ -46,7 +46,7 @@ PersonalQuestionnaire = dbc.Container(
             [
                 dbc.Col(
                     [
-                        html.Div("Your gender:"),
+                        html.Div("Gender:"),
                         dbc.Select(
                             id="gender",
                             options=[
