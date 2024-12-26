@@ -1,7 +1,7 @@
 import dash_bootstrap_components as dbc
 from dash import html
 
-PersonalQuestionnairePartner = dbc.Container(
+DemographicQuestionnaireOthers = dbc.Container(
     [
         # description
         dbc.Row(

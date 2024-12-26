@@ -15,7 +15,7 @@ import dash_bootstrap_components as dbc
 
 from components.question_card import QuestionCard
 from components.dashboard import Dashboard
-from components.personal_questionnaire import PersonalQuestionnaire
+from components.demographics_questionnaire import DemographicsQuestionnaire
 
 from utils.utils import (
     read_questions,
@@ -35,7 +35,7 @@ def layout(**kwargs):
         [
             html.H3("Assess Yourself", className="text-center"),
             dbc.Collapse(
-                PersonalQuestionnaire,
+                DemographicsQuestionnaire,
                 id="personal-questionnaire-collapse",
                 is_open=True,
             ),

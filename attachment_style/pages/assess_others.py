@@ -25,7 +25,7 @@ import plotly.io as pio
 
 from components.question_card_partner import QuestionCardPartner
 from components.dashboard_partner import DashboardPartner
-from components.personal_questionnaire_partner import PersonalQuestionnairePartner
+from components.demographics_questionnaire_others import DemographicQuestionnaireOthers
 
 register_page(__name__, path="/asses-others")
 
@@ -35,7 +35,7 @@ def layout(**kwargs):
         [
             html.H3("Assess Others", className="text-center"),
             dbc.Collapse(
-                PersonalQuestionnairePartner,
+                DemographicQuestionnaireOthers,
                 id="personal-questionnaire-collapse-partner",
                 is_open=True,
             ),
