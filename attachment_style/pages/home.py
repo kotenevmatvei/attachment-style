@@ -25,9 +25,9 @@ def layout(**kwargs):
                             how we interact with others in our relationships.\n                 
                             This test includes 
                             two questionnaires to help you determine your attachment style, or 
-                            that of your partner or someone else. [Assess Yourself](/test-yourself) is a rather 
+                            that of your partner or someone else. [Assess Yourself](/assess-yourself) is a rather 
                             subjective version that one can only really answer for oneself. 
-                            [Assess Others](/test-your-partner) offers more behavior-based questions that can 
+                            [Assess Others](/asses-others) offers more behavior-based questions that can 
                             be answered with regard to someone else - *as well as yourself*.  
                             """,
                         )
@@ -42,7 +42,7 @@ def layout(**kwargs):
                     dbc.Col(
                         dbc.Button(
                             "Assess Yourself",
-                            href="/test-yourself",
+                            href="/assess-yourself",
                             color="primary",
                             className="d-flex justify-content-center",
                         ),
@@ -52,7 +52,7 @@ def layout(**kwargs):
                     dbc.Col(
                         dbc.Button(
                             "Assess Others",
-                            href="/test-your-partner",
+                            href="/asses-others",
                             color="primary",
                             className="d-flex justify-content-center",
                         ),

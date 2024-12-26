@@ -27,7 +27,7 @@ from utils.utils import (
 )
 from utils.generate_pdf import generate_report
 
-register_page(__name__, path="/test-yourself")
+register_page(__name__, path="/assess-yourself")
 
 
 def layout(**kwargs):
@@ -179,12 +179,12 @@ def show_submit_button(last_question_visited: bool) -> bool:
         Output("thank-you-collapse", "is_open", allow_duplicate=True),
         Output("last-question-visited", "data", allow_duplicate=True),
     ],
-    [Input("test-yourself", "n_clicks"), Input("test-your-partner", "n_clicks")],
+    [Input("assess-yourself", "n_clicks"), Input("asses-others", "n_clicks")],
     prevent_initial_call=True,
 )
 def switch_subject(yourself_clicks, partner_clicks):
     id_triggered = ctx.triggered_id
-    if id_triggered == "test-yourself":
+    if id_triggered == "assess-yourself":
         questions = read_questions("you")
         shuffle(questions)
         return (

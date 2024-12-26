@@ -27,7 +27,7 @@ from components.question_card_partner import QuestionCardPartner
 from components.dashboard_partner import DashboardPartner
 from components.personal_questionnaire_partner import PersonalQuestionnairePartner
 
-register_page(__name__, path="/test-your-partner")
+register_page(__name__, path="/asses-others")
 
 
 def layout(**kwargs):
