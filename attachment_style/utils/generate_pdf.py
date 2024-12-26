@@ -5,20 +5,17 @@ from reportlab.platypus import (
     Spacer,
     HRFlowable,
     Table,
-    TableStyle,
     Indenter,
 )
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
-import codecs
 kaleido = "0.1.0.post1"
-import markdown
 
 
 def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
     top_margin = 0.5 * 72
     # Create a SimpleDocTemplate
-    doc = SimpleDocTemplate("data/attachment style report.pdf", topMargin=top_margin)
+    doc = SimpleDocTemplate("tmp/attachment_style_report.pdf", topMargin=top_margin)
     # Fetch the built-in styles, and return a list to append elements to
     styles = getSampleStyleSheet()
     story = []
@@ -28,7 +25,7 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
     # add space
     story.append(Spacer(0, 10))
     # add chart
-    chart = Image("data/figure.png", width=700 / 2, height=500 / 2)
+    chart = Image("tmp/figure.png", width=700 / 2, height=500 / 2)
     story.append(chart)
     # add a horizontal ruler to divide next section
     story.append(

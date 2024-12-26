@@ -2,7 +2,5 @@
 .idea
 .venv
 .env
-/src/data/attachment style report.pdf
-/src/data/figure.png
 ruff.toml
 .vscode
