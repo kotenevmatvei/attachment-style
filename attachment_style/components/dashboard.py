@@ -1,6 +1,5 @@
 import dash_bootstrap_components as dbc
 import plotly.express as px
-from dash import html
 from dash import dcc
 
 Dashboard = dbc.Collapse(
