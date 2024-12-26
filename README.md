@@ -12,6 +12,8 @@
 - write the readme
 - check for typos - (send to a few people, carina, mateo)
 
+- update about page
+
 - contact plotly guy
 - contact the authors
 
