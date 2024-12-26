@@ -32,39 +32,19 @@ demographics_values: dict[str, tuple[str, ...]] = {
     "relationship_status": ("married", "in_relationship", "single"),
 }
 
-attachment_style_labels_values: tuple[dict[str, str], ...] = (
-    (
-        {
-            "label": "Anxious",
-            "value": "anxious_score",
-        },
-        {
-            "label": "Secure",
-            "value": "secure_score",
-        },
-        {
-            "label": "Avoidant",
-            "value": "avoidant_score",
-        },
-    ),
+# fmt: off
+attachment_style_labels_values: tuple[dict[str, str], ...] = ( 
+    { "label": "Anxious", "value": "anxious_score", },
+    { "label": "Secure", "value": "secure_score", },
+    { "label": "Avoidant", "value": "avoidant_score", },
 )
 
 attachment_score_labels_values: tuple[dict[str, str], ...] = (
-    (
-        {
-            "label": "Anxious Score",
-            "value": "anxious_score",
-        },
-        {
-            "label": "Secure Score",
-            "value": "secure_score",
-        },
-        {
-            "label": "Avoidant Score",
-            "value": "avoidant_score",
-        },
-    ),
+    { "label": "Anxious Score", "value": "anxious_score", },
+    { "label": "Secure Score", "value": "secure_score", },
+    { "label": "Avoidant Score", "value": "avoidant_score", },
 )
+# fmt: on
 
 demographics_lables_values: tuple[dict[str, str], ...] = (
     {"label": "Gender", "value": "gender"},
