@@ -2,7 +2,7 @@ import dash_bootstrap_components as dbc
 import plotly.express as px
 from dash import dcc
 
-Dashboard = dbc.Collapse(
+Chart = dbc.Collapse(
     dbc.Row(
         [
             dbc.Col(dcc.Graph(figure=px.pie([1, 2, 3]), id="pie-chart")),

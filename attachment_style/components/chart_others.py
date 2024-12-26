@@ -3,7 +3,7 @@ from dash import dcc
 
 import plotly.express as px
 
-DashboardPartner = dbc.Collapse(
+ChartOthers = dbc.Collapse(
     dbc.Row(
         [
             dbc.Col(dcc.Graph(figure=px.pie([1, 2, 3]), id="pie-chart-partner")),

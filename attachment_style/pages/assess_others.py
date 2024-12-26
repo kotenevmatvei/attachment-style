@@ -24,7 +24,7 @@ from utils.generate_pdf import generate_report
 import plotly.io as pio
 
 from components.question_card_partner import QuestionCardPartner
-from components.dashboard_partner import DashboardPartner
+from components.chart_others import ChartOthers
 from components.demographics_questionnaire_others import DemographicQuestionnaireOthers
 
 register_page(__name__, path="/asses-others")
@@ -60,7 +60,7 @@ def layout(**kwargs):
                 is_open=False,
                 className="mb-4 text-center",
             ),
-            DashboardPartner,
+            ChartOthers,
             dbc.Collapse(
                 dbc.Button("Download Full Report", id="download-report-button-partner"),
                 id="download-report-collapse-partner",

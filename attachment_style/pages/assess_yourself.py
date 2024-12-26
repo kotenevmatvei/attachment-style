@@ -14,7 +14,7 @@ import plotly.io as pio
 import dash_bootstrap_components as dbc
 
 from components.question_card import QuestionCard
-from components.dashboard import Dashboard
+from components.chart import Chart
 from components.demographics_questionnaire import DemographicsQuestionnaire
 
 from utils.utils import (
@@ -60,7 +60,7 @@ def layout(**kwargs):
                 is_open=False,
                 className="mb-4 text-center",
             ),
-            Dashboard,
+            Chart,
             dbc.Collapse(
                 dbc.Button("Download Full Report", id="download-report-button"),
                 id="download-report-collapse",
