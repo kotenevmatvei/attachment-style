@@ -2,6 +2,7 @@
   - make download report button more noticeable
     - modal for chart?
   - fold navbar automatically on click
+  - add footer with contact info and support link
 - deploy
 - test speed
 - optimize performance if needed
