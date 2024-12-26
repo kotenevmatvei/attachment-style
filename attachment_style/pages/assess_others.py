@@ -150,7 +150,6 @@ def show_submit_button(last_question_visited: bool) -> bool:
         Output("dashboard-collapse-partner", "is_open"),
         Output("pie-chart-partner", "figure"),
         Output("type-description-markdown-partner", "children"),
-        Output("download-report-collapse-partner", "is_open"),
     ],
     Input("submit-test-button-partner", "n_clicks"),
     [
@@ -195,7 +194,7 @@ def generate_dashboard(
         pio.write_image(
             fig_to_download, "tmp/figure.png", width=700 * 1.5, height=500 * 1.5
         )
-        return True, fig, description, True
+        return True, fig, description
 
 
 # Dwnload report

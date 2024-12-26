@@ -59,7 +59,7 @@ def layout(**kwargs):
                         width=6,
                         sm={"size": 3, "offset": 0},
                     ),
-                ]
+                ],
             ),
-        ]
+        ],
     )

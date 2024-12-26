@@ -161,7 +161,6 @@ def show_submit_button(last_question_visited: bool) -> bool:
         Output("question-count-text", "children", allow_duplicate=True),
         Output("submit-test-collapse", "is_open", allow_duplicate=True),
         Output("dashboard-collapse", "is_open", allow_duplicate=True),
-        Output("download-report-collapse", "is_open", allow_duplicate=True),
         Output("last-question-visited", "data", allow_duplicate=True),
     ],
     [Input("assess-yourself", "n_clicks"), Input("asses-others", "n_clicks")],
@@ -181,7 +180,6 @@ def switch_subject(yourself_clicks, partner_clicks):
             False,
             False,
             False,
-            False,
         )
     else:
         questions = read_questions("partner")
@@ -195,7 +193,6 @@ def switch_subject(yourself_clicks, partner_clicks):
             False,
             False,
             False,
-            False,
         )
 
 
@@ -204,7 +201,6 @@ def switch_subject(yourself_clicks, partner_clicks):
         Output("dashboard-collapse", "is_open"),
         Output("pie-chart", "figure"),
         Output("type-description-markdown", "children"),
-        Output("download-report-collapse", "is_open"),
     ],
     Input("submit-test-button", "n_clicks"),
     [
@@ -249,7 +245,7 @@ def generate_dashboard(
         pio.write_image(
             fig_to_download, "tmp/figure.png", width=700 * 1.5, height=500 * 1.5
         )
-        return True, fig, description, True
+        return True, fig, description
 
 
 @callback(
