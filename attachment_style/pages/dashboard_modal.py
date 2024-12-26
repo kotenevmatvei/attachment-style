@@ -1,5 +1,5 @@
+from os import X_OK
 import dash_bootstrap_components as dbc
-from numpy import who
 import pandas as pd
 from dash import Input, Output, State, html, callback, register_page, dcc
 from attachment_style.utils.utils import get_data_from_db, aggregate_scores
@@ -15,6 +15,12 @@ df1, df2 = get_data_from_db(test=True)
 df1, df2 = aggregate_scores(df1, df2)
 answers_df = df1
 attachment_styles = ["avoidant_score", "secure_score", "anxious_score"]
+
+attachment_style_options = {
+    "Avoidant Score": "avoidant_score",
+    "Secure Score": "secure_score",
+    "Anxious Score": "anxious_score",
+}
 
 all_spider_options: dict[str, str] = {
     "Gender": "gender",
@@ -136,6 +142,7 @@ def layout(**kwargs):
                                     "display": "inline-block",
                                     "margin-right": "10px",
                                 },
+                                className="mb-2",
                             ),
                             html.Label("Select Attachment Style:"),
                             dcc.Dropdown(
@@ -241,6 +248,12 @@ def layout(**kwargs):
                                     },
                                 ],
                                 value="avoidant_score",
+                            ),
+                            html.Div(
+                                "Please choose the Y variable different from X",
+                                id="scatter-y-warning",
+                                style={"color": "red"},
+                                hidden=True,
                             ),
                             html.Label("Color By:"),
                             dcc.Dropdown(
@@ -478,12 +491,10 @@ def include_test_data(include_test_data):
         df1, df2 = get_data_from_db(test=True)
         df1, df2 = aggregate_scores(df1, df2)
         answers_dict = df1.to_dict()
-        print(answers_dict)
         return answers_dict
     df1, df2 = get_data_from_db(test=False)
     df1, df2 = aggregate_scores(df1, df2)
     answers_dict = df1.to_dict()
-    print(answers_dict)
     return answers_dict
 
 
@@ -672,9 +683,30 @@ def update_scatter_thumbnail(x_var, y_var, color_var, data):
     return fig
 
 
+# don't let the mdummies choose the same attachment style for x and y axes
+@callback(Output("scatter-y-dropdown", "options"), Input("scatter-x-dropdown", "value"))
+def update_scatter_y_options(x_value):
+    not_used_options = [
+        {"label": key, "value": val}
+        for key, val in attachment_style_options.items()
+        if val != x_value
+    ]
+    return not_used_options
+
+
+# @callback(Output("scatter-x-dropdown", "options"), Input("scatter-y-dropdown", "value"))
+# def update_scatter_x_options(y_value):
+#     not_used_options = [
+#         {"label": key, "value": val}
+#         for key, val in attachment_style_options.items()
+#         if val != y_value
+#     ]
+#     return not_used_options
+
+
 # update scatter graph
 @callback(
-    Output("scatter-graph", "figure"),
+    [Output("scatter-graph", "figure"), Output("scatter-y-warning", "hidden")],
     [
         Input("scatter-x-dropdown", "value"),
         Input("scatter-y-dropdown", "value"),
@@ -684,6 +716,8 @@ def update_scatter_thumbnail(x_var, y_var, color_var, data):
 )
 def update_scatter_graph(x_var, y_var, color_var, data):
     answers_df = pd.DataFrame(data)
+    if y_var is None:
+        return px.scatter([]), False
     if color_var == "None":
         fig = px.scatter(
             answers_df,
@@ -697,11 +731,12 @@ def update_scatter_graph(x_var, y_var, color_var, data):
             x=x_var,
             y=y_var,
             color=color_var,
-            title=f'{y_var.split("_")[0].capitalize()} vs {x_var.capitalize()} Colored by {color_var.replace("_", " ").title()}',
+            title=f'{y_var.split("_")[0].capitalize()} vs {x_var.capitalize()} Colored '
+            f'by {color_var.replace("_", " ").title()}',
         )
     fig.update_xaxes(title=x_var.replace("_", " ").title())
     fig.update_yaxes(title=y_var.replace("_", " ").title())
-    return fig
+    return fig, True
 
 
 # SPIDER CHART
@@ -1004,6 +1039,7 @@ def toggle_parallel_modal(open_modal, close_modal, is_open):
         return not is_open
     return is_open
 
+
 # update parallel thumbnail
 @callback(
     Output("parallel-thumbnail", "figure"),
@@ -1013,7 +1049,7 @@ def toggle_parallel_modal(open_modal, close_modal, is_open):
         Input("data-store", "data"),
     ],
 )
-def update_parallel_categories(selected_dims, color_by, data):
+def update_parallel_thumnail(selected_dims, color_by, data):
     answers_df = pd.DataFrame(data)
     if not selected_dims:
         selected_dims = ["gender"]
@@ -1033,9 +1069,10 @@ def update_parallel_categories(selected_dims, color_by, data):
         showlegend=False,
     )
     fig.update_coloraxes(showscale=False)
-    for dim in fig.data[0]['dimensions']:
-        dim['label'] = ''
+    for dim in fig.data[0]["dimensions"]:
+        dim["label"] = ""
     return fig
+
 
 # update parallel graph
 @callback(
@@ -1046,7 +1083,7 @@ def update_parallel_categories(selected_dims, color_by, data):
         Input("data-store", "data"),
     ],
 )
-def update_parallel_categories(selected_dims, color_by, data):
+def update_parallel_graph(selected_dims, color_by, data):
     answers_df = pd.DataFrame(data)
     if not selected_dims:
         selected_dims = ["gender"]
