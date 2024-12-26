@@ -1,4 +1,3 @@
-- everywhere - input validation
 - add any to attachment style options in parallel vars chart
 - new names for tabs: assess yourself & assess others, chart -> dashboard
 - change the location of downloaded report and png
