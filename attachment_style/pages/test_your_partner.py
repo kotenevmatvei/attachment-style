@@ -1,17 +1,14 @@
 from dash import (
-    Dash,
     html,
     dcc,
     Input,
     Output,
     State,
     ctx,
-    page_container,
     callback,
     register_page,
 )
 from random import shuffle
-from sqlalchemy.orm import Session
 import copy
 import dash_bootstrap_components as dbc
 from utils.utils import (
@@ -26,7 +23,6 @@ from utils.generate_pdf import generate_report
 
 import plotly.io as pio
 
-from components.description import Description
 from components.question_card_partner import QuestionCardPartner
 from components.dashboard_partner import DashboardPartner
 from components.personal_questionnaire_partner import PersonalQuestionnairePartner
@@ -37,7 +33,7 @@ register_page(__name__, path="/test-your-partner")
 def layout(**kwargs):
     return html.Div(
         [
-            html.H3("Test Your Partner", className="text-center"),
+            html.H3("Assess Others", className="text-center"),
             dbc.Collapse(
                 PersonalQuestionnairePartner,
                 id="personal-questionnaire-collapse-partner",

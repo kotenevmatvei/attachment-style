@@ -1,12 +1,12 @@
 import dash_bootstrap_components as dbc
-from dash import dcc, html, Output, Input, callback
+from dash import dcc, html
 
 Description = html.Div(
     dbc.Container(
         [
             dbc.Row(
                 dbc.Col(
-                    html.H3("Test Yourself", id="subject-title"),
+                    html.H3("Assess Yourself", id="subject-title"),
                     className="d-flex justify-content-center",
                 )
             ),

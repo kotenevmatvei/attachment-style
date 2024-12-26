@@ -1,22 +1,18 @@
 from dash import (
-    Dash,
     html,
     dcc,
     Input,
     Output,
     State,
     ctx,
-    page_container,
     callback,
     register_page,
 )
 from random import shuffle
-from sqlalchemy.orm import Session
 import copy
 import plotly.io as pio
 import dash_bootstrap_components as dbc
 
-from components.description import Description
 from components.question_card import QuestionCard
 from components.dashboard import Dashboard
 from components.personal_questionnaire import PersonalQuestionnaire
@@ -37,7 +33,7 @@ register_page(__name__, path="/test-yourself")
 def layout(**kwargs):
     return html.Div(
         [
-            html.H3("Test Yourself", className="text-center"),
+            html.H3("Assess Yourself", className="text-center"),
             dbc.Collapse(
                 PersonalQuestionnaire,
                 id="personal-questionnaire-collapse",

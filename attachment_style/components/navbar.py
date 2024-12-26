@@ -6,13 +6,13 @@ Navbar = dbc.Row(
             children=[
                 dbc.NavItem(
                     dbc.NavLink(
-                        "Test Yourself", href="/test-yourself", id="test-yourself"
+                        "Assess Yourself", href="/test-yourself", id="test-yourself"
                     ),
                     style={"cursor": "pointer"},
                 ),
                 dbc.NavItem(
                     dbc.NavLink(
-                        "Test Your Partner",
+                        "Assess Others",
                         href="/test-your-partner",
                         id="test-your-partner",
                     ),
