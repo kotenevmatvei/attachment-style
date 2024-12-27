@@ -67,6 +67,7 @@ app.layout = html.Div(
                         "padding-left": "10px",
                         "padding-right": "10px",
                     },
+                    className="page-container",
                 ),
                 html.Div(
                     html.Footer(
