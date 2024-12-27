@@ -22,6 +22,14 @@ app.layout = html.Div(
                                     dbc.Stack(
                                         [
                                             dbc.NavLink(
+                                                "Home",
+                                                href="/",
+                                                style={
+                                                    "cursor": "pointer",
+                                                    "margin-right": "4px",
+                                                },
+                                            ),
+                                            dbc.NavLink(
                                                 "Assess Yourself",
                                                 href="/assess-yourself",
                                                 id="assess-yourself",
