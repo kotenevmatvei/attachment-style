@@ -2,9 +2,43 @@
   .mb-2-xs {
     margin-bottom: 0 !important;
   }
+
   .body-response {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
 
+  .navbar-large {
+    display: none;
+  }
+
+}
+
+#Sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #111;
+  opacity: 0.97;
+  overflow-x: hidden;
+  padding-top: 60px;
+  transition: 0.5s ease;
+  /* Smooth opening/closing animation */
+}
+
+/* Open state */
+#Sidenav.open {
+  width: 200px;
+}
+
+.sidenav-link {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 15px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
 }

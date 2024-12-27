@@ -577,7 +577,7 @@ def update_scatter_thumbnail(x_var, y_var, color_var, data):
     return fig
 
 
-# don't let the mdummies choose the same attachment style for x and y axes
+# don't let the dummies choose the same attachment style for x and y axes
 @callback(Output("scatter-y-dropdown", "options"), Input("scatter-x-dropdown", "value"))
 def update_scatter_y_options(x_value):
     not_used_options = [
