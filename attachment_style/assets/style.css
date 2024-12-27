@@ -15,14 +15,6 @@
 
 }
 
-@media (min-width: 1900px) {
-  .page-container {
-    padding-left: 150px !important;
-  }
-}
-
-
-
 #Sidenav {
   height: 100%;
   width: 0;

@@ -58,7 +58,7 @@ app.layout = html.Div(
                             ]
                         ),
                     ],
-                    className="d-flex justify-content-between bg-light p-3 mb-4",
+                    className="d-flex justify-content-between p-3 mb-4",
                 ),
                 html.Div(
                     page_container,
@@ -74,11 +74,11 @@ app.layout = html.Div(
                         "Created by Matvei Kotenev. Contact via kotenev.matvei@gmail.com.",
                     ),
                     style={
-                        "backgroundColor": "#f1f1f1",
                         "position": "sticky",
                         "textAlign": "center",
                         "padding-top": "5px",
                         "padding-bottom": "5px",
+                        "font-size": "12px",
                     },
                 ),
             ],
