@@ -1,11 +1,19 @@
-- style mobile
+- style
   - fold navbar automatically on click
+  - navbar font size
+  - nvbar mb responsive
+  - dashboard figure margins responsive
+  - button colors
+  - font style
+  - text alignment
+  - add support mention?
+- about page
 - deploy
 - test speed
 - optimize performance if needed
     - cache
     - test data to pkl ?
-- basic cleanup, comments
+- basic code cleanup, comments
 - test suite
 - write the readme
 - check for typos - (send to a few people, carina, mateo)
