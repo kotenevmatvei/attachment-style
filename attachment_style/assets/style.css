@@ -33,7 +33,7 @@
   background-color: #111;
   opacity: 0.97;
   overflow-x: hidden;
-  padding-top: 60px;
+  padding-top: 10px;
   transition: 0.5s ease;
   display: flex;
   flex-direction: column;

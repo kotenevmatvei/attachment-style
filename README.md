@@ -1,6 +1,4 @@
 - style
-  - navbar font size
-  - hamburger background
   - nvbar mb responsive
   - dashboard figure margins responsive
   - button colors

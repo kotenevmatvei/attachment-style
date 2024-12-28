@@ -16,7 +16,9 @@ app.layout = html.Div(
             [
                 html.Div(
                     [
-                        dbc.NavLink("Attachment Style Test", href="/"),
+                        dbc.NavLink(
+                            "Attachment Style Test", href="/", className="fs-5"
+                        ),
                         html.Div(
                             [
                                 html.Div(
@@ -60,14 +62,14 @@ app.layout = html.Div(
                                 ),
                                 html.Button(
                                     html.I(className="bi bi-list"),
-                                    className="border-0 d-sm-none",
+                                    className="border-0 d-sm-none bg-transparent",
                                     id="hamburger",
                                     n_clicks=0,
                                 ),
                             ]
                         ),
                     ],
-                    className="d-flex justify-content-between p-3 mb-4",
+                    className="d-flex justify-content-between align-items-center p-3 mb-4",
                 ),
                 html.Div(
                     page_container,
@@ -103,6 +105,11 @@ app.layout = html.Div(
         ),
         html.Div(
             [
+                html.I(
+                    className="bi bi-x-lg sidenav-link bg-transparent pb-3",
+                    id="close-sidenav-top",
+                    n_clicks=0,
+                ),
                 dbc.NavLink(
                     "Home",
                     href="/",
@@ -140,7 +147,7 @@ app.layout = html.Div(
                 ),
                 dbc.NavLink(
                     "Close",
-                    id="close-sidenav",
+                    id="close-sidenav-bottom",
                     style={"cursor": "pointer", "padding-bottom": "20px"},
                     className="sidenav-link",
                 ),
@@ -169,17 +176,12 @@ def open_sidenav(hamburger_click):
         Output("Sidenav", "className", allow_duplicate=True),
         Output("opacity", "className", allow_duplicate=True),
     ],
-    [
-        Input("close-sidenav", "n_clicks")
-    ],
+    [Input("close-sidenav-top", "n_clicks"), Input("close-sidenav-bottom", "n_clicks")],
     prevent_initial_call=True,
 )
-def fold_sidenavbar(
-    # home_click, yourself_click, others_click, dashboard_click, about_click
-    close_click,
-):
+def fold_sidenavbar(close_top_click, close_bottom_click):
     # if home_click or yourself_click or others_click or dashboard_click or about_click:
-    if close_click:
+    if close_top_click or close_bottom_click:
         return "", ""
 
 
