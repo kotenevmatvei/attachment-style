@@ -11,6 +11,7 @@ server = app.server
 
 app.layout = html.Div(
     [
+        html.Div(id="opacity"),
         html.Div(
             [
                 html.Div(
@@ -151,34 +152,35 @@ app.layout = html.Div(
 
 
 @app.callback(
-    Output("Sidenav", "className"),
+    [
+        Output("Sidenav", "className"),
+        Output("opacity", "className"),
+    ],
     Input("hamburger", "n_clicks"),
 )
 def open_sidenav(hamburger_click):
     if hamburger_click:
-        return "open"
-    return ""
+        return "open", "open"
+    return "", ""
 
 
 @app.callback(
-    Output("Sidenav", "className", allow_duplicate=True),
     [
-        # Input("home-sidenav", "n_clicks"),
-        # Input("assess-yourself-sidenav", "n_clicks"),
-        # Input("assess-others-sidenav", "n_clicks"),
-        # Input("dashboard-sidenav", "n_clicks"),
-        # Input("about-sidenav", "n_clicks"),
+        Output("Sidenav", "className", allow_duplicate=True),
+        Output("opacity", "className", allow_duplicate=True),
+    ],
+    [
         Input("close-sidenav", "n_clicks")
     ],
     prevent_initial_call=True,
 )
 def fold_sidenavbar(
     # home_click, yourself_click, others_click, dashboard_click, about_click
-    close_click
+    close_click,
 ):
     # if home_click or yourself_click or others_click or dashboard_click or about_click:
     if close_click:
-        return ""
+        return "", ""
 
 
 if __name__ == "__main__":

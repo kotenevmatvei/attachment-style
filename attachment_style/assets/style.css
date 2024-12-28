@@ -6,7 +6,15 @@
   .body-response {
     padding-left: 0 !important;
     padding-right: 0 !important;
-    margin-right: 0 !important;
+    background-color: white;
+    transition: 0.5s ease;
+  }
+
+  .body-response-open {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    background-color: rgba(0, 0, 0, 0.3);
+    transition: 0.5s ease;
   }
 
   .navbar-large {
@@ -26,7 +34,7 @@
   opacity: 0.97;
   overflow-x: hidden;
   padding-top: 60px;
-  transition: 0.7s ease;
+  transition: 0.5s ease;
   display: flex;
   flex-direction: column;
   /* Smooth opening/closing animation */
@@ -44,4 +52,21 @@
   color: #818181;
   display: block;
   transition: 0.3s;
+}
+
+#opacity {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  right: 0px;
+  background: black;
+  opacity: 0;
+  z-index: -1;
+  transition: 0.5s ease, right 0.5s ease;
+}
+
+#opacity.open {
+  z-index: 10;
+  right: 200px;
+  opacity: 0.8;
 }

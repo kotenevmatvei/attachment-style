@@ -1,6 +1,4 @@
 - style
-  - add push
-  - add opacity
   - navbar font size
   - hamburger background
   - nvbar mb responsive
