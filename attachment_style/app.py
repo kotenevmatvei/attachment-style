@@ -105,31 +105,42 @@ app.layout = html.Div(
                 dbc.NavLink(
                     "Home",
                     href="/",
+                    id="home-sidenav",
                     style={"cursor": "pointer"},
                     className="sidenav-link",
                 ),
                 dbc.NavLink(
                     "Assess Yourself",
                     href="/assess-yourself",
+                    id="assess-yourself-sidenav",
                     style={"cursor": "pointer"},
                     className="sidenav-link",
                 ),
                 dbc.NavLink(
                     "Assess Others",
                     href="/asses-others",
+                    id="assess-others-sidenav",
                     style={"cursor": "pointer"},
                     className="sidenav-link",
                 ),
                 dbc.NavLink(
                     "Dashboard",
                     href="/dashboard",
+                    id="dashboard-sidenav",
                     style={"cursor": "pointer"},
                     className="sidenav-link",
                 ),
                 dbc.NavLink(
                     "About",
                     href="/about",
-                    style={"cursor": "pointer"},
+                    id="about-sidenav",
+                    style={"cursor": "pointer", "flex": "1"},
+                    className="sidenav-link",
+                ),
+                dbc.NavLink(
+                    "Close",
+                    id="close-sidenav",
+                    style={"cursor": "pointer", "padding-bottom": "20px"},
                     className="sidenav-link",
                 ),
             ],
@@ -147,6 +158,27 @@ def open_sidenav(hamburger_click):
     if hamburger_click:
         return "open"
     return ""
+
+
+@app.callback(
+    Output("Sidenav", "className", allow_duplicate=True),
+    [
+        # Input("home-sidenav", "n_clicks"),
+        # Input("assess-yourself-sidenav", "n_clicks"),
+        # Input("assess-others-sidenav", "n_clicks"),
+        # Input("dashboard-sidenav", "n_clicks"),
+        # Input("about-sidenav", "n_clicks"),
+        Input("close-sidenav", "n_clicks")
+    ],
+    prevent_initial_call=True,
+)
+def fold_sidenavbar(
+    # home_click, yourself_click, others_click, dashboard_click, about_click
+    close_click
+):
+    # if home_click or yourself_click or others_click or dashboard_click or about_click:
+    if close_click:
+        return ""
 
 
 if __name__ == "__main__":

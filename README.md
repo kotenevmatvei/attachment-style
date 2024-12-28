@@ -1,5 +1,4 @@
 - style
-  - fold navbar automatically on click
   - navbar font size
   - hamburger background
   - nvbar mb responsive
