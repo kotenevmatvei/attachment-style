@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Copy the requirements file into the container
-COPY src/requirements.txt .
+COPY attachment_style/requirements.txt .
 # Install the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
