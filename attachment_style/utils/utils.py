@@ -6,7 +6,7 @@ import codecs
 from sqlalchemy.orm import Session
 from datetime import datetime as dt
 from datetime import timedelta
-from attachment_style.models import (
+from models import (
     Base,
     TestYourself,
     TestYourPartner,

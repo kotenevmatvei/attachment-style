@@ -5,8 +5,8 @@ from datetime import datetime
 
 import pandas as pd
 from psycopg2.extensions import register_adapter, AsIs
-from attachment_style.models import TestYourself, TestYourPartner
-from attachment_style.utils.utils import upload_objects_to_db
+from models import TestYourself, TestYourPartner
+from utils.utils import upload_objects_to_db
 
 logging.basicConfig(
 	level=logging.INFO,

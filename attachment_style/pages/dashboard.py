@@ -1,7 +1,7 @@
 import dash_bootstrap_components as dbc
 import pandas as pd
 from dash import Input, Output, State, html, callback, register_page, dcc
-from attachment_style.utils.utils import get_data_from_db, aggregate_scores
+from utils.utils import get_data_from_db, aggregate_scores
 import plotly.express as px
 import plotly.graph_objects as go
 import itertools
