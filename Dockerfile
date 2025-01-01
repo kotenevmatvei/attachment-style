@@ -22,4 +22,4 @@ COPY attachment_style/ .
 EXPOSE 8050
 
 # Command to run the application
-CMD ["python", "-m", "app"]
+CMD ["python", "app.py"]
