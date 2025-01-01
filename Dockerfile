@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
-WORKDIR /app
+WORKDIR /attachments_style
 
 # Copy the requirements file into the container
 COPY attachment_style/requirements.txt .
