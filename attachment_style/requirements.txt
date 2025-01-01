@@ -21,3 +21,4 @@ alembic
 psycopg2
 scikit-learn
 python-dotenv
+flask-caching

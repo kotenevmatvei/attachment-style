@@ -24,6 +24,7 @@ alembic = "^1.13.2"
 psycopg2 = "^2.9.9"
 scikit-learn = "^1.5.2"
 python-dotenv = "^1.0.1"
+flask-caching = "^2.3.0"
 
 
 [tool.poetry.group.dev.dependencies]
