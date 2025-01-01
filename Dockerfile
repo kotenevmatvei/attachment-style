@@ -16,7 +16,7 @@ COPY attachment_style/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code into the container
-COPY src/ .
+COPY attachment_style/ .
 
 # Expose the port the app runs on
 EXPOSE 8050
