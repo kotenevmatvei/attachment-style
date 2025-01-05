@@ -450,7 +450,7 @@ def update_box_graph(demographic, selected_style, data):
         answers_df,
         x=demographic,
         y=selected_style,
-        title=f'{selected_style.split("_")[0].capitalize()}'
+        title=f'{selected_style.split("_")[0].capitalize()} '
         f'Attachment Scores by {demographic.replace("_", " ").title()}',
     )
     fig.update_xaxes(title=demographic.replace("_", " ").title())
