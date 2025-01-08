@@ -5,15 +5,6 @@ from utils.utils import get_data_from_db, aggregate_scores
 import plotly.express as px
 import plotly.graph_objects as go
 import itertools
-from ..app import app
-from flask_caching import Cache 
-
-cache = Cache(app.server, config={
-    'CACHE_TYPE': 'filesystem',
-    'CACHE_DIR': 'cache-directory'
-})
-
-TIMEOUT = 60
 
 
 register_page(__name__, path="/dashboard")
@@ -387,7 +378,6 @@ def layout(**kwargs):
 
 
 # load the data from db
-@cache.memoize(timeout=TIMEOUT)
 @callback(
     [Output("data-store", "data"), Output("log-div", "children")],
     Input("include_test_data", "value"),
