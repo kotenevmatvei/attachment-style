@@ -14,6 +14,8 @@ df1, df2 = get_data_from_db(test=True)
 df1, df2 = aggregate_scores(df1, df2)
 answers_df = df1
 
+fig = go.Figure()
+
 attachment_style_options: dict[str, str] = {
     "Avoidant Score": "avoidant_score",
     "Secure Score": "secure_score",
