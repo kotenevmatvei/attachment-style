@@ -1,4 +1,7 @@
 ## Attachment Style Test
+
+most recent deployment on Google Cloud: https://attachment-style-975444076866.us-central1.run.app
+
 This app is inspired by a book on adult attachment styles I read last summer.
 I disliked all of the quizes I could find on the internet both content and implementation
 wise. So decided to code my own.
