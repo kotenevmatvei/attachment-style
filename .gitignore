@@ -4,3 +4,4 @@
 .env
 ruff.toml
 .vscode
+attachment_style/alembic.ini

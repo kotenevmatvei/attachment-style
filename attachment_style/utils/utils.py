@@ -1,6 +1,5 @@
 import plotly.express as px
 import pandas as pd
-import numpy as np
 import os
 import codecs
 from sqlalchemy.orm import Session
@@ -12,22 +11,13 @@ from models import (
     TestYourPartner,
 )  # import works while utils imported in app.py
 from sqlalchemy import create_engine
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 
-
-load_dotenv("../../.env")
+load_dotenv(find_dotenv())
 
 
 # production url
 url = str(os.getenv("DB_URL"))
-# url = "postgresql://koyeb-adm:DsanX26eJSmM@ep-autumn-pond-a2sga02t.eu-central-1.pg.koyeb.app/koyebdb"
-url = "postgresql://avnadmin:AVNS_hppOVDRplQceY1kcoEA@attachment-style-attachment-style.f.aivencloud.com:17403/defaultdb?sslmode=require"
-# url = "postgresql://matvei:password@localhost:5433/asdb"
-# local docker:
-# url = "postgresql://user:password@localhost:5432/attachment_style_db"
-
-# dev url
-# url = "postgresql://postgres:password@localhost:32772/"
 
 engine = create_engine(url=url)
 
