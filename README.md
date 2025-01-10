@@ -1,7 +1,7 @@
 ## Attachment Style Test
 This app is inspired by a book on adult attachment styles I read last summer.
-I disliked all of the quizes I could find on the internet both in terms of what they
-had to offer and their implementation. So decided to code my own.
+I disliked all of the quizes I could find on the internet both content and implementation
+wise. So decided to code my own.
 
 Distinguishing features:
 - user can download the pdf with all the questions and answers
