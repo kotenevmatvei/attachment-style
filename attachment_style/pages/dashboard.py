@@ -65,7 +65,6 @@ def layout(**kwargs):
                 id="include_test_data",
                 className="mb-2",
             ),
-            html.Div(id="log-div"),
             dbc.Row(
                 children=[
                     dbc.Col(
@@ -379,7 +378,7 @@ def layout(**kwargs):
 
 # load the data from db
 @callback(
-    [Output("data-store", "data"), Output("log-div", "children")],
+    Output("data-store", "data"),
     Input("include_test_data", "value"),
 )
 def include_test_data(include_test_data):
@@ -387,11 +386,11 @@ def include_test_data(include_test_data):
         df1, df2 = get_data_from_db(test=True)
         df1, df2 = aggregate_scores(df1, df2)
         answers_dict = df1.to_dict()
-        return answers_dict, "we're done"
+        return answers_dict
     df1, df2 = get_data_from_db(test=False)
     df1, df2 = aggregate_scores(df1, df2)
     answers_dict = df1.to_dict()
-    return answers_dict, "we're done"
+    return answers_dict
 
 
 # BOX PLOT
