@@ -4,7 +4,7 @@ most recent deployment on Google Cloud: https://attachment-style-975444076866.us
 
 This app is inspired by a book on adult attachment styles I read last summer.
 I disliked all of the quizes I could find on the internet both content and implementation
-wise. So decided to code my own.
+wise. So I decided to code my own.
 
 Distinguishing features:
 - user can download the pdf with all the questions and answers
