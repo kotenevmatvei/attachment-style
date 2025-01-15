@@ -1,4 +1,4 @@
-from dash import Dash, page_container, html, Output, Input
+from dash import Dash, page_container, html, Output, Input, dcc, clientside_callback
 
 import dash_bootstrap_components as dbc
 
@@ -14,6 +14,8 @@ app.layout = html.Div(
         html.Div(id="opacity"),
         html.Div(
             [
+                dcc.Store(id="dimensions"),
+                html.Div(id="dummy"),
                 html.Div(
                     [
                         dbc.NavLink(
@@ -154,6 +156,7 @@ app.layout = html.Div(
             ],
             id="Sidenav",
         ),
+        dcc.Store(id="window-size"),
     ],
 )
 
@@ -184,6 +187,42 @@ def fold_sidenavbar(close_top_click, close_bottom_click):
     if close_top_click or close_bottom_click:
         return "", ""
 
+
+# add event listener for window resizing
+app.clientside_callback(
+    """
+    function(trigger) {
+        function dummyClick() {
+            document.getElementById('dummy').click()
+        };
+        
+        window.addEventListener('resize', dummyClick)
+        return window.dash_clientside.no_update
+    }
+    """,
+    Output("dummy", "style"),
+    Input("dummy", "style"),
+)
+
+# store current dimension in store
+app.clientside_callback(
+    """
+    function updateStore(click) {
+        var w = window.innerWidth;
+        var h = window.innerHeight; 
+        return [w, h]
+    }
+    """,
+    Output("dimensions", "data"),
+    Input("dummy", "n_clicks"),
+)
+
+@app.callback(
+    Output("dummy","children"),
+    Input("dimensions", "data")
+)
+def print_dimenstions(data):
+    return data
 
 if __name__ == "__main__":
     # app.run_server(host="0.0.0.0", port=8050)
