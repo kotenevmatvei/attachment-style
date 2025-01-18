@@ -215,16 +215,6 @@ app.clientside_callback(
     Input("dummy", "n_clicks"),
 )
 
-@app.callback(
-    [
-        Output("dummy","children"),
-        # Output("window-width", "data"),
-    ],
-    Input("window-width", "data")
-)
-def print_dimenstions(data):
-    return data
-
 if __name__ == "__main__":
     # app.run_server(host="0.0.0.0", port=8050)
     app.run(debug=True)

@@ -70,3 +70,13 @@
   right: 200px;
   opacity: 0.8;
 }
+
+.thumbnail {
+  width: fit-content;
+  margin: auto;
+}
+
+.thumbnail-container {
+  display: flex;
+  flex-wrap: wrap;
+}

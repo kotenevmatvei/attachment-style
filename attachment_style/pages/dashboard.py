@@ -65,85 +65,64 @@ def layout(**kwargs):
                 id="include_test_data",
                 className="mb-2",
             ),
-            dbc.Row(
+            html.Div(
                 children=[
-                    dbc.Col(
-                        html.Div(
-                            dcc.Graph(
-                                id="box-thumbnail",
-                                config={"staticPlot": True},
-                                style={"cursor": "pointer"},
-                            ),
-                            id="box-container",
+                    html.Div(
+                        dcc.Graph(
+                            id="box-thumbnail",
+                            config={"staticPlot": True},
+                            style={"cursor": "pointer"},
                         ),
-                        width=6,
-                        lg=4,
+                        id="box-container",
+                        className="thumbnail",
                     ),
-                    dbc.Col(
-                        html.Div(
-                            dcc.Graph(
-                                id="scatter-thumbnail",
-                                config={"staticPlot": True},
-                                style={"cursor": "pointer"},
-                            ),
-                            id="scatter-container",
+                    html.Div(
+                        dcc.Graph(
+                            id="scatter-thumbnail",
+                            config={"staticPlot": True},
+                            style={"cursor": "pointer"},
                         ),
-                        width=6,
-                        lg=4,
+                        id="scatter-container",
+                        className="thumbnail",
                     ),
-                    dbc.Col(
-                        html.Div(
-                            dcc.Graph(
-                                id="spider-thumbnail",
-                                config={"staticPlot": True},
-                                style={"cursor": "pointer"},
-                            ),
-                            id="spider-container",
+                    html.Div(
+                        dcc.Graph(
+                            id="spider-thumbnail",
+                            config={"staticPlot": True},
+                            style={"cursor": "pointer"},
                         ),
-                        width=6,
-                        lg=4,
+                        id="spider-container",
+                        className="thumbnail",
                     ),
-                ],
-            ),
-            dbc.Row(
-                [
-                    dbc.Col(
-                        html.Div(
-                            dcc.Graph(
-                                id="pie-thumbnail",
-                                config={"staticPlot": True},
-                                style={"cursor": "pointer"},
-                            ),
-                            id="pie-container",
+                    html.Div(
+                        dcc.Graph(
+                            id="pie-thumbnail",
+                            config={"staticPlot": True},
+                            style={"cursor": "pointer"},
                         ),
-                        width=6,
-                        lg=4,
+                        id="pie-container",
+                        className="thumbnail",
                     ),
-                    dbc.Col(
-                        html.Div(
-                            dcc.Graph(
-                                id="histogram-thumbnail",
-                                config={"staticPlot": True},
-                                style={"cursor": "pointer"},
-                            ),
-                            id="histogram-container",
+                    html.Div(
+                        dcc.Graph(
+                            id="histogram-thumbnail",
+                            config={"staticPlot": True},
+                            style={"cursor": "pointer"},
                         ),
-                        width=6,
-                        lg=4,
+                        id="histogram-container",
+                        className="thumbnail",
                     ),
-                    dbc.Col(
-                        html.Div(
-                            dcc.Graph(
-                                id="parallel-thumbnail",
-                                config={"staticPlot": True},
-                                style={"cursor": "pointer"},
-                            ),
-                            id="parallel-container",
+                    html.Div(
+                        dcc.Graph(
+                            id="parallel-thumbnail",
+                            config={"staticPlot": True},
+                            style={"cursor": "pointer"},
                         ),
-                        width=6,
-                        lg=4,
+                        id="parallel-container",
+                        className="thumbnail",
                     ),
                 ],
+                className="thumbnail-container",
             ),
             dbc.Modal(
                 [
@@ -413,7 +392,7 @@ def toggle_box_modal(open_modal, close_modal, is_open):
         Input("demographic-radio", "value"),
         Input("attachment-style-dropdown-demographics", "value"),
         Input("data-store", "data"),
-        Input("window-width", "data")
+        Input("window-width", "data"),
     ],
 )
 def update_box_thumbnail(demographic, selected_style, data, window_width):
@@ -424,7 +403,7 @@ def update_box_thumbnail(demographic, selected_style, data, window_width):
             x=demographic,
             y=selected_style,
             title="Box Plot",
-            width=350,
+            width=300,
             height=250,
         )
         fig.update_layout(
@@ -481,20 +460,6 @@ def update_box_graph(demographic, selected_style, data):
     return fig
 
 
-# HISTOGRAM
-# toggle histgram modal
-@callback(
-    Output("histogram-modal", "is_open"),
-    [Input("histogram-container", "n_clicks"), Input("close-histogram", "n_clicks")],
-    State("histogram-modal", "is_open"),
-)
-def toggle_histogram_modal(open_modal, close_modal, is_open):
-    if open_modal or close_modal:
-        return not is_open
-    return is_open
-
-
-
 # SCATTER
 # toggle modal
 @callback(
@@ -528,7 +493,7 @@ def update_scatter_thumbnail(x_var, y_var, color_var, data, window_width):
                 x=x_var,
                 y=y_var,
                 title="Scatter Plot by Demographics",
-                width=350,
+                width=300,
                 height=250,
             )
         else:
@@ -538,7 +503,7 @@ def update_scatter_thumbnail(x_var, y_var, color_var, data, window_width):
                 y=y_var,
                 color=color_var,
                 title="Scatter Plot by Demographics",
-                width=350,
+                width=300,
                 height=250,
             )
         fig.update_layout(
@@ -737,13 +702,13 @@ def update_spider_thumbnail(
             # labels={"color": " ".join(demographics_color)},
             # template="plotly_dark",
             title="Spider Chart",
-            width=350,
+            width=300,
             height=250,
         )
         fig.update_layout(
             title_x=0.5,
             title_y=0.98,
-            margin=dict(t=30,r=0, l=0),
+            margin=dict(t=30, r=0, l=0),
             polar=dict(angularaxis=dict(showticklabels=False)),
             showlegend=False,
         )
@@ -756,14 +721,14 @@ def update_spider_thumbnail(
             # labels={"color": " ".join(demographics_color)},
             # template="plotly_dark",
             title="Spider Chart",
-            width=200,
-            height=200,
+            width=225,
+            height=225,
         )
         fig.update_layout(
             title_font_size=15,
-            title_x=0.57,
+            title_x=0.5,
             title_y=0.95,
-            margin=dict(t=30,r=0, l=0),
+            margin=dict(t=30, r=0, l=0),
             polar=dict(angularaxis=dict(showticklabels=False)),
             showlegend=False,
         )
@@ -879,7 +844,10 @@ def toggle_pie_modal(open_modal, close_modal, is_open):
     ],
 )
 def update_global_pie_thumbnail(
-    attachment_style: str, demographic: str, data, window_width,
+    attachment_style: str,
+    demographic: str,
+    data,
+    window_width,
 ) -> go.Figure:
     answers_df = pd.DataFrame(data)
     options: tuple[str, ...] = tuple(
@@ -910,13 +878,13 @@ def update_global_pie_thumbnail(
             values=values,
             names=options,
             title="Global Pie Chart",
-            width=200,
-            height=200,
+            width=225,
+            height=225,
             # template="plotly_dark",
         )
         fig.update_layout(
             title_font_size=15,
-            title_x=0.57,
+            title_x=0.5,
             title_y=0.95,
             margin=dict(t=30, r=0, l=0),
             showlegend=False,
@@ -955,13 +923,26 @@ def update_global_pie_graph(attachment_style: str, demographic: str, data) -> go
     return fig
 
 
+# HISTOGRAM
+# toggle histgram modal
+@callback(
+    Output("histogram-modal", "is_open"),
+    [Input("histogram-container", "n_clicks"), Input("close-histogram", "n_clicks")],
+    State("histogram-modal", "is_open"),
+)
+def toggle_histogram_modal(open_modal, close_modal, is_open):
+    if open_modal or close_modal:
+        return not is_open
+    return is_open
+
+
 # update histogram thumbnail
 @callback(
     Output("histogram-thumbnail", "figure"),
     [
         Input("attachment-style-dropdown-histo", "value"),
         Input("data-store", "data"),
-        Input("window-width", "data")
+        Input("window-width", "data"),
     ],
 )
 def update_histo_thumbnail(selected_style, data, window_width):
@@ -993,8 +974,9 @@ def update_histo_thumbnail(selected_style, data, window_width):
             height=200,
         )
         fig.update_layout(
-            title_x=0.5,
-            title_y=0.98,
+            title_font_size=15,
+            title_x=0.57,
+            title_y=0.95,
             xaxis_title="",
             yaxis_title="",
             margin=dict(t=30, r=0, l=0),
@@ -1023,6 +1005,7 @@ def update_histo_modal(selected_style, data):
     )
     return fig
 
+
 # PARALLEL CATEGORIES
 # toggle parallel modal
 @callback(
@@ -1043,38 +1026,68 @@ def toggle_parallel_modal(open_modal, close_modal, is_open):
         Input("parallel-categories-dropdown", "value"),
         Input("parallel-color-dropdown", "value"),
         Input("data-store", "data"),
+        Input("window-width", "data"),
     ],
 )
-def update_parallel_thumnail(selected_dims, color_by, data):
+def update_parallel_thumnail(selected_dims, color_by, data, window_width):
     answers_df = pd.DataFrame(data)
     if not selected_dims:
         selected_dims = ["gender"]
-    if color_by == "any":
-        fig = px.parallel_categories(
-            answers_df,
-            dimensions=selected_dims,
-            color_continuous_scale=px.colors.sequential.Inferno,
-            title="Parallel Categories Diagram",
+    if window_width[0] > 500:
+        if color_by == "any":
+            fig = px.parallel_categories(
+                answers_df,
+                dimensions=selected_dims,
+                color_continuous_scale=px.colors.sequential.Inferno,
+                title="Parallel Categories Diagram",
+            )
+        else:
+            fig = px.parallel_categories(
+                answers_df,
+                dimensions=selected_dims,
+                color=color_by,
+                color_continuous_scale=px.colors.sequential.Inferno,
+                title="Parallel Categories Diagram",
+                width=350,
+                height=250,
+            )
+        fig.update_layout(
+            title_x=0.5,
+            title_y=0.98,
+            margin=dict(t=30, r=0, l=0),
+            showlegend=False,
         )
+        fig.update_coloraxes(showscale=False)
+        for dim in fig.data[0]["dimensions"]:
+            dim["label"] = ""
     else:
-        fig = px.parallel_categories(
-            answers_df,
-            dimensions=selected_dims,
-            color=color_by,
-            color_continuous_scale=px.colors.sequential.Inferno,
-            title="Parallel Categories Diagram",
-            width=350,
-            height=250,
+        if color_by == "any":
+            fig = px.parallel_categories(
+                answers_df,
+                dimensions=selected_dims,
+                color_continuous_scale=px.colors.sequential.Inferno,
+                title="Parallel Categories Diagram",
+            )
+        else:
+            fig = px.parallel_categories(
+                answers_df,
+                dimensions=selected_dims,
+                color=color_by,
+                color_continuous_scale=px.colors.sequential.Inferno,
+                title="Parallel Categories",
+                width=200,
+                height=200,
+            )
+        fig.update_layout(
+            title_font_size=15,
+            title_x=0.57,
+            title_y=0.95,
+            margin=dict(t=30, r=0, l=0),
+            showlegend=False,
         )
-    fig.update_layout(
-        title_x=0.5,
-        title_y=0.98,
-        margin=dict(t=30, r=0, l=0),
-        showlegend=False,
-    )
-    fig.update_coloraxes(showscale=False)
-    for dim in fig.data[0]["dimensions"]:
-        dim["label"] = ""
+        fig.update_coloraxes(showscale=False)
+        for dim in fig.data[0]["dimensions"]:
+            dim["label"] = ""
     return fig
 
 
