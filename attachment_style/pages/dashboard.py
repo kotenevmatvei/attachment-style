@@ -420,8 +420,8 @@ def update_box_thumbnail(demographic, selected_style, data, window_width):
             x=demographic,
             y=selected_style,
             title="Box Plot",
-            width=200,
-            height=200,
+            width=150,
+            height=150,
         )
         fig.update_layout(
             title_font_size=15,
@@ -503,8 +503,8 @@ def update_scatter_thumbnail(x_var, y_var, color_var, data, window_width):
                 y=y_var,
                 color=color_var,
                 title="Scatter Plot by Demographics",
-                width=300,
-                height=250,
+                width=150,
+                height=150,
             )
         fig.update_layout(
             title_x=0.55,
@@ -721,7 +721,7 @@ def update_spider_thumbnail(
             # labels={"color": " ".join(demographics_color)},
             # template="plotly_dark",
             title="Spider Chart",
-            width=225,
+            width=150,
             height=225,
         )
         fig.update_layout(
@@ -878,8 +878,8 @@ def update_global_pie_thumbnail(
             values=values,
             names=options,
             title="Global Pie Chart",
-            width=225,
-            height=225,
+            width=150,
+            height=150,
             # template="plotly_dark",
         )
         fig.update_layout(
@@ -970,8 +970,8 @@ def update_histo_thumbnail(selected_style, data, window_width):
             x=selected_style,
             nbins=20,
             title="Histogram",
-            width=200,
-            height=200,
+            width=150,
+            height=150,
         )
         fig.update_layout(
             title_font_size=15,
@@ -1075,8 +1075,8 @@ def update_parallel_thumnail(selected_dims, color_by, data, window_width):
                 color=color_by,
                 color_continuous_scale=px.colors.sequential.Inferno,
                 title="Parallel Categories",
-                width=200,
-                height=200,
+                width=150,
+                height=150,
             )
         fig.update_layout(
             title_font_size=15,
