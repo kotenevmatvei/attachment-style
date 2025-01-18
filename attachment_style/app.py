@@ -14,7 +14,6 @@ app.layout = html.Div(
         html.Div(id="opacity"),
         html.Div(
             [
-                dcc.Store(id="dimensions"),
                 html.Div(id="dummy"),
                 html.Div(
                     [
@@ -156,7 +155,7 @@ app.layout = html.Div(
             ],
             id="Sidenav",
         ),
-        dcc.Store(id="window-size"),
+        dcc.Store(id="window-width"),
     ],
 )
 
@@ -209,17 +208,19 @@ app.clientside_callback(
     """
     function updateStore(click) {
         var w = window.innerWidth;
-        var h = window.innerHeight; 
-        return [w, h]
+        return [w]
     }
     """,
-    Output("dimensions", "data"),
+    Output("window-width", "data"),
     Input("dummy", "n_clicks"),
 )
 
 @app.callback(
-    Output("dummy","children"),
-    Input("dimensions", "data")
+    [
+        Output("dummy","children"),
+        # Output("window-width", "data"),
+    ],
+    Input("window-width", "data")
 )
 def print_dimenstions(data):
     return data

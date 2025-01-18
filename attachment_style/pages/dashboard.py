@@ -76,7 +76,7 @@ def layout(**kwargs):
                             ),
                             id="box-container",
                         ),
-                        width=12,
+                        width=6,
                         lg=4,
                     ),
                     dbc.Col(
@@ -88,7 +88,7 @@ def layout(**kwargs):
                             ),
                             id="scatter-container",
                         ),
-                        width=12,
+                        width=6,
                         lg=4,
                     ),
                     dbc.Col(
@@ -100,7 +100,7 @@ def layout(**kwargs):
                             ),
                             id="spider-container",
                         ),
-                        width=12,
+                        width=6,
                         lg=4,
                     ),
                 ],
@@ -116,7 +116,7 @@ def layout(**kwargs):
                             ),
                             id="pie-container",
                         ),
-                        width=12,
+                        width=6,
                         lg=4,
                     ),
                     dbc.Col(
@@ -128,7 +128,7 @@ def layout(**kwargs):
                             ),
                             id="histogram-container",
                         ),
-                        width=12,
+                        width=6,
                         lg=4,
                     ),
                     dbc.Col(
@@ -140,7 +140,7 @@ def layout(**kwargs):
                             ),
                             id="parallel-container",
                         ),
-                        width=12,
+                        width=6,
                         lg=4,
                     ),
                 ],
@@ -413,26 +413,46 @@ def toggle_box_modal(open_modal, close_modal, is_open):
         Input("demographic-radio", "value"),
         Input("attachment-style-dropdown-demographics", "value"),
         Input("data-store", "data"),
+        Input("window-width", "data")
     ],
 )
-def update_box_thumbnail(demographic, selected_style, data):
+def update_box_thumbnail(demographic, selected_style, data, window_width):
     answers_df = pd.DataFrame(data)
-    fig = px.box(
-        answers_df,
-        x=demographic,
-        y=selected_style,
-        title="Box Plot",
-        width=350,
-        height=250,
-    )
-    fig.update_layout(
-        title_x=0.5,
-        title_y=0.98,
-        xaxis_title="",
-        yaxis_title="",
-        margin=dict(t=30, r=15, l=15),
-        showlegend=False,
-    )
+    if window_width[0] > 500:
+        fig = px.box(
+            answers_df,
+            x=demographic,
+            y=selected_style,
+            title="Box Plot",
+            width=350,
+            height=250,
+        )
+        fig.update_layout(
+            title_x=0.5,
+            title_y=0.98,
+            xaxis_title="",
+            yaxis_title="",
+            margin=dict(t=30, r=15, l=15),
+            showlegend=False,
+        )
+    else:
+        fig = px.box(
+            answers_df,
+            x=demographic,
+            y=selected_style,
+            title="Box Plot",
+            width=200,
+            height=200,
+        )
+        fig.update_layout(
+            title_font_size=15,
+            title_x=0.57,
+            title_y=0.95,
+            xaxis_title="",
+            yaxis_title="",
+            margin=dict(t=30, r=0, l=0),
+            showlegend=False,
+        )
     return fig
 
 
@@ -474,55 +494,6 @@ def toggle_histogram_modal(open_modal, close_modal, is_open):
     return is_open
 
 
-# update histogram thumbnail
-@callback(
-    Output("histogram-thumbnail", "figure"),
-    [
-        Input("attachment-style-dropdown-histo", "value"),
-        Input("data-store", "data"),
-    ],
-)
-def update_histo_thumbnail(selected_style, data):
-    answers_df = pd.DataFrame(data)
-    fig = px.histogram(
-        answers_df,
-        x=selected_style,
-        nbins=20,
-        title="Histogram",
-        width=350,
-        height=250,
-    )
-    fig.update_layout(
-        title_x=0.5,
-        title_y=0.98,
-        xaxis_title="",
-        yaxis_title="",
-        margin=dict(t=30, r=0, l=0),
-        showlegend=False,
-    )
-    return fig
-
-
-# update histogram modal
-@callback(
-    Output("histogram-graph", "figure"),
-    [Input("attachment-style-dropdown-histo", "value"), Input("data-store", "data")],
-)
-def update_histo_modal(selected_style, data):
-    answers_df = pd.DataFrame(data)
-    fig = px.histogram(
-        answers_df,
-        x=selected_style,
-        nbins=20,
-        title=f'Distribution of {selected_style.split("_")[0].capitalize()} '
-        f'Attachment Scores',
-    )
-    fig.update_layout(
-        xaxis_title=selected_style.split("_")[0].capitalize() + " Attachment Score",
-        yaxis_title="Count",
-    )
-    return fig
-
 
 # SCATTER
 # toggle modal
@@ -545,37 +516,68 @@ def toggle_scatter_modal(open_modal, close_modal, is_open):
         Input("scatter-y-dropdown", "value"),
         Input("scatter-color-dropdown", "value"),
         Input("data-store", "data"),
+        Input("window-width", "data"),
     ],
 )
-def update_scatter_thumbnail(x_var, y_var, color_var, data):
+def update_scatter_thumbnail(x_var, y_var, color_var, data, window_width):
     answers_df = pd.DataFrame(data)
-    if color_var == "None":
-        fig = px.scatter(
-            answers_df,
-            x=x_var,
-            y=y_var,
-            title="Scatter Plot by Demographics",
-            width=350,
-            height=250,
+    if window_width[0] > 500:
+        if color_var == "None":
+            fig = px.scatter(
+                answers_df,
+                x=x_var,
+                y=y_var,
+                title="Scatter Plot by Demographics",
+                width=350,
+                height=250,
+            )
+        else:
+            fig = px.scatter(
+                answers_df,
+                x=x_var,
+                y=y_var,
+                color=color_var,
+                title="Scatter Plot by Demographics",
+                width=350,
+                height=250,
+            )
+        fig.update_layout(
+            title_x=0.5,
+            title_y=0.98,
+            xaxis_title="",
+            yaxis_title="",
+            margin=dict(t=30, r=0, l=0),
+            showlegend=False,
         )
     else:
-        fig = px.scatter(
-            answers_df,
-            x=x_var,
-            y=y_var,
-            color=color_var,
-            title="Scatter Plot by Demographics",
-            width=350,
-            height=250,
+        if color_var == "None":
+            fig = px.scatter(
+                answers_df,
+                x=x_var,
+                y=y_var,
+                title="Scatter Plot",
+                width=200,
+                height=200,
+            )
+        else:
+            fig = px.scatter(
+                answers_df,
+                x=x_var,
+                y=y_var,
+                color=color_var,
+                title="Scatter Plot",
+                width=200,
+                height=200,
+            )
+        fig.update_layout(
+            title_font_size=15,
+            title_x=0.57,
+            title_y=0.95,
+            xaxis_title="",
+            yaxis_title="",
+            margin=dict(t=30, r=0, l=0),
+            showlegend=False,
         )
-    fig.update_layout(
-        title_x=0.5,
-        title_y=0.98,
-        xaxis_title="",
-        yaxis_title="",
-        margin=dict(t=30, r=0, l=0),
-        showlegend=False,
-    )
     return fig
 
 
@@ -660,6 +662,7 @@ def update_spider_color_options(used_shape_options: list[str]) -> list[dict[str,
         Input("spider-shape-dropdown", "value"),
         Input("spider-color-dropdown", "value"),
         Input("data-store", "data"),
+        Input("window-width", "data"),
     ],
 )
 def update_spider_thumbnail(
@@ -667,6 +670,7 @@ def update_spider_thumbnail(
     demographics_shape: list[str],
     demographics_color: list[str],
     data,
+    window_width,
 ) -> go.Figure:
     answers_df = pd.DataFrame(data)
     # if no options are chosen return empty figure
@@ -724,24 +728,45 @@ def update_spider_thumbnail(
         for shape_combo in shape_combos
         for color_combo in color_combos
     )
-    fig = px.line_polar(
-        r=means,
-        theta=vertex_names,
-        color=color_names,
-        line_close=True,
-        # labels={"color": " ".join(demographics_color)},
-        # template="plotly_dark",
-        title="Spider Chart",
-        width=350,
-        height=250,
-    )
-    fig.update_layout(
-        title_x=0.5,
-        title_y=0.98,
-        margin=dict(t=30,r=0, l=0),
-        polar=dict(angularaxis=dict(showticklabels=False)),
-        showlegend=False,
-    )
+    if window_width[0] > 500:
+        fig = px.line_polar(
+            r=means,
+            theta=vertex_names,
+            color=color_names,
+            line_close=True,
+            # labels={"color": " ".join(demographics_color)},
+            # template="plotly_dark",
+            title="Spider Chart",
+            width=350,
+            height=250,
+        )
+        fig.update_layout(
+            title_x=0.5,
+            title_y=0.98,
+            margin=dict(t=30,r=0, l=0),
+            polar=dict(angularaxis=dict(showticklabels=False)),
+            showlegend=False,
+        )
+    else:
+        fig = px.line_polar(
+            r=means,
+            theta=vertex_names,
+            color=color_names,
+            line_close=True,
+            # labels={"color": " ".join(demographics_color)},
+            # template="plotly_dark",
+            title="Spider Chart",
+            width=200,
+            height=200,
+        )
+        fig.update_layout(
+            title_font_size=15,
+            title_x=0.57,
+            title_y=0.95,
+            margin=dict(t=30,r=0, l=0),
+            polar=dict(angularaxis=dict(showticklabels=False)),
+            showlegend=False,
+        )
 
     return fig
 
@@ -850,10 +875,11 @@ def toggle_pie_modal(open_modal, close_modal, is_open):
         Input("global-pie-chart-dropdown-attachment-style", "value"),
         Input("global-pie-chart-dropdown-demographic", "value"),
         Input("data-store", "data"),
+        Input("window-width", "data"),
     ],
 )
 def update_global_pie_thumbnail(
-    attachment_style: str, demographic: str, data
+    attachment_style: str, demographic: str, data, window_width,
 ) -> go.Figure:
     answers_df = pd.DataFrame(data)
     options: tuple[str, ...] = tuple(
@@ -864,20 +890,37 @@ def update_global_pie_thumbnail(
         for option in options
     )
 
-    fig = px.pie(
-        values=values,
-        names=options,
-        title="Global Pie Chart",
-        width=350,
-        height=250,
-        # template="plotly_dark",
-    )
-    fig.update_layout(
-        title_x=0.5,
-        title_y=0.98,
-        margin=dict(t=30, r=0, l=0),
-        showlegend=False,
-    )
+    if window_width[0] > 500:
+        fig = px.pie(
+            values=values,
+            names=options,
+            title="Global Pie Chart",
+            width=350,
+            height=250,
+            # template="plotly_dark",
+        )
+        fig.update_layout(
+            title_x=0.5,
+            title_y=0.98,
+            margin=dict(t=30, r=0, l=0),
+            showlegend=False,
+        )
+    else:
+        fig = px.pie(
+            values=values,
+            names=options,
+            title="Global Pie Chart",
+            width=200,
+            height=200,
+            # template="plotly_dark",
+        )
+        fig.update_layout(
+            title_font_size=15,
+            title_x=0.57,
+            title_y=0.95,
+            margin=dict(t=30, r=0, l=0),
+            showlegend=False,
+        )
 
     return fig
 
@@ -911,6 +954,74 @@ def update_global_pie_graph(attachment_style: str, demographic: str, data) -> go
 
     return fig
 
+
+# update histogram thumbnail
+@callback(
+    Output("histogram-thumbnail", "figure"),
+    [
+        Input("attachment-style-dropdown-histo", "value"),
+        Input("data-store", "data"),
+        Input("window-width", "data")
+    ],
+)
+def update_histo_thumbnail(selected_style, data, window_width):
+    answers_df = pd.DataFrame(data)
+    if window_width[0] > 500:
+        fig = px.histogram(
+            answers_df,
+            x=selected_style,
+            nbins=20,
+            title="Histogram",
+            width=350,
+            height=250,
+        )
+        fig.update_layout(
+            title_x=0.5,
+            title_y=0.98,
+            xaxis_title="",
+            yaxis_title="",
+            margin=dict(t=30, r=0, l=0),
+            showlegend=False,
+        )
+    else:
+        fig = px.histogram(
+            answers_df,
+            x=selected_style,
+            nbins=20,
+            title="Histogram",
+            width=200,
+            height=200,
+        )
+        fig.update_layout(
+            title_x=0.5,
+            title_y=0.98,
+            xaxis_title="",
+            yaxis_title="",
+            margin=dict(t=30, r=0, l=0),
+            showlegend=False,
+        )
+    return fig
+
+
+# update histogram modal
+@callback(
+    Output("histogram-graph", "figure"),
+    [Input("attachment-style-dropdown-histo", "value"), Input("data-store", "data")],
+)
+def update_histo_modal(selected_style, data):
+    answers_df = pd.DataFrame(data)
+    fig = px.histogram(
+        answers_df,
+        x=selected_style,
+        nbins=20,
+        title=f'Distribution of {selected_style.split("_")[0].capitalize()} '
+        f'Attachment Scores',
+    )
+    fig.update_layout(
+        xaxis_title=selected_style.split("_")[0].capitalize() + " Attachment Score",
+        yaxis_title="Count",
+    )
+    return fig
 
 # PARALLEL CATEGORIES
 # toggle parallel modal
