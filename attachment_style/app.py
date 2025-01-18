@@ -70,7 +70,7 @@ app.layout = html.Div(
                             ]
                         ),
                     ],
-                    className="d-flex justify-content-between align-items-center p-3 mb-4",
+                    className="d-flex justify-content-between align-items-center p-3",
                 ),
                 html.Div(
                     page_container,

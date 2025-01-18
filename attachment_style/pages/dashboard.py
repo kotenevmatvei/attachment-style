@@ -507,7 +507,7 @@ def update_scatter_thumbnail(x_var, y_var, color_var, data, window_width):
                 height=250,
             )
         fig.update_layout(
-            title_x=0.5,
+            title_x=0.55,
             title_y=0.98,
             xaxis_title="",
             yaxis_title="",
@@ -863,7 +863,7 @@ def update_global_pie_thumbnail(
             values=values,
             names=options,
             title="Global Pie Chart",
-            width=350,
+            width=300,
             height=250,
             # template="plotly_dark",
         )
@@ -953,11 +953,11 @@ def update_histo_thumbnail(selected_style, data, window_width):
             x=selected_style,
             nbins=20,
             title="Histogram",
-            width=350,
+            width=300,
             height=250,
         )
         fig.update_layout(
-            title_x=0.5,
+            title_x=0.57,
             title_y=0.98,
             xaxis_title="",
             yaxis_title="",
@@ -975,7 +975,7 @@ def update_histo_thumbnail(selected_style, data, window_width):
         )
         fig.update_layout(
             title_font_size=15,
-            title_x=0.57,
+            title_x=0.59,
             title_y=0.95,
             xaxis_title="",
             yaxis_title="",
@@ -1048,7 +1048,7 @@ def update_parallel_thumnail(selected_dims, color_by, data, window_width):
                 color=color_by,
                 color_continuous_scale=px.colors.sequential.Inferno,
                 title="Parallel Categories Diagram",
-                width=350,
+                width=300,
                 height=250,
             )
         fig.update_layout(
@@ -1080,7 +1080,7 @@ def update_parallel_thumnail(selected_dims, color_by, data, window_width):
             )
         fig.update_layout(
             title_font_size=15,
-            title_x=0.57,
+            title_x=0.5,
             title_y=0.95,
             margin=dict(t=30, r=0, l=0),
             showlegend=False,
