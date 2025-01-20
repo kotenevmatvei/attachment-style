@@ -63,7 +63,7 @@ def layout(**kwargs):
                 ["Include test data"],
                 ["Include test data"],
                 id="include_test_data",
-                className="mb-2",
+                className="mb-4",
             ),
             html.Div(
                 children=[
@@ -503,8 +503,8 @@ def update_scatter_thumbnail(x_var, y_var, color_var, data, window_width):
                 y=y_var,
                 color=color_var,
                 title="Scatter Plot by Demographics",
-                width=150,
-                height=150,
+                width=300,
+                height=250,
             )
         fig.update_layout(
             title_x=0.55,

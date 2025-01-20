@@ -16,61 +16,63 @@ app.layout = html.Div(
             [
                 html.Div(id="dummy"),
                 html.Div(
-                    [
-                        dbc.NavLink(
-                            "Attachment Style Test", href="/", className="fs-5"
-                        ),
-                        html.Div(
-                            [
-                                html.Div(
-                                    dbc.Stack(
-                                        [
-                                            dbc.NavLink(
-                                                "Home",
-                                                href="/",
-                                                style={
-                                                    "cursor": "pointer",
-                                                    "margin-right": "4px",
-                                                },
-                                            ),
-                                            dbc.NavLink(
-                                                "Assess Yourself",
-                                                href="/assess-yourself",
-                                                id="assess-yourself",
-                                                style={"cursor": "pointer"},
-                                            ),
-                                            dbc.NavLink(
-                                                "Assess Others",
-                                                href="/asses-others",
-                                                id="asses-others",
-                                                style={"cursor": "pointer"},
-                                            ),
-                                            dbc.NavLink(
-                                                "Dashboard",
-                                                href="/dashboard",
-                                                style={"cursor": "pointer"},
-                                            ),
-                                            dbc.NavLink(
-                                                "About",
-                                                href="/about",
-                                                style={"cursor": "pointer"},
-                                            ),
-                                        ],
-                                        direction="horizontal",
-                                        gap=3,
+                    html.Div(
+                        [
+                            dbc.NavLink(
+                                "Attachment Style Test", href="/", className="fs-5"
+                            ),
+                            html.Div(
+                                [
+                                    html.Div(
+                                        dbc.Stack(
+                                            [
+                                                dbc.NavLink(
+                                                    "Home",
+                                                    href="/",
+                                                    style={
+                                                        "cursor": "pointer",
+                                                        "margin-right": "4px",
+                                                    },
+                                                ),
+                                                dbc.NavLink(
+                                                    "Assess Yourself",
+                                                    href="/assess-yourself",
+                                                    id="assess-yourself",
+                                                    style={"cursor": "pointer"},
+                                                ),
+                                                dbc.NavLink(
+                                                    "Assess Others",
+                                                    href="/asses-others",
+                                                    id="asses-others",
+                                                    style={"cursor": "pointer"},
+                                                ),
+                                                dbc.NavLink(
+                                                    "Dashboard",
+                                                    href="/dashboard",
+                                                    style={"cursor": "pointer"},
+                                                ),
+                                                dbc.NavLink(
+                                                    "About",
+                                                    href="/about",
+                                                    style={"cursor": "pointer"},
+                                                ),
+                                            ],
+                                            direction="horizontal",
+                                            gap=3,
+                                        ),
+                                        className="navbar-large",
                                     ),
-                                    className="navbar-large",
-                                ),
-                                html.Button(
-                                    html.I(className="bi bi-list"),
-                                    className="border-0 d-sm-none bg-transparent",
-                                    id="hamburger",
-                                    n_clicks=0,
-                                ),
-                            ]
-                        ),
-                    ],
-                    className="d-flex justify-content-between align-items-center p-3",
+                                    html.Button(
+                                        html.I(className="bi bi-list"),
+                                        className="border-0 d-sm-none bg-transparent",
+                                        id="hamburger",
+                                        n_clicks=0,
+                                    ),
+                                ]
+                            ),
+                        ],
+                        className="d-flex justify-content-between align-items-center p-3",
+                    ),
                 ),
                 html.Div(
                     page_container,
