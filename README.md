@@ -16,10 +16,7 @@ could use Dash Plotly to build a full fledged interactive website. It is by no m
 the right tool for the job, but it is fun to see what it is, in principle, capable of.
 
 ToDos:
-- dashboard button & mention on home page
-- mention report on home page
 - style
-  - dashboard margins on mobile
   - colors & fonts
 - update about page
 
