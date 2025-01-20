@@ -19,7 +19,6 @@ ToDos:
 - dashboard button & mention on home page
 - mention report on home page
 - style
-  - fold navbar on click on mobile
   - dashboard margins on mobile
   - colors & fonts
 - update about page
