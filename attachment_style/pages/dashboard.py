@@ -411,7 +411,7 @@ def update_box_thumbnail(demographic, selected_style, data, window_width):
             title_y=0.98,
             xaxis_title="",
             yaxis_title="",
-            margin=dict(t=30, r=15, l=15),
+            margin=dict(t=30, r=0, l=0),
             showlegend=False,
         )
     else:
@@ -420,8 +420,8 @@ def update_box_thumbnail(demographic, selected_style, data, window_width):
             x=demographic,
             y=selected_style,
             title="Box Plot",
-            width=150,
-            height=150,
+            width=175,
+            height=175,
         )
         fig.update_layout(
             title_font_size=15,
@@ -521,8 +521,8 @@ def update_scatter_thumbnail(x_var, y_var, color_var, data, window_width):
                 x=x_var,
                 y=y_var,
                 title="Scatter Plot",
-                width=200,
-                height=200,
+                width=175,
+                height=175,
             )
         else:
             fig = px.scatter(
@@ -531,8 +531,8 @@ def update_scatter_thumbnail(x_var, y_var, color_var, data, window_width):
                 y=y_var,
                 color=color_var,
                 title="Scatter Plot",
-                width=200,
-                height=200,
+                width=175,
+                height=175,
             )
         fig.update_layout(
             title_font_size=15,
@@ -721,8 +721,8 @@ def update_spider_thumbnail(
             # labels={"color": " ".join(demographics_color)},
             # template="plotly_dark",
             title="Spider Chart",
-            width=150,
-            height=225,
+            width=180,
+            height=180,
         )
         fig.update_layout(
             title_font_size=15,
@@ -878,8 +878,8 @@ def update_global_pie_thumbnail(
             values=values,
             names=options,
             title="Global Pie Chart",
-            width=150,
-            height=150,
+            width=165,
+            height=180,
             # template="plotly_dark",
         )
         fig.update_layout(
@@ -970,8 +970,8 @@ def update_histo_thumbnail(selected_style, data, window_width):
             x=selected_style,
             nbins=20,
             title="Histogram",
-            width=150,
-            height=150,
+            width=175,
+            height=175,
         )
         fig.update_layout(
             title_font_size=15,
@@ -1075,8 +1075,8 @@ def update_parallel_thumnail(selected_dims, color_by, data, window_width):
                 color=color_by,
                 color_continuous_scale=px.colors.sequential.Inferno,
                 title="Parallel Categories",
-                width=150,
-                height=150,
+                width=175,
+                height=175,
             )
         fig.update_layout(
             title_font_size=15,
