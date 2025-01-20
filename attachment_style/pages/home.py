@@ -28,7 +28,9 @@ def layout(**kwargs):
                             that of your partner or someone else. [Assess Yourself](/assess-yourself) is a rather 
                             subjective version that one can only really answer for oneself. 
                             [Assess Others](/asses-others) offers more behavior-based questions that can 
-                            be answered with regard to someone else - *as well as yourself*.  
+                            be answered with regard to someone else - *as well as yourself*.\n  
+                            The dashboard page presents the data collected so far
+                            visualized in multiple plots.
                             """,
                         )
                     ],
@@ -60,6 +62,19 @@ def layout(**kwargs):
                         sm={"size": 3, "offset": 0},
                     ),
                 ],
+            ),
+            dbc.Row(
+                dbc.Col(
+                    dbc.Button(
+                        "Dashboard",
+                        href="/dashboard",
+                        color="primary",
+                        className="d-flex justify-content-center",
+                    ),
+                    width=12,
+                    sm={"size": 4, "offset": 4},
+                ),
+                className="mt-3",
             ),
         ],
     )
