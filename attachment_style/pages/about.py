@@ -18,9 +18,8 @@ def layout(**kwargs):
             "strongly disagree" to "neutral" to "strongly agree".
             - A more practical, behaviour-based questionnaire with examples that can be completed with regard to someone 
             else, for example your partner.
+            - Dashboard visualizing the global results in different plots.
             
-            Future functionality may include a dashboard presenting the results of the test over different age groups,
-            genders etc. For this, the data is already collected anonymously in a database.
             """
         ),
     )
