@@ -19,7 +19,7 @@ app.layout = html.Div(
                     html.Div(
                         [
                             dbc.NavLink(
-                                "Attachment Style Test", href="/", className="fs-5"
+                                "Attachment Style Test", href="/", className="fs-4"
                             ),
                             html.Div(
                                 [
@@ -63,7 +63,7 @@ app.layout = html.Div(
                                         className="navbar-large",
                                     ),
                                     html.Button(
-                                        html.I(className="bi bi-list"),
+                                        html.I(className="bi bi-list", style={"font-size": "25px"}),
                                         className="border-0 d-sm-none bg-transparent",
                                         id="hamburger",
                                         n_clicks=0,
