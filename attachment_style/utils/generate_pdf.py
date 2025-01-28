@@ -44,7 +44,7 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
     anxious_description_text = """
         <b>Anxious</b>: You love to be very close to your romantic partners and have the capacity 
         for great intimacy. You often fear, however, that your partner does not wish to be as 
-        close as you would like him/her to be. Relationships tend to consume a large part of 
+        close as you would like them to be. Relationships tend to consume a large part of 
         your emotional energy. You tend to be very sensitive to small fluctuations in your 
         partner’s moods and actions, and although your senses are often accurate, you take 
         your partner’s behaviors too personally. You experience a lot of negative emotions 
@@ -63,7 +63,7 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
         You take things in stride when it comes to romance and don’t get easily upset 
         over relationship matters. You effectively communicate your needs and feelings 
         to your partner and are strong at reading your partner’s emotional cues and 
-        responding to them. You share your successes and problems with your mate, and 
+        responding to them. You share your successes and problems with your partner, and 
         are able to be there for him or her in times of need.
     """
     secure_description = Paragraph(secure_description_text, styles["Normal"])
