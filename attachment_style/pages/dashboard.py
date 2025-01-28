@@ -63,8 +63,8 @@ def layout(**kwargs):
                 ["Include test data"],
                 ["Include test data"],
                 id="include_test_data",
-                className="mb-4",
             ),
+            html.Div("Click on the thumbnails to explore the graphs", className="mb-4"),
             html.Div(
                 children=[
                     html.Div(
@@ -423,14 +423,18 @@ def update_box_thumbnail(demographic, selected_style, data, window_width):
             width=175,
             height=175,
         )
-        fig.update_layout(
-            title_font_size=15,
-            title_x=0.57,
-            title_y=0.95,
-            xaxis_title="",
-            yaxis_title="",
-            margin=dict(t=30, r=0, l=0),
-            showlegend=False,
+        fig.update_xaxes(showticklabels=False)
+        fig.update_yaxes(showticklabels=False)
+        (
+            fig.update_layout(
+                title_font_size=15,
+                title_x=0.57,
+                title_y=0.95,
+                xaxis_title="",
+                yaxis_title="",
+                margin=dict(t=30, r=0, l=0),
+                showlegend=False,
+            ),
         )
     return fig
 
@@ -543,6 +547,8 @@ def update_scatter_thumbnail(x_var, y_var, color_var, data, window_width):
             margin=dict(t=30, r=0, l=0),
             showlegend=False,
         )
+        fig.update_xaxes(showticklabels=False)
+        fig.update_yaxes(showticklabels=False)
     return fig
 
 
@@ -729,7 +735,10 @@ def update_spider_thumbnail(
             title_x=0.5,
             title_y=0.95,
             margin=dict(t=30, r=0, l=0),
-            polar=dict(angularaxis=dict(showticklabels=False)),
+            polar=dict(
+                angularaxis=dict(showticklabels=False),
+                radialaxis=dict(showticklabels=False),
+            ),
             showlegend=False,
         )
 
@@ -889,6 +898,7 @@ def update_global_pie_thumbnail(
             margin=dict(t=30, r=0, l=0),
             showlegend=False,
         )
+        fig.update_traces(textinfo="none")
 
     return fig
 
@@ -982,6 +992,8 @@ def update_histo_thumbnail(selected_style, data, window_width):
             margin=dict(t=30, r=0, l=0),
             showlegend=False,
         )
+        fig.update_xaxes(showticklabels=False)
+        fig.update_yaxes(showticklabels=False)
     return fig
 
 
@@ -1088,6 +1100,9 @@ def update_parallel_thumnail(selected_dims, color_by, data, window_width):
         fig.update_coloraxes(showscale=False)
         for dim in fig.data[0]["dimensions"]:
             dim["label"] = ""
+        fig.update_traces(
+            {"tickfont": {"size": 1, "color": "white"}}
+        )
     return fig
 
 
