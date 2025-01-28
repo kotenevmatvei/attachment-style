@@ -45,6 +45,7 @@ def layout(**kwargs):
                         """
                         Please adjust the slider below to evaluate how much you can 
                         relate to the following statements on the scale from 0 to 10.  
+                        (e.g. 4 meaning you can agree 40% of the time).  
                         You can use the back and forth buttons to navigate between questions.
                         """,
                         className="text-center",
