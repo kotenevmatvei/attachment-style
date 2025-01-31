@@ -1,4 +1,4 @@
-from dash import register_page, html, dcc
+from dash import register_page, dcc
 import dash_bootstrap_components as dbc
 
 register_page(__name__)
@@ -9,7 +9,8 @@ def layout(**kwargs):
         dcc.Markdown(
             """
             This test is mainly a personal coding exercise. I wanted to see if one can use Dash Plotly
-            to build a full-fledged interactive website, rather than just a simple dashboard.
+            to build a full-fledged interactive website, rather than just a simple dashboard. The code
+            can be found at https://github.com/kotenevmatvei/attachment-style.
             
             The main advantages of this quiz compared to others that may be found on the internet are:
             
