@@ -8,7 +8,8 @@ def layout(**kwargs):
     return dbc.Container(
         dcc.Markdown(
             """
-            This test is mainly a personal coding exercise.  
+            This test is mainly a personal coding exercise. I wanted to see if one can use Dash Plotly
+            to build a full-fledged interactive website, rather than just a simple dashboard.
             
             The main advantages of this quiz compared to others that may be found on the internet are:
             

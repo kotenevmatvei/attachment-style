@@ -56,7 +56,7 @@ def layout(**kwargs):
                 is_open=False,
             ),
             dbc.Collapse(
-                dbc.Button("Submit Test", id="submit-test-button-partner"),
+                dbc.Button("To Results", id="submit-test-button-partner"),
                 id="submit-test-collapse-partner",
                 is_open=False,
                 className="mb-4 text-center",
