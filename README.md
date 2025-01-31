@@ -17,8 +17,7 @@ the right tool for the job, but it is fun to see what it is, in principle, capab
 
 ToDos:
 - tests for correctness!
-- first testing round
-    - send to the adlershof chat for feedback
+- send to the adlershof chat for feedback
 
 - basic code cleanup, comments
 - look into possible refactoring (answers as object instead of dict) and optimizations
