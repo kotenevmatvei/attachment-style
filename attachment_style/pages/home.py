@@ -28,7 +28,8 @@ def layout(**kwargs):
                             that of your partner or someone else. [Assess Yourself](/assess-yourself) is a rather 
                             subjective version that one can only really answer for oneself. 
                             [Assess Others](/asses-others) offers more behavior-based questions that can 
-                            be answered with regard to someone else - *as well as yourself*.\n  
+                            be answered with regard to someone else - *as well as yourself*. At the end
+                            you can download a pdf with all your answers.\n  
                             The dashboard page presents the data collected so far
                             visualized in multiple plots.
                             """,
