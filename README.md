@@ -16,13 +16,8 @@ could use Dash Plotly to build a full fledged interactive website. It is by no m
 the right tool for the job, but it is fun to see what it is, in principle, capable of.
 
 ToDos:
-- style
-  - colors & fonts
-- update about page
-
-- first testing round
-    - check for typos - (send to a few people, carina, mateo)
-    - send to the adlershof chat for feedback
+- tests for correctness!
+- send to the adlershof chat for feedback
 
 - basic code cleanup, comments
 - look into possible refactoring (answers as object instead of dict) and optimizations
