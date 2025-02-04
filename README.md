@@ -16,10 +16,7 @@ could use Dash Plotly to build a full fledged interactive website. It is by no m
 the right tool for the job, but it is fun to see what it is, in principle, capable of.
 
 ToDos:
-- contact the authors
-
-- translate to German and Russian
-
-- clean up dependencies  
 - document features
 - document what I learned
+- contact the authors
+- translate to German and Russian
