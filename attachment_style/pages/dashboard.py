@@ -6,6 +6,19 @@ import plotly.express as px
 import plotly.graph_objects as go
 import itertools
 
+from data.options import (
+    attachment_style_options,
+    demographics_options,
+    demographics_values,
+    attachment_style_labels_values,
+    demographics_labels_values, 
+)
+from components.box_modal import BoxModal, BoxThumbnail
+from components.histogram_modal import HistogramModal
+from components.scatter_modal import ScatterModal
+from components.spider_modal import SpiderModal
+from components.pie_modal import PieModal
+from components.parallel_modal import ParallelModal
 
 register_page(__name__, path="/dashboard")
 
@@ -16,43 +29,6 @@ answers_df = df1
 
 fig = go.Figure()
 
-attachment_style_options: dict[str, str] = {
-    "Avoidant Score": "avoidant_score",
-    "Secure Score": "secure_score",
-    "Anxious Score": "anxious_score",
-}
-
-demographics_options: dict[str, str] = {
-    "Gender": "gender",
-    "Therapy Experience": "therapy_experience",
-    "Relationship Status": "relationship_status",
-}
-
-demographics_values: dict[str, tuple[str, ...]] = {
-    "gender": ("male", "female", "other"),
-    "therapy_experience": ("extensive", "some", "none"),
-    "relationship_status": ("married", "in_relationship", "single"),
-}
-
-# fmt: off
-attachment_style_labels_values: tuple[dict[str, str], ...] = ( 
-    {"label": "Anxious", "value": "anxious_score"},
-    {"label": "Secure", "value": "secure_score"},
-    {"label": "Avoidant", "value": "avoidant_score"},
-)
-
-attachment_score_labels_values: tuple[dict[str, str], ...] = (
-    {"label": "Anxious Score", "value": "anxious_score"},
-    {"label": "Secure Score", "value": "secure_score"},
-    {"label": "Avoidant Score", "value": "avoidant_score"},
-)
-# fmt: on
-
-demographics_lables_values: tuple[dict[str, str], ...] = (
-    {"label": "Gender", "value": "gender"},
-    {"label": "Therapy Experience", "value": "therapy_experience"},
-    {"label": "Relationship Status", "value": "relationship_status"},
-)
 
 
 def layout(**kwargs):
@@ -67,15 +43,7 @@ def layout(**kwargs):
             html.Div("Click on the thumbnails to explore the graphs", className="mb-4"),
             html.Div(
                 children=[
-                    html.Div(
-                        dcc.Graph(
-                            id="box-thumbnail",
-                            config={"staticPlot": True},
-                            style={"cursor": "pointer"},
-                        ),
-                        id="box-container",
-                        className="thumbnail",
-                    ),
+                    BoxThumbnail,
                     html.Div(
                         dcc.Graph(
                             id="scatter-thumbnail",
@@ -124,232 +92,12 @@ def layout(**kwargs):
                 ],
                 className="thumbnail-container",
             ),
-            dbc.Modal(
-                [
-                    dbc.ModalHeader(dbc.ModalTitle("Box Plot")),
-                    dbc.ModalBody(
-                        [
-                            html.Label("Select Demographic Variable:"),
-                            dcc.RadioItems(
-                                id="demographic-radio",
-                                options=demographics_lables_values,
-                                value="gender",
-                                labelStyle={
-                                    "display": "inline-block",
-                                    "margin-right": "10px",
-                                },
-                                className="mb-2",
-                            ),
-                            html.Label("Select Attachment Style:"),
-                            dcc.Dropdown(
-                                id="attachment-style-dropdown-demographics",
-                                options=attachment_style_labels_values,
-                                value="avoidant_score",
-                            ),
-                            dcc.Graph(id="box-graph"),
-                        ]
-                    ),
-                    dbc.ModalFooter(
-                        dbc.Button(
-                            "Close",
-                            id="close-box",
-                            className="ms-auto",
-                            n_clicks=0,
-                        )
-                    ),
-                ],
-                id="box-modal",
-                size="lg",
-                is_open=False,
-            ),
-            dbc.Modal(
-                [
-                    dbc.ModalHeader(dbc.ModalTitle("Histogram")),
-                    dbc.ModalBody(
-                        [
-                            html.Label("Select Attachment Style:"),
-                            dcc.Dropdown(
-                                id="attachment-style-dropdown-histo",
-                                options=attachment_style_labels_values,
-                                value="avoidant_score",
-                            ),
-                            dcc.Graph(id="histogram-graph"),
-                        ]
-                    ),
-                    dbc.ModalFooter(
-                        dbc.Button(
-                            "Close",
-                            id="close-histogram",
-                            className="ms-auto",
-                            n_clicks=0,
-                        )
-                    ),
-                ],
-                id="histogram-modal",
-                size="lg",
-                is_open=False,
-            ),
-            dbc.Modal(
-                [
-                    dbc.ModalHeader(dbc.ModalTitle("Scatter Plot")),
-                    dbc.ModalBody(
-                        [
-                            html.Label("Select X-axis Variable:"),
-                            dcc.Dropdown(
-                                id="scatter-x-dropdown",
-                                options=({"label": "Age", "value": "age"},)
-                                + attachment_score_labels_values,
-                                value="age",
-                            ),
-                            html.Label("Select Y-axis Variable:"),
-                            dcc.Dropdown(
-                                id="scatter-y-dropdown",
-                                options=attachment_score_labels_values,
-                                value="avoidant_score",
-                            ),
-                            html.Div(
-                                "Please choose the Y variable different from X",
-                                id="scatter-y-warning",
-                                style={"color": "red"},
-                                hidden=True,
-                            ),
-                            html.Label("Color By:"),
-                            dcc.Dropdown(
-                                id="scatter-color-dropdown",
-                                options=({"label": "None", "value": "None"},)
-                                + demographics_lables_values,
-                                value="gender",
-                            ),
-                            dcc.Graph(id="scatter-graph"),
-                        ]
-                    ),
-                    dbc.ModalFooter(
-                        dbc.Button(
-                            "Close",
-                            id="close-scatter",
-                            className="ms-auto",
-                            n_clicks=0,
-                        )
-                    ),
-                ],
-                id="scatter-modal",
-                size="lg",
-                is_open=False,
-            ),
-            dbc.Modal(
-                [
-                    dbc.ModalHeader(dbc.ModalTitle("Spider Chart")),
-                    dbc.ModalBody(
-                        [
-                            html.Label("Select the attachment style:"),
-                            dcc.Dropdown(
-                                id="spider-attachment-style-dropdown",
-                                options=attachment_style_labels_values,
-                                clearable=False,
-                                value="anxious_score",
-                            ),
-                            html.Label(
-                                "Select Demographic Grouping for the shape "
-                                "(at least one):"
-                            ),
-                            dcc.Dropdown(
-                                id="spider-shape-dropdown",
-                                options=demographics_lables_values,
-                                value=["gender", "relationship_status"],
-                                clearable=False,
-                                multi=True,
-                            ),
-                            html.Label("Select Demographic Grouping for the color:"),
-                            dcc.Dropdown(
-                                id="spider-color-dropdown",
-                                options=demographics_lables_values,
-                                value=["therapy_experience"],
-                                multi=True,
-                            ),
-                            dcc.Graph(id="spider-chart"),
-                        ]
-                    ),
-                    dbc.ModalFooter(
-                        dbc.Button(
-                            "Close",
-                            id="close-spider",
-                            className="ms-auto",
-                            n_clicks=0,
-                        )
-                    ),
-                ],
-                id="spider-modal",
-                size="lg",
-                is_open=False,
-            ),
-            dbc.Modal(
-                [
-                    dbc.ModalHeader(dbc.ModalTitle("Global Pie Chart")),
-                    dbc.ModalBody(
-                        [
-                            html.Label("Select the attachment style"),
-                            dcc.Dropdown(
-                                id="global-pie-chart-dropdown-attachment-style",
-                                options=attachment_style_labels_values,
-                                value="anxious_score",
-                            ),
-                            html.Label("Select the demographic"),
-                            dcc.Dropdown(
-                                id="global-pie-chart-dropdown-demographic",
-                                options=demographics_lables_values,
-                                value="gender",
-                            ),
-                            dcc.Graph(id="pie-graph"),
-                        ]
-                    ),
-                    dbc.ModalFooter(
-                        dbc.Button(
-                            "Close",
-                            id="close-pie",
-                            className="ms-auto",
-                            n_clicks=0,
-                        )
-                    ),
-                ],
-                id="pie-modal",
-                size="lg",
-                is_open=False,
-            ),
-            dbc.Modal(
-                [
-                    dbc.ModalHeader(dbc.ModalTitle("Parallel Categories Plot")),
-                    dbc.ModalBody(
-                        [
-                            html.Label("Select Variables:"),
-                            dcc.Dropdown(
-                                id="parallel-categories-dropdown",
-                                options=demographics_lables_values,
-                                value=["gender", "therapy_experience"],
-                                multi=True,
-                            ),
-                            html.Label("Color By Attachment Style:"),
-                            dcc.Dropdown(
-                                id="parallel-color-dropdown",
-                                options=attachment_style_labels_values
-                                + ({"label": "Any", "value": "any"},),
-                                value="secure_score",
-                            ),
-                            dcc.Graph(id="parallel-graph"),
-                        ]
-                    ),
-                    dbc.ModalFooter(
-                        dbc.Button(
-                            "Close",
-                            id="close-parallel",
-                            className="ms-auto",
-                            n_clicks=0,
-                        )
-                    ),
-                ],
-                id="parallel-modal",
-                size="lg",
-                is_open=False,
-            ),
+            BoxModal,
+            HistogramModal,
+            ScatterModal,
+            SpiderModal,
+            PieModal,
+            ParallelModal,
             dcc.Store(id="data-store", data={}),
         ]
     )
@@ -372,96 +120,9 @@ def include_test_data(include_test_data):
     return answers_dict
 
 
-# BOX PLOT
-# toggle modal
-@callback(
-    Output("box-modal", "is_open"),
-    [Input("box-container", "n_clicks"), Input("close-box", "n_clicks")],
-    State("box-modal", "is_open"),
-)
-def toggle_box_modal(open_modal, close_modal, is_open):
-    if open_modal or close_modal:
-        return not is_open
-    return is_open
 
 
-# update box plot thumbnail
-@callback(
-    Output("box-thumbnail", "figure"),
-    [
-        Input("demographic-radio", "value"),
-        Input("attachment-style-dropdown-demographics", "value"),
-        Input("data-store", "data"),
-        Input("window-width", "data"),
-    ],
-)
-def update_box_thumbnail(demographic, selected_style, data, window_width):
-    answers_df = pd.DataFrame(data)
-    if window_width[0] > 500:
-        fig = px.box(
-            answers_df,
-            x=demographic,
-            y=selected_style,
-            title="Box Plot",
-            width=300,
-            height=250,
-        )
-        fig.update_layout(
-            title_x=0.5,
-            title_y=0.98,
-            xaxis_title="",
-            yaxis_title="",
-            margin=dict(t=30, r=0, l=0),
-            showlegend=False,
-        )
-    else:
-        fig = px.box(
-            answers_df,
-            x=demographic,
-            y=selected_style,
-            title="Box Plot",
-            width=175,
-            height=175,
-        )
-        fig.update_xaxes(showticklabels=False)
-        fig.update_yaxes(showticklabels=False)
-        (
-            fig.update_layout(
-                title_font_size=15,
-                title_x=0.57,
-                title_y=0.95,
-                xaxis_title="",
-                yaxis_title="",
-                margin=dict(t=30, r=0, l=0),
-                showlegend=False,
-            ),
-        )
-    return fig
 
-
-# update box plot graph
-@callback(
-    Output("box-graph", "figure"),
-    [
-        Input("demographic-radio", "value"),
-        Input("attachment-style-dropdown-demographics", "value"),
-        Input("data-store", "data"),
-    ],
-)
-def update_box_graph(demographic, selected_style, data):
-    answers_df = pd.DataFrame(data)
-    fig = px.box(
-        answers_df,
-        x=demographic,
-        y=selected_style,
-        title=f'{selected_style.split("_")[0].capitalize()} '
-        f'Attachment Scores by {demographic.replace("_", " ").title()}',
-    )
-    fig.update_xaxes(title=demographic.replace("_", " ").title())
-    fig.update_yaxes(
-        title=selected_style.split("_")[0].capitalize() + " Attachment Score"
-    )
-    return fig
 
 
 # SCATTER
