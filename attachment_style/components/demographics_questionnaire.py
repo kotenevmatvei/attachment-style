@@ -18,7 +18,7 @@ DemographicsQuestionnaire = dbc.Container(
             [
                 dbc.Col(
                     [
-                        html.Div("Age in years:"),
+                        html.Div("Age:"),
                         dbc.Input(type="number", id="age"),
                     ],
                     sm={"size": 4, "offset": 2},
