@@ -1,8 +1,15 @@
 from dash import html, dcc, callback, Input, Output, State
 import dash_bootstrap_components as dbc
-from data.options import demographics_labels_values, attachment_style_labels_values
+from data.options import (
+    demographics_labels_values,
+    attachment_style_labels_values,
+    demographics_values,
+    demographics_options,
+)
+import plotly.graph_objects as go
 import pandas as pd
 import plotly.express as px
+import itertools
 
 SpiderModal = dbc.Modal(
     [
@@ -50,16 +57,14 @@ SpiderModal = dbc.Modal(
     is_open=False,
 )
 
-SpiderThumbnail = (
-    html.Div(
-        dcc.Graph(
-            id="spider-thumbnail",
-            config={"staticPlot": True},
-            style={"cursor": "pointer"},
-        ),
-        id="spider-container",
-        className="thumbnail",
-    )
+SpiderThumbnail = html.Div(
+    dcc.Graph(
+        id="spider-thumbnail",
+        config={"staticPlot": True},
+        style={"cursor": "pointer"},
+    ),
+    id="spider-container",
+    className="thumbnail",
 )
 
 

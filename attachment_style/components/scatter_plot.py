@@ -1,6 +1,10 @@
 import dash_bootstrap_components as dbc
 from dash import html, dcc, Input, State, Output, callback
-from data.options import attachment_score_labels_values, demographics_labels_values
+from data.options import (
+    attachment_score_labels_values,
+    demographics_labels_values,
+    attachment_style_options,
+)
 import pandas as pd
 import plotly.express as px
 
@@ -52,20 +56,17 @@ ScatterModal = dbc.Modal(
     is_open=False,
 )
 
-ScatterThumbnail = (
-    html.Div(
-        dcc.Graph(
-            id="scatter-thumbnail",
-            config={"staticPlot": True},
-            style={"cursor": "pointer"},
-        ),
-        id="scatter-container",
-        className="thumbnail",
+ScatterThumbnail = html.Div(
+    dcc.Graph(
+        id="scatter-thumbnail",
+        config={"staticPlot": True},
+        style={"cursor": "pointer"},
     ),
+    id="scatter-container",
+    className="thumbnail",
 )
 
 
-# SCATTER
 # toggle modal
 @callback(
     Output("scatter-modal", "is_open"),

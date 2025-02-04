@@ -14,7 +14,7 @@ import plotly.io as pio
 import dash_bootstrap_components as dbc
 
 from components.question_card import QuestionCard
-from components.chart import Chart
+from components.results_chart import ResultsChart
 from components.demographics_questionnaire import DemographicsQuestionnaire
 
 from utils.utils import (
@@ -61,7 +61,7 @@ def layout(**kwargs):
                 is_open=False,
                 className="mb-4 text-center",
             ),
-            Chart,
+            ResultsChart,
             # storage
             dcc.Store(
                 id="questions-storage",

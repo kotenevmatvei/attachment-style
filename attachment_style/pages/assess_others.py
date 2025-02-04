@@ -24,7 +24,7 @@ from utils.generate_pdf import generate_report
 import plotly.io as pio
 
 from components.question_card_others import QuestionCardOthers
-from components.chart_others import ChartOthers
+from components.results_chart_others import ResultChartOthers
 from components.demographics_questionnaire_others import DemographicQuestionnaireOthers
 
 register_page(__name__, path="/asses-others")
@@ -61,7 +61,7 @@ def layout(**kwargs):
                 is_open=False,
                 className="mb-4 text-center",
             ),
-            ChartOthers,
+            ResultChartOthers,
             # storage
             dcc.Store(
                 id="questions-storage-partner",
