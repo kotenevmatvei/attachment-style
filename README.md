@@ -7,7 +7,7 @@ I disliked all of the quizes I could find on the internet both content and imple
 wise. So I decided to code my own.
 
 Distinguishing features:
-- user can download the pdf with all the questions and answers
+- a pdf with all the questions and answers is generated at the end ready for download
 - extra quiz to asses other people with more behavior-based questions
 - dashboard representing the global results based on a few demographic features
 
