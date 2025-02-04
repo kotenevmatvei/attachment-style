@@ -9,8 +9,8 @@ def layout(**kwargs):
         dcc.Markdown(
             """
             This test is mainly a personal coding exercise. I wanted to see if one can use Dash Plotly
-            to build a full-fledged interactive website, rather than just a simple dashboard. The code
-            can be found at https://github.com/kotenevmatvei/attachment-style.
+            to build a full-fledged interactive website without any html or javascript - in pure
+            Python. The code can be found at https://github.com/kotenevmatvei/attachment-style.
             
             The main advantages of this quiz compared to others that may be found on the internet are:
             
