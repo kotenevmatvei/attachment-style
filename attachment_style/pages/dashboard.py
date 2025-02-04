@@ -2,12 +2,12 @@ from dash import Input, Output, html, callback, register_page, dcc
 from utils.utils import get_data_from_db, aggregate_scores
 import plotly.graph_objects as go
 
-from components.box_plot import BoxModal, BoxThumbnail
-from components.histogram_plot import HistogramModal, HistogramThumbnail
-from components.scatter_plot import ScatterModal, ScatterThumbnail
-from components.spider_plot import SpiderModal, SpiderThumbnail
-from components.pie_plot import PieModal, PieThumbnail
-from components.parallel_plot import ParallelModal, ParallelThumbnail
+from components.dashboard.box_plot import BoxModal, BoxThumbnail
+from components.dashboard.histogram_plot import HistogramModal, HistogramThumbnail
+from components.dashboard.scatter_plot import ScatterModal, ScatterThumbnail
+from components.dashboard.spider_plot import SpiderModal, SpiderThumbnail
+from components.dashboard.pie_plot import PieModal, PieThumbnail
+from components.dashboard.parallel_plot import ParallelModal, ParallelThumbnail
 
 register_page(__name__, path="/dashboard")
 
