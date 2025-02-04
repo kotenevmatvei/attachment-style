@@ -4,16 +4,14 @@ from data.options import demographics_labels_values, attachment_style_labels_val
 import pandas as pd
 import plotly.express as px
 
-BoxThumbnail = (
-    html.Div(
-        dcc.Graph(
-            id="box-thumbnail",
-            config={"staticPlot": True},
-            style={"cursor": "pointer"},
-        ),
-        id="box-container",
-        className="thumbnail",
-    )
+BoxThumbnail = html.Div(
+    dcc.Graph(
+        id="box-thumbnail",
+        config={"staticPlot": True},
+        style={"cursor": "pointer"},
+    ),
+    id="box-container",
+    className="thumbnail",
 )
 
 BoxModal = dbc.Modal(
@@ -54,6 +52,18 @@ BoxModal = dbc.Modal(
     size="lg",
     is_open=False,
 )
+
+
+# toggle modal
+@callback(
+    Output("box-modal", "is_open"),
+    [Input("box-container", "n_clicks"), Input("close-box", "n_clicks")],
+    State("box-modal", "is_open"),
+)
+def toggle_box_modal(open_modal, close_modal, is_open):
+    if open_modal or close_modal:
+        return not is_open
+    return is_open
 
 
 # update box plot graph
@@ -133,18 +143,3 @@ def update_box_thumbnail(demographic, selected_style, data, window_width):
             ),
         )
     return fig
-
-
-
-# BOX PLOT
-# toggle modal
-@callback(
-    Output("box-modal", "is_open"),
-    [Input("box-container", "n_clicks"), Input("close-box", "n_clicks")],
-    State("box-modal", "is_open"),
-)
-def toggle_box_modal(open_modal, close_modal, is_open):
-    if open_modal or close_modal:
-        return not is_open
-    return is_open
-
