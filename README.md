@@ -12,7 +12,7 @@ Distinguishing features:
 - dashboard representing the global results based on a few demographic features
 
 Above all, however, this is just a coding exercise for myself. I wanted to see if one
-could use Dash Plotly to build a full fledged interactive website. It is by no means 
+could use Dash Plotly to build a full-fledged interactive website. It is by no means 
 the right tool for the job, but it is fun to see what it is, in principle, capable of.
 
 ToDos:
