@@ -15,6 +15,3 @@ Above all, however, this is just a coding exercise for myself. I wanted to see i
 could use Dash Plotly to build a full-fledged interactive website. It is by no means 
 the right tool for the job, but it is fun to see what it is, in principle, capable of.
 
-ToDos:
-- translate to German and Russian
-
