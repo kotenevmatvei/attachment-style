@@ -42,3 +42,17 @@ and replace the sqlalchemy.url with the url of your database
 6. if you decide to host it in the cloud, in the cloud of your choice, choose the option 
 to build from the docker image, set the environment variable DB_URL to the url of your 
 database, the port to 8050, and the command to "python app.py".
+
+## Customization
+
+If you would like to customize this quiz you can change the questions in the data directory.
+
+All of the smaller components are defined in the components directory and then put together
+in the pages. You can follow the common theme define new pages or add functionality.
+
+The plots for the dashboard are defined in the components/dashboard directory - you can 
+follow the common pattern to extend the visualizations.
+
+In the scripts directory, there is a script for generating test data, you can change the
+parameters at the top of the file.
+
