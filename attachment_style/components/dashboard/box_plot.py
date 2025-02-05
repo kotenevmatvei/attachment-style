@@ -119,6 +119,7 @@ def update_box_thumbnail(demographic, selected_style, data, window_width):
             yaxis_title="",
             margin=dict(t=30, r=0, l=0),
             showlegend=False,
+            paper_bgcolor="#F5F5F4",
         )
     else:
         fig = px.box(
@@ -140,6 +141,7 @@ def update_box_thumbnail(demographic, selected_style, data, window_width):
                 yaxis_title="",
                 margin=dict(t=30, r=0, l=0),
                 showlegend=False,
+                paper_bgcolor="#F5F5F4",
             ),
         )
     return fig

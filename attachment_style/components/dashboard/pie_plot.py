@@ -44,16 +44,14 @@ PieModal = dbc.Modal(
     is_open=False,
 )
 
-PieThumbnail = (
-    html.Div(
-        dcc.Graph(
-            id="pie-thumbnail",
-            config={"staticPlot": True},
-            style={"cursor": "pointer"},
-        ),
-        id="pie-container",
-        className="thumbnail",
-    )
+PieThumbnail = html.Div(
+    dcc.Graph(
+        id="pie-thumbnail",
+        config={"staticPlot": True},
+        style={"cursor": "pointer"},
+    ),
+    id="pie-container",
+    className="thumbnail",
 )
 
 
@@ -109,6 +107,7 @@ def update_global_pie_thumbnail(
             title_y=0.98,
             margin=dict(t=30, r=0, l=0),
             showlegend=False,
+            paper_bgcolor="#F5F5F4",
         )
     else:
         fig = px.pie(
@@ -125,6 +124,7 @@ def update_global_pie_thumbnail(
             title_y=0.95,
             margin=dict(t=30, r=0, l=0),
             showlegend=False,
+            paper_bgcolor="#F5F5F4",
         )
         fig.update_traces(textinfo="none")
 

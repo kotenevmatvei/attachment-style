@@ -32,16 +32,14 @@ HistogramModal = dbc.Modal(
     is_open=False,
 )
 
-HistogramThumbnail = (
-    html.Div(
-        dcc.Graph(
-            id="histogram-thumbnail",
-            config={"staticPlot": True},
-            style={"cursor": "pointer"},
-        ),
-        id="histogram-container",
-        className="thumbnail",
-    )
+HistogramThumbnail = html.Div(
+    dcc.Graph(
+        id="histogram-thumbnail",
+        config={"staticPlot": True},
+        style={"cursor": "pointer"},
+    ),
+    id="histogram-container",
+    className="thumbnail",
 )
 
 
@@ -85,6 +83,7 @@ def update_histo_thumbnail(selected_style, data, window_width):
             yaxis_title="",
             margin=dict(t=30, r=0, l=0),
             showlegend=False,
+            paper_bgcolor="#F5F5F4",
         )
     else:
         fig = px.histogram(
@@ -103,6 +102,7 @@ def update_histo_thumbnail(selected_style, data, window_width):
             yaxis_title="",
             margin=dict(t=30, r=0, l=0),
             showlegend=False,
+            paper_bgcolor="#F5F5F4",
         )
         fig.update_xaxes(showticklabels=False)
         fig.update_yaxes(showticklabels=False)

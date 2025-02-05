@@ -186,6 +186,7 @@ def update_spider_thumbnail(
             margin=dict(t=30, r=0, l=0),
             polar=dict(angularaxis=dict(showticklabels=False)),
             showlegend=False,
+            paper_bgcolor="#F5F5F4",
         )
     else:
         fig = px.line_polar(
@@ -209,6 +210,7 @@ def update_spider_thumbnail(
                 radialaxis=dict(showticklabels=False),
             ),
             showlegend=False,
+            paper_bgcolor="#F5F5F4",
         )
 
     return fig

@@ -16,7 +16,7 @@ ResultChartOthers = dbc.Modal(
             [
                 html.Div(
                     "Here you can download your full report with all questions and answers:",
-                    style={"color": "purple", "margin-right":10},
+                    style={"color": "#CB997E", "margin-right":10},
                 ),
                 dbc.Button("PDF", id="download-report-button-partner"),
             ],

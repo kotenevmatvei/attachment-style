@@ -41,16 +41,14 @@ ParallelModal = dbc.Modal(
 )
 
 
-ParallelThumbnail = (
-    html.Div(
-        dcc.Graph(
-            id="parallel-thumbnail",
-            config={"staticPlot": True},
-            style={"cursor": "pointer"},
-        ),
-        id="parallel-container",
-        className="thumbnail",
-    )
+ParallelThumbnail = html.Div(
+    dcc.Graph(
+        id="parallel-thumbnail",
+        config={"staticPlot": True},
+        style={"cursor": "pointer"},
+    ),
+    id="parallel-container",
+    className="thumbnail",
 )
 
 
@@ -103,6 +101,7 @@ def update_parallel_thumnail(selected_dims, color_by, data, window_width):
             title_y=0.98,
             margin=dict(t=30, r=0, l=0),
             showlegend=False,
+            paper_bgcolor="#F5F5F4",
         )
         fig.update_coloraxes(showscale=False)
         for dim in fig.data[0]["dimensions"]:
@@ -131,6 +130,7 @@ def update_parallel_thumnail(selected_dims, color_by, data, window_width):
             title_y=0.95,
             margin=dict(t=30, r=0, l=0),
             showlegend=False,
+            paper_bgcolor="#F5F5F4",
         )
         fig.update_coloraxes(showscale=False)
         for dim in fig.data[0]["dimensions"]:
