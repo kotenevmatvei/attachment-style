@@ -14,10 +14,18 @@ QuestionCardOthers = dbc.Row(
                         ),
                     ],
                     className="d-flex align-items-center justify-content-center",
-                    style={"height": "3.5rem"},
+                    style={
+                        "height": "3.5rem",
+                        "background-color": "#F5F5F5",
+                        "color": "#403D39",
+                    },
                 ),
                 dbc.CardBody(
-                    dcc.Markdown("Text of the question", id="question-text-partner")
+                    dcc.Markdown(
+                        "Text of the question",
+                        id="question-text-partner",
+                    ),
+                    style={"background-color": "#F5F5F5", "color": "#403D39"},
                 ),
                 dbc.CardFooter(
                     [
@@ -57,7 +65,11 @@ QuestionCardOthers = dbc.Row(
                             className="bi bi-arrow-right-circle d-flex align-items-center",
                         ),
                     ],
-                    style={"display": "flex"}
+                    style={
+                        "display": "flex",
+                        "background-color": "#F5F5F5",
+                        "color": "#403D39",
+                    },
                 ),
             ],
             style={"width": "45rem"},
