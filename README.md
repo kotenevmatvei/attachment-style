@@ -31,18 +31,13 @@ and replace the sqlalchemy.url with the url of your database
 (create all the necessary tables)
 5. if you want to run the app locally you can either 
 
-    5.1. do it directly by
-        5.1.1. creating a virtual environment (for example `python3 -m venv venv`)
+    5.1. do it directly by creating a virtual environment (for example `python3 -m venv venv`)
+    installing dependencies with `pip install -r requirements.txt` (execute in the root directory
+    running `python app.py` in the root directory 
 
-        5.1.2. installing dependencies with `pip install -r requirements.txt` (execute in 
-        the root directory
-
-        5.1.3. running `python app.py` in the root directory 
-
-    5.2. or build a docker image by
-        * running `docker build -t attachment-style-test .`
-        * start the container and set the envronment variable DB_URL by
-        `docker run -e DB_URL=<your db url> -p 8050:8050 attachment-style-test`
+    5.2. or build a docker image by running `docker build -t attachment-style-test .` 
+    start the container and set the envronment variable DB_URL by `docker run -e 
+    DB_URL=<your db url> -p 8050:8050 attachment-style-test`
 
 6. if you decide to host it in the cloud, in the cloud of your choice, choose the option 
 to build from the docker image and the environment variable DB_URL to the url of your 
