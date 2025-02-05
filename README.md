@@ -36,9 +36,10 @@ and replace the sqlalchemy.url with the url of your database
 * installing dependencies with `pip install -r requirements.txt` (execute in the root directory),
 * and running `python app.py` in the root directory 
 
-    5.2. or build a docker image by running `docker build -t attachment-style-test .`,
-    starting the container and setiting the envronment variable DB_URL and the port
-    by `docker run -e DB_URL=<your db url> -p 8050:8050 attachment-style-test`
+    5.2. or build a docker image by 
+* running `docker build -t attachment-style-test .`,
+* starting the container and setiting the envronment variable DB_URL and the port
+by `docker run -e DB_URL=<your db url> -p 8050:8050 attachment-style-test`
 
 6. if you decide to host it in the cloud, in the cloud of your choice, choose the option 
 to build from the docker image, set the environment variable DB_URL to the url of your 
