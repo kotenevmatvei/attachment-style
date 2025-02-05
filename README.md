@@ -48,10 +48,10 @@ database, the port to 8050, and the command to "python app.py".
 If you would like to customize this quiz you can change the questions in the data directory.
 
 All of the smaller components are defined in the components directory and then put together
-in the pages. You can follow the common theme define new pages or add functionality.
+in the pages. You can follow the common theme to define new pages or add functionality.
 
-The plots for the dashboard are defined in the components/dashboard directory - you can 
-follow the common pattern to extend the visualizations.
+The plots for the dashboard are defined in the components/dashboard directory - follow 
+the common pattern to extend the visualizations.
 
 In the scripts directory, there is a script for generating test data, you can change the
 parameters at the top of the file.
