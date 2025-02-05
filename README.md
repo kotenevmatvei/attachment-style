@@ -29,16 +29,19 @@ follow below), you need to follow these steps:
 and replace the sqlalchemy.url with the url of your database
 4. run `alembic upgrade heads` in attachment_style directory to migrate the database 
 (create all the necessary tables)
-5. if you want to run the app locally you can either\n
-    5.1. do it directly by\n
+5. if you want to run the app locally you can either 
+
+    5.1. do it directly by
         * creating a virtual environment (for example `python3 -m venv venv`)
         * installing dependencies with `pip install -r requirements.txt` (execute in 
         the root directory)
         * running `python app.py` in the root directory
-    5.2. or build a docker image by\n
+
+    5.2. or build a docker image by
         * running `docker build -t attachment-style-test .`
         * start the container and set the envronment variable DB_URL by
         `docker run -e DB_URL=<your db url> -p 8050:8050 attachment-style-test`
+
 6. if you decide to host it in the cloud, in the cloud of your choice, choose the option 
 to build from the docker image and the environment variable DB_URL to the url of your 
 database, the port to 8050 and the command to "python app.py".
