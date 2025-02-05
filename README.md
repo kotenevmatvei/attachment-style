@@ -40,5 +40,5 @@ and replace the sqlalchemy.url with the url of your database
     by `docker run -e DB_URL=<your db url> -p 8050:8050 attachment-style-test`
 
 6. if you decide to host it in the cloud, in the cloud of your choice, choose the option 
-to build from the docker image and the environment variable DB_URL to the url of your 
-database, the port to 8050 and the command to "python app.py".
+to build from the docker image, set the environment variable DB_URL to the url of your 
+database, the port to 8050, and the command to "python app.py".
