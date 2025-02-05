@@ -82,7 +82,6 @@ DemographicQuestionnaireOthers = dbc.Container(
             dbc.Col(
                 dbc.Button(
                     "Continue to the test",
-                    color="primary",
                     id="submit-personal-questionnaire-partner",
                 ),
                 className="d-flex justify-content-center",

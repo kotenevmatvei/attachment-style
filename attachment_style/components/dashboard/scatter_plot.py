@@ -119,6 +119,7 @@ def update_scatter_thumbnail(x_var, y_var, color_var, data, window_width):
             yaxis_title="",
             margin=dict(t=30, r=0, l=0),
             showlegend=False,
+            paper_bgcolor="#F5F5F4",
         )
     else:
         if color_var == "None":
@@ -148,6 +149,7 @@ def update_scatter_thumbnail(x_var, y_var, color_var, data, window_width):
             yaxis_title="",
             margin=dict(t=30, r=0, l=0),
             showlegend=False,
+            paper_bgcolor="#F5F5F4",
         )
         fig.update_xaxes(showticklabels=False)
         fig.update_yaxes(showticklabels=False)
