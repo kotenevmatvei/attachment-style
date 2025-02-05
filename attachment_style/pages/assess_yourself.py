@@ -1,4 +1,5 @@
 from dash import (
+    clientside_callback,
     html,
     dcc,
     Input,
@@ -33,6 +34,7 @@ register_page(__name__, path="/assess-yourself")
 def layout(**kwargs):
     return html.Div(
         [
+            html.Div(id="dummy-for-keydown"),
             html.H3("Assess Yourself", className="text-center"),
             dbc.Collapse(
                 DemographicsQuestionnaire,
@@ -529,3 +531,27 @@ def update_question(
 
     # first question / initial state
     return (1, f"Question {1}/{n}", questions[0][0], answers, 0, False, False)
+
+
+clientside_callback(
+    """
+    function(trigger) {
+        if (!window.arrowKeysListenerAttached) {
+            function ArrowClick(event) {
+                if (event.key === "ArrowRight") {
+                    document.getElementById('right-button').click();
+                } else if (event.key === "ArrowLeft") {
+                    document.getElementById('left-button').click();
+                }
+            }
+            
+            window.addEventListener('keydown', ArrowClick);
+            window.arrowKeysListenerAttached = true; 
+        }
+        return window.dash_clientside.no_update;
+    }
+    """,
+    Output("dummy-for-keydown", "style"),
+    Input("dummy-for-keydown", "style"),
+)
+

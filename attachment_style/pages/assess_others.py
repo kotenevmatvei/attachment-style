@@ -7,6 +7,7 @@ from dash import (
     ctx,
     callback,
     register_page,
+    clientside_callback,
 )
 from random import shuffle
 import copy
@@ -33,6 +34,7 @@ register_page(__name__, path="/asses-others")
 def layout(**kwargs):
     return html.Div(
         [
+            html.Div(id="dummy-for-keydown-others"),
             html.H3("Assess Others", className="text-center"),
             dbc.Collapse(
                 DemographicQuestionnaireOthers,
@@ -479,3 +481,26 @@ def update_question(
 
     # first question / initial state
     return (1, f"Question {1}/{n}", questions[0][0], answers, 0, False, False)
+
+
+clientside_callback(
+    """
+    function(trigger) {
+        if (!window.arrowKeysListenerAttached) {
+            function ArrowClick(event) {
+                if (event.key === "ArrowRight") {
+                    document.getElementById('right-button-partner').click();
+                } else if (event.key === "ArrowLeft") {
+                    document.getElementById('left-button-partner').click();
+                }
+            }
+            
+            window.addEventListener('keydown', ArrowClick);
+            window.arrowKeysListenerAttached = true; 
+        }
+        return window.dash_clientside.no_update;
+    }
+    """,
+    Output("dummy-for-keydown-others", "style"),
+    Input("dummy-for-keydown-others", "style"),
+)
