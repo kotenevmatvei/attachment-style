@@ -72,6 +72,18 @@ app.clientside_callback(
     Input("dummy", "n_clicks"),
 )
 
+@app.callback(
+    [
+        Output("Sidenav", "className", allow_duplicate=True),
+        Output("opacity", "className", allow_duplicate=True),
+    ],
+    Input("opacity", "n_clicks"),
+    prevent_initial_call=True,
+)
+def fold_navbar_mobile_when_clicked_outside(click):
+    return "", ""
+
+
 
 if __name__ == "__main__":
     app.run_server(host="0.0.0.0", port=8050)
