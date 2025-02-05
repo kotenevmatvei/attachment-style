@@ -32,13 +32,18 @@ and replace the sqlalchemy.url with the url of your database
 5. if you want to run the app locally you can either 
 
     5.1. do it directly by
+
         * creating a virtual environment (for example `python3 -m venv venv`)
+
         * installing dependencies with `pip install -r requirements.txt` (execute in 
         the root directory)
+
         * running `python app.py` in the root directory
 
     5.2. or build a docker image by
+
         * running `docker build -t attachment-style-test .`
+
         * start the container and set the envronment variable DB_URL by
         `docker run -e DB_URL=<your db url> -p 8050:8050 attachment-style-test`
 
