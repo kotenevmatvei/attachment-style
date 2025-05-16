@@ -8,7 +8,8 @@ def layout(**kwargs):
     return dbc.Container(
         dcc.Markdown(
             """
-            This test is mainly a personal coding exercise. I wanted to see if one can use Dash Plotly
+            This app is inspired by the book Attached Book by Amir Levine and Rachel S. F. Heller and uses the questionnaires and texts from the book.
+            It is also a personal coding exercise. I wanted to see if one can use Dash Plotly
             to build a full-fledged interactive website without any html or javascript - in pure
             Python. The code can be found at https://github.com/kotenevmatvei/attachment-style.
             
