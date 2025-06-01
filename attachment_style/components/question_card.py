@@ -38,7 +38,6 @@ QuestionCard = dbc.Row(
                                 step=1,
                                 value=0,
                                 marks={
-                                    0: "0",
                                     1: "1",
                                     2: "2",
                                     3: "3",
@@ -46,9 +45,6 @@ QuestionCard = dbc.Row(
                                     5: "5",
                                     6: "6",
                                     7: "7",
-                                    8: "8",
-                                    9: "9",
-                                    10: "10",
                                 },
                                 tooltip={
                                     "placement": "bottom",

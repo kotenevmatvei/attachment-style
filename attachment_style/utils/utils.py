@@ -17,7 +17,7 @@ load_dotenv(find_dotenv())
 
 
 # production url
-url = str(os.getenv("DB_URL"))
+url = str(os.getenv("DB_URL_DEBUG"))
 
 engine = create_engine(url=url)
 
@@ -30,7 +30,8 @@ def read_questions_file(
     with open(questions_file_path, "r") as file:
         for line in file:
             decoded_line = codecs.decode(line.strip(), "unicode_escape")
-            questions_list.append((decoded_line, attachment_style))
+            line_with_reverse_score_accounted = decoded_line.replace(" /r/", "  ")
+            questions_list.append((line_with_reverse_score_accounted, attachment_style))
 
     return questions_list
 
@@ -110,19 +111,19 @@ def read_questions(subject: str) -> list[tuple[str, str]]:
     if subject == "you":
         questions.extend(
             read_questions_file(
-                questions_file_path="data/anxious_questions.txt",
+                questions_file_path="data/ecr-r/anxious.txt",
                 attachment_style="anxious",
             )
         )
+        # questions.extend(
+        #     read_questions_file(
+        #         questions_file_path="data/ecr-r/secure.txt",
+        #         attachment_style="secure",
+        #     )
+        # )
         questions.extend(
             read_questions_file(
-                questions_file_path="data/secure_questions.txt",
-                attachment_style="secure",
-            )
-        )
-        questions.extend(
-            read_questions_file(
-                questions_file_path="data/avoidant_questions.txt",
+                questions_file_path="data/ecr-r/avoidant.txt",
                 attachment_style="avoidant",
             )
         )
@@ -160,7 +161,7 @@ def increase_figure_font(fig: px.pie) -> None:
 def upload_to_db(
     answers: dict[str, tuple[str, float, str]],
     personal_answers: dict[str, str],
-    test: bool = False,
+    test: bool = True,
 ):
     anxious_answers = sorted(
         [(value[2], value[1]) for value in answers.values() if value[0] == "anxious"]
