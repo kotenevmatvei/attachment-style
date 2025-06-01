@@ -129,18 +129,18 @@ def read_questions(subject: str) -> list[tuple[str, str]]:
     else:
         questions.extend(
             read_questions_file(
-                questions_file_path="data/anxious_partner.txt",
+                questions_file_path="data/partner/anxious.txt",
                 attachment_style="anxious",
             )
         )
         questions.extend(
             read_questions_file(
-                questions_file_path="data/secure_partner.txt", attachment_style="secure"
+                questions_file_path="data/partner/secure.txt", attachment_style="secure"
             )
         )
         questions.extend(
             read_questions_file(
-                questions_file_path="data/avoidant_partner.txt",
+                questions_file_path="data/partner/avoidant.txt",
                 attachment_style="avoidant",
             )
         )
