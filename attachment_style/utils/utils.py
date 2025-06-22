@@ -17,7 +17,7 @@ load_dotenv(find_dotenv())
 
 
 # production url
-url = str(os.getenv("DB_URL"))
+url = str(os.getenv("DB_URL_DEBUG"))
 
 engine = create_engine(url=url)
 
