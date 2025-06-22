@@ -57,16 +57,16 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
     story.append(secure_description)
     story.append(Spacer(0, 10))
     # write secure description
-    secure_description_text = """
-        <b>Secure</b>: Being warm and loving in a relationship comes naturally to you. You 
-        enjoy being intimate without becoming overly worried about your relationships. 
-        You take things in stride when it comes to romance and don’t get easily upset 
-        over relationship matters. You effectively communicate your needs and feelings 
-        to your partner and are strong at reading your partner’s emotional cues and 
-        responding to them. You share your successes and problems with your partner, and 
-        are able to be there for him or her in times of need.
-    """
-    secure_description = Paragraph(secure_description_text, styles["Normal"])
+    # secure_description_text = """
+    #     <b>Secure</b>: Being warm and loving in a relationship comes naturally to you. You 
+    #     enjoy being intimate without becoming overly worried about your relationships. 
+    #     You take things in stride when it comes to romance and don’t get easily upset 
+    #     over relationship matters. You effectively communicate your needs and feelings 
+    #     to your partner and are strong at reading your partner’s emotional cues and 
+    #     responding to them. You share your successes and problems with your partner, and 
+    #     are able to be there for him or her in times of need.
+    # """
+    # secure_description = Paragraph(secure_description_text, styles["Normal"])
     story.append(secure_description)
     story.append(Spacer(0, 10))
     avoidant_description_text = """
@@ -139,32 +139,32 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
         (value[2], value[1]) for value in answers.values() if value[0] == "secure"
     ]
     # sort secure answers
-    secure_answers = sorted(secure_answers)
-    data_secure = []
-    for answer in secure_answers:
-        # Convert markdown to HTML
-        text = answer[0]
-        indenter_on = Indenter(left=10)
-        indenter_off = Indenter(left=-10)
-        markdown_lines = text.split("\n")
-        single_question = Paragraph("")
-        header = Paragraph("")
-        bullet_points = []
-        for line in markdown_lines:
-            if line.startswith("**"):
-                header = Paragraph("<b>" + line[2:-2] + "</b>")
-            elif line.startswith("*"):
-                bullet_points.append(Paragraph("\u2022" + line[1:]))
-            else:
-                single_question = Paragraph(line)
-        question = [single_question, header, indenter_on, bullet_points, indenter_off]
-        data_secure.append([question, answer[1]])
-    table_secure = Table(
-        data_secure,
-        colWidths=[400, 50],
-        style=[("GRID", (0, 0), (-1, -1), 1, colors.gray)],
-    )
-    story.append(table_secure)
+    # secure_answers = sorted(secure_answers)
+    # data_secure = []
+    # for answer in secure_answers:
+    #     # Convert markdown to HTML
+    #     text = answer[0]
+    #     indenter_on = Indenter(left=10)
+    #     indenter_off = Indenter(left=-10)
+    #     markdown_lines = text.split("\n")
+    #     single_question = Paragraph("")
+    #     header = Paragraph("")
+    #     bullet_points = []
+    #     for line in markdown_lines:
+    #         if line.startswith("**"):
+    #             header = Paragraph("<b>" + line[2:-2] + "</b>")
+    #         elif line.startswith("*"):
+    #             bullet_points.append(Paragraph("\u2022" + line[1:]))
+    #         else:
+    #             single_question = Paragraph(line)
+    #     question = [single_question, header, indenter_on, bullet_points, indenter_off]
+    #     data_secure.append([question, answer[1]])
+    # table_secure = Table(
+    #     data_secure,
+    #     colWidths=[400, 50],
+    #     style=[("GRID", (0, 0), (-1, -1), 1, colors.gray)],
+    # )
+    # story.append(table_secure)
     # add avoidant questions
     story.append(Spacer(0, 10))
     story.append(Paragraph("<u><b>Avoidant</b></u>:"))

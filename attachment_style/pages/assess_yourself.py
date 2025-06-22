@@ -19,6 +19,7 @@ from components.results_chart import ResultsChart
 from components.demographics_questionnaire import DemographicsQuestionnaire
 
 from utils.utils import (
+    build_ecr_r_chart,
     read_questions,
     calculate_scores,
     build_pie_chart,
@@ -236,7 +237,12 @@ def generate_dashboard(
         if avoidant_score >= secure_score and avoidant_score >= anxious_score:
             description = generate_type_description("avoidant")
 
-        fig = build_pie_chart(
+        # fig = build_pie_chart(
+        #     anxious_score=anxious_score,
+        #     secure_score=secure_score,
+        #     avoidant_score=avoidant_score,
+        # )
+        fig = build_ecr_r_chart(
             anxious_score=anxious_score,
             secure_score=secure_score,
             avoidant_score=avoidant_score,
