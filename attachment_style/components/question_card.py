@@ -33,7 +33,7 @@ QuestionCard = dbc.Row(
                         dbc.Container(
                             dcc.Slider(
                                 id="slider",
-                                min=0,
+                                min=1,
                                 max=7,
                                 step=1,
                                 value=0,
