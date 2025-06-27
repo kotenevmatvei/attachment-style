@@ -673,9 +673,6 @@ def aggregate_scores(test_yourself_df, test_your_partner_df):
         test_your_partner_df.filter(like="avoidant").sum(axis=1) / 11
     )
 
-    print("Anxious score: ", test_yourself_df["anxious_score"][0])
-    print("Avoidant score: ", test_yourself_df["avoidant_score"][0])
-
     return test_yourself_df, test_your_partner_df
 
 

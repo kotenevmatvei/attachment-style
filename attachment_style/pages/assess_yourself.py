@@ -238,7 +238,6 @@ def generate_dashboard(
         if avoidant_score >= secure_score and avoidant_score >= anxious_score:
             description = generate_type_description("avoidant")
 
-        print(answers)
         # fig = build_pie_chart(
         #     anxious_score=anxious_score,
         #     secure_score=secure_score,
