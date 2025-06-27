@@ -25,6 +25,7 @@ from utils.utils import (
     build_pie_chart,
     generate_type_description,
     increase_figure_font,
+    revert_questions,
     upload_to_db,
 )
 from utils.generate_pdf import generate_report
@@ -237,6 +238,7 @@ def generate_dashboard(
         if avoidant_score >= secure_score and avoidant_score >= anxious_score:
             description = generate_type_description("avoidant")
 
+        print(answers)
         # fig = build_pie_chart(
         #     anxious_score=anxious_score,
         #     secure_score=secure_score,
@@ -265,6 +267,7 @@ def generate_dashboard(
 )
 def load_report(n_clicks, answers):
     if n_clicks:
+        answers = revert_questions(answers)
         generate_report(answers)
         return dcc.send_file("tmp/attachment_style_report.pdf", type="pdf")
 
@@ -304,13 +307,12 @@ def update_question(
 ):
     n: int = len(questions)
     id_triggered = ctx.triggered_id
-    reverse = 8 if questions[question_count -1][0].endswith("  ") else 0
     if not last_question_visited:
         match id_triggered:
             case "right-button":
                 answers[f"{question_count-1}"] = (
                     questions[question_count - 1][1],
-                    abs(reverse - slider_value),
+                    slider_value,
                     questions[question_count - 1][0],
                 )
                 # questions between first and one before last one
@@ -332,7 +334,7 @@ def update_question(
                             f"Question {question_count}/{n}",
                             questions[question_count - 1][0],
                             answers,
-                            0,
+                            1,
                             False,
                             False,
                         )
@@ -355,7 +357,7 @@ def update_question(
                             f"Question {question_count}/{n}",
                             questions[question_count - 1][0],
                             answers,
-                            0,
+                            1,
                             False,
                             True,
                         )
@@ -375,7 +377,7 @@ def update_question(
                 if question_count == 1:
                     answers["0"] = (
                         questions[0][1],
-                        abs(reverse - slider_value),
+                        slider_value,
                         questions[question_count - 1][0],
                     )
                     return (
@@ -390,7 +392,7 @@ def update_question(
                 else:
                     answers[f"{question_count-1}"] = (
                         questions[question_count - 1][1],
-                        abs(reverse - slider_value),
+                        slider_value,
                         questions[question_count - 1][0],
                     )
                     return (
@@ -410,7 +412,7 @@ def update_question(
                 if question_count < n:
                     answers[f"{question_count - 1}"] = (
                         questions[question_count - 1][1],
-                        abs(reverse - slider_value),
+                        slider_value,
                         questions[question_count - 1][0],
                     )
                     question_count += 1
@@ -430,7 +432,7 @@ def update_question(
                             f"Question {question_count}/{n}",
                             questions[question_count - 1][0],
                             answers,
-                            0,
+                            1,
                             False,
                             True,
                         )
@@ -438,7 +440,7 @@ def update_question(
                 else:
                     answers[f"{question_count - 1}"] = (
                         questions[question_count - 1][1],
-                        abs(reverse - slider_value),
+                        slider_value,
                         questions[question_count - 1][0],
                     )
                     return (
@@ -456,7 +458,7 @@ def update_question(
                 if question_count < n:
                     answers[f"{question_count - 1}"] = (
                         questions[question_count - 1][1],
-                        abs(reverse - slider_value),
+                        slider_value,
                         questions[question_count - 1][0],
                     )
                     if not lb_visited_last:
@@ -477,7 +479,7 @@ def update_question(
                                 f"Question {question_count}/{n}",
                                 questions[question_count - 1][0],
                                 answers,
-                                0,
+                                1,
                                 False,
                                 True,
                             )
@@ -495,7 +497,7 @@ def update_question(
                 else:
                     answers[f"{question_count - 1}"] = (
                         questions[question_count - 1][1],
-                        abs(reverse - slider_value),
+                        slider_value,
                         questions[question_count - 1][0],
                     )
                     return (
@@ -510,7 +512,7 @@ def update_question(
 
             case "left-button":
                 if question_count == 1:
-                    answers["0"] = (questions[0][1], abs(reverse - slider_value))
+                    answers["0"] = (questions[0][1], slider_value)
                     return (
                         1,
                         f"Question 1/{n}",
@@ -523,7 +525,7 @@ def update_question(
                 else:
                     answers[f"{question_count - 1}"] = (
                         questions[question_count - 1][1],
-                        abs(reverse - slider_value),
+                        slider_value,
                         questions[question_count - 1][0],
                     )
                     return (
