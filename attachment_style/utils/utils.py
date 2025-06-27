@@ -72,6 +72,9 @@ def build_ecr_r_chart(anxious_score: float, secure_score: float, avoidant_score:
     # Set default renderer to browser
     # pio.renderers.default = "browser"
 
+    anxious_score = anxious_score / 18
+    avoidant_score = avoidant_score / 18
+
     # --- Define the 1-7 scale parameters ---
     scale_min = 1
     scale_max = 7
@@ -82,7 +85,7 @@ def build_ecr_r_chart(anxious_score: float, secure_score: float, avoidant_score:
     # Avoidance: 1 (low, top of plot) to 7 (high, bottom of plot)
     # Ensure the point is not directly on the main axes (x=4, y=4) or the y=x diagonal
     # for clear projection lines.
-    extra_point_coords = {"anxiety": 2.5, "avoidance": 1, "name": "Client A"}
+    extra_point_coords = {"anxiety": anxious_score, "avoidance": avoidant_score, "name": "Your Score"}
     # --- END USER INPUT ---
 
     xp = extra_point_coords["anxiety"]
@@ -556,25 +559,28 @@ def aggregate_scores(test_yourself_df, test_your_partner_df):
     # calculate scores
     # Add a column with the sum of all columns starting with "anxious"
     test_yourself_df["anxious_score"] = (
-        test_yourself_df.filter(like="anxious").sum(axis=1) / 14
+        test_yourself_df.filter(like="anxious").sum(axis=1) / 18
     )
     test_your_partner_df["anxious_score"] = (
         test_your_partner_df.filter(like="anxious").sum(axis=1) / 11
     )
     # Add a column with the sum of all columns starting with "secure"
-    test_yourself_df["secure_score"] = (
-        test_yourself_df.filter(like="secure").sum(axis=1) / 14
-    )
+    # test_yourself_df["secure_score"] = (
+    #     test_yourself_df.filter(like="secure").sum(axis=1) / 14
+    # )
     test_your_partner_df["secure_score"] = (
         test_your_partner_df.filter(like="secure").sum(axis=1) / 11
     )
     # Add a column with the sum of all columns starting with "avoidant"
     test_yourself_df["avoidant_score"] = (
-        test_yourself_df.filter(like="avoidant").sum(axis=1) / 14
+        test_yourself_df.filter(like="avoidant").sum(axis=1) / 18
     )
     test_your_partner_df["avoidant_score"] = (
         test_your_partner_df.filter(like="avoidant").sum(axis=1) / 11
     )
+
+    print("Anxious score: ", test_yourself_df["anxious_score"][0])
+    print("Avoidant score: ", test_yourself_df["avoidant_score"][0])
 
     return test_yourself_df, test_your_partner_df
 
