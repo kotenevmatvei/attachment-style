@@ -36,7 +36,7 @@ QuestionCard = dbc.Row(
                                 min=1,
                                 max=7,
                                 step=1,
-                                value=0,
+                                value=1,
                                 marks={
                                     1: "1",
                                     2: "2",
