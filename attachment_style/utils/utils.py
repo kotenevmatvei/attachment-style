@@ -46,7 +46,8 @@ def revert_questions(
     if len(answers) == 36:
         for key, value in answers.items():
             if value[2].endswith("  "):
-                value[1] = abs(8 - value[1])
+                reverted_value = (value[0], abs(8 - value[1]), value[2])
+                answers[key] = reverted_value
 
     return answers
 
