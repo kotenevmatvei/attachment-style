@@ -102,7 +102,7 @@ def build_ecr_r_chart(anxious_score: float, secure_score: float, avoidant_score:
     extra_point_coords = {
         "anxiety": anxious_score,
         "avoidance": avoidant_score,
-        "name": "Your Score",
+        "text": f"({round(anxious_score, 1)}, {round(avoidant_score, 1)})",
     }
     # --- END USER INPUT ---
 
@@ -168,7 +168,7 @@ def build_ecr_r_chart(anxious_score: float, secure_score: float, avoidant_score:
             y=[scale_mid] * len(tick_values),
             mode="markers+text",
             marker=tick_marker_style,
-            text=[str(val) for val in tick_values],
+            text=["1", "2", "3", "", "5", "6", "7"],
             textposition="bottom center",
             textfont=tick_label_font_style,
             hoverinfo="none",
@@ -182,7 +182,7 @@ def build_ecr_r_chart(anxious_score: float, secure_score: float, avoidant_score:
             y=tick_values,
             mode="markers+text",
             marker=tick_marker_style,
-            text=[str(val) for val in tick_values],
+            text=["1", "2", "3", "", "5", "6", "7"],
             textposition="middle right",  # Adjusted for y-axis ticks
             textfont=tick_label_font_style,
             hoverinfo="none",
@@ -285,11 +285,10 @@ def build_ecr_r_chart(anxious_score: float, secure_score: float, avoidant_score:
         go.Scatter(
             x=[xp],
             y=[yp],
-            mode="markers+text",
+            mode="markers",
             marker=dict(color="red", size=12, symbol="diamond"),
-            text=[extra_point_coords["name"]],
-            textposition="top right",
-            name=extra_point_coords["name"],
+            text=[extra_point_coords["text"]],
+            textposition="bottom left",
             hoverinfo="text",
             textfont=dict(size=12, color="red"),
         )
