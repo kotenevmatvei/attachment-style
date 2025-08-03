@@ -133,18 +133,18 @@ def sumbmit_personal_questionnaire(
 
 
 # shuffle questions on page load
-@callback(
-    [
-        Output("questions-storage", "data"),
-        Output("question-text", "children", allow_duplicate=True),
-    ],
-    Input("page-load-interval", "n_intervals"),
-    State("questions-storage", "data"),
-    prevent_initial_call=True,
-)
-def shuffle_questions(n, questions):
-    shuffle(questions)
-    return questions, questions[0][0]
+# @callback(
+#     [
+#         Output("questions-storage", "data"),
+#         Output("question-text", "children", allow_duplicate=True),
+#     ],
+#     Input("page-load-interval", "n_intervals"),
+#     State("questions-storage", "data"),
+#     prevent_initial_call=True,
+# )
+# def shuffle_questions(n, questions):
+#     shuffle(questions)
+#     return questions, questions[0][0]
 
 
 # show submit button after last question visited

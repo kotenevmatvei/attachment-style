@@ -105,7 +105,7 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
         (value[2], value[1]) for value in answers.values() if value[0] == "anxious"
     ]
     # sort anxious answers
-    anxious_answers = sorted(anxious_answers)
+    # anxious_answers = sorted(anxious_answers)
     data_anxious = []
     for answer in anxious_answers:
         # Convert markdown to HTML
