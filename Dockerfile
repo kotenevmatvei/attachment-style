@@ -5,7 +5,6 @@ FROM python:3.13-slim
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     gcc \
-    postgresql \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
@@ -23,4 +22,4 @@ COPY attachment_style/ .
 EXPOSE 8050
 
 # Command to run the application
-CMD ["python", "app.py"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8050", "app:app"]
