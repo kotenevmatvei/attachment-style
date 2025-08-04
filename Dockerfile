@@ -5,6 +5,7 @@ FROM python:3.13-slim
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     gcc \
+    postgresql \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
