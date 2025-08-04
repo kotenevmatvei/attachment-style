@@ -21,7 +21,7 @@ ParallelModal = dbc.Modal(
                     id="parallel-color-dropdown",
                     options=attachment_style_labels_values
                     + ({"label": "Any", "value": "any"},),
-                    value="secure_score",
+                    value="anxious_score",
                 ),
                 dcc.Graph(id="parallel-graph"),
             ]
