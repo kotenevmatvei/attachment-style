@@ -1,3 +1,4 @@
+from io import text_encoding
 import plotly.express as px
 import plotly.graph_objects as go
 import plotly.io as pio
@@ -56,15 +57,20 @@ def calculate_scores(
     answers: dict[str, tuple[str, float, str]],
 ) -> tuple[float, float, float]:
     answers = revert_questions(answers)
-    anxious_score = sum(
+    anxious_score = np.average(
         [answers[_][1] for _ in answers.keys() if answers[_][0] == "anxious"]
     )
-    secure_score = sum(
-        [answers[_][1] for _ in answers.keys() if answers[_][0] == "secure"]
-    )
-    avoidant_score = sum(
+    avoidant_score = np.average(
         [answers[_][1] for _ in answers.keys() if answers[_][0] == "avoidant"]
     )
+    # secure_answers are empty for ecr-r (test yourself)
+    secure_answers = [answers[_][1] for _ in answers.keys() if answers[_][0] == "secure"]
+    if secure_answers:
+        secure_score = np.average(secure_answers)
+    else:
+        secure_score = 0
+    
+
     return anxious_score, secure_score, avoidant_score
 
 
@@ -85,9 +91,6 @@ def build_pie_chart(
 def build_ecr_r_chart(anxious_score: float, secure_score: float, avoidant_score: float):
     # Set default renderer to browser
     # pio.renderers.default = "browser"
-
-    anxious_score = anxious_score / 18
-    avoidant_score = avoidant_score / 18
 
     # --- Define the 1-7 scale parameters ---
     scale_min = 1
@@ -126,6 +129,7 @@ def build_ecr_r_chart(anxious_score: float, secure_score: float, avoidant_score:
         y1=scale_mid,
         line=dict(color="black", width=2),
     )
+
     # Vertical Avoidance Axis (conceptually at x=scale_mid)
     fig.add_shape(
         type="line",
@@ -278,6 +282,19 @@ def build_ecr_r_chart(anxious_score: float, secure_score: float, avoidant_score:
         showarrow=False,
         xanchor="left",
         font=style_label_font_style,
+    )
+
+    # add the legend of the results
+    fig.add_annotation(
+        x=scale_min,
+        y=scale_min - 0.8,
+        text=f"Your anxious score: {round(anxious_score, 2)}, "
+            f"Your avoidant score: {round(avoidant_score, 2)}",
+        showarrow=False,
+        yanchor="middle",
+        xanchor="left",
+        textangle=0,
+        font={"size": 16, "color": "red", "weight": "bold"},
     )
 
     # 6. Add the Extra Point

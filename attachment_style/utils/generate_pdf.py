@@ -173,7 +173,7 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
         (value[2], value[1]) for value in answers.values() if value[0] == "avoidant"
     ]
     # sort avoidant answers
-    avoidant_answers = sorted(avoidant_answers)
+    # avoidant_answers = sorted(avoidant_answers)
     data_avoidant = []
     for answer in avoidant_answers:
         # Convert markdown to HTML

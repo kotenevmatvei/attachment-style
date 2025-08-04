@@ -230,6 +230,10 @@ def generate_dashboard(
     if n_clicks == 1:  # only save on the first click
         upload_to_db(answers, personal_answers)
     if n_clicks:
+        answers = revert_questions(answers)
+        for key, value in answers.items():
+            print(key, value[1])
+            
         (anxious_score, secure_score, avoidant_score) = calculate_scores(answers)
         if anxious_score >= secure_score and anxious_score >= avoidant_score:
             description = generate_type_description("anxious")
