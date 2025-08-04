@@ -3,7 +3,6 @@ dash-bootstrap-components
 dash-iconify
 matplotlib
 pandas
-postgresql
 reportlab
 sqlalchemy
 alembic
