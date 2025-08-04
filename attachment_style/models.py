@@ -8,8 +8,8 @@ class Base(DeclarativeBase):
     pass
 
 
-class TestYourself(Base):
-    __tablename__ = "test_yourself"
+class AssessYourself(Base):
+    __tablename__ = "assess_yourself"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     timestamp: Mapped[datetime]
@@ -57,8 +57,8 @@ class TestYourself(Base):
     avoidant_q17: Mapped[Optional[int]]
     avoidant_q18: Mapped[Optional[int]]
 
-class TestYourPartner(Base):
-    __tablename__ = "test_your_partner"
+class AssessOthers(Base):
+    __tablename__ = "assess_others"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     timestamp: Mapped[datetime]

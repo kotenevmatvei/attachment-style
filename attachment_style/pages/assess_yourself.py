@@ -171,7 +171,7 @@ def show_submit_button(last_question_visited: bool) -> bool:
     [Input("assess-yourself", "n_clicks"), Input("asses-others", "n_clicks")],
     prevent_initial_call=True,
 )
-def switch_subject(yourself_clicks, partner_clicks):
+def switch_subject(yourself_clicks, others_clicks):
     id_triggered = ctx.triggered_id
     if id_triggered == "assess-yourself":
         questions = read_questions("you")
@@ -187,7 +187,7 @@ def switch_subject(yourself_clicks, partner_clicks):
             False,
         )
     else:
-        questions = read_questions("partner")
+        questions = read_questions("others")
         shuffle(questions)
         return (
             questions,

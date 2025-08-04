@@ -11,8 +11,8 @@ from datetime import datetime as dt
 from datetime import timedelta
 from models import (
     Base,
-    TestYourself,
-    TestYourPartner,
+    AssessYourself,
+    AssessOthers,
 )  # import works while utils imported in app.py
 from sqlalchemy import create_engine
 from dotenv import load_dotenv, find_dotenv
@@ -21,7 +21,7 @@ load_dotenv(find_dotenv())
 
 
 # production url
-url = str(os.getenv("DB_URL_DEBUG"))
+url = str(os.getenv("DB_URL"))
 
 engine = create_engine(url=url)
 
@@ -529,7 +529,7 @@ def upload_to_db(
     values.extend([value[1] for value in avoidant_answers])
 
     if len(values) == 36:
-        result_object = TestYourself(
+        result_object = AssessYourself(
             timestamp=dt.now() + timedelta(hours=2),
             test=test,
             age=personal_answers["age"],
@@ -554,6 +554,7 @@ def upload_to_db(
             anxious_q16=values[15],
             anxious_q17=values[16],
             anxious_q18=values[17],
+
             avoidant_q1=values[0],
             avoidant_q2=values[1],
             avoidant_q3=values[2],
@@ -574,7 +575,7 @@ def upload_to_db(
             avoidant_q18=values[17],
         )
     elif len(values) == 33:
-        result_object = TestYourPartner(
+        result_object = AssessOthers(
             timestamp=dt.now() + timedelta(hours=2),
             test=test,
             age=personal_answers["age"],
@@ -626,14 +627,14 @@ def upload_to_db(
 # get data from the database
 def get_data_from_db(test: bool = True):
     with Session(engine) as session:
-        test_yourself = (
-            session.query(TestYourself).filter(TestYourself.test == test).all()
+        assess_yourself = (
+            session.query(AssessYourself).filter(AssessYourself.test == test).all()
         )
-        test_your_partner = (
-            session.query(TestYourPartner).filter(TestYourPartner.test == test).all()
+        assess_others = (
+            session.query(AssessOthers).filter(AssessOthers.test == test).all()
         )
         # Convert query results to DataFrame
-        test_yourself_df = pd.DataFrame(
+        assess_yourself_df = pd.DataFrame(
             [
                 dict(
                     sorted(
@@ -644,10 +645,10 @@ def get_data_from_db(test: bool = True):
                         }.items()
                     )
                 )
-                for t in test_yourself
+                for t in assess_yourself
             ]
         )
-        test_your_partner_df = pd.DataFrame(
+        assess_others_df = pd.DataFrame(
             [
                 dict(
                     sorted(
@@ -658,39 +659,39 @@ def get_data_from_db(test: bool = True):
                         }.items()
                     )
                 )
-                for t in test_your_partner
+                for t in assess_others
             ]
         )
 
         session.commit()
-        return test_yourself_df, test_your_partner_df
+        return assess_yourself_df, assess_others_df
 
 
-def aggregate_scores(test_yourself_df, test_your_partner_df):
+def aggregate_scores(assess_yourself_df, assess_others_df):
     # calculate scores
     # Add a column with the sum of all columns starting with "anxious"
-    test_yourself_df["anxious_score"] = (
-        test_yourself_df.filter(like="anxious").sum(axis=1) / 18
+    assess_yourself_df["anxious_score"] = (
+        assess_yourself_df.filter(like="anxious").sum(axis=1) / 18
     )
-    test_your_partner_df["anxious_score"] = (
-        test_your_partner_df.filter(like="anxious").sum(axis=1) / 11
+    assess_others_df["anxious_score"] = (
+        assess_others_df.filter(like="anxious").sum(axis=1) / 11
     )
     # Add a column with the sum of all columns starting with "secure"
-    # test_yourself_df["secure_score"] = (
-    #     test_yourself_df.filter(like="secure").sum(axis=1) / 14
+    # assess_yourself_df["secure_score"] = (
+    #     assess_yourself_df.filter(like="secure").sum(axis=1) / 14
     # )
-    test_your_partner_df["secure_score"] = (
-        test_your_partner_df.filter(like="secure").sum(axis=1) / 11
+    assess_others_df["secure_score"] = (
+        assess_others_df.filter(like="secure").sum(axis=1) / 11
     )
     # Add a column with the sum of all columns starting with "avoidant"
-    test_yourself_df["avoidant_score"] = (
-        test_yourself_df.filter(like="avoidant").sum(axis=1) / 18
+    assess_yourself_df["avoidant_score"] = (
+        assess_yourself_df.filter(like="avoidant").sum(axis=1) / 18
     )
-    test_your_partner_df["avoidant_score"] = (
-        test_your_partner_df.filter(like="avoidant").sum(axis=1) / 11
+    assess_others_df["avoidant_score"] = (
+        assess_others_df.filter(like="avoidant").sum(axis=1) / 11
     )
 
-    return test_yourself_df, test_your_partner_df
+    return assess_yourself_df, assess_others_df
 
 
 def upload_objects_to_db(objects: list[Base]):

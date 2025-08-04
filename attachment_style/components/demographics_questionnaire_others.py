@@ -20,7 +20,7 @@ DemographicQuestionnaireOthers = dbc.Container(
                 dbc.Col(
                     [
                         html.Div("Age:"),
-                        dbc.Input(type="number", id="age-partner"),
+                        dbc.Input(type="number", id="age-others"),
                     ],
                     sm={"size": 4, "offset": 2},
                     width=12,
@@ -29,7 +29,7 @@ DemographicQuestionnaireOthers = dbc.Container(
                     [
                         html.Div("Relationship status:"),
                         dbc.Select(
-                            id="relationship-status-partner",
+                            id="relationship-status-others",
                             options=[
                                 {"label": "Single", "value": "single"},
                                 {"label": "In a relationship", "value": "relationship"},
@@ -49,7 +49,7 @@ DemographicQuestionnaireOthers = dbc.Container(
                     [
                         html.Div("Gender:"),
                         dbc.Select(
-                            id="gender-partner",
+                            id="gender-others",
                             options=[
                                 {"label": "Male", "value": "male"},
                                 {"label": "Female", "value": "female"},
@@ -64,7 +64,7 @@ DemographicQuestionnaireOthers = dbc.Container(
                     [
                         html.Div("Previous therapy experience:"),
                         dbc.Select(
-                            id="therapy-experience-partner",
+                            id="therapy-experience-others",
                             options=[
                                 {"label": "Extensive", "value": "extensive"},
                                 {"label": "Some", "value": "some"},
@@ -82,7 +82,7 @@ DemographicQuestionnaireOthers = dbc.Container(
             dbc.Col(
                 dbc.Button(
                     "Continue to the test",
-                    id="submit-personal-questionnaire-partner",
+                    id="submit-personal-questionnaire-others",
                 ),
                 className="d-flex justify-content-center",
             )
@@ -90,7 +90,7 @@ DemographicQuestionnaireOthers = dbc.Container(
         dbc.Row(
             dbc.Col(
                 html.Div(
-                    id="personal-questionnaire-error-partner",
+                    id="personal-questionnaire-error-others",
                     className="text-center text-danger mt-2",
                     hidden=True,
                 )
