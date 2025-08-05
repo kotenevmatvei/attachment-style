@@ -25,7 +25,7 @@ MEAN_INITIAL = 5
 MEAN_INCREMENT = 0.5
 NUMBER_OF_QUESTIONS_ASSESS_YOURSELF = 18
 NUMBER_OF_QUESTIONS_ASSESS_OTHERS = 11
-SUBJECT = "others"
+SUBJECT = "you"
 
 # define possible answers and personal information
 possible_answers = [1, 2, 3, 4, 5, 6, 7]
