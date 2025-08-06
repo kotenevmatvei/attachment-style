@@ -15,7 +15,6 @@ app_csvs_names = [
 
 headers = ["file", "case_ind", "element_ind", "correct_element", "app_element"]
 discrepancies = []
-num_of_correct_cases = 0
 for correct_csv_name, app_csv_name in zip(correct_csv_names, app_csvs_names):
     correct_data = []
     with open(correct_csv_name, "r") as f:
@@ -54,12 +53,9 @@ for correct_csv_name, app_csv_name in zip(correct_csv_names, app_csvs_names):
                     [file, case_ind, element_ind, correct_element, app_element]
                 )
 
-        if not case_discrepancies:
-            num_of_correct_cases += 1
 
     discrepancies += case_discrepancies
 
 
-print("Number of correct cases: ", num_of_correct_cases)
 print("Table with discrepancies:")
 print(tabulate.tabulate(discrepancies, headers, tablefmt="orgtbl"))
