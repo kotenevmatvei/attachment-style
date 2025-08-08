@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:16
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+      # - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - DB_URL=postgresql://postgres:password@db:5432/postgres
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:
+    driver: local

@@ -1,4 +1,3 @@
--- Step 1: Create the function to calculate the scores
 CREATE OR REPLACE FUNCTION calculate_you_attachment_scores()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -22,7 +21,7 @@ BEGIN
     -- Calculate the secure score based on the new averages
     NEW.secure_score := 4 + (((4 - NEW.anxious_score) + (4 - NEW.avoidant_score)) / 2.0);
 
-    RETURN NEW; -- Return the modified row to be inserted/updated
+    RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -48,7 +47,7 @@ BEGIN
         NEW.secure_q9 + NEW.secure_q10 + NEW.secure_q11
     ) / 11.0;
 
-    RETURN NEW; -- Return the modified row to be inserted/updated
+    RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 

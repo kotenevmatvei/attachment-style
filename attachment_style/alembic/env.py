@@ -1,3 +1,4 @@
+import os
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -30,6 +31,16 @@ target_metadata = Base.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
+
+DB_URL = os.environ.get("DB_URL")
+
+if not DB_URL:
+    print("--- FATAL: DB_URL environment variable was not found! ---")
+    raise RuntimeError("DB_URL environment variable not set.")
+
+config = context.config
+
+config.set_main_option("db_url", DB_URL)
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.

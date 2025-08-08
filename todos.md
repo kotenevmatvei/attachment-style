@@ -5,6 +5,7 @@
     - [ ] font
 - [x] calculate secure score from ecr-r scores for the dashboard graphs
 - [!] let the database (backend) do the heavy lifting instead of the dashboard!
+- [ ] add the real test column
 - [ ] adjust assess others to 1-7 scale
 - [x] generate test data for ecr-r
 - [ ] make slider ticks bigger

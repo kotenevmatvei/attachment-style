@@ -16,15 +16,20 @@ from models import (
     AssessOthers,
 )  # import works while utils imported in app.py
 from sqlalchemy import create_engine, select
-from dotenv import load_dotenv, find_dotenv
+# from dotenv import load_dotenv, find_dotenv
 
-load_dotenv(find_dotenv())
+# load_dotenv(find_dotenv())
 
 
 # production url
-url = str(os.getenv("DB_URL_DEBUG"))
+# url = str(os.getenv("DB_URL_DEBUG"))
 
-engine = create_engine(url=url)
+try:
+    DB_URL = os.environ['DB_URL']
+except KeyError:
+    raise RuntimeError("DATABASE_URL environment variable not set.")
+
+engine = create_engine(url=DB_URL)
 
 
 def read_questions_file(
