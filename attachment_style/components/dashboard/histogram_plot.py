@@ -66,10 +66,9 @@ def toggle_histogram_modal(open_modal, close_modal, is_open):
     ],
 )
 def update_histo_thumbnail(selected_style, data, window_width):
-    answers_df = pd.DataFrame(data)
     if window_width[0] > 500:
         fig = px.histogram(
-            answers_df,
+            data,
             x=selected_style,
             nbins=20,
             title="Histogram",
@@ -87,7 +86,7 @@ def update_histo_thumbnail(selected_style, data, window_width):
         )
     else:
         fig = px.histogram(
-            answers_df,
+            data,
             x=selected_style,
             nbins=20,
             title="Histogram",
@@ -115,9 +114,8 @@ def update_histo_thumbnail(selected_style, data, window_width):
     [Input("attachment-style-dropdown-histo", "value"), Input("data-store", "data")],
 )
 def update_histo_modal(selected_style, data):
-    answers_df = pd.DataFrame(data)
     fig = px.histogram(
-        answers_df,
+        data,
         x=selected_style,
         nbins=20,
         title=f'Distribution of {selected_style.split("_")[0].capitalize()} '

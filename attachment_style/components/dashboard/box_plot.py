@@ -66,7 +66,7 @@ def toggle_box_modal(open_modal, close_modal, is_open):
     return is_open
 
 
-# update box plot graph
+# update box  lot graph
 @callback(
     Output("box-graph", "figure"),
     [
@@ -76,9 +76,8 @@ def toggle_box_modal(open_modal, close_modal, is_open):
     ],
 )
 def update_box_graph(demographic, selected_style, data):
-    answers_df = pd.DataFrame(data)
     fig = px.box(
-        answers_df,
+        data,
         x=demographic,
         y=selected_style,
         title=f'{selected_style.split("_")[0].capitalize()} '
@@ -102,10 +101,9 @@ def update_box_graph(demographic, selected_style, data):
     ],
 )
 def update_box_thumbnail(demographic, selected_style, data, window_width):
-    answers_df = pd.DataFrame(data)
     if window_width[0] > 500:
         fig = px.box(
-            answers_df,
+            data,
             x=demographic,
             y=selected_style,
             title="Box Plot",
@@ -123,7 +121,7 @@ def update_box_thumbnail(demographic, selected_style, data, window_width):
         )
     else:
         fig = px.box(
-            answers_df,
+            data,
             x=demographic,
             y=selected_style,
             title="Box Plot",

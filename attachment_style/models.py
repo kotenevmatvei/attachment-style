@@ -14,6 +14,7 @@ class AssessYourself(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     timestamp: Mapped[datetime]
     test: Mapped[bool]
+
     age: Mapped[int]
     relationship_status: Mapped[str]
     gender: Mapped[str]
@@ -37,7 +38,7 @@ class AssessYourself(Base):
     anxious_q16: Mapped[Optional[int]]
     anxious_q17: Mapped[Optional[int]]
     anxious_q18: Mapped[Optional[int]]
-    
+
     avoidant_q1: Mapped[Optional[int]]
     avoidant_q2: Mapped[Optional[int]]
     avoidant_q3: Mapped[Optional[int]]
@@ -57,16 +58,23 @@ class AssessYourself(Base):
     avoidant_q17: Mapped[Optional[int]]
     avoidant_q18: Mapped[Optional[int]]
 
+    anxious_score: Mapped[Optional[float]]
+    avoidant_score: Mapped[Optional[float]]
+    secure_score: Mapped[Optional[float]]
+
+
 class AssessOthers(Base):
     __tablename__ = "assess_others"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     timestamp: Mapped[datetime]
     test: Mapped[bool]
+
     age: Mapped[int]
     relationship_status: Mapped[str]
     gender: Mapped[str]
     therapy_experience: Mapped[str]
+    
     anxious_q1: Mapped[Optional[int]]
     anxious_q2: Mapped[Optional[int]]
     anxious_q3: Mapped[Optional[int]]
@@ -78,6 +86,7 @@ class AssessOthers(Base):
     anxious_q9: Mapped[Optional[int]]
     anxious_q10: Mapped[Optional[int]]
     anxious_q11: Mapped[Optional[int]]
+
     secure_q1: Mapped[Optional[int]]
     secure_q2: Mapped[Optional[int]]
     secure_q3: Mapped[Optional[int]]
@@ -89,6 +98,7 @@ class AssessOthers(Base):
     secure_q9: Mapped[Optional[int]]
     secure_q10: Mapped[Optional[int]]
     secure_q11: Mapped[Optional[int]]
+
     avoidant_q1: Mapped[Optional[int]]
     avoidant_q2: Mapped[Optional[int]]
     avoidant_q3: Mapped[Optional[int]]
@@ -100,3 +110,7 @@ class AssessOthers(Base):
     avoidant_q9: Mapped[Optional[int]]
     avoidant_q10: Mapped[Optional[int]]
     avoidant_q11: Mapped[Optional[int]]
+
+    anxious_score: Mapped[Optional[float]]
+    avoidant_score: Mapped[Optional[float]]
+    secure_score: Mapped[Optional[float]]

@@ -6,6 +6,7 @@ from data.options import (
     demographics_values,
 )
 import pandas as pd
+import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 
@@ -84,14 +85,25 @@ def update_global_pie_thumbnail(
     data,
     window_width,
 ) -> go.Figure:
-    answers_df = pd.DataFrame(data)
+    # answers_df = pd.DataFrame(data)
     options: tuple[str, ...] = tuple(
         option for option in demographics_values[demographic]
     )
-    values: tuple[float, ...] = tuple(
-        answers_df[answers_df[demographic] == option][attachment_style].mean()
-        for option in options
-    )
+    # values: tuple[float, ...] = tuple(
+    #     answers_df[answers_df[demographic] == option][attachment_style].mean()
+    #     for option in options
+    # )
+    # select row to keep based on the options
+    values = []
+    for option in options:
+        indices_to_keep = [
+            i
+            for i, option_val in enumerate(data[demographic])
+            if data[demographic][i] == option
+        ]
+        mean = np.average([data[attachment_style][i] for i in indices_to_keep])
+        values.append(mean)
+    print("values: ", values)
 
     if window_width[0] > 500:
         fig = px.pie(
@@ -141,14 +153,18 @@ def update_global_pie_thumbnail(
     ],
 )
 def update_global_pie_graph(attachment_style: str, demographic: str, data) -> go.Figure:
-    answers_df = pd.DataFrame(data)
     options: tuple[str, ...] = tuple(
         option for option in demographics_values[demographic]
     )
-    values: tuple[float, ...] = tuple(
-        answers_df[answers_df[demographic] == option][attachment_style].mean()
-        for option in options
-    )
+    values = []
+    for option in options:
+        indices_to_keep = [
+            i
+            for i, option_val in enumerate(data[demographic])
+            if data[demographic][i] == option
+        ]
+        mean = np.average([data[attachment_style][i] for i in indices_to_keep])
+        values.append(mean)
 
     fig = px.pie(
         values=values,

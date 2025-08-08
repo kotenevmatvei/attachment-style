@@ -1,8 +1,12 @@
-- [ ] test backend for ecr-r
-- [ ] add scores legend to ecr-r graph
-- [ ] calculate secure score from ecr-r scores for the dashboard graphs
+- [x] test backend for ecr-r (simple click through)
+- [x] add scores legend to ecr-r graph (ugly for now)
+    - [ ] center
+    - [ ] color
+    - [ ] font
+- [x] calculate secure score from ecr-r scores for the dashboard graphs
+- [!] let the database (backend) do the heavy lifting instead of the dashboard!
 - [ ] adjust assess others to 1-7 scale
-- [ ] generate test data for ecr-r
+- [x] generate test data for ecr-r
 - [ ] make slider ticks bigger
 - [ ] add strongly disagree - neutral - strongly agree legend
 - [ ] design new dashboard layout

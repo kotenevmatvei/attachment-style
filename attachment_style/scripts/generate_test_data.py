@@ -1,6 +1,7 @@
 import numpy as np
 import logging
 import time
+import sys
 from datetime import datetime
 
 import pandas as pd
@@ -209,7 +210,7 @@ def main(num_datapoints: int):
     start_time = time.time()
     upload_objects_to_db(db_entries)
     elapsed_time = time.time() - start_time
-    logging.info(f"Uploaded {NUM_DATAPOINTS} test datapoints to db in {elapsed_time}s")
+    logging.info(f"Uploaded {NUM_DATAPOINTS} test datapoints for {SUBJECT} to db in {elapsed_time}s")
 
 
 if __name__ == "__main__":

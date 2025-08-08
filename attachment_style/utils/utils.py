@@ -1,4 +1,3 @@
-from io import text_encoding
 import plotly.express as px
 import plotly.graph_objects as go
 import plotly.io as pio
@@ -6,7 +5,9 @@ import numpy as np
 import pandas as pd
 import os
 import codecs
+from sqlalchemy.engine import result
 from sqlalchemy.orm import Session
+from sqlalchemy import literal_column, select, union_all
 from datetime import datetime as dt
 from datetime import timedelta
 from models import (
@@ -14,14 +15,14 @@ from models import (
     AssessYourself,
     AssessOthers,
 )  # import works while utils imported in app.py
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, select
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
 
 # production url
-url = str(os.getenv("DB_URL"))
+url = str(os.getenv("DB_URL_DEBUG"))
 
 engine = create_engine(url=url)
 
@@ -56,7 +57,6 @@ def revert_questions(
 def calculate_scores(
     answers: dict[str, tuple[str, float, str]],
 ) -> tuple[float, float, float]:
-    answers = revert_questions(answers)
     anxious_score = np.average(
         [answers[_][1] for _ in answers.keys() if answers[_][0] == "anxious"]
     )
@@ -64,12 +64,15 @@ def calculate_scores(
         [answers[_][1] for _ in answers.keys() if answers[_][0] == "avoidant"]
     )
     # secure_answers are empty for ecr-r (test yourself)
-    secure_answers = [answers[_][1] for _ in answers.keys() if answers[_][0] == "secure"]
+    secure_answers = [
+        answers[_][1] for _ in answers.keys() if answers[_][0] == "secure"
+    ]
     if secure_answers:
         secure_score = np.average(secure_answers)
     else:
-        secure_score = 0
-    
+        x_and_y_coord = (anxious_score + avoidant_score) / 2
+        sign = np.sign(x_and_y_coord)
+        secure_score = np.sqrt(2 * (x_and_y_coord) ** 2) * sign
 
     return anxious_score, secure_score, avoidant_score
 
@@ -289,7 +292,7 @@ def build_ecr_r_chart(anxious_score: float, secure_score: float, avoidant_score:
         x=scale_min,
         y=scale_min - 0.8,
         text=f"Your anxious score: {round(anxious_score, 2)}, "
-            f"Your avoidant score: {round(avoidant_score, 2)}",
+        f"Your avoidant score: {round(avoidant_score, 2)}",
         showarrow=False,
         yanchor="middle",
         xanchor="left",
@@ -554,7 +557,6 @@ def upload_to_db(
             anxious_q16=values[15],
             anxious_q17=values[16],
             anxious_q18=values[17],
-
             avoidant_q1=values[0],
             avoidant_q2=values[1],
             avoidant_q3=values[2],
@@ -667,29 +669,85 @@ def get_data_from_db(test: bool = True):
         return assess_yourself_df, assess_others_df
 
 
-def aggregate_scores(assess_yourself_df, assess_others_df):
-    # calculate scores
-    # Add a column with the sum of all columns starting with "anxious"
-    assess_yourself_df["anxious_score"] = (
-        assess_yourself_df.filter(like="anxious").sum(axis=1) / 18
+def retrieve_scores_from_db():
+
+    stmt_you = select(
+        literal_column("'AssessYourself'").label("source"),
+        AssessYourself.age,
+        AssessYourself.gender,
+        AssessYourself.relationship_status,
+        AssessYourself.therapy_experience,
+        AssessYourself.anxious_score,
+        AssessYourself.avoidant_score,
+        AssessYourself.secure_score,
+        AssessYourself.test,
     )
+    stmt_others = select(
+        literal_column("'AssessOthers'").label("source"),
+        AssessOthers.age,
+        AssessOthers.gender,
+        AssessOthers.relationship_status,
+        AssessOthers.therapy_experience,
+        AssessOthers.anxious_score,
+        AssessOthers.avoidant_score,
+        AssessOthers.secure_score,
+        AssessOthers.test,
+    )
+    query = union_all(stmt_you, stmt_others)
+
+    with Session(engine) as session:
+
+        results = session.execute(query).all()
+        if not results:
+            raise ValueError("No entries in the database...")
+
+        # this is a list of dictionaries each representing one db entry:
+        results_records_dict = [row._asdict() for row in results]
+
+        keys = results_records_dict[0].keys()
+        # this is one dictionary with column names as keys - what we need for plots
+        results_long_dict = {key: [row[key] for row in results_records_dict] for key in keys}
+
+        return results_long_dict
+
+
+def derive_secure_score(anxious_scores, avoidant_scores):
+    # we need to first invert the scores to get the x- and y coordinates due to the
+    # funky scale of the ecr-r chart (two origins)
+    secure_score = []
+    for x, y in zip(anxious_scores, avoidant_scores):
+        diff_x = 4 - x
+        diff_y = 4 - y
+        diff = (diff_x + diff_y) / 2
+        score = 4 + diff
+        secure_score.append(score)
+
+    return secure_score
+
+
+def aggregate_scores(assess_yourself_df, assess_others_df):
+    # todo maybe unnecessary to keep the entire dataframes? - just return the arrays, no?
+
+    you_anxious_score = assess_yourself_df.filter(like="anxious").sum(axis=1) / 18
+    you_avoidant_score = assess_yourself_df.filter(like="avoidant").sum(axis=1) / 18
+    assess_yourself_df["anxious_score"] = you_anxious_score
+    assess_yourself_df["avoidant_score"] = you_avoidant_score
+
+    you_secure_score = derive_secure_score(you_anxious_score, you_avoidant_score)
+
+    assess_yourself_df["secure_score"] = you_secure_score
+
     assess_others_df["anxious_score"] = (
         assess_others_df.filter(like="anxious").sum(axis=1) / 11
     )
-    # Add a column with the sum of all columns starting with "secure"
-    # assess_yourself_df["secure_score"] = (
-    #     assess_yourself_df.filter(like="secure").sum(axis=1) / 14
-    # )
     assess_others_df["secure_score"] = (
         assess_others_df.filter(like="secure").sum(axis=1) / 11
-    )
-    # Add a column with the sum of all columns starting with "avoidant"
-    assess_yourself_df["avoidant_score"] = (
-        assess_yourself_df.filter(like="avoidant").sum(axis=1) / 18
     )
     assess_others_df["avoidant_score"] = (
         assess_others_df.filter(like="avoidant").sum(axis=1) / 11
     )
+
+    retrieve_scores_from_db()
 
     return assess_yourself_df, assess_others_df
 

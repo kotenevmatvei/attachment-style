@@ -1,5 +1,5 @@
 from dash import Input, Output, html, callback, register_page, dcc
-from utils.utils import get_data_from_db, aggregate_scores
+from utils.utils import get_data_from_db, aggregate_scores, retrieve_scores_from_db
 import plotly.graph_objects as go
 
 from components.dashboard.box_plot import BoxModal, BoxThumbnail
@@ -11,13 +11,9 @@ from components.dashboard.parallel_plot import ParallelModal, ParallelThumbnail
 
 register_page(__name__, path="/dashboard")
 
-
-df1, df2 = get_data_from_db(test=True)
-df1, df2 = aggregate_scores(df1, df2)
-answers_df = df1
+scores = retrieve_scores_from_db()
 
 fig = go.Figure()
-
 
 
 def layout(**kwargs):
@@ -47,37 +43,25 @@ def layout(**kwargs):
             SpiderModal,
             PieModal,
             ParallelModal,
-            dcc.Store(id="data-store", data={}),
+            dcc.Store(id="data-store", data=scores),
         ]
     )
 
 
-# load the data from db
+# switch between test and real data
 @callback(
     Output("data-store", "data"),
     Input("include_test_data", "value"),
+    prevent_initial_call=True,
 )
 def include_test_data(include_test_data):
-    if include_test_data == ["Include test data"]:
-        df1, df2 = get_data_from_db(test=True)
-        df1, df2 = aggregate_scores(df1, df2)
-        answers_dict = df1.to_dict()
-        return answers_dict
-    df1, df2 = get_data_from_db(test=False)
-    df1, df2 = aggregate_scores(df1, df2)
-    answers_dict = df1.to_dict()
-    return answers_dict
+    # todo add the option to keep both test and real data like in the initial load
+    test = True if include_test_data == ["Include test data"] else False
 
+    indices_to_keep = [i for i, test_val in enumerate(scores["test"]) if test_val == test]
 
+    filtered_scores = {
+        key: [scores[key][i] for i in indices_to_keep] for key in scores.keys()
+    }
 
-
-
-
-
-
-
-
-
-
-
-
+    return filtered_scores
