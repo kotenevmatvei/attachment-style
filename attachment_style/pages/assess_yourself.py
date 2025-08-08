@@ -11,6 +11,8 @@ from dash import (
 )
 from random import shuffle
 import copy
+import numpy as np
+import csv
 import plotly.io as pio
 import dash_bootstrap_components as dbc
 
@@ -19,11 +21,13 @@ from components.results_chart import ResultsChart
 from components.demographics_questionnaire import DemographicsQuestionnaire
 
 from utils.utils import (
+    build_ecr_r_chart,
     read_questions,
     calculate_scores,
     build_pie_chart,
     generate_type_description,
     increase_figure_font,
+    revert_questions,
     upload_to_db,
 )
 from utils.generate_pdf import generate_report
@@ -131,18 +135,18 @@ def sumbmit_personal_questionnaire(
 
 
 # shuffle questions on page load
-@callback(
-    [
-        Output("questions-storage", "data"),
-        Output("question-text", "children", allow_duplicate=True),
-    ],
-    Input("page-load-interval", "n_intervals"),
-    State("questions-storage", "data"),
-    prevent_initial_call=True,
-)
-def shuffle_questions(n, questions):
-    shuffle(questions)
-    return questions, questions[0][0]
+# @callback(
+#     [
+#         Output("questions-storage", "data"),
+#         Output("question-text", "children", allow_duplicate=True),
+#     ],
+#     Input("page-load-interval", "n_intervals"),
+#     State("questions-storage", "data"),
+#     prevent_initial_call=True,
+# )
+# def shuffle_questions(n, questions):
+#     shuffle(questions)
+#     return questions, questions[0][0]
 
 
 # show submit button after last question visited
@@ -169,7 +173,7 @@ def show_submit_button(last_question_visited: bool) -> bool:
     [Input("assess-yourself", "n_clicks"), Input("asses-others", "n_clicks")],
     prevent_initial_call=True,
 )
-def switch_subject(yourself_clicks, partner_clicks):
+def switch_subject(yourself_clicks, others_clicks):
     id_triggered = ctx.triggered_id
     if id_triggered == "assess-yourself":
         questions = read_questions("you")
@@ -185,7 +189,7 @@ def switch_subject(yourself_clicks, partner_clicks):
             False,
         )
     else:
-        questions = read_questions("partner")
+        questions = read_questions("others")
         shuffle(questions)
         return (
             questions,
@@ -219,7 +223,7 @@ def generate_dashboard(
     n_clicks, answers, question_count, questions, slider_value, personal_answers
 ):
     if question_count == len(questions):
-        answers[f"{question_count-1}"] = (
+        answers[f"{question_count - 1}"] = (
             questions[question_count - 1][1],
             slider_value,
             questions[question_count - 1][0],
@@ -228,7 +232,24 @@ def generate_dashboard(
     if n_clicks == 1:  # only save on the first click
         upload_to_db(answers, personal_answers)
     if n_clicks:
+
+        anxious_scores_before_revert = [answers[_][1] for _ in answers.keys() if answers[_][0] == "anxious"]
+        avoidant_scores_before_revert = [answers[_][1] for _ in answers.keys() if answers[_][0] == "avoidant"]
+        scores_before_revert = (
+            anxious_scores_before_revert + avoidant_scores_before_revert
+        )
+
+        answers = revert_questions(answers)
+
+        anxious_scores_after_revert = [answers[_][1] for _ in answers.keys() if answers[_][0] == "anxious"]
+        avoidant_scores_after_revert = [answers[_][1] for _ in answers.keys() if answers[_][0] == "avoidant"]
+        scores_after_revert = (
+            anxious_scores_after_revert + avoidant_scores_after_revert
+        )
+
+
         (anxious_score, secure_score, avoidant_score) = calculate_scores(answers)
+
         if anxious_score >= secure_score and anxious_score >= avoidant_score:
             description = generate_type_description("anxious")
         if secure_score >= avoidant_score and secure_score >= anxious_score:
@@ -236,7 +257,12 @@ def generate_dashboard(
         if avoidant_score >= secure_score and avoidant_score >= anxious_score:
             description = generate_type_description("avoidant")
 
-        fig = build_pie_chart(
+        # fig = build_pie_chart(
+        #     anxious_score=anxious_score,
+        #     secure_score=secure_score,
+        #     avoidant_score=avoidant_score,
+        # )
+        fig = build_ecr_r_chart(
             anxious_score=anxious_score,
             secure_score=secure_score,
             avoidant_score=avoidant_score,
@@ -248,6 +274,20 @@ def generate_dashboard(
         pio.write_image(
             fig_to_download, "tmp/figure.png", width=700 * 1.5, height=500 * 1.5
         )
+
+        with open("tests/app_scores_before_revert.csv", "a") as f:
+            writer = csv.writer(f)
+            writer.writerow(scores_before_revert)
+
+        with open("tests/app_scores_after_revert.csv", "a") as f:
+            writer = csv.writer(f)
+            writer.writerow(scores_after_revert)
+
+        with open("tests/app_averages.csv", "a") as f:
+            writer = csv.writer(f)
+            row = [round(anxious_score, 2), round(avoidant_score, 2)]
+            writer.writerow(row)
+
         return True, fig, description
 
 
@@ -259,6 +299,7 @@ def generate_dashboard(
 )
 def load_report(n_clicks, answers):
     if n_clicks:
+        answers = revert_questions(answers)
         generate_report(answers)
         return dcc.send_file("tmp/attachment_style_report.pdf", type="pdf")
 
@@ -301,7 +342,7 @@ def update_question(
     if not last_question_visited:
         match id_triggered:
             case "right-button":
-                answers[f"{question_count-1}"] = (
+                answers[f"{question_count - 1}"] = (
                     questions[question_count - 1][1],
                     slider_value,
                     questions[question_count - 1][0],
@@ -309,13 +350,13 @@ def update_question(
                 # questions between first and one before last one
                 if question_count < n - 1:
                     question_count += 1
-                    if f"{question_count-1}" in answers.keys():
+                    if f"{question_count - 1}" in answers.keys():
                         return (
                             question_count,
                             f"Question {question_count}/{n}",
                             questions[question_count - 1][0],
                             answers,
-                            answers[f"{question_count-1}"][1],
+                            answers[f"{question_count - 1}"][1],
                             False,
                             False,
                         )
@@ -325,20 +366,20 @@ def update_question(
                             f"Question {question_count}/{n}",
                             questions[question_count - 1][0],
                             answers,
-                            0,
+                            1,
                             False,
                             False,
                         )
                 # question before last one (show submit button next)
                 elif question_count == n - 1:
                     question_count += 1
-                    if f"{question_count-1}" in answers.keys():
+                    if f"{question_count - 1}" in answers.keys():
                         return (
                             question_count,
                             f"Question {question_count}/{n}",
                             questions[question_count - 1][0],
                             answers,
-                            answers[f"{question_count-1}"][1],
+                            answers[f"{question_count - 1}"][1],
                             False,
                             True,
                         )
@@ -348,7 +389,7 @@ def update_question(
                             f"Question {question_count}/{n}",
                             questions[question_count - 1][0],
                             answers,
-                            0,
+                            1,
                             False,
                             True,
                         )
@@ -359,7 +400,7 @@ def update_question(
                         f"Question {n}/{n}",
                         questions[n - 1][0],
                         answers,
-                        answers[f"{question_count-1}"][1],
+                        answers[f"{question_count - 1}"][1],
                         False,
                         True,
                     )
@@ -381,14 +422,14 @@ def update_question(
                         False,
                     )
                 else:
-                    answers[f"{question_count-1}"] = (
+                    answers[f"{question_count - 1}"] = (
                         questions[question_count - 1][1],
                         slider_value,
                         questions[question_count - 1][0],
                     )
                     return (
                         question_count - 1,
-                        f"Question {question_count-1}/{n}",
+                        f"Question {question_count - 1}/{n}",
                         questions[question_count - 2][0],
                         answers,
                         answers[f"{question_count - 2}"][1],
@@ -407,7 +448,7 @@ def update_question(
                         questions[question_count - 1][0],
                     )
                     question_count += 1
-                    if f"{question_count-1}" in answers.keys():
+                    if f"{question_count - 1}" in answers.keys():
                         return (
                             question_count,
                             f"Question {question_count}/{n}",
@@ -423,7 +464,7 @@ def update_question(
                             f"Question {question_count}/{n}",
                             questions[question_count - 1][0],
                             answers,
-                            0,
+                            1,
                             False,
                             True,
                         )
@@ -454,7 +495,7 @@ def update_question(
                     )
                     if not lb_visited_last:
                         question_count += 1
-                        if f"{question_count-1}" in answers.keys():
+                        if f"{question_count - 1}" in answers.keys():
                             return (
                                 question_count,
                                 f"Question {question_count}/{n}",
@@ -470,7 +511,7 @@ def update_question(
                                 f"Question {question_count}/{n}",
                                 questions[question_count - 1][0],
                                 answers,
-                                0,
+                                1,
                                 False,
                                 True,
                             )
@@ -530,7 +571,7 @@ def update_question(
                     )
 
     # first question / initial state
-    return (1, f"Question {1}/{n}", questions[0][0], answers, 0, False, False)
+    return (1, f"Question {1}/{n}", questions[0][0], answers, 1, False, False)
 
 
 clientside_callback(
@@ -554,4 +595,3 @@ clientside_callback(
     Output("dummy-for-keydown", "style"),
     Input("dummy-for-keydown", "style"),
 )
-

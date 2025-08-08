@@ -112,6 +112,7 @@ def update_spider_thumbnail(
     data,
     window_width,
 ) -> go.Figure:
+    # here turn to dataframe for easy querying
     answers_df = pd.DataFrame(data)
     # if no options are chosen return empty figure
     if not demographics_shape:
@@ -232,6 +233,7 @@ def update_spider_chart(
     demographics_color: list[str],
     data,
 ) -> go.Figure:
+    # here turn to dataframe for easy querying
     answers_df = pd.DataFrame(data)
     # if no options are chosen return empty figure
     if not demographics_shape:

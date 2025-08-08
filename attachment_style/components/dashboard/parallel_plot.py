@@ -21,7 +21,7 @@ ParallelModal = dbc.Modal(
                     id="parallel-color-dropdown",
                     options=attachment_style_labels_values
                     + ({"label": "Any", "value": "any"},),
-                    value="secure_score",
+                    value="anxious_score",
                 ),
                 dcc.Graph(id="parallel-graph"),
             ]
@@ -75,20 +75,19 @@ def toggle_parallel_modal(open_modal, close_modal, is_open):
     ],
 )
 def update_parallel_thumnail(selected_dims, color_by, data, window_width):
-    answers_df = pd.DataFrame(data)
     if not selected_dims:
         selected_dims = ["gender"]
     if window_width[0] > 500:
         if color_by == "any":
             fig = px.parallel_categories(
-                answers_df,
+                data,
                 dimensions=selected_dims,
                 color_continuous_scale=px.colors.sequential.Inferno,
                 title="Parallel Categories Diagram",
             )
         else:
             fig = px.parallel_categories(
-                answers_df,
+                data,
                 dimensions=selected_dims,
                 color=color_by,
                 color_continuous_scale=px.colors.sequential.Inferno,
@@ -109,14 +108,14 @@ def update_parallel_thumnail(selected_dims, color_by, data, window_width):
     else:
         if color_by == "any":
             fig = px.parallel_categories(
-                answers_df,
+                data,
                 dimensions=selected_dims,
                 color_continuous_scale=px.colors.sequential.Inferno,
                 title="Parallel Categories Diagram",
             )
         else:
             fig = px.parallel_categories(
-                answers_df,
+                data,
                 dimensions=selected_dims,
                 color=color_by,
                 color_continuous_scale=px.colors.sequential.Inferno,
@@ -149,19 +148,18 @@ def update_parallel_thumnail(selected_dims, color_by, data, window_width):
     ],
 )
 def update_parallel_graph(selected_dims, color_by, data):
-    answers_df = pd.DataFrame(data)
     if not selected_dims:
         selected_dims = ["gender"]
     if color_by == "any":
         fig = px.parallel_categories(
-            answers_df,
+            data,
             dimensions=selected_dims,
             color_continuous_scale=px.colors.sequential.Inferno,
             title="Parallel Categories Diagram",
         )
     else:
         fig = px.parallel_categories(
-            answers_df,
+            data,
             dimensions=selected_dims,
             color=color_by,
             color_continuous_scale=px.colors.sequential.Inferno,

@@ -9,7 +9,7 @@ QuestionCardOthers = dbc.Row(
                     [
                         dcc.Markdown(
                             "##### Question 1/42",
-                            id="question-count-text-partner",
+                            id="question-count-text-others",
                             className="mx-2 px-3 pt-1 border border-3 rounded",
                         ),
                     ],
@@ -23,19 +23,19 @@ QuestionCardOthers = dbc.Row(
                 dbc.CardBody(
                     dcc.Markdown(
                         "Text of the question",
-                        id="question-text-partner",
+                        id="question-text-others",
                     ),
                     style={"background-color": "#F5F5F5", "color": "#403D39"},
                 ),
                 dbc.CardFooter(
                     [
                         dbc.Button(
-                            id="left-button-partner",
+                            id="left-button-others",
                             className="bi bi-arrow-left-circle d-flex align-items-center",
                         ),
                         dbc.Container(
                             dcc.Slider(
-                                id="slider-partner",
+                                id="slider-others",
                                 min=0,
                                 max=10,
                                 step=1,
@@ -61,7 +61,7 @@ QuestionCardOthers = dbc.Row(
                             style={"width": "90%"},
                         ),
                         dbc.Button(
-                            id="right-button-partner",
+                            id="right-button-others",
                             className="bi bi-arrow-right-circle d-flex align-items-center",
                         ),
                     ],

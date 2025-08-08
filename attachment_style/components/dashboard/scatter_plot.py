@@ -91,11 +91,10 @@ def toggle_scatter_modal(open_modal, close_modal, is_open):
     ],
 )
 def update_scatter_thumbnail(x_var, y_var, color_var, data, window_width):
-    answers_df = pd.DataFrame(data)
     if window_width[0] > 500:
         if color_var == "None":
             fig = px.scatter(
-                answers_df,
+                data,
                 x=x_var,
                 y=y_var,
                 title="Scatter Plot by Demographics",
@@ -104,7 +103,7 @@ def update_scatter_thumbnail(x_var, y_var, color_var, data, window_width):
             )
         else:
             fig = px.scatter(
-                answers_df,
+                data,
                 x=x_var,
                 y=y_var,
                 color=color_var,
@@ -124,7 +123,7 @@ def update_scatter_thumbnail(x_var, y_var, color_var, data, window_width):
     else:
         if color_var == "None":
             fig = px.scatter(
-                answers_df,
+                data,
                 x=x_var,
                 y=y_var,
                 title="Scatter Plot",
@@ -133,7 +132,7 @@ def update_scatter_thumbnail(x_var, y_var, color_var, data, window_width):
             )
         else:
             fig = px.scatter(
-                answers_df,
+                data,
                 x=x_var,
                 y=y_var,
                 color=color_var,
@@ -178,19 +177,18 @@ def update_scatter_y_options(x_value):
     ],
 )
 def update_scatter_graph(x_var, y_var, color_var, data):
-    answers_df = pd.DataFrame(data)
     if y_var is None:
         return px.scatter([]), False
     if color_var == "None":
         fig = px.scatter(
-            answers_df,
+            data,
             x=x_var,
             y=y_var,
             title=f'{y_var.split("_")[0].capitalize()} vs {x_var.capitalize()}',
         )
     else:
         fig = px.scatter(
-            answers_df,
+            data,
             x=x_var,
             y=y_var,
             color=color_var,

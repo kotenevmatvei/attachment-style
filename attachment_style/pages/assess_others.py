@@ -38,7 +38,7 @@ def layout(**kwargs):
             html.H3("Assess Others", className="text-center"),
             dbc.Collapse(
                 DemographicQuestionnaireOthers,
-                id="personal-questionnaire-collapse-partner",
+                id="personal-questionnaire-collapse-others",
                 is_open=True,
             ),
             dbc.Collapse(
@@ -54,30 +54,30 @@ def layout(**kwargs):
                     ),
                     QuestionCardOthers,
                 ],
-                id="question-card-collapse-partner",
+                id="question-card-collapse-others",
                 is_open=False,
             ),
             dbc.Collapse(
-                dbc.Button("To Results", id="submit-test-button-partner"),
-                id="submit-test-collapse-partner",
+                dbc.Button("To Results", id="submit-test-button-others"),
+                id="submit-test-collapse-others",
                 is_open=False,
                 className="mb-4 text-center",
             ),
             ResultChartOthers,
             # storage
             dcc.Store(
-                id="questions-storage-partner",
-                data=read_questions("partner"),
+                id="questions-storage-others",
+                data=read_questions("others"),
                 storage_type="memory",
             ),
-            dcc.Store(id="question-count-storage-partner", data=0),
-            dcc.Store(id="answers-storage-partner", data={}, storage_type="memory"),
-            dcc.Store(id="lb-visited-last-storage-partner"),
-            dcc.Store(id="last-question-visited-partner", data=False),
-            dcc.Store(id="personal-answers-partner"),
-            dcc.Interval(id="page-load-interval-partner", interval=1, max_intervals=1),
+            dcc.Store(id="question-count-storage-others", data=0),
+            dcc.Store(id="answers-storage-others", data={}, storage_type="memory"),
+            dcc.Store(id="lb-visited-last-storage-others"),
+            dcc.Store(id="last-question-visited-others", data=False),
+            dcc.Store(id="personal-answers-others"),
+            dcc.Interval(id="page-load-interval-others", interval=1, max_intervals=1),
             # download
-            dcc.Download(id="download-report-partner"),
+            dcc.Download(id="download-report-others"),
         ]
     )
 
@@ -85,18 +85,18 @@ def layout(**kwargs):
 # submit personal questionnaire
 @callback(
     [
-        Output("personal-questionnaire-collapse-partner", "is_open"),
-        Output("question-card-collapse-partner", "is_open"),
-        Output("personal-questionnaire-error-partner", "hidden"),
-        Output("personal-answers-partner", "data"),
-        Output("personal-questionnaire-error-partner", "children"),
+        Output("personal-questionnaire-collapse-others", "is_open"),
+        Output("question-card-collapse-others", "is_open"),
+        Output("personal-questionnaire-error-others", "hidden"),
+        Output("personal-answers-others", "data"),
+        Output("personal-questionnaire-error-others", "children"),
     ],
-    Input("submit-personal-questionnaire-partner", "n_clicks"),
+    Input("submit-personal-questionnaire-others", "n_clicks"),
     [
-        State("age-partner", "value"),
-        State("relationship-status-partner", "value"),
-        State("gender-partner", "value"),
-        State("therapy-experience-partner", "value"),
+        State("age-others", "value"),
+        State("relationship-status-others", "value"),
+        State("gender-others", "value"),
+        State("therapy-experience-others", "value"),
     ],
 )
 def sumbmit_personal_questionnaire(
@@ -124,24 +124,24 @@ def sumbmit_personal_questionnaire(
 
 
 # shuffle questions on page load
-@callback(
-    [
-        Output("questions-storage-partner", "data"),
-        Output("question-text-partner", "children", allow_duplicate=True),
-    ],
-    Input("page-load-interval-partner", "n_intervals"),
-    State("questions-storage-partner", "data"),
-    prevent_initial_call=True,
-)
-def shuffle_questions(n, questions):
-    shuffle(questions)
-    return questions, questions[0][0]
+# @callback(
+#     [
+#         Output("questions-storage-others", "data"),
+#         Output("question-text-others", "children", allow_duplicate=True),
+#     ],
+#     Input("page-load-interval-others", "n_intervals"),
+#     State("questions-storage-others", "data"),
+#     prevent_initial_call=True,
+# )
+# def shuffle_questions(n, questions):
+#     shuffle(questions)
+#     return questions, questions[0][0]
 
 
 # show submit button after last question visited
 @callback(
-    Output("submit-test-collapse-partner", "is_open"),
-    Input("last-question-visited-partner", "data"),
+    Output("submit-test-collapse-others", "is_open"),
+    Input("last-question-visited-others", "data"),
 )
 def show_submit_button(last_question_visited: bool) -> bool:
     return last_question_visited
@@ -150,17 +150,17 @@ def show_submit_button(last_question_visited: bool) -> bool:
 # Submit test
 @callback(
     [
-        Output("dashboard-collapse-partner", "is_open"),
-        Output("pie-chart-partner", "figure"),
-        Output("type-description-markdown-partner", "children"),
+        Output("dashboard-collapse-others", "is_open"),
+        Output("pie-chart-others", "figure"),
+        Output("type-description-markdown-others", "children"),
     ],
-    Input("submit-test-button-partner", "n_clicks"),
+    Input("submit-test-button-others", "n_clicks"),
     [
-        State("answers-storage-partner", "data"),
-        State("question-count-storage-partner", "data"),
-        State("questions-storage-partner", "data"),
-        State("slider-partner", "value"),
-        State("personal-answers-partner", "data"),
+        State("answers-storage-others", "data"),
+        State("question-count-storage-others", "data"),
+        State("questions-storage-others", "data"),
+        State("slider-others", "value"),
+        State("personal-answers-others", "data"),
     ],
     prevent_initial_call=True,
 )
@@ -202,9 +202,9 @@ def generate_dashboard(
 
 # Dwnload report
 @callback(
-    Output("download-report-partner", "data"),
-    Input("download-report-button-partner", "n_clicks"),
-    State("answers-storage-partner", "data"),
+    Output("download-report-others", "data"),
+    Input("download-report-button-others", "n_clicks"),
+    State("answers-storage-others", "data"),
     prevent_initial_call=True,
 )
 def load_report(n_clicks, answers):
@@ -215,25 +215,25 @@ def load_report(n_clicks, answers):
 
 @callback(
     [
-        Output("question-count-storage-partner", "data"),
-        Output("question-count-text-partner", "children"),
-        Output("question-text-partner", "children"),
-        Output("answers-storage-partner", "data"),
-        Output("slider-partner", "value"),
-        Output("lb-visited-last-storage-partner", "data"),
-        Output("last-question-visited-partner", "data"),
+        Output("question-count-storage-others", "data"),
+        Output("question-count-text-others", "children"),
+        Output("question-text-others", "children"),
+        Output("answers-storage-others", "data"),
+        Output("slider-others", "value"),
+        Output("lb-visited-last-storage-others", "data"),
+        Output("last-question-visited-others", "data"),
     ],
     [
-        Input("right-button-partner", "n_clicks"),
-        Input("left-button-partner", "n_clicks"),
+        Input("right-button-others", "n_clicks"),
+        Input("left-button-others", "n_clicks"),
     ],
     [
-        State("slider-partner", "value"),
-        State("question-count-storage-partner", "data"),
-        State("questions-storage-partner", "data"),
-        State("answers-storage-partner", "data"),
-        State("lb-visited-last-storage-partner", "data"),
-        State("last-question-visited-partner", "data"),
+        State("slider-others", "value"),
+        State("question-count-storage-others", "data"),
+        State("questions-storage-others", "data"),
+        State("answers-storage-others", "data"),
+        State("lb-visited-last-storage-others", "data"),
+        State("last-question-visited-others", "data"),
     ],
 )
 def update_question(
@@ -250,7 +250,7 @@ def update_question(
     id_triggered = ctx.triggered_id
     if not last_question_visited:
         match id_triggered:
-            case "right-button-partner":
+            case "right-button-others":
                 answers[f"{question_count-1}"] = (
                     questions[question_count - 1][1],
                     slider_value,
@@ -314,7 +314,7 @@ def update_question(
                         True,
                     )
 
-            case "left-button-partner":
+            case "left-button-others":
                 if question_count == 1:
                     answers["0"] = (
                         questions[0][1],
@@ -348,7 +348,7 @@ def update_question(
 
     else:
         match id_triggered:
-            case "right-button-partner":
+            case "right-button-others":
                 # questions between first and last
                 if question_count < n:
                     answers[f"{question_count - 1}"] = (
@@ -394,7 +394,7 @@ def update_question(
                         True,
                     )
 
-            case "slider-partner":
+            case "slider-others":
                 # questions between first and last
                 if question_count < n:
                     answers[f"{question_count - 1}"] = (
@@ -451,7 +451,7 @@ def update_question(
                         True,
                     )
 
-            case "left-button-partner":
+            case "left-button-others":
                 if question_count == 1:
                     answers["0"] = (questions[0][1], slider_value)
                     return (
@@ -489,9 +489,9 @@ clientside_callback(
         if (!window.arrowKeysListenerAttached) {
             function ArrowClick(event) {
                 if (event.key === "ArrowRight") {
-                    document.getElementById('right-button-partner').click();
+                    document.getElementById('right-button-others').click();
                 } else if (event.key === "ArrowLeft") {
-                    document.getElementById('left-button-partner').click();
+                    document.getElementById('left-button-others').click();
                 }
             }
             
