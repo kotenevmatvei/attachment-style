@@ -36,12 +36,11 @@ QuestionCardOthers = dbc.Row(
                         dbc.Container(
                             dcc.Slider(
                                 id="slider-others",
-                                min=0,
-                                max=10,
+                                min=1,
+                                max=7,
                                 step=1,
-                                value=0,
+                                value=1,
                                 marks={
-                                    0: "0",
                                     1: "1",
                                     2: "2",
                                     3: "3",
@@ -49,9 +48,6 @@ QuestionCardOthers = dbc.Row(
                                     5: "5",
                                     6: "6",
                                     7: "7",
-                                    8: "8",
-                                    9: "9",
-                                    10: "10",
                                 },
                                 tooltip={
                                     "placement": "bottom",

@@ -134,19 +134,19 @@ def sumbmit_personal_questionnaire(
     return True, False, True, {}, ""
 
 
-# shuffle questions on page load
-# @callback(
-#     [
-#         Output("questions-storage", "data"),
-#         Output("question-text", "children", allow_duplicate=True),
-#     ],
-#     Input("page-load-interval", "n_intervals"),
-#     State("questions-storage", "data"),
-#     prevent_initial_call=True,
-# )
-# def shuffle_questions(n, questions):
-#     shuffle(questions)
-#     return questions, questions[0][0]
+# shuffle questions on page load -- comment out when testing!
+@callback(
+    [
+        Output("questions-storage", "data"),
+        Output("question-text", "children", allow_duplicate=True),
+    ],
+    Input("page-load-interval", "n_intervals"),
+    State("questions-storage", "data"),
+    prevent_initial_call=True,
+)
+def shuffle_questions(n, questions):
+    shuffle(questions)
+    return questions, questions[0][0]
 
 
 # show submit button after last question visited
@@ -233,19 +233,21 @@ def generate_dashboard(
         upload_to_db(answers, personal_answers)
     if n_clicks:
 
-        anxious_scores_before_revert = [answers[_][1] for _ in answers.keys() if answers[_][0] == "anxious"]
-        avoidant_scores_before_revert = [answers[_][1] for _ in answers.keys() if answers[_][0] == "avoidant"]
-        scores_before_revert = (
-            anxious_scores_before_revert + avoidant_scores_before_revert
-        )
+        ### testing ###
+        # anxious_scores_before_revert = [answers[_][1] for _ in answers.keys() if answers[_][0] == "anxious"]
+        # avoidant_scores_before_revert = [answers[_][1] for _ in answers.keys() if answers[_][0] == "avoidant"]
+        # scores_before_revert = (
+        #     anxious_scores_before_revert + avoidant_scores_before_revert
+        # )
 
         answers = revert_questions(answers)
 
-        anxious_scores_after_revert = [answers[_][1] for _ in answers.keys() if answers[_][0] == "anxious"]
-        avoidant_scores_after_revert = [answers[_][1] for _ in answers.keys() if answers[_][0] == "avoidant"]
-        scores_after_revert = (
-            anxious_scores_after_revert + avoidant_scores_after_revert
-        )
+        ### testing ###
+        # anxious_scores_after_revert = [answers[_][1] for _ in answers.keys() if answers[_][0] == "anxious"]
+        # avoidant_scores_after_revert = [answers[_][1] for _ in answers.keys() if answers[_][0] == "avoidant"]
+        # scores_after_revert = (
+        #     anxious_scores_after_revert + avoidant_scores_after_revert
+        # )
 
 
         (anxious_score, secure_score, avoidant_score) = calculate_scores(answers)
@@ -257,11 +259,6 @@ def generate_dashboard(
         if avoidant_score >= secure_score and avoidant_score >= anxious_score:
             description = generate_type_description("avoidant")
 
-        # fig = build_pie_chart(
-        #     anxious_score=anxious_score,
-        #     secure_score=secure_score,
-        #     avoidant_score=avoidant_score,
-        # )
         fig = build_ecr_r_chart(
             anxious_score=anxious_score,
             secure_score=secure_score,
@@ -275,18 +272,19 @@ def generate_dashboard(
             fig_to_download, "tmp/figure.png", width=700 * 1.5, height=500 * 1.5
         )
 
-        with open("tests/app_scores_before_revert.csv", "a") as f:
-            writer = csv.writer(f)
-            writer.writerow(scores_before_revert)
+        ### this is for testing ###
+        # with open("tests/app_scores_before_revert.csv", "a") as f:
+        #     writer = csv.writer(f)
+        #     writer.writerow(scores_before_revert)
 
-        with open("tests/app_scores_after_revert.csv", "a") as f:
-            writer = csv.writer(f)
-            writer.writerow(scores_after_revert)
+        # with open("tests/app_scores_after_revert.csv", "a") as f:
+        #     writer = csv.writer(f)
+        #     writer.writerow(scores_after_revert)
 
-        with open("tests/app_averages.csv", "a") as f:
-            writer = csv.writer(f)
-            row = [round(anxious_score, 2), round(avoidant_score, 2)]
-            writer.writerow(row)
+        # with open("tests/app_averages.csv", "a") as f:
+        #     writer = csv.writer(f)
+        #     row = [round(anxious_score, 2), round(avoidant_score, 2)]
+        #     writer.writerow(row)
 
         return True, fig, description
 

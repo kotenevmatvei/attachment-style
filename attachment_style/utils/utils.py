@@ -219,16 +219,16 @@ def build_ecr_r_chart(anxious_score: float, secure_score: float, avoidant_score:
     axis_label_font_style = dict(size=12)
     # Anxiety Axis Labels
     fig.add_annotation(
-        x=scale_min,
-        y=scale_mid - 0.5,
+        x=scale_min - 0.5,
+        y=scale_mid - 0.25,
         text="low anxiety",
         showarrow=False,
         xanchor="center",
         font=axis_label_font_style,
     )
     fig.add_annotation(
-        x=scale_max,
-        y=scale_mid - 0.5,
+        x=scale_max + 0.5,
+        y=scale_mid - 0.25,
         text="high anxiety",
         showarrow=False,
         xanchor="center",
