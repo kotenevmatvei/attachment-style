@@ -722,6 +722,7 @@ def retrieve_scores_from_db():
             if None in results_long_dict[score]:
                 logger.critical(f"None values in column {score}!!!")
 
+        logger.info("Successfully retrieved the data from the database")
         return results_long_dict
 
     # the two below are done by the database now

@@ -13,6 +13,8 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M",
 )
 
+logger = logging.getLogger(__name__)
+
 app = Dash(
     __name__,
     use_pages=True,
@@ -96,5 +98,6 @@ def fold_navbar_mobile_when_clicked_outside(click):
 
 
 if __name__ == "__main__":
+    logger.info("Starting the app...")
     app.run_server(host="0.0.0.0", port=8080)
     # app.run(debug=True)
