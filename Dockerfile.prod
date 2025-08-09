@@ -8,6 +8,7 @@ WORKDIR /app
 
 COPY attachment_style/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+RUN plotly_get_chrome -y
 
 COPY seed_data.py .
 COPY init.sql .
