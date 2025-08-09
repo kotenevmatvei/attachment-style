@@ -9,24 +9,24 @@ from psycopg2.extensions import register_adapter, AsIs
 from models import AssessYourself, AssessOthers
 from utils.utils import upload_objects_to_db
 
+register_adapter(np.int64, AsIs)
+register_adapter(np.int32, AsIs)
+
 logging.basicConfig(
+    filename="app.log",
     level=logging.INFO,
-    format="{asctime} - {levelname} - {message}",
+    format="{asctime} - {levelname} - {filename} - {funcName} - {message}",
     style="{",
     datefmt="%Y-%m-%d %H:%M",
 )
 
-register_adapter(np.int64, AsIs)
-register_adapter(np.int32, AsIs)
-
 # define the constants
-NUM_DATAPOINTS = 1000
+NUM_DATAPOINTS = 100
 SIGMA = 1.5
 MEAN_INITIAL = 5
 MEAN_INCREMENT = 0.5
 NUMBER_OF_QUESTIONS_ASSESS_YOURSELF = 18
 NUMBER_OF_QUESTIONS_ASSESS_OTHERS = 11
-SUBJECT = "you"
 
 # define possible answers and personal information
 possible_answers = [1, 2, 3, 4, 5, 6, 7]
@@ -44,8 +44,7 @@ def generate_test_personal_info():
     age = rng.integers(18, 70, endpoint=True)
     relationship_status = rng.choice(relationship_statuses)
     therapy_experience = rng.choice(therapy_experiences)
-    subject = SUBJECT
-    return gender, age, relationship_status, therapy_experience, subject
+    return gender, age, relationship_status, therapy_experience
 
 
 def generate_test_scores(
@@ -185,32 +184,33 @@ def build_db_entry(
 
 
 def main(num_datapoints: int):
-    db_entries = []
-    start_time = time.time()
-    for i in range(num_datapoints):
-        gender, age, relationship_status, therapy_experience, subject = (
-            generate_test_personal_info()
-        )
-        anxious_scores, secure_scores, avoidant_scores = generate_test_scores(
-            gender, age, relationship_status, therapy_experience, subject
-        )
-        db_entry = build_db_entry(
-            gender,
-            age,
-            relationship_status,
-            therapy_experience,
-            subject,
-            anxious_scores,
-            secure_scores,
-            avoidant_scores,
-        )
-        db_entries.append(db_entry)
-    elapsed_time = time.time() - start_time
-    logging.info(f"Created {NUM_DATAPOINTS} db objects in {elapsed_time}s")
-    start_time = time.time()
-    upload_objects_to_db(db_entries)
-    elapsed_time = time.time() - start_time
-    logging.info(f"Uploaded {NUM_DATAPOINTS} test datapoints for {SUBJECT} to db in {elapsed_time}s")
+    logger = logging.getLogger(__name__)
+    for subject in subjects:
+        db_entries = []
+        start_time = time.time()
+        for i in range(num_datapoints):
+            gender, age, relationship_status, therapy_experience = (
+                generate_test_personal_info()
+            )
+            anxious_scores, secure_scores, avoidant_scores = generate_test_scores(
+                gender, age, relationship_status, therapy_experience, subject
+            )
+            db_entry = build_db_entry(
+                gender,
+                age,
+                relationship_status,
+                therapy_experience,
+                subject,
+                anxious_scores,
+                secure_scores,
+                avoidant_scores,
+            )
+            db_entries.append(db_entry)
+        elapsed_time = time.time() - start_time
+        start_time = time.time()
+        upload_objects_to_db(db_entries)
+        elapsed_time = time.time() - start_time
+        logger.info(f"Uploaded {NUM_DATAPOINTS} test datapoints for {subject}  to db in {elapsed_time}s")
 
 
 if __name__ == "__main__":

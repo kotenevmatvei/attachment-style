@@ -5,8 +5,10 @@
 - [x] generate test data for ecr-r
 
 # backend
+- [ ] do not wait for the database to show results!
 - [ ] add the real test column
 - [ ] add caching
+- [ ] provide total number of scores with and without test
 
 
 # frontend

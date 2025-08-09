@@ -4,6 +4,7 @@ import plotly.io as pio
 import numpy as np
 import pandas as pd
 import os
+import logging
 import codecs
 from sqlalchemy.engine import result
 from sqlalchemy.orm import Session
@@ -20,6 +21,7 @@ from sqlalchemy import create_engine, select
 
 # load_dotenv(find_dotenv())
 
+logger = logging.getLogger(__name__)
 
 # production url
 # url = str(os.getenv("DB_URL_DEBUG"))
@@ -675,7 +677,6 @@ def get_data_from_db(test: bool = True):
 
 
 def retrieve_scores_from_db():
-
     stmt_you = select(
         literal_column("'AssessYourself'").label("source"),
         AssessYourself.age,
@@ -701,7 +702,6 @@ def retrieve_scores_from_db():
     query = union_all(stmt_you, stmt_others)
 
     with Session(engine) as session:
-
         results = session.execute(query).all()
         if not results:
             raise ValueError("No entries in the database...")
@@ -711,50 +711,59 @@ def retrieve_scores_from_db():
 
         keys = results_records_dict[0].keys()
         # this is one dictionary with column names as keys - what we need for plots
-        results_long_dict = {key: [row[key] for row in results_records_dict] for key in keys}
+        results_long_dict = {
+            key: [row[key] for row in results_records_dict] for key in keys
+        }
+
+        if not results_long_dict:
+            logger.error("No data was retrieved from the database")
+        
+        for score in ["secure_score", "avoidant_score", "anxious_score"]:
+            if None in results_long_dict[score]:
+                logger.critical(f"None values in column {score}!!!")
 
         return results_long_dict
 
+    # the two below are done by the database now
 
-def derive_secure_score(anxious_scores, avoidant_scores):
-    # we need to first invert the scores to get the x- and y coordinates due to the
-    # funky scale of the ecr-r chart (two origins)
-    secure_score = []
-    for x, y in zip(anxious_scores, avoidant_scores):
-        diff_x = 4 - x
-        diff_y = 4 - y
-        diff = (diff_x + diff_y) / 2
-        score = 4 + diff
-        secure_score.append(score)
+    # def derive_secure_score(anxious_scores, avoidant_scores):
+    #     # we need to first invert the scores to get the x- and y coordinates due to the
+    #     # funky scale of the ecr-r chart (two origins)
+    #     secure_score = []
+    #     for x, y in zip(anxious_scores, avoidant_scores):
+    #         diff_x = 4 - x
+    #         diff_y = 4 - y
+    #         diff = (diff_x + diff_y) / 2
+    #         score = 4 + diff
+    #         secure_score.append(score)
+    #
+    #     return secure_score
 
-    return secure_score
-
-
-def aggregate_scores(assess_yourself_df, assess_others_df):
-    # todo maybe unnecessary to keep the entire dataframes? - just return the arrays, no?
-
-    you_anxious_score = assess_yourself_df.filter(like="anxious").sum(axis=1) / 18
-    you_avoidant_score = assess_yourself_df.filter(like="avoidant").sum(axis=1) / 18
-    assess_yourself_df["anxious_score"] = you_anxious_score
-    assess_yourself_df["avoidant_score"] = you_avoidant_score
-
-    you_secure_score = derive_secure_score(you_anxious_score, you_avoidant_score)
-
-    assess_yourself_df["secure_score"] = you_secure_score
-
-    assess_others_df["anxious_score"] = (
-        assess_others_df.filter(like="anxious").sum(axis=1) / 11
-    )
-    assess_others_df["secure_score"] = (
-        assess_others_df.filter(like="secure").sum(axis=1) / 11
-    )
-    assess_others_df["avoidant_score"] = (
-        assess_others_df.filter(like="avoidant").sum(axis=1) / 11
-    )
-
-    retrieve_scores_from_db()
-
-    return assess_yourself_df, assess_others_df
+    # def aggregate_scores(assess_yourself_df, assess_others_df):
+    #     # todo maybe unnecessary to keep the entire dataframes? - just return the arrays, no?
+    #
+    #     you_anxious_score = assess_yourself_df.filter(like="anxious").sum(axis=1) / 18
+    #     you_avoidant_score = assess_yourself_df.filter(like="avoidant").sum(axis=1) / 18
+    #     assess_yourself_df["anxious_score"] = you_anxious_score
+    #     assess_yourself_df["avoidant_score"] = you_avoidant_score
+    #
+    #     you_secure_score = derive_secure_score(you_anxious_score, you_avoidant_score)
+    #
+    #     assess_yourself_df["secure_score"] = you_secure_score
+    #
+    #     assess_others_df["anxious_score"] = (
+    #         assess_others_df.filter(like="anxious").sum(axis=1) / 11
+    #     )
+    #     assess_others_df["secure_score"] = (
+    #         assess_others_df.filter(like="secure").sum(axis=1) / 11
+    #     )
+    #     assess_others_df["avoidant_score"] = (
+    #         assess_others_df.filter(like="avoidant").sum(axis=1) / 11
+    #     )
+    #
+    #     retrieve_scores_from_db()
+    #
+    #     return assess_yourself_df, assess_others_df
 
 
 def upload_objects_to_db(objects: list[Base]):

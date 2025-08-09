@@ -9,18 +9,19 @@ from psycopg2.extensions import register_adapter, AsIs
 from models import AssessYourself, AssessOthers
 from utils.utils import upload_objects_to_db
 
+register_adapter(np.int64, AsIs)
+register_adapter(np.int32, AsIs)
+
 logging.basicConfig(
+    filename="app.log",
     level=logging.INFO,
-    format="{asctime} - {levelname} - {message}",
+    format="{asctime} - {levelname} - {filename} - {funcName} - {message}",
     style="{",
     datefmt="%Y-%m-%d %H:%M",
 )
 
-register_adapter(np.int64, AsIs)
-register_adapter(np.int32, AsIs)
-
 # define the constants
-NUM_DATAPOINTS = 1000
+NUM_DATAPOINTS = 100
 SIGMA = 1.5
 MEAN_INITIAL = 5
 MEAN_INCREMENT = 0.5
@@ -183,6 +184,7 @@ def build_db_entry(
 
 
 def main(num_datapoints: int):
+    logger = logging.getLogger(__name__)
     for subject in subjects:
         db_entries = []
         start_time = time.time()
@@ -205,11 +207,10 @@ def main(num_datapoints: int):
             )
             db_entries.append(db_entry)
         elapsed_time = time.time() - start_time
-        logging.info(f"Created {NUM_DATAPOINTS} db objects in {elapsed_time}s")
         start_time = time.time()
         upload_objects_to_db(db_entries)
         elapsed_time = time.time() - start_time
-        logging.info(f"Uploaded {NUM_DATAPOINTS} test datapoints for {subject} to db in {elapsed_time}s")
+        logger.info(f"Uploaded {NUM_DATAPOINTS} test datapoints for {subject}  to db in {elapsed_time}s")
 
 
 if __name__ == "__main__":

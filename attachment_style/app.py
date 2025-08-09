@@ -3,6 +3,16 @@ import dash_bootstrap_components as dbc
 from components.navbar import Navbar, NavbarMobile
 from components.footer import Footer
 
+import logging
+
+logging.basicConfig(
+    filename="app.log",
+    level=logging.INFO,
+    format="{asctime} - {levelname} - {filename} - {funcName} - {message}",
+    style="{",
+    datefmt="%Y-%m-%d %H:%M",
+)
+
 app = Dash(
     __name__,
     use_pages=True,
