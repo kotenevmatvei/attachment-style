@@ -103,7 +103,6 @@ def update_global_pie_thumbnail(
         ]
         mean = np.average([data[attachment_style][i] for i in indices_to_keep])
         values.append(mean)
-    print("values: ", values)
 
     if window_width[0] > 500:
         fig = px.pie(

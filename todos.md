@@ -9,6 +9,8 @@
 - [ ] add the real test column
 - [ ] add caching
 - [ ] provide total number of scores with and without test
+- [ ] separate updating data from the db and filtering (include/exclude test, you/others)
+      (then don't even need extra chaching)
 
 
 # frontend

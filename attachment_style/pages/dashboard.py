@@ -50,11 +50,11 @@ def layout(**kwargs):
         ]
     )
 
-
 # switch between test and real data
 @callback(
     Output("data-store", "data"),
     Input("include_test_data", "value"),
+    prevent_initial_call=True,
 )
 def include_test_data(include_test_data):
     scores = retrieve_scores_from_db()

@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 try:
     DB_URL = os.environ['DB_URL']
 except KeyError:
-    raise RuntimeError("DATABASE_URL environment variable not set.")
+    raise RuntimeError("DB_URL environment variable not set.")
 
 engine = create_engine(url=DB_URL)
 
