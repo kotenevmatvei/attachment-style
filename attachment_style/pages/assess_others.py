@@ -177,7 +177,7 @@ def generate_dashboard(
         )
     # load to db
     if n_clicks == 1:  # only save on the first click
-        upload_to_db(answers, personal_answers)
+        upload_to_db(answers, personal_answers, test=False)
     if n_clicks:
 
         ### testing ###

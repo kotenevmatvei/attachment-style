@@ -12,6 +12,9 @@ from dash import (
 from random import shuffle
 import copy
 import numpy as np
+import json
+import uuid
+import logging
 import csv
 import plotly.io as pio
 import dash_bootstrap_components as dbc
@@ -32,13 +35,15 @@ from utils.utils import (
 )
 from utils.generate_pdf import generate_report
 
-register_page(__name__, path="/assess-yourself")
+logger = logging.getLogger(__name__)
 
+register_page(__name__, path="/assess-yourself")
 
 def layout(**kwargs):
     return html.Div(
         [
-            html.Div(id="dummy-for-keydown"),
+            html.Div(id="dummy-div-keys"),
+            html.Div(id="dummy-div-pic-download"),
             html.H3("Assess Yourself", className="text-center"),
             dbc.Collapse(
                 DemographicsQuestionnaire,
@@ -79,6 +84,7 @@ def layout(**kwargs):
             dcc.Store(id="lb-visited-last-storage"),
             dcc.Store(id="last-question-visited", data=False),
             dcc.Store(id="personal-answers"),
+            dcc.Store(id="figure-store"),
             dcc.Interval(id="page-load-interval", interval=1, max_intervals=1),
             # download
             dcc.Download(id="download-report"),
@@ -208,6 +214,7 @@ def switch_subject(yourself_clicks, others_clicks):
         Output("dashboard-collapse", "is_open"),
         Output("pie-chart", "figure"),
         Output("type-description-markdown", "children"),
+        Output("figure-store", "data"),
     ],
     Input("submit-test-button", "n_clicks"),
     [
@@ -222,17 +229,19 @@ def switch_subject(yourself_clicks, others_clicks):
 def generate_dashboard(
     n_clicks, answers, question_count, questions, slider_value, personal_answers
 ):
+    logger.info("Begin generating the dashboard...")
     if question_count == len(questions):
         answers[f"{question_count - 1}"] = (
             questions[question_count - 1][1],
             slider_value,
             questions[question_count - 1][0],
         )
-    # load to db
-    if n_clicks == 1:  # only save on the first click
-        upload_to_db(answers, personal_answers)
     if n_clicks:
-
+        if n_clicks == 1:
+            # upload to db the first time
+            logger.info("Started uploading to db...")
+            upload_to_db(answers, personal_answers, test=False)
+            logger.info("Finished uploading to db")
         ### testing ###
         # anxious_scores_before_revert = [answers[_][1] for _ in answers.keys() if answers[_][0] == "anxious"]
         # avoidant_scores_before_revert = [answers[_][1] for _ in answers.keys() if answers[_][0] == "avoidant"]
@@ -249,7 +258,6 @@ def generate_dashboard(
         #     anxious_scores_after_revert + avoidant_scores_after_revert
         # )
 
-
         (anxious_score, secure_score, avoidant_score) = calculate_scores(answers)
 
         if anxious_score >= secure_score and anxious_score >= avoidant_score:
@@ -259,18 +267,17 @@ def generate_dashboard(
         if avoidant_score >= secure_score and avoidant_score >= anxious_score:
             description = generate_type_description("avoidant")
 
+        logger.info("Building the ecr_r chart for browser...")
         fig = build_ecr_r_chart(
             anxious_score=anxious_score,
             secure_score=secure_score,
             avoidant_score=avoidant_score,
         )
+        logger.info("Done building the ecr_r chart for browser...")
+        logger.info("Converting the plot to json...")
+        fig_json = fig.to_json()
 
-        fig_to_download = copy.deepcopy(fig)
-        increase_figure_font(fig_to_download)
-
-        pio.write_image(
-            fig_to_download, "tmp/figure.png", width=700 * 1.5, height=500 * 1.5
-        )
+        # print(fig_dict)
 
         ### this is for testing ###
         # with open("tests/app_scores_before_revert.csv", "a") as f:
@@ -286,7 +293,26 @@ def generate_dashboard(
         #     row = [round(anxious_score, 2), round(avoidant_score, 2)]
         #     writer.writerow(row)
 
-        return True, fig, description
+        return True, fig, description, fig_json
+
+@callback(
+    Output("dummy-div-pic-download", "style"),
+    Input("figure-store", "data"),
+    prevent_initial_call=True,
+)
+def download_plot_picture(fig_json):
+    
+    fig = pio.from_json(fig_json)
+
+    increase_figure_font(fig)
+
+    logger.info("Saving the image...")
+    pio.write_image(
+        fig, "tmp/figure.png", width=700, height=500
+    )
+    logger.info("Image saved")
+    
+    return {}
 
 
 @callback(
@@ -300,7 +326,6 @@ def load_report(n_clicks, answers):
         answers = revert_questions(answers)
         generate_report(answers)
         return dcc.send_file("tmp/attachment_style_report.pdf", type="pdf")
-
 
 @callback(
     [
@@ -590,6 +615,6 @@ clientside_callback(
         return window.dash_clientside.no_update;
     }
     """,
-    Output("dummy-for-keydown", "style"),
-    Input("dummy-for-keydown", "style"),
+    Output("dummy-div-keys", "style"),
+    Input("dummy-div-keys", "style"),
 )
