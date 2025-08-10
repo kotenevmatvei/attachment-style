@@ -16,7 +16,7 @@ primary_region = "fra"
   protocol = "tcp"
   internal_port = 8080
   processes = ["app"]
-  min_machines_running = 2
+  min_machines_running = 1
 
   [[services.ports]]
     port = 80

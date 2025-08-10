@@ -18,4 +18,4 @@ COPY attachment_style/ .
 
 RUN chmod +x /app/release-tasks.sh
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "2", "app:app"] # prod
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "1", "app:app"]
