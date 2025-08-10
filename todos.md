@@ -5,9 +5,7 @@
 - [x] generate test data for ecr-r
 
 # backend
-- [!] separate downloading image from showing the results!!! that's what takes so ultra long 
-- [ ] add another test column
-- [ ] add caching
+- [x] separate downloading image from showing the results!!! that's what takes so ultra long 
 - [ ] provide total number of scores with and without test
 - [ ] separate updating data from the db and filtering (include/exclude test, you/others)
       (then don't even need extra chaching)
