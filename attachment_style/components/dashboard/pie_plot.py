@@ -88,15 +88,15 @@ def update_global_pie_thumbnail(
     window_width,
 ) -> go.Figure:
     # answers_df = pd.DataFrame(data)
-    options: tuple[str, ...] = tuple(
-        option for option in demographics_values[demographic]
-    )
+    options = [option for option in demographics_values[demographic]]
     # values: tuple[float, ...] = tuple(
     #     answers_df[answers_df[demographic] == option][attachment_style].mean()
     #     for option in options
     # )
     # select row to keep based on the options
     values = []
+    # this is to keep the number of names and values equal in case no data for one name
+    missing_options = []
     for option in options:
         indices_to_keep = [
             i
@@ -105,13 +105,24 @@ def update_global_pie_thumbnail(
         ]
         filtered_data = [data[attachment_style][i] for i in indices_to_keep]
         if not filtered_data:
-            values.append(0)
+            logger.critical(f"No data for {demographic} {option}, {attachment_style}")
+            missing_options.append(option)
         else:
             mean = np.average(filtered_data)
             values.append(mean)
 
+    options = list(set(options) - set(missing_options))
+
     if not values:
         return px.pie()
+
+    fig = px.pie(
+        values=values,
+        names=options,
+        title=f"{attachment_style.replace('_', ' ').capitalize()} distribution"
+        f" by {demographic.replace('_', ' ')}",
+        # template="plotly_dark",
+    )
 
     if window_width[0] > 500:
         fig = px.pie(
@@ -161,10 +172,10 @@ def update_global_pie_thumbnail(
     ],
 )
 def update_global_pie_graph(attachment_style: str, demographic: str, data) -> go.Figure:
-    options: tuple[str, ...] = tuple(
-        option for option in demographics_values[demographic]
-    )
+    options = [option for option in demographics_values[demographic]]
     values = []
+    # this is to keep the number of names and values equal in case no data for one name
+    missing_options = []
     for option in options:
         indices_to_keep = [
             i
@@ -173,11 +184,13 @@ def update_global_pie_graph(attachment_style: str, demographic: str, data) -> go
         ]
         filtered_data = [data[attachment_style][i] for i in indices_to_keep]
         if not filtered_data:
-            logger.critical("No data")
+            logger.critical(f"No data for {demographic} {option}, {attachment_style}")
+            missing_options.append(option)
         else:
             mean = np.average(filtered_data)
             values.append(mean)
 
+    options = list(set(options) - set(missing_options))
     if not values:
         return px.pie()
 
