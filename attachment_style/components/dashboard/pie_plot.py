@@ -7,9 +7,11 @@ from data.options import (
 )
 import pandas as pd
 import numpy as np
+import logging
 import plotly.express as px
 import plotly.graph_objects as go
 
+logger = logging.getLogger(__name__)
 
 PieModal = dbc.Modal(
     [
@@ -101,8 +103,15 @@ def update_global_pie_thumbnail(
             for i, option_val in enumerate(data[demographic])
             if data[demographic][i] == option
         ]
-        mean = np.average([data[attachment_style][i] for i in indices_to_keep])
-        values.append(mean)
+        filtered_data = [data[attachment_style][i] for i in indices_to_keep]
+        if not filtered_data:
+            values.append(0)
+        else:
+            mean = np.average(filtered_data)
+            values.append(mean)
+
+    if not values:
+        return px.pie()
 
     if window_width[0] > 500:
         fig = px.pie(
@@ -162,8 +171,15 @@ def update_global_pie_graph(attachment_style: str, demographic: str, data) -> go
             for i, option_val in enumerate(data[demographic])
             if data[demographic][i] == option
         ]
-        mean = np.average([data[attachment_style][i] for i in indices_to_keep])
-        values.append(mean)
+        filtered_data = [data[attachment_style][i] for i in indices_to_keep]
+        if not filtered_data:
+            logger.critical("No data")
+        else:
+            mean = np.average(filtered_data)
+            values.append(mean)
+
+    if not values:
+        return px.pie()
 
     fig = px.pie(
         values=values,

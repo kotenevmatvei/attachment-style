@@ -15,7 +15,7 @@ register_adapter(np.int32, AsIs)
 logging.basicConfig(
     level=logging.INFO,
     # format="{asctime} - {levelname} - {filename} - {funcName} - {message}",
-    format="CUSTOM: {levelname} - {filename} - {funcName} - {message}",
+    format="APP: {levelname} - {filename} - {funcName} - {message}",
     style="{",
     datefmt="%Y-%m-%d %H:%M",
 )
