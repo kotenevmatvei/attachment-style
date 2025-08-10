@@ -11,6 +11,7 @@ from dash import (
 )
 from random import shuffle
 import copy
+import logging
 import dash_bootstrap_components as dbc
 from utils.utils import (
     read_questions,
@@ -30,6 +31,7 @@ from components.question_card_others import QuestionCardOthers
 from components.results_chart_others import ResultChartOthers
 from components.demographics_questionnaire_others import DemographicQuestionnaireOthers
 
+logger = logging.getLogger(__name__)
 register_page(__name__, path="/asses-others")
 
 
@@ -37,6 +39,7 @@ def layout(**kwargs):
     return html.Div(
         [
             html.Div(id="dummy-for-keydown-others"),
+            html.Div(id="dummy-div-pic-download-others"),
             html.H3("Assess Others", className="text-center"),
             dbc.Collapse(
                 DemographicQuestionnaireOthers,
@@ -77,6 +80,7 @@ def layout(**kwargs):
             dcc.Store(id="lb-visited-last-storage-others"),
             dcc.Store(id="last-question-visited-others", data=False),
             dcc.Store(id="personal-answers-others"),
+            dcc.Store(id="figure-store-others"),
             dcc.Interval(id="page-load-interval-others", interval=1, max_intervals=1),
             # download
             dcc.Download(id="download-report-others"),
@@ -155,6 +159,7 @@ def show_submit_button(last_question_visited: bool) -> bool:
         Output("dashboard-collapse-others", "is_open"),
         Output("pie-chart-others", "figure"),
         Output("type-description-markdown-others", "children"),
+        Output("figure-store-others", "data")
     ],
     Input("submit-test-button-others", "n_clicks"),
     [
@@ -169,34 +174,19 @@ def show_submit_button(last_question_visited: bool) -> bool:
 def generate_dashboard(
     n_clicks, answers, question_count, questions, slider_value, personal_answers
 ):
+    logger.info("Begin generating the dashboard...")
     if question_count == len(questions):
         answers[f"{question_count - 1}"] = (
             questions[question_count - 1][1],
             slider_value,
             questions[question_count - 1][0],
         )
-    # load to db
-    if n_clicks == 1:  # only save on the first click
-        upload_to_db(answers, personal_answers, test=False)
     if n_clicks:
-
-        ### testing ###
-        # anxious_scores_before_revert = [answers[_][1] for _ in answers.keys() if answers[_][0] == "anxious"]
-        # avoidant_scores_before_revert = [answers[_][1] for _ in answers.keys() if answers[_][0] == "avoidant"]
-        # scores_before_revert = (
-        #     anxious_scores_before_revert + avoidant_scores_before_revert
-        # )
-
-        answers = revert_questions(answers)
-
-        ### testing ###
-        # anxious_scores_after_revert = [answers[_][1] for _ in answers.keys() if answers[_][0] == "anxious"]
-        # avoidant_scores_after_revert = [answers[_][1] for _ in answers.keys() if answers[_][0] == "avoidant"]
-        # scores_after_revert = (
-        #     anxious_scores_after_revert + avoidant_scores_after_revert
-        # )
-
-
+        if n_clicks == 1:
+            # upload to db the first time
+            logger.info("Started uploading to db...")
+            upload_to_db(answers, personal_answers, test=False)
+            logger.info("Finished uploading to db")
         (anxious_score, secure_score, avoidant_score) = calculate_scores(answers)
 
         if anxious_score >= secure_score and anxious_score >= avoidant_score:
@@ -206,18 +196,19 @@ def generate_dashboard(
         if avoidant_score >= secure_score and avoidant_score >= anxious_score:
             description = generate_type_description("avoidant")
 
+        logger.info("Building the ecr_r chart for browser...")
+
         fig = build_pie_chart(
             anxious_score=anxious_score,
             secure_score=secure_score,
             avoidant_score=avoidant_score,
         )
 
-        fig_to_download = copy.deepcopy(fig)
-        increase_figure_font(fig_to_download)
+        logger.info("Done building the ecr_r chart for browser...")
+        logger.info("Converting the plot to json...")
+        fig_json = fig.to_json()
 
-        pio.write_image(
-            fig_to_download, "tmp/figure.png", width=700 * 1.5, height=500 * 1.5
-        )
+        # print(fig_dict)
 
         ### this is for testing ###
         # with open("tests/app_scores_before_revert.csv", "a") as f:
@@ -233,8 +224,24 @@ def generate_dashboard(
         #     row = [round(anxious_score, 2), round(avoidant_score, 2)]
         #     writer.writerow(row)
 
-        return True, fig, description
+        return True, fig, description, fig_json
 
+@callback(
+    Output("dummy-div-pic-download-others", "style"),
+    Input("figure-store-others", "data"),
+    prevent_initial_call=True,
+)
+def download_plot_picture(fig_json):
+    
+    fig = pio.from_json(fig_json)
+
+    logger.info("Saving the image...")
+    pio.write_image(
+        fig, "tmp/figure.png", width=700, height=500
+    )
+    logger.info("Image saved")
+    
+    return {}
 
 # Dwnload report
 @callback(
