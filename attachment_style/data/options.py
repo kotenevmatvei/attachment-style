@@ -1,4 +1,3 @@
-
 attachment_style_options: dict[str, str] = {
     "Avoidant Score": "avoidant_score",
     "Secure Score": "secure_score",
@@ -36,3 +35,9 @@ demographics_labels_values: tuple[dict[str, str], ...] = (
     {"label": "Therapy Experience", "value": "therapy_experience"},
     {"label": "Relationship Status", "value": "relationship_status"},
 )
+
+demographics_radio_options = [
+    ["gender", "Gender"],
+    ["therapy_experience", "Therapy Experience"],
+    ["relationship_status", "Relationship Status"],
+]
