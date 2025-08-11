@@ -9,16 +9,16 @@ import plotly.express as px
 BoxCard = dmc.Card(
     children=[
         dmc.Title("Box Plot", order=2, c="blue", ta="center"),
-        dmc.Text("Select Demographic Variable:", size="lg"),
         dmc.RadioGroup(
+            label="Select demographic variable",
             id="demographic-radio",
             children=dmc.Group([dmc.Radio(l, value=k) for k, l in demographics_radio_options]),
-            size="lg",
+            size="md",
             value="gender",
             mb="xs",
         ),
-        dmc.Text("Select Attachment Style:", size="lg"),
         dmc.Select(
+            label="Select attachment style",
             id="attachment-style-dropdown-demographics",
             data=attachment_style_labels_values,
             value="avoidant_score",

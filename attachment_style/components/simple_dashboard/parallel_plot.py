@@ -8,20 +8,20 @@ import plotly.express as px
 ParallelCard = dmc.Card(
     [
         dmc.Title("Parllel Coordinates", order=2, c="blue", ta="center"),
-        dmc.Text("Select Variables:", size="lg"),
         dmc.MultiSelect(
+            label="Select Variables",
             id="parallel-categories-dropdown",
             data=demographics_labels_values,
             value=["gender", "therapy_experience"],
-            size="lg",
+            size="md",
         ),
-        dmc.Text("Color By Attachment Style:", size="lg"),
         dmc.Select(
+            label="Color By Attachment Style:",
             id="parallel-color-dropdown",
             data=attachment_style_labels_values
             + ({"label": "Any", "value": "any"},),
             value="anxious_score",
-            size="lg",
+            size="md",
         ),
         dcc.Graph(id="parallel-graph"),
     ],

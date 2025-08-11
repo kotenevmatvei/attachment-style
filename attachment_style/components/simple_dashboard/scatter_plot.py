@@ -13,42 +13,32 @@ import plotly.express as px
 ScatterCard = dmc.Card(
     children=[
         dmc.Title("Scatter 2D", order=2, c="blue", ta="center"),
-        dmc.Text("Color by", size="lg"),
         dmc.RadioGroup(
+            label="Color by",
             id="scatter-color-radio",
             children=dmc.Group(
                 [dmc.Radio(l, value=k) for k, l in demographics_radio_options]
             ),
-            size="lg",
+            size="md",
             value="gender",
             mb="xs",
         ),
         dmc.Group(
             children=[
-                dmc.Stack(
-                    children=[
-                        dmc.Text("Select X-axis Variable:", size="lg"),
-                        dmc.Select(
-                            id="scatter-x-dropdown",
-                            data=({"label": "Age", "value": "age"},)
-                            + attachment_score_labels_values,
-                            value="age",
-                            size="md",
-                        ),
-                    ],
-                    gap=0,
+                dmc.Select(
+                    label="Select X-axis Variable:",
+                    id="scatter-x-dropdown",
+                    data=({"label": "Age", "value": "age"},)
+                    + attachment_score_labels_values,
+                    value="age",
+                    size="md",
                 ),
-                dmc.Stack(
-                    children=[
-                        dmc.Text("Select Y-axis Variable:", size="lg"),
-                        dmc.Select(
-                            id="scatter-y-dropdown",
-                            data=attachment_score_labels_values,
-                            value="avoidant_score",
-                            size="md",
-                        ),
-                    ],
-                    gap=0,
+                dmc.Select(
+                    label="Select Y-axis Variable:",
+                    id="scatter-y-dropdown",
+                    data=attachment_score_labels_values,
+                    value="avoidant_score",
+                    size="md",
                 ),
             ]
         ),

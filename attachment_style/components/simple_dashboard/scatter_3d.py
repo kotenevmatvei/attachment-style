@@ -12,13 +12,13 @@ import plotly.express as px
 Scatter3dCard = dmc.Card(
     children=[
         dmc.Title("Scatter 3D", order=2, c="blue", ta="center"),
-        dmc.Text("Color by", size="lg"),
         dmc.RadioGroup(
+            label="Color by",
             id="scatter3d-color-radio",
             children=dmc.Group(
                 [dmc.Radio(l, value=k) for k, l in demographics_radio_options]
             ),
-            size="lg",
+            size="md",
             value="gender",
             mb=0,
         ),
