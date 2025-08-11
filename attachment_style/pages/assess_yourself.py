@@ -305,8 +305,8 @@ def download_plot_picture(fig_json):
     fig = pio.from_json(fig_json)
 
     logger.info("Saving the image...")
-    pio.write_image(
-        fig, "tmp/figure.png", width=700, height=500
+    fig.write_image(
+        "tmp/figure_you.png", width=700, height=500
     )
     logger.info("Image saved")
     

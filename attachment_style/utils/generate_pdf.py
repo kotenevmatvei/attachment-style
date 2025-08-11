@@ -9,8 +9,9 @@ from reportlab.platypus import (
 )
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
-kaleido = "0.1.0.post1"
+import logging
 
+logger = logging.getLogger(__name__)
 
 def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
     top_margin = 0.5 * 72
@@ -25,8 +26,16 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
     # add space
     story.append(Spacer(0, 10))
     # add chart
-    chart = Image("tmp/figure.png", width=700 / 2, height=500 / 2)
-    story.append(chart)
+    if len(answers) == 36:
+        chart = Image("tmp/figure_you.png", width=700 / 2, height=500 / 2)
+        story.append(chart)
+    elif len(answers) == 33:
+        chart = Image("tmp/figure_others.png", width=700 / 2, height=500 / 2)
+        story.append(chart)
+    else:
+        logger.error("The number of answers is wrong. Not able to add a chart.")
+        
+    
     # add a horizontal ruler to divide next section
     story.append(
         HRFlowable(

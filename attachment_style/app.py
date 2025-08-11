@@ -2,6 +2,8 @@ from dash import Dash, page_container, html, Output, Input, dcc
 import dash_bootstrap_components as dbc
 from components.navbar import Navbar, NavbarMobile
 from components.footer import Footer
+import plotly.graph_objects as go
+import plotly.io as pio
 
 import logging
 
@@ -14,6 +16,22 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
+
+# since with freakin kaleido 1.0.0. upgrade we cannot create a persistant chromium
+# process, it starts up everytime one exports a picture - and closes after that...
+# this way we at least cache it on the startup, so that the first download doesn't take
+# 8 seconds or so...
+def prewarm_kaleido():
+    logger.info("\nPrewarming freakin kaleido")
+    fig = go.Figure(go.Bar(y=[1, 2, 3]))
+    try:
+        pio.write_image(fig, "/tmp/kaleido_warmup.png", width=100, height=100)
+        logger.info("\nDone prewarming freakin kaleido")
+    except Exception:
+        pass
+        logger.error("\Failed prewarming freakin kaleido")
+
+prewarm_kaleido()
 
 app = Dash(
     __name__,
@@ -98,6 +116,5 @@ def fold_navbar_mobile_when_clicked_outside(click):
 
 
 if __name__ == "__main__":
-    logger.info("Starting the app...")
     app.run_server(host="0.0.0.0", port=8080)
     # app.run(debug=True)
