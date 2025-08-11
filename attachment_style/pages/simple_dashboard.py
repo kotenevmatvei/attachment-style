@@ -23,9 +23,45 @@ def layout(**kwargs):
     return dmc.MantineProvider(
         children=[
             dmc.Flex(
-                # cols=2,
-                # spacing="sm",
-                # verticalSpacing="sm",
+                gap="md",
+                justify="center",
+                align="center",
+                direction="row",
+                wrap="wrap",
+                mt="xl",
+                mb="xl",
+                children=[
+                    dmc.Badge("Total submissions: 124", size="xl", p="lg"),
+                    dmc.Badge("Most common style: Anxious", size="xl", p="lg"),
+                    dmc.Badge("Avg anxious score: 2.5", size="xl", p="lg"),
+                    dmc.Badge("Avg avoidant score: 2.5", size="xl", p="lg"),
+                    dmc.Badge("Avg secure score: 2.5", size="xl", p="lg"),
+                ],
+            ),
+            dmc.Flex(
+                gap="md",
+                justify="center",
+                align="center",
+                direction="row",
+                wrap="wrap",
+                mb="md",
+                children=[
+                    dmc.Button("Refresh data", size="md", mr="xs"),
+                    dmc.Text("Select the dataset:", size="lg"),
+                    dmc.MultiSelect(
+                        # label="Select the dataset:",
+                        data=[
+                            {"label": "Assess Yourself", "value": "assess_yourself"},
+                            {"label": "Assess Others", "value": "assess_others"},
+                        ],
+                        value=["assess_yourself", "assess_others"],
+                        size="lg",
+                        comboboxProps={"shadow": "lg"},
+                    ),
+                    dmc.Checkbox("Include test data", size="lg", mr="xs"),
+                ],
+            ),
+            dmc.Flex(
                 gap="md",
                 justify="center",
                 direction="row",
@@ -35,10 +71,8 @@ def layout(**kwargs):
                     ScatterCard,
                     Scatter3dCard,
                     ParallelCard,
-                ]
+                ],
             ),
-            dcc.Store("data-store", data=scores)
+            dcc.Store("data-store", data=scores),
         ]
     )
-
-
