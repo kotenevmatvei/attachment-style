@@ -32,7 +32,7 @@ from components.results_chart_others import ResultChartOthers
 from components.demographics_questionnaire_others import DemographicQuestionnaireOthers
 
 logger = logging.getLogger(__name__)
-register_page(__name__, path="/asses-others")
+register_page(__name__, path="/assess-others")
 
 
 def layout(**kwargs):

@@ -12,7 +12,7 @@ from components.simple_dashboard.scatter_3d import Scatter3dCard
 
 logger = logging.getLogger(__name__)
 
-register_page(__name__, path="/simple_dashboard")
+register_page(__name__, path="/simple-dashboard")
 
 fig = go.Figure()
 scores = retrieve_scores_from_db()

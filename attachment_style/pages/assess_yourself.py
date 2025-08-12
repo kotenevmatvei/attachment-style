@@ -21,7 +21,7 @@ import dash_bootstrap_components as dbc
 
 from components.question_card import QuestionCard
 from components.results_chart import ResultsChart
-from components.demographics_questionnaire import DemographicsQuestionnaire
+from components.demographics_questionnaire_revised import DemographicsQuestionnaire
 
 from utils.utils import (
     build_ecr_r_chart,
@@ -50,29 +50,29 @@ def layout(**kwargs):
                 id="personal-questionnaire-collapse",
                 is_open=True,
             ),
-            dbc.Collapse(
-                [
-                    dcc.Markdown(
-                        """
-                        Please adjust the slider below to evaluate how much you can 
-                        relate to the following statements on the scale from 0 to 10.  
-                        (e.g. 4 meaning you can agree 40% of the time).  
-                        You can use the back and forth buttons to navigate between questions.
-                        """,
-                        className="text-center",
-                    ),
-                    QuestionCard,
-                ],
-                id="question-card-collapse",
-                is_open=False,
-            ),
-            dbc.Collapse(
-                dbc.Button("To Results", id="submit-test-button"),
-                id="submit-test-collapse",
-                is_open=False,
-                className="mb-4 text-center",
-            ),
-            ResultsChart,
+            # dbc.Collapse(
+            #     [
+            #         dcc.Markdown(
+            #             """
+            #             Please adjust the slider below to evaluate how much you can 
+            #             relate to the following statements on the scale from 0 to 10.  
+            #             (e.g. 4 meaning you can agree 40% of the time).  
+            #             You can use the back and forth buttons to navigate between questions.
+            #             """,
+            #             className="text-center",
+            #         ),
+            #         QuestionCard,
+            #     ],
+            #     id="question-card-collapse",
+            #     is_open=False,
+            # ),
+            # dbc.Collapse(
+            #     dbc.Button("To Results", id="submit-test-button"),
+            #     id="submit-test-collapse",
+            #     is_open=False,
+            #     className="mb-4 text-center",
+            # ),
+            # ResultsChart,
             # storage
             dcc.Store(
                 id="questions-storage",
@@ -176,7 +176,7 @@ def show_submit_button(last_question_visited: bool) -> bool:
         Output("dashboard-collapse", "is_open", allow_duplicate=True),
         Output("last-question-visited", "data", allow_duplicate=True),
     ],
-    [Input("assess-yourself", "n_clicks"), Input("asses-others", "n_clicks")],
+    [Input("assess-yourself", "n_clicks"), Input("assess-others", "n_clicks")],
     prevent_initial_call=True,
 )
 def switch_subject(yourself_clicks, others_clicks):
