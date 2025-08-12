@@ -10,7 +10,6 @@ DemographicsQuestionnaire = dmc.Container(
     size="xl",
     py="xl",
     children=[
-        # Page title at the top
         dmc.Title(
             "Assess Yourself",
             order=1,
@@ -19,7 +18,6 @@ DemographicsQuestionnaire = dmc.Container(
             mb="xl",
         ),
         
-        # Enhanced header section with corrected text
         dmc.Stack(
             children=[
                 dmc.Title(
@@ -30,7 +28,7 @@ DemographicsQuestionnaire = dmc.Container(
                     mb="xs",
                 ),
                 dmc.Text(
-                    "This information helps us create your personalized dashboard",  # Updated text
+                    "This information is anonymous as and helps us create the [dashboard]",
                     ta="center",
                     c="dimmed",
                     size="lg",
@@ -40,18 +38,17 @@ DemographicsQuestionnaire = dmc.Container(
             gap="xs",
         ),
         
-        # Enhanced form section with cards
         dmc.Paper(
             children=[
                 dmc.SimpleGrid(
                     cols={"base": 1, "sm": 2},
                     spacing="lg",
                     children=[
-                        # Age input
                         dmc.Stack(
                             children=[
                                 dmc.Text("Age", fw=500, size="sm", c="gray.7"),
                                 dmc.NumberInput(
+                                    id="age-input",
                                     placeholder="How old are you?",
                                     min=10,
                                     max=120,
@@ -68,6 +65,7 @@ DemographicsQuestionnaire = dmc.Container(
                             children=[
                                 dmc.Text("Relationship status", fw=500, size="sm", c="gray.7"),
                                 dmc.Select(
+                                    id="relationship-status-input",
                                     placeholder="Select your status",
                                     data=relationship_labels_values,
                                     size="lg",
@@ -83,6 +81,7 @@ DemographicsQuestionnaire = dmc.Container(
                             children=[
                                 dmc.Text("Therapy experience", fw=500, size="sm", c="gray.7"),
                                 dmc.Select(
+                                    id="therapy-experience-input",
                                     placeholder="Select your experience level",
                                     data=therapy_labels_values,
                                     size="lg",
@@ -98,6 +97,7 @@ DemographicsQuestionnaire = dmc.Container(
                             children=[
                                 dmc.Text("Gender", fw=500, size="sm", c="gray.7"),
                                 dmc.Select(
+                                    id="gender-input",
                                     placeholder="Select gender",
                                     data=gender_labels_values,
                                     size="lg",
@@ -120,6 +120,7 @@ DemographicsQuestionnaire = dmc.Container(
         dmc.Center(
             dmc.Button(
                 "Continue to the test",
+                id="submit-test-button",
                 size="lg",
                 radius="xl",
                 leftSection=DashIconify(icon="tabler:arrow-right", width=20),

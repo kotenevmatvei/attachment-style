@@ -3,6 +3,7 @@ from dash import Dash, callback, Input, Output, State, dcc, page_container
 from dash_iconify import DashIconify
 
 from components.header_revised import header
+from components.question_card import QuestionCard
 
 # Set React version for DMC 0.14+
 # _dash_renderer._set_react_version("18.2.0")
