@@ -14,7 +14,7 @@ DemographicsQuestionnaire = dmc.Container(
             "Assess Yourself",
             order=1,
             ta="center",
-            c="gray.8",
+            c="blue",
             mb="xl",
         ),
         
@@ -24,7 +24,7 @@ DemographicsQuestionnaire = dmc.Container(
                     "Help us understand your background",
                     order=2,
                     ta="center",
-                    c="gray.7",
+                    c="secondary",
                     mb="xs",
                 ),
                 dmc.Text(

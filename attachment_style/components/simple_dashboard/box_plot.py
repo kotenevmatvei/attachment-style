@@ -6,9 +6,13 @@ from data.options import demographics_labels_values, attachment_style_labels_val
 import pandas as pd
 import plotly.express as px
 
+
+dmc.add_figure_templates()
+
 BoxCard = dmc.Card(
     children=[
-        dmc.Title("Box Plot", order=2, c="blue", ta="center"),
+        dmc.CardSection(dmc.Title("Box Plot", order=2, c="blue", ta="center"), withBorder=True, p="md"),
+        # dmc.CardSection("Box Plot", withBorder=True, p="md", c="primary"),
         dmc.RadioGroup(
             label="Select demographic variable",
             id="demographic-radio",
@@ -48,6 +52,7 @@ def update_box_graph(demographic, selected_style, data):
         y=selected_style,
         title=f'{selected_style.split("_")[0].capitalize()} '
         f'Attachment Scores by {demographic.replace("_", " ").title()}',
+        template="mantine_dark",
     )
     fig.update_xaxes(title=demographic.replace("_", " ").title())
     fig.update_yaxes(

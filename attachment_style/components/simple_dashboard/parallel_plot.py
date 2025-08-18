@@ -5,6 +5,8 @@ from data.options import demographics_labels_values, attachment_style_labels_val
 import pandas as pd
 import plotly.express as px
 
+dmc.add_figure_templates()
+
 ParallelCard = dmc.Card(
     [
         dmc.Title("Parllel Coordinates", order=2, c="blue", ta="center"),
@@ -58,5 +60,6 @@ def update_parallel_graph(selected_dims, color_by, data):
             color=color_by,
             color_continuous_scale=px.colors.sequential.Inferno,
             title="Parallel Categories Diagram",
+            template="mantine_light",
         )
     return fig

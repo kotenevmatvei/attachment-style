@@ -1,4 +1,5 @@
 from dash import Input, Output, html, callback, register_page, dcc
+from dash_iconify import DashIconify
 import dash_bootstrap_components as dbc
 import dash_mantine_components as dmc
 from utils.utils import retrieve_scores_from_db
@@ -22,21 +23,74 @@ logger.info("Retrieved scores from the db for the first time")
 def layout(**kwargs):
     return dmc.MantineProvider(
         children=[
-            dmc.Flex(
-                gap="md",
-                justify="center",
-                align="center",
-                direction="row",
-                wrap="wrap",
-                mt="xl",
-                mb="xl",
-                children=[
-                    dmc.Badge("Total submissions: 124", size="xl", p="lg"),
-                    dmc.Badge("Most common style: Anxious", size="xl", p="lg"),
-                    dmc.Badge("Avg anxious score: 2.5", size="xl", p="lg"),
-                    dmc.Badge("Avg avoidant score: 2.5", size="xl", p="lg"),
-                    dmc.Badge("Avg secure score: 2.5", size="xl", p="lg"),
+            # Replace the top badges section with a proper header
+            dmc.Paper(
+                [
+                    dmc.Group(
+                        [
+                            dmc.Stack(
+                                [
+                                    dmc.Text(
+                                        "Attachment Style Dashboard",
+                                        size="xl",
+                                        fw=700,
+                                    ),
+                                    dmc.Text(
+                                        "Real-time analytics from survey responses",
+                                        size="sm",
+                                        c="dimmed",
+                                    ),
+                                ],
+                                gap="xs",
+                            ),
+                            dmc.Button(
+                                "Refresh Data",
+                                leftSection=DashIconify(
+                                    icon="tabler:refresh", width=16
+                                ),
+                                variant="light",
+                            ),
+                        ],
+                        justify="space-between",
+                        align="center",
+                    ),
+                    # Statistics in a grid instead of badges
+                    dmc.SimpleGrid(
+                        cols=5,
+                        children=[
+                            dmc.Paper(
+                                [
+                                    dmc.Stack(
+                                        [
+                                            dmc.Text(
+                                                "124",
+                                                size="xl",
+                                                fw=700,
+                                                ta="center",
+                                            ),
+                                            dmc.Text(
+                                                "Total Submissions",
+                                                size="sm",
+                                                c="dimmed",
+                                                ta="center",
+                                            ),
+                                        ],
+                                        gap=0,
+                                    )
+                                ],
+                                p="md",
+                                radius="md",
+                                withBorder=True,
+                            ),
+                            # Repeat for other stats...
+                        ],
+                        spacing="md",
+                    ),
                 ],
+                p="lg",
+                radius="md",
+                shadow="sm",
+                mb="xl",
             ),
             dmc.Flex(
                 gap="md",

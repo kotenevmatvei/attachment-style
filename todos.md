@@ -12,12 +12,12 @@
 
 
 # frontend
+- [ ] write stepper component
+- [ ]
 - [x] add scores legend to ecr-r graph (ugly for now)
     - [ ] center
     - [ ] color
     - [ ] font
-- [ ] make slider ticks bigger
-- [ ] add strongly disagree - neutral - strongly agree legend
 
 - [ ] design new dashboard layout
 
