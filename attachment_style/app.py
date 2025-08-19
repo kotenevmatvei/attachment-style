@@ -1,118 +1,60 @@
-from dash import Dash, page_container, html, Output, Input, dcc
-import dash_bootstrap_components as dbc
-from components.navbar import Navbar, NavbarMobile
-from components.footer import Footer
-import plotly.graph_objects as go
-import plotly.io as pio
+import dash_mantine_components as dmc
+from dash import Dash, callback, Input, Output, State, dcc, page_container
+from dash_iconify import DashIconify
 
-import logging
+from components.header_revised import header
+from components.question_card import QuestionCard
 
-logging.basicConfig(
-    level=logging.INFO,
-    # format="{asctime} - {levelname} - {filename} - {funcName} - {message}",
-    format="APP: {levelname} - {filename} - {funcName} - {message}",
-    style="{",
-    datefmt="%Y-%m-%d %H:%M",
-)
+# Set React version for DMC 0.14+
+# _dash_renderer._set_react_version("18.2.0")
 
-logger = logging.getLogger(__name__)
+# Required stylesheets for full DMC functionality
+stylesheets = [
+    "https://unpkg.com/@mantine/dates@7/styles.css",
+    "https://unpkg.com/@mantine/code-highlight@7/styles.css",
+    "https://unpkg.com/@mantine/charts@7/styles.css",
+    "https://unpkg.com/@mantine/carousel@7/styles.css",
+    "https://unpkg.com/@mantine/notifications@7/styles.css",
+    "https://unpkg.com/@mantine/nprogress@7/styles.css",
+]
 
-# since with freakin kaleido 1.0.0. upgrade we cannot create a persistant chromium
-# process, it starts up everytime one exports a picture - and closes after that...
-# this way we at least cache it on the startup, so that the first download doesn't take
-# 8 seconds or so...
-def prewarm_kaleido():
-    logger.info("\nPrewarming freakin kaleido")
-    fig = go.Figure(go.Bar(y=[1, 2, 3]))
-    try:
-        pio.write_image(fig, "/tmp/kaleido_warmup.png", width=100, height=100)
-        logger.info("\nDone prewarming freakin kaleido")
-    except Exception:
-        pass
-        logger.error("\Failed prewarming freakin kaleido")
+app = Dash(__name__, external_stylesheets=stylesheets, use_pages=True)
 
-prewarm_kaleido()
-
-app = Dash(
-    __name__,
-    use_pages=True,
-    external_stylesheets=[dbc.themes.FLATLY, dbc.icons.BOOTSTRAP],
-)
-server = app.server
-
-app.layout = html.Div(
+app_shell = dmc.AppShell(
     [
-        html.Div(id="opacity"),
-        html.Div(
-            [
-                html.Div(id="dummy"),
-                Navbar,
-                html.Div(
+        dmc.AppShellHeader(header, h=80),
+        dmc.AppShellMain(
+            dmc.Container(
+                [
+                    # dmc.Title("Assess Yourself", order=1, mt="xl"),
                     page_container,
-                    style={
-                        "flex": "1",
-                        "padding-left": "10px",
-                        "padding-right": "10px",
-                    },
-                    className="page-container",
-                ),
-                Footer,
-            ],
-            style={
-                "display": "flex",
-                "flexDirection": "column",
-                "height": "100vh",
-                "padding-right": "10%",
-                "padding-left": "10%",
-            },
-            className="body-response",
-            id="main",
+
+                    # dmc.Text(
+                    #     "This is your main content area.",
+                    #     size="lg",
+                    #     c="dimmed",
+                    #     mt="md",
+                    # ),
+                ],
+                size="xl",
+                py="xl",
+            )
         ),
-        NavbarMobile,
-        dcc.Store(id="window-width"),
     ],
+    header={"height": 80},
+    padding="md",
+    id="app-shell",
 )
 
-
-# add event listener for window resizing
-app.clientside_callback(
-    """
-    function(trigger) {
-        function dummyClick() {
-            document.getElementById('dummy').click()
-        };
-        
-        window.addEventListener('resize', dummyClick)
-        return window.dash_clientside.no_update
-    }
-    """,
-    Output("dummy", "style"),
-    Input("dummy", "style"),
-)
-
-# store current dimension in store
-app.clientside_callback(
-    """
-    function updateStore(click) {
-        var w = window.innerWidth;
-        return [w]
-    }
-    """,
-    Output("window-width", "data"),
-    Input("dummy", "n_clicks"),
-)
-
-@app.callback(
+# Main layout
+app.layout = dmc.MantineProvider(
     [
-        Output("Sidenav", "className", allow_duplicate=True),
-        Output("opacity", "className", allow_duplicate=True),
+        dcc.Store(id="theme-store", storage_type="local", data="light"),
+        app_shell,
     ],
-    Input("opacity", "n_clicks"),
-    prevent_initial_call=True,
+    id="mantine-provider",
+    forceColorScheme="light",
 )
-def fold_navbar_mobile_when_clicked_outside(click):
-    return "", ""
-
 
 
 if __name__ == "__main__":
