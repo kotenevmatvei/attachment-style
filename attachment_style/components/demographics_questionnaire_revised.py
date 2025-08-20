@@ -1,4 +1,5 @@
 import dash_mantine_components as dmc
+import constants
 from dash_iconify import DashIconify
 from data.options import (
     therapy_labels_values,
@@ -14,7 +15,7 @@ DemographicsQuestionnaireRevised = dmc.Container(
             "Assess Yourself",
             order=1,
             ta="center",
-            c="prmary",
+            c=constants.PRIMARY,
             mb="xl",
         ),
         
@@ -24,7 +25,7 @@ DemographicsQuestionnaireRevised = dmc.Container(
                     "Help us understand your background",
                     order=2,
                     ta="center",
-                    c="secondary",
+                    c="gray.6",
                     mb="xs",
                 ),
                 dmc.Text(
