@@ -1,1 +1,6 @@
 PRIMARY = "#3E729F"
+
+STEEL_BLUE_SHADES = [
+    "#EAF2F8", "#C5D9E9", "#A0C0DA", "#7BA7CB", "#558EBC",
+    "#4682B4", "#3E729F", "#36628A", "#2E5275", "#264260"
+]

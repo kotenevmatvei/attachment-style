@@ -2,6 +2,7 @@ import dash_mantine_components as dmc
 from dash import Dash, callback, Input, Output, State, dcc, page_container
 from dash_iconify import DashIconify
 import logging
+import constants
 
 from components.header_revised import header
 
@@ -56,18 +57,13 @@ app_shell = dmc.AppShell(
     id="app-shell",
 )
 
-steel_blue_shades = [
-    "#EAF2F8", "#C5D9E9", "#A0C0DA", "#7BA7CB", "#558EBC",
-    "#4682B4", "#3E729F", "#36628A", "#2E5275", "#264260"
-]
-
 # Main layout
 app.layout = dmc.MantineProvider(
     id="mantine-provider",
     forceColorScheme="light",
     theme={"colors": {
-        "steelprmary": steel_blue_shades}, "primaryColor": "steelprmary",
-        "primaryShade": 6},
+        "steelprmary": constants.STEEL_BLUE_SHADES}, "primaryColor": "steelprmary",
+    "primaryShade": 6},
     children=[
         dcc.Store(id="theme-store", storage_type="local", data="light"),
         app_shell,

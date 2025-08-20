@@ -9,13 +9,32 @@ from components.subject_switch import SubjectSwitch
 
 register_page(__name__, path="/")
 
+
 def layout(**kwargs):
     return dmc.Container(
         mt="lg",
         children=[
-            SubjectSwitch,
-            DemographicsQuestionnaireRevised,
-            QuestionComponent,
+            dmc.Collapse(
+                id="subject-switch-collapse",
+                opened=True,
+                children=[
+                    SubjectSwitch,
+                ]
+            ),
+            dmc.Collapse(
+                id="demographics-questionnaire-collapse",
+                opened=False,
+                children=[
+                    DemographicsQuestionnaireRevised,
+                ]
+            ),
+            dmc.Collapse(
+                opened=False,
+                id="question-card-collapse",
+                children=[
+                    QuestionComponent,
+                ]
+            ),
             build_results_board(),
         ]
     )
