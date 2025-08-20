@@ -1,81 +1,68 @@
-from dash import register_page, html, dcc
-import dash_bootstrap_components as dbc
+from dash import register_page, Output, Input, State, callback
+import dash_mantine_components as dmc
+
+from components.demographics_questionnaire_revised import DemographicsQuestionnaireRevised
+# from components.question_card import QuestionCard
+from components.question_card_revised import QuestionComponent
+from components.results_revised import build_results_board
+from components.subject_switch import SubjectSwitch
 
 register_page(__name__, path="/")
 
-
 def layout(**kwargs):
-    return dbc.Container(
-        [
-            # header
-            dbc.Row(
-                dbc.Col(
-                    html.H3(
-                        "Welcome to the Attachment Style Quiz!",
-                        className="d-flex text-center mb-4 justify-content-center",
-                    ),
-                )
-            ),
-            dbc.Row(
-                dbc.Col(
-                    [
-                        dcc.Markdown(
-                            """                
-                            Attachment style theory is a psychological model that describes 
-                            how we interact with others in our relationships.\n                 
-                            This test includes 
-                            two questionnaires to help you determine your attachment style, or 
-                            that of your partner or someone else. [Assess Yourself](/assess-yourself) is a rather 
-                            subjective version that one can only really answer for oneself. 
-                            [Assess Others](/asses-others) offers more behavior-based questions that can 
-                            be answered with regard to someone else - *as well as yourself*. At the end
-                            you can download a pdf with all your answers.\n  
-                            The dashboard page presents the data collected so far
-                            visualized in multiple plots.
-                            """,
-                        )
-                    ],
-                    width=12,
-                    xl=8,
-                    className="mx-auto",
-                )
-            ),
-            dbc.Row(
-                [
-                    dbc.Col(
-                        dbc.Button(
-                            "Assess Yourself",
-                            href="/assess-yourself",
-                            color="primary",
-                            className="d-flex justify-content-center",
-                        ),
-                        width=6,
-                        sm={"size": 3, "offset": 3},
-                    ),
-                    dbc.Col(
-                        dbc.Button(
-                            "Assess Others",
-                            href="/asses-others",
-                            color="primary",
-                            className="d-flex justify-content-center",
-                        ),
-                        width=6,
-                        sm={"size": 3, "offset": 0},
-                    ),
-                ],
-            ),
-            dbc.Row(
-                dbc.Col(
-                    dbc.Button(
-                        "Dashboard",
-                        href="/dashboard",
-                        color="primary",
-                        className="d-flex justify-content-center",
-                    ),
-                    width=12,
-                    sm={"size": 4, "offset": 4},
-                ),
-                className="mt-3",
-            ),
-        ],
+    return dmc.Container(
+        mt="lg",
+        children=[
+            SubjectSwitch,
+            DemographicsQuestionnaireRevised,
+            QuestionComponent,
+            build_results_board(),
+        ]
     )
+
+# submit personal questionnaire
+# @callback(
+#     [
+#         Output("personal-questionnaire-collapse", "is_open"),
+#         Output("question-card-collapse", "is_open"),
+#         Output("personal-questionnaire-error", "hidden"),
+#         Output("personal-answers", "data"),
+#         Output("personal-questionnaire-error", "children"),
+#     ],
+#     Input("submit-personal-questionnaire", "n_clicks"),
+#     [
+#         State("age-input", "value"),
+#         State("relationship-status-input", "value"),
+#         State("gender-input", "value"),
+#         State("therapy-experience-input", "value"),
+#     ],
+# )
+# def sumbmit_personal_questionnaire(
+#     n_clicks, age, relationship_status, gender, therapy_experience
+# ):
+#     if n_clicks:
+#         if all([age, relationship_status, gender, therapy_experience]):
+#             if age < 0 or age > 100:
+#                 return True, False, False, {}, "Please enter a valid age"
+#             return (
+#                 False,
+#                 True,
+#                 True,
+#                 {
+#                     "age": age,
+#                     "relationship_status": relationship_status,
+#                     "gender": gender,
+#                     "therapy_experience": therapy_experience,
+#                 },
+#                 "",
+#             )
+# 
+#         else:
+#             return (
+#                 True,
+#                 False,
+#                 False,
+#                 {},
+#                 "Please fill out all fields before continuing",
+#              )
+#     return True, False, True, {}, ""

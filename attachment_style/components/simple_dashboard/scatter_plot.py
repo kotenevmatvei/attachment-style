@@ -9,10 +9,11 @@ from data.options import (
 )
 import pandas as pd
 import plotly.express as px
+import constants
 
 ScatterCard = dmc.Card(
     children=[
-        dmc.Title("Scatter 2D", order=2, c="blue", ta="center"),
+        dmc.Title("Scatter 2D", order=2, c=constants.PRIMARY, ta="center"),
         dmc.RadioGroup(
             label="Color by",
             id="scatter-color-radio",

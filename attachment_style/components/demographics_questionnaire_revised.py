@@ -6,7 +6,7 @@ from data.options import (
     relationship_labels_values,
 )
 
-DemographicsQuestionnaire = dmc.Container(
+DemographicsQuestionnaireRevised = dmc.Container(
     size="xl",
     py="xl",
     children=[
@@ -14,7 +14,7 @@ DemographicsQuestionnaire = dmc.Container(
             "Assess Yourself",
             order=1,
             ta="center",
-            c="blue",
+            c="prmary",
             mb="xl",
         ),
         
@@ -125,7 +125,7 @@ DemographicsQuestionnaire = dmc.Container(
                 radius="xl",
                 leftSection=DashIconify(icon="tabler:arrow-right", width=20),
                 variant="gradient",
-                gradient={"from": "blue", "to": "cyan"},
+                gradient={"from": "prmary", "to": "cyan"},
                 mt="xl",
                 px="xl",
             ),

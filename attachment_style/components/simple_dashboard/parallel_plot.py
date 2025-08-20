@@ -4,12 +4,13 @@ import dash_mantine_components as dmc
 from data.options import demographics_labels_values, attachment_style_labels_values
 import pandas as pd
 import plotly.express as px
+import constants
 
 dmc.add_figure_templates()
 
 ParallelCard = dmc.Card(
     [
-        dmc.Title("Parllel Coordinates", order=2, c="blue", ta="center"),
+        dmc.Title("Parllel Coordinates", order=2, c=constants.PRIMARY, ta="center"),
         dmc.MultiSelect(
             label="Select Variables",
             id="parallel-categories-dropdown",

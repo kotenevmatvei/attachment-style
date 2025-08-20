@@ -1,11 +1,14 @@
 import dash_mantine_components as dmc
+import constants
 
 SubjectSwitch = dmc.Container(
     children=[
-        dmc.Title(
-            "Would you like to test yourself or someone else?",
-            c="blue",
-            mb="lg",
+        dmc.Center(
+            dmc.Title(
+                "Would you like to test yourself or someone else?",
+                c=constants.PRIMARY,
+                mb="lg",
+            ),
         ),
         dmc.Flex(
             align="center",

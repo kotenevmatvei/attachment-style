@@ -34,6 +34,7 @@ def layout(**kwargs):
                                         "Attachment Style Dashboard",
                                         size="xl",
                                         fw=700,
+                                        c="primary",
                                     ),
                                     dmc.Text(
                                         "Real-time analytics from survey responses",

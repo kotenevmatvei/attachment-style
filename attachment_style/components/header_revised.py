@@ -21,8 +21,8 @@ header = dmc.Container(
             dmc.Anchor(
                 dmc.Group(
                     [
-                        DashIconify(icon="tabler:brand-python", width=40, color="blue"),
-                        dmc.Text("Attachment Style Test", size="2rem", fw=900, c="blue"),
+                        DashIconify(icon="tabler:brand-python", width=40, color="prmary"),
+                        dmc.Text("Attachment Style Test", size="2rem", fw=900, c="prmary"),
                     ],
                     gap="sm",
                 ),
@@ -36,22 +36,22 @@ header = dmc.Container(
                     dmc.Group(
                         [
                             dmc.Anchor(
-                                "Home", href="/", underline=False, c="dimmed", fw=500
+                                "Test", href="/", underline=False, c="dimmed", fw=500
                             ),
-                            dmc.Anchor(
-                                "Assess Yourself",
-                                href="/assess-yourself-revised",
-                                underline=False,
-                                c="dimmed",
-                                fw=500,
-                            ),
-                            dmc.Anchor(
-                                "Assess Others",
-                                href="/assess-others",
-                                underline=False,
-                                c="dimmed",
-                                fw=500,
-                            ),
+                            # dmc.Anchor(
+                            #     "Assess Yourself",
+                            #     href="/test",
+                            #     underline=False,
+                            #     c="dimmed",
+                            #     fw=500,
+                            # ),
+                            # dmc.Anchor(
+                            #     "Assess Others",
+                            #     href="/assess-others",
+                            #     underline=False,
+                            #     c="dimmed",
+                            #     fw=500,
+                            # ),
                             dmc.Anchor(
                                 "Dashboard",
                                 href="/simple-dashboard",

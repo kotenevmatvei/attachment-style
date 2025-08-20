@@ -200,7 +200,7 @@ def create_result_interpretation():
                         ],
                         title="Primary Attachment Style",
                         icon=DashIconify(icon="tabler:info-circle"),
-                        color="blue",
+                        color="prmary",
                         variant="light",
                     ),
                     dmc.Text(

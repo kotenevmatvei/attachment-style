@@ -5,13 +5,14 @@ from numpy import size
 from data.options import demographics_labels_values, attachment_style_labels_values, demographics_radio_options
 import pandas as pd
 import plotly.express as px
+import constants
 
 
 dmc.add_figure_templates()
 
 BoxCard = dmc.Card(
     children=[
-        dmc.CardSection(dmc.Title("Box Plot", order=2, c="blue", ta="center"), withBorder=True, p="md"),
+        dmc.CardSection(dmc.Title("Box Plot", order=2, ta="center", c=constants.PRIMARY), withBorder=True, p="md"),
         # dmc.CardSection("Box Plot", withBorder=True, p="md", c="primary"),
         dmc.RadioGroup(
             label="Select demographic variable",
