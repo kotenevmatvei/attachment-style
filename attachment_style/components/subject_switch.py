@@ -2,7 +2,13 @@ from dash import callback, Input, Output
 import dash_mantine_components as dmc
 import constants
 
-SubjectSwitch = dmc.Container(
+SubjectSwitch = dmc.Paper(
+    withBorder=True,
+    radius="xl",
+    shadow="lg",
+    mt="xl",
+    p="xl",
+    pt="xl",
     children=[
         dmc.Center(
             dmc.Title(
@@ -16,7 +22,7 @@ SubjectSwitch = dmc.Container(
             justify="center",
             children=[
                 dmc.Button(
-                    "Test yourself",
+                    "Assess yourself",
                     id="assess-yourself-button",
                     variant="gradient",
                     gradient={"from": constants.PRIMARY, "to": "cyan"},
@@ -25,7 +31,7 @@ SubjectSwitch = dmc.Container(
                     radius="xl",
                 ),
                 dmc.Button(
-                    "Test others",
+                    "Assess others",
                     id="assess-others-button",
                     variant="gradient",
                     gradient={"from": constants.PRIMARY, "to": "cyan"},

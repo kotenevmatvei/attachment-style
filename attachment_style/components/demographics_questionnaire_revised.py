@@ -13,7 +13,7 @@ DemographicsQuestionnaireRevised = dmc.Container(
     py="xl",
     children=[
         dmc.Title(
-            "Assess Yourself",
+            "Demographics",
             order=1,
             ta="center",
             c=constants.PRIMARY,
@@ -22,13 +22,6 @@ DemographicsQuestionnaireRevised = dmc.Container(
         
         dmc.Stack(
             children=[
-                dmc.Title(
-                    "Help us understand your background",
-                    order=2,
-                    ta="center",
-                    c="gray.6",
-                    mb="xs",
-                ),
                 dmc.Text(
                     "This information is anonymous as and helps us create the [dashboard]",
                     ta="center",
