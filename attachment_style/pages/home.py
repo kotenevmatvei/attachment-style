@@ -35,7 +35,13 @@ def layout(**kwargs):
                     QuestionComponent,
                 ]
             ),
-            build_results_board(),
+            dmc.Collapse(
+                opened=False,
+                id="results-board-collapse",
+                children=[
+                    build_results_board(),
+                ]
+            ),
         ]
     )
 

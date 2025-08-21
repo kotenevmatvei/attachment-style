@@ -2,6 +2,7 @@ import dash
 from dash import dcc, html, Input, Output, callback, State
 import dash_mantine_components as dmc
 from dash_iconify import DashIconify
+import constants
 
 # Survey data structure
 survey_data = {
@@ -18,7 +19,6 @@ survey_data = {
         "I strongly agree",
     ],
 }
-
 
 progress_percent = (survey_data["current_item"] / survey_data["total_items"]) * 100
 
@@ -49,7 +49,6 @@ ProgressIndicator = dmc.Group(
     ],
     justify="space-between",
 )
-
 
 QuestionCard = dmc.Paper(
     children=[
@@ -91,9 +90,9 @@ QuestionComponent = dmc.Container(
                         # Progress bar
                         dmc.Progress(
                             value=(
-                                survey_data["current_item"] / survey_data["total_items"]
-                            )
-                            * 100,
+                                          survey_data["current_item"] / survey_data["total_items"]
+                                  )
+                                  * 100,
                             size="sm",
                             radius="xl",
                             color="prmary",
@@ -141,6 +140,20 @@ QuestionComponent = dmc.Container(
                             justify="space-between",
                             mt="xl",
                         ),
+                        dmc.Center(
+                            dmc.Button(
+                                "To Results",
+                                id="to-results-button",
+                                size="lg",
+                                w="25%",
+                                radius="xl",
+                                leftSection=DashIconify(icon="tabler:arrow-right", width=20),
+                                variant="gradient",
+                                gradient={"from": constants.PRIMARY, "to": "cyan"},
+                                mt="xl",
+                                px="xl",
+                            ),
+                        ),
                     ],
                     gap="lg",
                 )
@@ -151,3 +164,18 @@ QuestionComponent = dmc.Container(
         )
     ]
 )
+
+@callback(
+    [
+        Output("results-board-collapse", "opened"),
+        Output("question-card-collapse", "opened", allow_duplicate=True),
+    ],
+    [
+        Input("to-results-button", "n_clicks"),
+    ],
+    prevent_initial_call=True,
+)
+def toggle_results_collapse(to_results_click):
+    if to_results_click:
+        return True, False
+    return False, True
