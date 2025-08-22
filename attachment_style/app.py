@@ -10,11 +10,6 @@ from utils.utils import read_questions
 
 from callbacks.test_page import subject_switch_callback, demographics
 
-# from components.question_card import QuestionCard
-
-# Set React version for DMC 0.14+
-# _dash_renderer._set_react_version("18.2.0")
-
 logging.basicConfig(
     level=logging.INFO,
     # format="{asctime} - {levelname} - {filename} - {funcName} - {message}",
