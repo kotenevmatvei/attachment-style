@@ -7,6 +7,7 @@ import plotly.express as px
 import constants
 
 app = dash.Dash(__name__)
+dmc.add_figure_templates()
 
 # Example results data
 results_data = {
@@ -17,7 +18,7 @@ results_data = {
 }
 
 
-def create_results_chart():
+def create_results_chart(color_scheme="light"):
     """Create a bar chart for attachment scores"""
     fig = go.Figure(
         data=[
@@ -47,7 +48,7 @@ def create_results_chart():
         xaxis_title="Attachment Style",
         yaxis_title="Score (%)",
         yaxis=dict(range=[0, 100]),
-        template="plotly_white",
+        template=f"mantine_{color_scheme}",
         height=400,
         showlegend=False,
         font=dict(size=14),
@@ -270,7 +271,7 @@ def build_results_board():
                     dmc.Paper(
                         [
                             dcc.Graph(
-                                figure=create_results_chart(),
+                                id="results-chart",
                                 config={"displayModeBar": False},
                             )
                         ],
@@ -322,13 +323,11 @@ def build_results_board():
                                 gap="md",
                             )
                         ],
+                        id="download-paper",
                         p="xl",
                         radius="md",
                         withBorder=True,
                         shadow="lg",
-                        style={
-                            "background": "linear-gradient(135deg, #FFF5F5 0%, #FFF8DC 100%)"
-                        },
                     ),
                     # Additional Actions
                     dmc.Group(
@@ -366,6 +365,26 @@ def build_results_board():
         px="xl",
         py="lg",
     )
+
+
+@callback(
+    Output("results-chart", "figure"),
+    Input("mantine-provider", "forceColorScheme"),
+)
+def update_chart_theme(color_scheme):
+    return create_results_chart(color_scheme)
+
+
+@callback(
+    Output("download-paper", "style"),
+    Input("mantine-provider", "forceColorScheme"),
+)
+def update_download_paper_style(color_scheme):
+    if color_scheme == "dark":
+        return {
+            "background": f"linear-gradient(135deg, {dmc.DEFAULT_THEME['colors']['dark'][8]} 0%, {dmc.DEFAULT_THEME['colors']['dark'][6]} 100%)"
+        }
+    return {"background": "linear-gradient(135deg, #FFF5F5 0%, #FFF8DC 100%)"}
 
 
 @callback(
