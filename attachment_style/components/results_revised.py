@@ -4,6 +4,7 @@ import dash_mantine_components as dmc
 from dash_iconify import DashIconify
 import plotly.graph_objects as go
 import plotly.express as px
+import constants
 
 app = dash.Dash(__name__)
 
@@ -200,7 +201,7 @@ def create_result_interpretation():
                         ],
                         title="Primary Attachment Style",
                         icon=DashIconify(icon="tabler:info-circle"),
-                        color="prmary",
+                        color=constants.PRIMARY,
                         variant="light",
                     ),
                     dmc.Text(

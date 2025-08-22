@@ -1,6 +1,7 @@
 import dash_mantine_components as dmc
 from dash import Dash, _dash_renderer, callback, Input, Output, State, dcc
 from dash_iconify import DashIconify
+import constants
 
 # Theme toggle button
 theme_toggle = dmc.ActionIcon(
@@ -21,8 +22,8 @@ header = dmc.Container(
             dmc.Anchor(
                 dmc.Group(
                     [
-                        DashIconify(icon="tabler:brand-python", width=40, color="prmary"),
-                        dmc.Text("Attachment Style Test", size="2rem", fw=900, c="prmary"),
+                        DashIconify(icon="tabler:brand-python", width=40, color=constants.PRIMARY),
+                        dmc.Text("Attachment Style Test", size="2rem", fw=900, c=constants.PRIMARY),
                     ],
                     gap="sm",
                 ),

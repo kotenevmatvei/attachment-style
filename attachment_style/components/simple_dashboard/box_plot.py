@@ -13,7 +13,7 @@ dmc.add_figure_templates()
 BoxCard = dmc.Card(
     children=[
         dmc.CardSection(dmc.Title("Box Plot", order=2, ta="center", c=constants.PRIMARY), withBorder=True, p="md"),
-        # dmc.CardSection("Box Plot", withBorder=True, p="md", c="primary"),
+        # dmc.CardSection("Box Plot", withBorder=True, p="md", c=constants.PRIMARY),
         dmc.RadioGroup(
             label="Select demographic variable",
             id="demographic-radio",

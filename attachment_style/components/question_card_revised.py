@@ -4,7 +4,6 @@ import dash_mantine_components as dmc
 from dash_iconify import DashIconify
 import constants
 
-# Survey data structure
 survey_data = {
     "total_items": 36,
     "current_item": 10,
@@ -35,13 +34,13 @@ ProgressIndicator = dmc.Group(
         dmc.Badge(
             f"Item {survey_data['current_item']} from {survey_data['total_items']} ({int(progress_percent)}%)",
             variant="light",
-            color="prmary",
+            color=constants.PRIMARY,
             size="lg",
         ),
         dmc.Button(
             "FORWARD",
             variant="light",
-            color="prmary",
+            color=constants.PRIMARY,
             size="sm",
             rightSection=DashIconify(icon="tabler:arrow-right", width=16),
             id="forward-button",
@@ -51,6 +50,7 @@ ProgressIndicator = dmc.Group(
 )
 
 QuestionCard = dmc.Paper(
+    id="question-card",
     children=[
         dmc.Text(survey_data["question"], size="lg", fw="bold", ta="center", p="xl")
     ],
@@ -58,7 +58,6 @@ QuestionCard = dmc.Paper(
     p="lg",
     radius="md",
     withBorder=True,
-    style={"backgroundColor": "#f8f9fa"},
 )
 
 ResponseOptions = dmc.Stack(
@@ -89,13 +88,10 @@ QuestionComponent = dmc.Container(
                         ProgressIndicator,
                         # Progress bar
                         dmc.Progress(
-                            value=(
-                                          survey_data["current_item"] / survey_data["total_items"]
-                                  )
-                                  * 100,
+                            value=progress_percent,
                             size="sm",
                             radius="xl",
-                            color="prmary",
+                            color=constants.PRIMARY,
                             mt="sm",
                         ),
                         # Question card
@@ -122,6 +118,7 @@ QuestionComponent = dmc.Container(
                                 dmc.Button(
                                     "Previous",
                                     variant="outline",
+                                    size="md",
                                     color="gray",
                                     leftSection=DashIconify(
                                         icon="tabler:chevron-left", width=16
@@ -130,11 +127,15 @@ QuestionComponent = dmc.Container(
                                 ),
                                 dmc.Button(
                                     "Next",
+                                    variant="light",
+                                    size="md",
+                                    w="15%",
                                     rightSection=DashIconify(
                                         icon="tabler:chevron-right", width=16
                                     ),
+                                    color=constants.PRIMARY,
                                     id="next-button",
-                                    disabled=True,  # Initially disabled until selection is made
+                                    # disabled=True,  # Initially disabled until selection is made
                                 ),
                             ],
                             justify="space-between",
@@ -179,3 +180,14 @@ def toggle_results_collapse(to_results_click):
     if to_results_click:
         return True, False
     return False, True
+
+
+@callback(
+    Output("question-card", "style"),
+    Input("mantine-provider", "forceColorScheme"),
+)
+def update_question_card_style(theme):
+    if theme == "dark":
+        return {"backgroundColor": dmc.DEFAULT_THEME["colors"]["dark"][6]}
+    else:
+        return {"backgroundColor": dmc.DEFAULT_THEME["colors"]["gray"][1]}
