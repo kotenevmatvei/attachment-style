@@ -9,7 +9,6 @@ import constants
 app = dash.Dash(__name__)
 dmc.add_figure_templates()
 
-# Example results data
 results_data = {
     "anxious_score": 65,
     "avoidant_score": 45,
