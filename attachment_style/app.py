@@ -6,6 +6,8 @@ from dash import Dash, dcc, page_container
 import constants
 from components.header_revised import header
 
+from utils.utils import read_questions
+
 from callbacks.test_page import subject_switch_callback
 
 # from components.question_card import QuestionCard
@@ -36,6 +38,11 @@ app = Dash(__name__, external_stylesheets=stylesheets, use_pages=True)
 app_shell = dmc.AppShell(
     [
         dcc.Store(id="subject-store"),
+        dcc.Store(
+            id="questions-storage",
+            data=read_questions("you"),
+            storage_type="memory",
+        ),
         dmc.AppShellHeader(header, h=80),
         dmc.AppShellMain(
             dmc.Container(

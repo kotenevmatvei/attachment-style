@@ -58,8 +58,8 @@ SubjectSwitch = dmc.Paper(
 )
 def toggle_demographics_questionnaire(assess_yourself_click, assess_others_click):
     if assess_yourself_click:
-        return True, True
+        return True, False
     elif assess_others_click:
-        return True, True
+        return True, False
     return False, True
 
