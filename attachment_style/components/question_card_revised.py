@@ -152,7 +152,7 @@ QuestionComponent = dmc.Container(
                                 leftSection=DashIconify(icon="tabler:arrow-right", width=20),
                                 variant="gradient",
                                 gradient={"from": constants.PRIMARY, "to": "cyan"},
-                                mt="xl",
+                                mt="lg",
                                 px="xl",
                             ),
                         ),
