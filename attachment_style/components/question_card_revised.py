@@ -117,7 +117,7 @@ QuestionComponent = dmc.Container(
                             [
                                 dmc.Button(
                                     "Previous",
-                                    variant="outline",
+                                    variant="light",
                                     size="md",
                                     color="gray",
                                     leftSection=DashIconify(
@@ -127,9 +127,10 @@ QuestionComponent = dmc.Container(
                                 ),
                                 dmc.Button(
                                     "Next",
-                                    variant="light",
+                                    # variant="default",
                                     size="md",
                                     w="15%",
+                                    fw="bold",
                                     rightSection=DashIconify(
                                         icon="tabler:chevron-right", width=16
                                     ),
