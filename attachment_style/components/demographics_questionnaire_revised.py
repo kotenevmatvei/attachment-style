@@ -1,7 +1,8 @@
-from dash import callback, Input, Output
 import dash_mantine_components as dmc
-import constants
+from dash import callback, Input, Output
 from dash_iconify import DashIconify
+
+import constants
 from data.options import (
     therapy_labels_values,
     gender_labels_values,
@@ -19,11 +20,11 @@ DemographicsQuestionnaireRevised = dmc.Container(
             c=constants.PRIMARY,
             mb="xl",
         ),
-        
+
         dmc.Stack(
             children=[
                 dmc.Text(
-                    "This information is anonymous as and helps us create the [dashboard]",
+                    "Please fill in the following information for the person to be tested:",
                     ta="center",
                     c="dimmed",
                     size="lg",
@@ -32,7 +33,7 @@ DemographicsQuestionnaireRevised = dmc.Container(
             ],
             gap="xs",
         ),
-        
+
         dmc.Paper(
             children=[
                 dmc.SimpleGrid(
@@ -44,7 +45,7 @@ DemographicsQuestionnaireRevised = dmc.Container(
                                 dmc.Text("Age", fw=500, size="sm", c="gray.7"),
                                 dmc.Select(
                                     id="age-input-select",
-                                    placeholder="Select your age",
+                                    placeholder="Select age",
                                     data=[str(i) for i in range(10, 121)],
                                     size="lg",
                                     radius="md",
@@ -53,14 +54,14 @@ DemographicsQuestionnaireRevised = dmc.Container(
                             ],
                             gap="xs",
                         ),
-                        
+
                         # Relationship status
                         dmc.Stack(
                             children=[
                                 dmc.Text("Relationship status", fw=500, size="sm", c="gray.7"),
                                 dmc.Select(
                                     id="relationship-status-input",
-                                    placeholder="Select your status",
+                                    placeholder="Select relationship status",
                                     data=relationship_labels_values,
                                     size="lg",
                                     radius="md",
@@ -69,14 +70,14 @@ DemographicsQuestionnaireRevised = dmc.Container(
                             ],
                             gap="xs",
                         ),
-                        
+
                         # Therapy experience
                         dmc.Stack(
                             children=[
                                 dmc.Text("Therapy experience", fw=500, size="sm", c="gray.7"),
                                 dmc.Select(
                                     id="therapy-experience-input",
-                                    placeholder="Select your experience level",
+                                    placeholder="Select therapy experience",
                                     data=therapy_labels_values,
                                     size="lg",
                                     radius="md",
@@ -85,7 +86,7 @@ DemographicsQuestionnaireRevised = dmc.Container(
                             ],
                             gap="xs",
                         ),
-                        
+
                         # Gender
                         dmc.Stack(
                             children=[
@@ -109,7 +110,7 @@ DemographicsQuestionnaireRevised = dmc.Container(
             shadow="sm",
             withBorder=True,
         ),
-        
+
         # Enhanced button section
         dmc.Center(
             dmc.Button(
@@ -132,7 +133,7 @@ DemographicsQuestionnaireRevised = dmc.Container(
 @callback(
     [
         Output("question-card-collapse", "opened"),
-        Output("demographics-questionnaire-collapse", "opened", allow_duplicate=True,)
+        Output("demographics-questionnaire-collapse", "opened", allow_duplicate=True, )
     ],
     [
         Input("continue-to-test-button", "n_clicks"),
