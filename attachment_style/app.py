@@ -6,6 +6,8 @@ from dash import Dash, dcc, page_container
 import constants
 from components.header_revised import header
 
+from callbacks.test_page import subject_switch_callback
+
 # from components.question_card import QuestionCard
 
 # Set React version for DMC 0.14+
@@ -33,6 +35,7 @@ app = Dash(__name__, external_stylesheets=stylesheets, use_pages=True)
 
 app_shell = dmc.AppShell(
     [
+        dcc.Store(id="subject-store"),
         dmc.AppShellHeader(header, h=80),
         dmc.AppShellMain(
             dmc.Container(
