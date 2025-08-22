@@ -12,7 +12,7 @@ SubjectSwitch = dmc.Paper(
     children=[
         dmc.Center(
             dmc.Title(
-                "Would you like to test yourself or someone else?",
+                "Would you like to assess yourself or someone else?",
                 c=constants.PRIMARY,
                 mb="lg",
             ),
