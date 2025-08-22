@@ -8,7 +8,7 @@ from components.header_revised import header
 
 from utils.utils import read_questions
 
-from callbacks.test_page import subject_switch_callback
+from callbacks.test_page import subject_switch_callback, demographics
 
 # from components.question_card import QuestionCard
 
@@ -43,6 +43,7 @@ app_shell = dmc.AppShell(
             data=read_questions("you"),
             storage_type="memory",
         ),
+        dcc.Store(id="demographics-answers-store"),
         dmc.AppShellHeader(header, h=80),
         dmc.AppShellMain(
             dmc.Container(

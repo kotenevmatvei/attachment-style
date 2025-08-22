@@ -44,7 +44,7 @@ DemographicsQuestionnaireRevised = dmc.Container(
                             children=[
                                 dmc.Text("Age", fw=500, size="sm", c="gray.7"),
                                 dmc.Select(
-                                    id="age-input-select",
+                                    id="age-select",
                                     placeholder="Select age",
                                     data=[str(i) for i in range(10, 121)],
                                     size="lg",
@@ -60,7 +60,7 @@ DemographicsQuestionnaireRevised = dmc.Container(
                             children=[
                                 dmc.Text("Relationship status", fw=500, size="sm", c="gray.7"),
                                 dmc.Select(
-                                    id="relationship-status-input",
+                                    id="relationship-status-select",
                                     placeholder="Select relationship status",
                                     data=relationship_labels_values,
                                     size="lg",
@@ -76,7 +76,7 @@ DemographicsQuestionnaireRevised = dmc.Container(
                             children=[
                                 dmc.Text("Therapy experience", fw=500, size="sm", c="gray.7"),
                                 dmc.Select(
-                                    id="therapy-experience-input",
+                                    id="therapy-experience-select",
                                     placeholder="Select therapy experience",
                                     data=therapy_labels_values,
                                     size="lg",
@@ -92,7 +92,7 @@ DemographicsQuestionnaireRevised = dmc.Container(
                             children=[
                                 dmc.Text("Gender", fw=500, size="sm", c="gray.7"),
                                 dmc.Select(
-                                    id="gender-input",
+                                    id="gender-select",
                                     placeholder="Select gender",
                                     data=gender_labels_values,
                                     size="lg",
@@ -130,17 +130,17 @@ DemographicsQuestionnaireRevised = dmc.Container(
 )
 
 
-@callback(
-    [
-        Output("question-card-collapse", "opened"),
-        Output("demographics-questionnaire-collapse", "opened", allow_duplicate=True, )
-    ],
-    [
-        Input("continue-to-test-button", "n_clicks"),
-    ],
-    prevent_initial_call=True,
-)
-def toggle_question_card(continue_to_test_click):
-    if continue_to_test_click:
-        return True, False
-    return False, True
+# @callback(
+#     [
+#         Output("question-card-collapse", "opened"),
+#         Output("demographics-questionnaire-collapse", "opened", allow_duplicate=True, )
+#     ],
+#     [
+#         Input("continue-to-test-button", "n_clicks"),
+#     ],
+#     prevent_initial_call=True,
+# )
+# def toggle_question_card(continue_to_test_click):
+#     if continue_to_test_click:
+#         return True, False
+#     return False, True
