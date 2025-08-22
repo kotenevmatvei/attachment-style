@@ -19,7 +19,7 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M",
 )
 
-# Required stylesheets for full DMC functionality
+# required stylesheets for full DMC functionality
 stylesheets = [
     "https://unpkg.com/@mantine/dates@7/styles.css",
     "https://unpkg.com/@mantine/code-highlight@7/styles.css",
@@ -37,15 +37,7 @@ app_shell = dmc.AppShell(
         dmc.AppShellMain(
             dmc.Container(
                 [
-                    # dmc.Title("Assess Yourself", order=1, mt="xl"),
                     page_container,
-
-                    # dmc.Text(
-                    #     "This is your main content area.",
-                    #     size="lg",
-                    #     c="dimmed",
-                    #     mt="md",
-                    # ),
                 ],
                 size="xl",
                 py="xl",
