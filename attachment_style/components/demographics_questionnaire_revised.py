@@ -42,11 +42,10 @@ DemographicsQuestionnaireRevised = dmc.Container(
                         dmc.Stack(
                             children=[
                                 dmc.Text("Age", fw=500, size="sm", c="gray.7"),
-                                dmc.NumberInput(
-                                    id="age-input",
-                                    placeholder="How old are you?",
-                                    min=10,
-                                    max=120,
+                                dmc.Select(
+                                    id="age-input-select",
+                                    placeholder="Select your age",
+                                    data=[str(i) for i in range(10, 121)],
                                     size="lg",
                                     radius="md",
                                     leftSection=DashIconify(icon="tabler:calendar", width=20),
