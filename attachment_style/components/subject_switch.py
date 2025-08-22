@@ -8,7 +8,7 @@ SubjectSwitch = dmc.Paper(
     shadow="lg",
     mt="xl",
     p="xl",
-    pt="xl",
+    pt=50,
     children=[
         dmc.Center(
             dmc.Title(
