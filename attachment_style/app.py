@@ -8,7 +8,7 @@ from components.header_revised import header
 
 from utils.utils import read_questions
 
-from callbacks.test_page import subject_switch_callback, demographics
+from callbacks.test_page import subject, demographics
 
 logging.basicConfig(
     level=logging.INFO,
