@@ -247,25 +247,11 @@ def build_results_board():
         [
             dmc.Stack(
                 [
-                    # Header
-                    dmc.Group(
-                        [
-                            dmc.Text(
-                                "Attachment Style Assessment Results", size="xl", fw=700
-                            ),
-                            dmc.Button(
-                                "Back to Survey",
-                                variant="light",
-                                leftSection=DashIconify(
-                                    icon="tabler:arrow-left", width=16
-                                ),
-                                id="back-to-survey",
-                            ),
-                        ],
-                        justify="space-between",
-                        align="center",
+                    dmc.Center(
+                        dmc.Title(
+                            "Your Results", c=constants.PRIMARY,
+                        ),
                     ),
-                    # Score Cards
                     create_score_cards(),
                     # Chart
                     dmc.Paper(
@@ -327,7 +313,6 @@ def build_results_board():
                         withBorder=True,
                         shadow="lg",
                     ),
-                    # additional Actions
                     dmc.Group(
                         [
                             dmc.Button(
@@ -380,7 +365,8 @@ def update_chart_theme(color_scheme):
 def update_download_paper_style(color_scheme):
     if color_scheme == "dark":
         return {
-            "background": f"linear-gradient(135deg, {dmc.DEFAULT_THEME['colors']['dark'][8]} 0%, {dmc.DEFAULT_THEME['colors']['dark'][6]} 100%)"
+            "background": f"linear-gradient(135deg, {dmc.DEFAULT_THEME['colors']['dark'][8]} 0%, "
+                          f"{dmc.DEFAULT_THEME['colors']['dark'][6]} 100%)"
         }
     return {"background": "linear-gradient(135deg, #FFF5F5 0%, #FFF8DC 100%)"}
 
