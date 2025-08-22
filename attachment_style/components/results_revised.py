@@ -1,9 +1,9 @@
 import dash
-from dash import dcc, html, Input, Output, callback, State
 import dash_mantine_components as dmc
-from dash_iconify import DashIconify
 import plotly.graph_objects as go
-import plotly.express as px
+from dash import dcc, Input, Output, callback
+from dash_iconify import DashIconify
+
 import constants
 
 app = dash.Dash(__name__)
@@ -19,7 +19,6 @@ results_data = {
 
 
 def create_results_chart(color_scheme="light"):
-    """Create a bar chart for attachment scores"""
     fig = go.Figure(
         data=[
             go.Bar(
@@ -59,7 +58,6 @@ def create_results_chart(color_scheme="light"):
 
 
 def create_score_cards():
-    """Create individual score cards"""
     return dmc.SimpleGrid(
         cols=3,
         children=[
@@ -173,7 +171,6 @@ def create_score_cards():
 
 
 def create_result_interpretation():
-    """Create the interpretation section"""
     return dmc.Paper(
         [
             dmc.Stack(
@@ -209,7 +206,10 @@ def create_result_interpretation():
                         [
                             "People with a ",
                             dmc.Text("secure attachment style", fw=600, span=True),
-                            " typically feel comfortable with intimacy and are usually warm and loving. They have a positive view of themselves and their partners. They communicate effectively, are comfortable depending on others and having others depend on them, and don't worry about being alone or being accepted.",
+                            " typically feel comfortable with intimacy and are usually warm and loving. They have "
+                            "a positive view of themselves and their partners. They communicate effectively, are "
+                            "comfortable depending on others and having others depend on them, and don't worry about "
+                            "being alone or being accepted.",
                         ],
                         size="md",
                     ),
@@ -280,9 +280,7 @@ def build_results_board():
                         withBorder=True,
                         shadow="sm",
                     ),
-                    # Interpretation
                     create_result_interpretation(),
-                    # Download Section - Highlighted
                     dmc.Paper(
                         [
                             dmc.Stack(
@@ -329,7 +327,7 @@ def build_results_board():
                         withBorder=True,
                         shadow="lg",
                     ),
-                    # Additional Actions
+                    # additional Actions
                     dmc.Group(
                         [
                             dmc.Button(
@@ -394,8 +392,6 @@ def update_download_paper_style(color_scheme):
 )
 def handle_pdf_download(n_clicks):
     if n_clicks:
-        # In a real application, you would generate and serve the PDF here
-        # For now, just show loading state briefly
         return True
     return False
 
