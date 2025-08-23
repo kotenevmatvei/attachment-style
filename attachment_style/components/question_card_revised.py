@@ -50,12 +50,10 @@ ProgressIndicator = dmc.Group(
 )
 
 QuestionCard = dmc.Paper(
-    id="question-card",
-    children=[
-        dmc.Text(survey_data["question"], size="lg", fw="bold", ta="center", p="xl")
-    ],
+    id="question-paper",
     shadow="sm",
     p="lg",
+    ta="center",
     radius="md",
     withBorder=True,
 )
@@ -182,14 +180,3 @@ def toggle_results_collapse(to_results_click):
     if to_results_click:
         return True, False
     return False, True
-
-
-@callback(
-    Output("question-card", "style"),
-    Input("mantine-provider", "forceColorScheme"),
-)
-def update_question_card_style(theme):
-    if theme == "dark":
-        return {"backgroundColor": dmc.DEFAULT_THEME["colors"]["dark"][6]}
-    else:
-        return {"backgroundColor": dmc.DEFAULT_THEME["colors"]["gray"][1]}
