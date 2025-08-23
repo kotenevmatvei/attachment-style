@@ -15,13 +15,19 @@ def update_subject_store(assess_yourself_click, assess_others_click):
     return "you"
 
 @callback(
-    Output("questions-store", "data"),
+    [
+        Output("questions-store", "data"),
+        Output("questions-len", "data"),
+        Output("question-markdown", "style"),
+        Output("question-paper", "h"),
+        Output("question-content-flex", "justify")
+    ],
     Input("subject-store", "data"),
 )
 def update_current_subject(subject):
     if subject == "others":
         questions = read_questions("others")
-        return questions
+        return questions, 33, {"textAlign": "left"}, "230px", "start"
 
     questions = read_questions("you")
-    return questions
+    return questions, 36, {"textAlign": "center"}, "100px", "center"

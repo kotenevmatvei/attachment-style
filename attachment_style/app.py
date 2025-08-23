@@ -36,6 +36,7 @@ app_shell = dmc.AppShell(
     [
         dcc.Store(id="subject-store"),
         dcc.Store(id="questions-store", data=read_questions("you")),
+        dcc.Store(id="questions-len", data=36),
         dcc.Store(id="demographics-answers-store"),
         dcc.Store(id="answers-store"),
         dcc.Store(id="questions-answered-count-store", data=0),

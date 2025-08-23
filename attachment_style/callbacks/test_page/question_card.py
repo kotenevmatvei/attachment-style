@@ -7,7 +7,7 @@ We need:
     *
 """
 import dash_mantine_components as dmc
-from dash import callback, Input, Output, State, dcc
+from dash import callback, Input, Output, State, dcc, ctx
 
 
 # current item badge
@@ -35,19 +35,18 @@ def update_progress_bar(questions_answered, questions):
     return progress_percent
 
 
-# question paper
+# display question
 @callback(
-    Output("question-paper", "children"),
+    Output("question-markdown", "children"),
     [
         Input("current-question-count-store", "data"),
         Input("questions-store", "data"),
     ],
     State("subject-store", "data"),
 )
-def update_question_paper(current_question_count, questions, subject):
+def display_question(current_question_count, questions, subject):
     question_ind = current_question_count - 1
-    align = "center" if subject == "you" else "left"
-    question_text = dcc.Markdown(questions[question_ind][0], style={"textAlign": align})
+    question_text = questions[question_ind][0]
     return question_text
 
 
@@ -61,3 +60,42 @@ def update_question_card_style(theme):
         return {"backgroundColor": dmc.DEFAULT_THEME["colors"]["dark"][6]}
     else:
         return {"backgroundColor": dmc.DEFAULT_THEME["colors"]["gray"][1]}
+
+
+# update question (a.k.a. the killer)
+@callback(
+    [
+        Output("current-question-count-store", "data"),
+        Output("questions-answered-count-store", "data"),
+    ],
+    [
+        # forward
+        Input("forward-button", "n_clicks"),
+        Input("next-button", "n_clicks"),
+
+        # backwards
+        Input("back-button", "n_clicks"),
+        Input("prev-button", "n_clicks"),
+    ],
+    [
+        State("current-question-count-store", "data"),
+        State("questions-len", "data"),
+        State("questions-answered-count-store", "data"),
+    ],
+    prevent_inital_call=True,
+)
+def update_question(forward_clicks, next_clicks, back_clicks, prev_clicks, current_question_count, questions_len,
+                    questions_answered_count):
+    triggered_id = ctx.triggered_id
+    if triggered_id in ["forward-button", "next-button"]:
+        if current_question_count < questions_len:
+            new_current_question_count = current_question_count + 1
+            new_questions_answered_count = questions_answered_count + 1
+            return new_current_question_count, new_questions_answered_count
+
+    if triggered_id in ["back-button", "prev-button"]:
+        if current_question_count > 1:
+            new_current_question_count = current_question_count - 1
+            return new_current_question_count, questions_answered_count
+
+    return 1, 0

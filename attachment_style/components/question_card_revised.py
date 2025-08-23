@@ -50,6 +50,13 @@ ProgressIndicator = dmc.Group(
 )
 
 QuestionCard = dmc.Paper(
+    # this is necessary for the proper text alignment depending on the question set
+    children=dmc.Flex(
+        dcc.Markdown(id="question-markdown"),
+        id="question-content-flex",
+        h="100%",
+        direction="column",
+    ),
     id="question-paper",
     shadow="sm",
     p="lg",
