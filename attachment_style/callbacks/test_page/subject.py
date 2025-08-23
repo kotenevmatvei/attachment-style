@@ -15,7 +15,7 @@ def update_subject_store(assess_yourself_click, assess_others_click):
     return "you"
 
 @callback(
-    Output("questions-storage", "data"),
+    Output("questions-store", "data"),
     Input("subject-store", "data"),
 )
 def update_current_subject(subject):

@@ -6,6 +6,8 @@ from dash import Dash, dcc, page_container
 import constants
 from components.header_revised import header
 
+from components.debug_footer import Footer
+
 from utils.utils import read_questions
 
 from callbacks.test_page import subject, demographics
@@ -34,7 +36,7 @@ app_shell = dmc.AppShell(
     [
         dcc.Store(id="subject-store"),
         dcc.Store(
-            id="questions-storage",
+            id="questions-store",
             data=read_questions("you"),
             storage_type="memory",
         ),
@@ -44,11 +46,13 @@ app_shell = dmc.AppShell(
             dmc.Container(
                 [
                     page_container,
+                    Footer,
                 ],
                 size="xl",
                 py="xl",
             )
         ),
+
     ],
     header={"height": 80},
     padding="md",
