@@ -1,7 +1,7 @@
 from dash import callback, Input, Output, State
 
 
-# don't leave errors there until the user tries to submit again
+# don't leave error messages there until the user tries to submit again
 @callback(
     Output("age-select", "error", allow_duplicate=True),
     Input("age-select", "value"),
