@@ -88,7 +88,7 @@ QuestionComponent = dmc.Container(
                         ProgressIndicator,
                         # Progress bar
                         dmc.Progress(
-                            value=progress_percent,
+                            value=0,
                             size="sm",
                             radius="xl",
                             color=constants.PRIMARY,
