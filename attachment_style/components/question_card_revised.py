@@ -32,10 +32,10 @@ ProgressIndicator = dmc.Group(
             id="back-button",
         ),
         dmc.Badge(
-            f"Item {survey_data['current_item']} from {survey_data['total_items']} ({int(progress_percent)}%)",
             variant="light",
             color=constants.PRIMARY,
             size="lg",
+            id="current-item-badge"
         ),
         dmc.Button(
             "FORWARD",
@@ -93,6 +93,7 @@ QuestionComponent = dmc.Container(
                             radius="xl",
                             color=constants.PRIMARY,
                             mt="sm",
+                            id="progress-bar"
                         ),
                         # Question card
                         QuestionCard,

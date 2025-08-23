@@ -1,6 +1,6 @@
 from dash import html
 
-Footer = html.Div(
+DebugFooter = html.Div(
     html.Footer(
         "Created by Matvei Kotenev. Contact via kotenev.matvei@gmail.com.",
     ),

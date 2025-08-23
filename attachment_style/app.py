@@ -10,7 +10,7 @@ from components.debug_footer import DebugFooter
 
 from utils.utils import read_questions
 
-from callbacks.test_page import subject, demographics
+from callbacks.test_page import subject, demographics, question_card
 
 logging.basicConfig(
     level=logging.INFO,
@@ -41,6 +41,10 @@ app_shell = dmc.AppShell(
             storage_type="memory",
         ),
         dcc.Store(id="demographics-answers-store"),
+        dcc.Store(id="answers-store"),
+        dcc.Store(id="questions-answered-count-store"),
+        dcc.Store(id="current-question-count-store", data=1),
+        dcc.Store(id="last-question-visited", data=False),
         dmc.AppShellHeader(header, h=80),
         dmc.AppShellMain(
             dmc.Container(
