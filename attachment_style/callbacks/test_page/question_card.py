@@ -88,14 +88,23 @@ def update_question(forward_clicks, next_clicks, back_clicks, prev_clicks, curre
                     questions_answered_count):
     triggered_id = ctx.triggered_id
     if triggered_id in ["forward-button", "next-button"]:
+        # go forward
         if current_question_count < questions_len:
             new_current_question_count = current_question_count + 1
             new_questions_answered_count = questions_answered_count + 1
             return new_current_question_count, new_questions_answered_count
+        # reached last questions - don't do anything
+        else:
+            return current_question_count, questions_answered_count
+
 
     if triggered_id in ["back-button", "prev-button"]:
+        # go backwards
         if current_question_count > 1:
             new_current_question_count = current_question_count - 1
             return new_current_question_count, questions_answered_count
+        # reached the first questions
+        else:
+            return current_question_count, questions_answered_count
 
     return 1, 0
