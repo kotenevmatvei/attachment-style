@@ -21,5 +21,7 @@ DebugFooter = dmc.Container(
 def update_debug_text(subject, questions, demographics):
     if all([subject, questions, demographics]):
         return f"subject: {subject}", f"first question: {questions[0]}",f"demographics: {str(demographics[0].values())}"
-    else:
+    elif subject and questions:
         return f"subject: {subject}", f"first question: {questions[0]}", "..."
+    else:
+        return f"subject: {subject}", "...", "..."
