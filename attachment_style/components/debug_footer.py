@@ -1,7 +1,7 @@
 from dash import callback, Input, Output
 import dash_mantine_components as dmc
 
-Footer = dmc.Container(
+DebugFooter = dmc.Container(
     w="100%",
     children=[
         dmc.Text(id="subject-debug"),

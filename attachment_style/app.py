@@ -6,7 +6,7 @@ from dash import Dash, dcc, page_container
 import constants
 from components.header_revised import header
 
-from components.debug_footer import Footer
+from components.debug_footer import DebugFooter
 
 from utils.utils import read_questions
 
@@ -46,7 +46,7 @@ app_shell = dmc.AppShell(
             dmc.Container(
                 [
                     page_container,
-                    Footer,
+                    DebugFooter,
                 ],
                 size="xl",
                 py="xl",
