@@ -22,6 +22,7 @@ logging.basicConfig(
 
 # required stylesheets for full DMC functionality
 stylesheets = [
+    "https://unpkg.com/@mantine/core@7/styles.css",
     "https://unpkg.com/@mantine/dates@7/styles.css",
     "https://unpkg.com/@mantine/code-highlight@7/styles.css",
     "https://unpkg.com/@mantine/charts@7/styles.css",
