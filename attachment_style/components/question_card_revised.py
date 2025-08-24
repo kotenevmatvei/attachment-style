@@ -22,13 +22,6 @@ ProgressBar = dmc.Paper(
     children=[
         dmc.Grid(
             columns=36,
-            children=[
-                dmc.GridCol(
-                    dmc.Paper(" ", h=18, id={"type": "question-indicator", "index": i},radius="xl", shadow="xl"),
-                    span=1
-                )
-                for i in range(1, 37)
-            ],
             gutter=5,
             w="100%",
         )
