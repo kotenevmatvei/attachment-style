@@ -40,7 +40,7 @@ app_shell = dmc.AppShell(
         dcc.Store(id="questions-len", data=36),
         dcc.Store(id="demographics-answers-store"),
         dcc.Store(id="answers-store"),
-        dcc.Store(id="questions-answered-count-store", data=0),
+        dcc.Store(id="questions-answered-count-store", data=1),
         dcc.Store(id="current-question-count-store", data=1),
         dcc.Store(id="last-question-visited", data=False),
         dmc.AppShellHeader(header, h=80),

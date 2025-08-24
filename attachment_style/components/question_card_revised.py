@@ -1,25 +1,25 @@
-import dash
-from dash import dcc, html, Input, Output, callback, State
 import dash_mantine_components as dmc
+from dash import dcc, Input, Output, callback
 from dash_iconify import DashIconify
+
 import constants
 
-survey_data = {
-    "total_items": 36,
-    "current_item": 10,
-    "question": "It's easy for me to be affectionate with my partner.",
-    "options": [
-        "I strongly disagree",
-        "Disagree",
-        "Slightly disagree",
-        "Neutral",
-        "Slightly agree",
-        "Agree",
-        "I strongly agree",
-    ],
-}
+options = [
+    "I strongly disagree",
+    "Disagree",
+    "Slightly disagree",
+    "Neutral",
+    "Slightly agree",
+    "Agree",
+    "I strongly agree",
+],
 
-progress_percent = (survey_data["current_item"] / survey_data["total_items"]) * 100
+ProgressBar = dmc.Paper(
+    id="progress-bar",
+    p=5,
+    radius=50,
+    shadow="lg",
+)
 
 ProgressIndicator = dmc.Group(
     [
@@ -78,7 +78,7 @@ ResponseOptions = dmc.Stack(
                 "label": {"fontSize": "16px", "fontWeight": 400},
             },
         )
-        for i, option in enumerate(survey_data["options"])
+        for i, option in enumerate(options)
     ],
     gap="xs",
 )
@@ -92,14 +92,7 @@ QuestionComponent = dmc.Container(
                         # Progress and navigation
                         ProgressIndicator,
                         # Progress bar
-                        dmc.Progress(
-                            value=0,
-                            size="sm",
-                            radius="xl",
-                            color=constants.PRIMARY,
-                            mt="sm",
-                            id="progress-bar"
-                        ),
+                        ProgressBar,
                         # Question card
                         QuestionCard,
                         # Response options
@@ -172,6 +165,7 @@ QuestionComponent = dmc.Container(
         )
     ]
 )
+
 
 @callback(
     [
