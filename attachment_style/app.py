@@ -36,10 +36,13 @@ app = Dash(__name__, external_stylesheets=stylesheets, use_pages=True)
 app_shell = dmc.AppShell(
     [
         dcc.Store(id="subject-store"),
+        # questions are stored as [("question-text", "corresponding-attachment-style"), (...), ...]
         dcc.Store(id="questions-store", data=read_questions("you")),
         dcc.Store(id="questions-len", data=36),
         dcc.Store(id="demographics-answers-store"),
-        dcc.Store(id="answers-store"),
+        # answers are stored as
+        # {"question-ind": ("attachment-style", value, "question-text"), "question-ind+1": (...), ...}
+        dcc.Store(id="answers-store", data=[]),
         dcc.Store(id="questions-answered-count-store", data=1),
         dcc.Store(id="current-question-count-store", data=1),
         dcc.Store(id="last-question-visited", data=False),

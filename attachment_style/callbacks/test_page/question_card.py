@@ -43,26 +43,55 @@ def display_question(current_question_count, questions, subject):
     [
         Output("current-question-count-store", "data"),
         Output("questions-answered-count-store", "data"),
+        Output("answers-store", "data"),
     ],
     [
         # forward
         Input("forward-button", "n_clicks"),
         Input("next-button", "n_clicks"),
-
         # backwards
         Input("back-button", "n_clicks"),
         Input("prev-button", "n_clicks"),
-    ],
+    ]
+    # answer option buttons
+    + [Input(f"option-{i}", "c_clicks") for i in range(7)],
     [
         State("current-question-count-store", "data"),
         State("questions-len", "data"),
+        State("questions-store", "data"),
         State("questions-answered-count-store", "data"),
+        State("answers-store", "data"),
     ],
     prevent_initial_call=True,
 )
-def update_question(forward_clicks, next_clicks, back_clicks, prev_clicks, current_question_count, questions_len,
-                    questions_answered_count):
+def update_question(
+        # navigation buttons
+        forward_clicks, next_clicks, back_clicks, prev_clicks,
+
+        # answer option buttons
+        str_dis_click, dis_click, sl_dis_click, neu_click,
+        sl_ag_click, ag_click, str_ag_click,
+
+        # state
+        current_question_count, questions_len, questions,
+        questions_answered_count, answers
+):
+    """
+    Update the question, the progress, and the answers. Answers are stored in a dictionary
+    with the following structure:
+    {"question-ind": ("attachment-style", value, "question-text"), "question-ind+1": (...), ...}
+    We are storing the corresponding attachment style because the questions are shuffled.
+    """
+
     triggered_id = ctx.triggered_id
+
+    # if triggered_id in [f"option-{i}" for i in range(7)]:
+    #     match triggered_id:
+    #         case "option-1":
+    #             answers[str(current_question_count)] = (
+    #                 questions[current_question_count][1], 1, questions[current_question_count][0]
+    #             )
+
     if triggered_id in ["forward-button", "next-button"]:
         if current_question_count == questions_len:
             return current_question_count, questions_answered_count
@@ -129,4 +158,18 @@ def update_question_card_style(theme):
             # *[dmc.DEFAULT_THEME["colors"]["dark"][1] for i in range(7)]
         )
 
-# update colors of the option buttons depending on the theme
+
+@callback(
+    [
+        Output("results-board-collapse", "opened"),
+        Output("question-card-collapse", "opened", allow_duplicate=True),
+    ],
+    [
+        Input("to-results-button", "n_clicks"),
+    ],
+    prevent_initial_call=True,
+)
+def toggle_results_collapse(to_results_click):
+    if to_results_click:
+        return True, False
+    return False, True

@@ -81,11 +81,12 @@ ResponseOptions = dmc.Stack(
             justify="left",
             fw="bold",
             size="md",
+            style={"boxShadow": "0 4px 4px rgba(0,0,0,0.10)"},
             radius="lg"
         )
         for i, option in enumerate(options)
     ],
-    gap="xs",
+    gap="md",
 )
 
 QuestionComponent = dmc.Container(
@@ -101,20 +102,9 @@ QuestionComponent = dmc.Container(
                         # Question card
                         QuestionCard,
                         # Response options
-                        dmc.Paper(
-                            [
-                                dmc.RadioGroup(
-                                    children=ResponseOptions,
-                                    id="response-group",
-                                    value=None,
-                                    size="md",
-                                )
-                            ],
-                            shadow="sm",
-                            p="lg",
-                            radius="md",
-                            withBorder=True,
-                            mt="lg",
+                        dmc.Container(
+                            w="90%",
+                            children=ResponseOptions,
                         ),
                         # Action buttons
                         dmc.Group(
@@ -172,17 +162,3 @@ QuestionComponent = dmc.Container(
 )
 
 
-@callback(
-    [
-        Output("results-board-collapse", "opened"),
-        Output("question-card-collapse", "opened", allow_duplicate=True),
-    ],
-    [
-        Input("to-results-button", "n_clicks"),
-    ],
-    prevent_initial_call=True,
-)
-def toggle_results_collapse(to_results_click):
-    if to_results_click:
-        return True, False
-    return False, True
