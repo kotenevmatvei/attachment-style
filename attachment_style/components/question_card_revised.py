@@ -12,13 +12,27 @@ options = [
     "Slightly agree",
     "Agree",
     "I strongly agree",
-],
+]
 
 ProgressBar = dmc.Paper(
     id="progress-bar",
     p=5,
     radius=50,
     shadow="lg",
+    children=[
+        dmc.Grid(
+            columns=36,
+            children=[
+                dmc.GridCol(
+                    dmc.Paper(" ", h=18, id={"type": "question-indicator", "index": i},radius="xl", shadow="xl"),
+                    span=1
+                )
+                for i in range(1, 37)
+            ],
+            gutter=5,
+            w="100%",
+        )
+    ]
 )
 
 ProgressIndicator = dmc.Group(
