@@ -74,16 +74,14 @@ QuestionCard = dmc.Paper(
 
 ResponseOptions = dmc.Stack(
     [
-        dmc.Radio(
+        dmc.Button(
+            option,
             id=f"option-{i}",
-            label=option,
-            value=str(i),
+            w="100%",
+            justify="left",
+            fw="bold",
             size="md",
-            styles={
-                "root": {"padding": "12px 16px"},
-                "body": {"alignItems": "center"},
-                "label": {"fontSize": "16px", "fontWeight": 400},
-            },
+            radius="lg"
         )
         for i, option in enumerate(options)
     ],
