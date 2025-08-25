@@ -37,6 +37,7 @@ ProgressIndicator = dmc.Group(
             size="sm",
             leftSection=DashIconify(icon="tabler:arrow-left", width=16),
             id="back-button",
+            disabled=True,
         ),
         dmc.Badge(
             variant="light",
@@ -51,6 +52,7 @@ ProgressIndicator = dmc.Group(
             size="sm",
             rightSection=DashIconify(icon="tabler:arrow-right", width=16),
             id="forward-button",
+            disabled=True,
         ),
     ],
     justify="space-between",
@@ -119,6 +121,7 @@ QuestionComponent = dmc.Container(
                                         icon="tabler:chevron-left", width=16
                                     ),
                                     id="prev-button",
+                                    disabled=True,
                                 ),
                                 dmc.Button(
                                     "Next",
@@ -131,6 +134,7 @@ QuestionComponent = dmc.Container(
                                     ),
                                     color=constants.PRIMARY,
                                     id="next-button",
+                                    disabled=True,
                                 ),
                             ],
                             justify="space-between",
