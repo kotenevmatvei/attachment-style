@@ -102,9 +102,17 @@ def update_question(
     if triggered_id in [f"option-{i}" for i in range(1,8)]:
         # get the value in any case
         value = int(triggered_id.split("-")[1])
+
+        # old value for loggin / debugging
+        if answers[str(current_question_count)]:
+            old_value = answers[str(current_question_count)][1]
+            logger.info(f"already been here. your old value: {old_value}")
+
         answers[str(current_question_count)] = (
             questions[current_question_count - 1][1], value, questions[current_question_count - 1][0]
         )
+        logger.info(f"your new value: {answers[str(current_question_count)][1]}")
+
         # at the last question
         if current_question_count == questions_len:
             # has it already been answered? -> don't update questions_answered_count
@@ -115,6 +123,8 @@ def update_question(
                 return current_question_count, questions_answered_count + 1, answers, False, False, True, True
         # we are returning (rewriting, since clicking on the answer options, not navigation btns) after skipping back
         elif current_question_count <= questions_answered_count:
+            logger.info(f"Already been here. Your previous answer was {answers[str(current_question_count)][1]} "
+                        f"Your new answer is {old_value}")
             return current_question_count + 1, questions_answered_count, answers, False, False, False, False
         # we are moving to a new question
         elif current_question_count == questions_answered_count + 1: # tested
