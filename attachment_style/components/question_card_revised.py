@@ -148,6 +148,7 @@ QuestionComponent = dmc.Container(
                                 gradient={"from": constants.PRIMARY, "to": "cyan"},
                                 mt="lg",
                                 px="xl",
+                                disabled=True,
                             ),
                         ),
                     ],

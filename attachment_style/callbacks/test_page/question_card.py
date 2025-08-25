@@ -46,7 +46,6 @@ def display_question(current_question_count, questions, subject):
         Output("current-question-count-store", "data"),
         Output("questions-answered-count-store", "data"),
         Output("answers-store", "data"),
-
         # navigation buttons disables?
         Output("back-button", "disabled"),
         Output("prev-button", "disabled"),
@@ -163,6 +162,18 @@ def update_colors(progress, current_question, questions_len, theme):
             else:
                 colors.append("gray")
     return colors
+
+
+# enable the to-results button only after the last question has been answered
+@callback(
+    Output("to-results-button", "disabled"),
+    Input("questions-answered-count-store", "data"),
+    State("questions-len", "data")
+)
+def enable_to_results_button(questions_answered_count, questions_len):
+    if questions_answered_count == questions_len:
+        return False
+    return True
 
 
 # style depending on the theme
