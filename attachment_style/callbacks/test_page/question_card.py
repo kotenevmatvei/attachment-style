@@ -41,9 +41,16 @@ def display_question(current_question_count, questions, subject):
 # update question (a.k.a. the killer)
 @callback(
     [
+        # state
         Output("current-question-count-store", "data"),
         Output("questions-answered-count-store", "data"),
         Output("answers-store", "data"),
+
+        # navigation buttons disables?
+        Output("back-button", "disabled"),
+        Output("prev-button", "disabled"),
+        Output("forward-button", "disabled"),
+        Output("next-button", "disabled"),
     ],
     [
         # forward
@@ -54,7 +61,7 @@ def display_question(current_question_count, questions, subject):
         Input("prev-button", "n_clicks"),
     ]
     # answer option buttons
-    + [Input(f"option-{i}", "c_clicks") for i in range(7)],
+    + [Input(f"option-{i}", "n_clicks") for i in range(1,8)],
     [
         State("current-question-count-store", "data"),
         State("questions-len", "data"),
@@ -85,28 +92,44 @@ def update_question(
 
     triggered_id = ctx.triggered_id
 
-    # if triggered_id in [f"option-{i}" for i in range(7)]:
-    #     match triggered_id:
-    #         case "option-1":
-    #             answers[str(current_question_count)] = (
-    #                 questions[current_question_count][1], 1, questions[current_question_count][0]
-    #             )
-
-    if triggered_id in ["forward-button", "next-button"]:
+    # --------- click on one of the options -----------
+    if triggered_id in [f"option-{i}" for i in range(1,8)]:
+        # get the value in any case
+        value = int(triggered_id.split("-")[1]) + 1
+        answers[str(current_question_count)] = (
+            questions[current_question_count - 1][1], value, questions[current_question_count - 1][0]
+        )
+        # we have reached the end
         if current_question_count == questions_len:
-            return current_question_count, questions_answered_count
-        elif current_question_count == questions_answered_count:
-            return current_question_count + 1, questions_answered_count + 1
+            return current_question_count, questions_answered_count, answers, False, False, True, True
+        # we are returning (rewriting, since clicking on the answer options, not navigation btns) after skipping back
+        elif current_question_count < questions_answered_count - 1:
+            return current_question_count + 1, questions_answered_count, answers, False, False, False, False
+        # we are moving to a new question
         else:
-            return current_question_count + 1, questions_answered_count
+            return current_question_count + 1, questions_answered_count + 1, answers, False, False, True, True
 
+    # ---------- skipping through questions via navigation buttons ------------
+    # moving forward
+    if triggered_id in ["forward-button", "next-button"]:
+        # disable the forward buttons if the next question is the last the useer had answered
+        if current_question_count == questions_answered_count - 1:
+            return current_question_count + 1, questions_answered_count, answers, False, False, True, True
+        else:
+            return current_question_count + 1, questions_answered_count, answers, False, False, False, False
+
+    # moving backwards
     if triggered_id in ["back-button", "prev-button"]:
+        # we have reached the beginning
         if current_question_count == 1:
-            return current_question_count, questions_answered_count
+            return current_question_count, questions_answered_count, answers, True, True, False, False
+        # block the back buttons already if next comes the first question
+        elif current_question_count == 2:
+            return current_question_count, questions_answered_count, answers, True, True, False, False
         else:
-            return current_question_count - 1, questions_answered_count
+            return current_question_count - 1, questions_answered_count, answers, False, False, False, False
 
-    return 1, 1
+    return 1, 1, answers, True, True, True, True
 
 
 # color the step indicators
@@ -138,24 +161,24 @@ def update_colors(progress, current_question, questions_len, theme):
 # style depending on the theme
 @callback(
     [Output("question-paper", "style")]
-    + [Output(f"option-{i}", "bg") for i in range(7)]
-    + [Output(f"option-{i}", "c") for i in range(7)],
+    + [Output(f"option-{i}", "bg") for i in range(1,8)]
+    + [Output(f"option-{i}", "c") for i in range(1,8)],
     Input("mantine-provider", "forceColorScheme"),
 )
 def update_question_card_style(theme):
     if theme == "dark":
         return (
             {"backgroundColor": dmc.DEFAULT_THEME["colors"]["dark"][6]},
-            *["dark" for i in range(7)],
-            *["white" for i in range(7)]
-            # *[dmc.DEFAULT_THEME["colors"]["dark"][7] for i in range(7)]
+            *["dark" for i in range(1,8)],
+            *["white" for i in range(1,8)]
+            # *[dmc.DEFAULT_THEME["colors"]["dark"][7] for i in range(1,8)]
         )
     else:
         return (
             {"backgroundColor": dmc.DEFAULT_THEME["colors"]["gray"][1]},
-            *["gray.1" for i in range(7)],
-            *["black" for i in range(7)]
-            # *[dmc.DEFAULT_THEME["colors"]["dark"][1] for i in range(7)]
+            *["gray.1" for i in range(1,8)],
+            *["black" for i in range(1,8)]
+            # *[dmc.DEFAULT_THEME["colors"]["dark"][1] for i in range(1,8)]
         )
 
 

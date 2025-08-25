@@ -84,7 +84,7 @@ ResponseOptions = dmc.Stack(
             style={"boxShadow": "0 4px 4px rgba(0,0,0,0.10)"},
             radius="lg"
         )
-        for i, option in enumerate(options)
+        for i, option in enumerate(options, start=1)
     ],
     gap="md",
 )
@@ -130,7 +130,6 @@ QuestionComponent = dmc.Container(
                                     ),
                                     color=constants.PRIMARY,
                                     id="next-button",
-                                    # disabled=True,  # Initially disabled until selection is made
                                 ),
                             ],
                             justify="space-between",
