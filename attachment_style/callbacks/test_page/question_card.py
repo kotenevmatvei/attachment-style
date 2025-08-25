@@ -8,6 +8,7 @@ We need:
 """
 import dash_mantine_components as dmc
 from dash import callback, Input, Output, State, ctx, ALL
+from dash.exceptions import PreventUpdate
 
 import constants
 
@@ -92,10 +93,16 @@ def update_question(
 
     triggered_id = ctx.triggered_id
 
+    # Ignore hydration/refresh triggers where the input value is None or 0
+    if not ctx.triggered or ctx.triggered[0].get("value") in (None, 0):
+        raise PreventUpdate
+
+    print("triggered id: ", triggered_id)
+
     # --------- click on one of the options -----------
     if triggered_id in [f"option-{i}" for i in range(1,8)]:
         # get the value in any case
-        value = int(triggered_id.split("-")[1]) + 1
+        value = int(triggered_id.split("-")[1])
         answers[str(current_question_count)] = (
             questions[current_question_count - 1][1], value, questions[current_question_count - 1][0]
         )
