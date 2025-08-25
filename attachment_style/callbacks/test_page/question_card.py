@@ -9,9 +9,11 @@ We need:
 import dash_mantine_components as dmc
 from dash import callback, Input, Output, State, ctx, ALL
 from dash.exceptions import PreventUpdate
+import logging
 
 import constants
 
+logger = logging.getLogger(__name__)
 
 # current item badge
 @callback(
@@ -96,8 +98,6 @@ def update_question(
     if not ctx.triggered or ctx.triggered[0].get("value") in (None, 0):
         raise PreventUpdate
 
-    print("triggered id: ", triggered_id)
-
     # --------- click on one of the options -----------
     if triggered_id in [f"option-{i}" for i in range(1,8)]:
         # get the value in any case
@@ -105,21 +105,26 @@ def update_question(
         answers[str(current_question_count)] = (
             questions[current_question_count - 1][1], value, questions[current_question_count - 1][0]
         )
-        # we have reached the end
+        # at the last question
         if current_question_count == questions_len:
-            return current_question_count, questions_answered_count, answers, False, False, True, True
+            # has it already been answered? -> don't update questions_answered_count
+            if questions_answered_count == questions_len:
+                return current_question_count, questions_answered_count, answers, False, False, True, True
+            # update question_count (should become eq. questions_len now)
+            else:
+                return current_question_count, questions_answered_count + 1, answers, False, False, True, True
         # we are returning (rewriting, since clicking on the answer options, not navigation btns) after skipping back
-        elif current_question_count < questions_answered_count - 1:
+        elif current_question_count <= questions_answered_count:
             return current_question_count + 1, questions_answered_count, answers, False, False, False, False
         # we are moving to a new question
-        else:
+        elif current_question_count == questions_answered_count + 1: # tested
             return current_question_count + 1, questions_answered_count + 1, answers, False, False, True, True
 
     # ---------- skipping through questions via navigation buttons ------------
     # moving forward
     if triggered_id in ["forward-button", "next-button"]:
         # disable the forward buttons if the next question is the last the useer had answered
-        if current_question_count == questions_answered_count - 1:
+        if current_question_count == questions_answered_count:
             return current_question_count + 1, questions_answered_count, answers, False, False, True, True
         else:
             return current_question_count + 1, questions_answered_count, answers, False, False, False, False
@@ -131,11 +136,11 @@ def update_question(
             return current_question_count, questions_answered_count, answers, True, True, False, False
         # block the back buttons already if next comes the first question
         elif current_question_count == 2:
-            return current_question_count, questions_answered_count, answers, True, True, False, False
+            return current_question_count - 1, questions_answered_count, answers, True, True, False, False
         else:
             return current_question_count - 1, questions_answered_count, answers, False, False, False, False
 
-    return 1, 1, answers, True, True, True, True
+    return 1, 0, answers, True, True, True, True
 
 
 # color the step indicators
