@@ -93,7 +93,7 @@ def update_question(
 
     triggered_id = ctx.triggered_id
 
-    # Ignore hydration/refresh triggers where the input value is None or 0
+    # ignore hydration/refresh triggers where the input value is None or 0
     if not ctx.triggered or ctx.triggered[0].get("value") in (None, 0):
         raise PreventUpdate
 

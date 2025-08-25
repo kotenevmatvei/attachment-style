@@ -81,6 +81,7 @@ ResponseOptions = dmc.Stack(
             justify="left",
             fw="bold",
             size="md",
+            className="option-flash",
             style={"boxShadow": "0 4px 4px rgba(0,0,0,0.10)"},
             radius="lg"
         )

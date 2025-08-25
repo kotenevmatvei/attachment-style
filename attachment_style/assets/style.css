@@ -1,0 +1,9 @@
+/* these make answer option buttons flash when they are clicked :) */
+.option-flash {
+  /* Smooth return to the normal background after releasing the click */
+  transition: background-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+.option-flash:active {
+  background-color: var(--mantine-color-steel_blue-6) !important;
+  color: white !important;
+}
