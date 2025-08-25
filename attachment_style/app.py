@@ -3,22 +3,23 @@ import logging
 import dash_mantine_components as dmc
 from dash import Dash, dcc, page_container
 
+logging.basicConfig(
+    level=logging.INFO,
+    # format="{asctime} - {levelname} - {filename} - {funcName} - {message}",
+    format="APP: %(levelname)s - %(name)s - %(funcName)s - %(message)s",
+    force=True,
+    datefmt="%Y-%m-%d %H:%M",
+)
+
+
 import constants
 from components.header_revised import header
 
-from components.debug_footer import DebugFooter
+from components.debugger import DebugFooter
 
 from utils.utils import read_questions
 
 from callbacks.test_page import subject, demographics, question_card
-
-logging.basicConfig(
-    level=logging.INFO,
-    # format="{asctime} - {levelname} - {filename} - {funcName} - {message}",
-    format="APP: {levelname} - {filename} - {funcName} - {message}",
-    style="{",
-    datefmt="%Y-%m-%d %H:%M",
-)
 
 # required stylesheets for full DMC functionality
 stylesheets = [
@@ -43,7 +44,7 @@ app_shell = dmc.AppShell(
         # answers are stored as
         # {"question-ind": ("attachment-style", value, "question-text"), "question-ind+1": (...), ...}
         dcc.Store(id="answers-store", data={}),
-        dcc.Store(id="questions-answered-count-store", data=1),
+        dcc.Store(id="questions-answered-count-store", data=0),
         dcc.Store(id="current-question-count-store", data=1),
         dcc.Store(id="last-question-visited", data=False),
         dmc.AppShellHeader(header, h=80),

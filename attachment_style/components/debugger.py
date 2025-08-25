@@ -1,5 +1,8 @@
+import logging
 import dash_mantine_components as dmc
 from dash import callback, Input, Output
+
+logger = logging.getLogger(__name__)
 
 DebugFooter = dmc.Container(
     w="100%",
@@ -35,8 +38,11 @@ DebugFooter = dmc.Container(
     Input("demographics-answers-store", "data"),
     Input("questions-store", "data"),
     Input("answers-store", "data"),
+    Input("current-question-count-store", "data"),
+    Input("questions-answered-count-store", "data"),
 )
-def update_debug_text(subject, demographics, questions, answers):
+def update_debug_text(subject, demographics, questions, answers, current_question, questions_answered):
+    logger.info(f"current_question: {current_question}, questions_answered: {questions_answered}")
     return f"subject: {subject}\n", f"demographics: {str(demographics)}", f"questions: {str(questions)}", f"answers: {str(answers)}"
 
 
