@@ -3,7 +3,9 @@ from dash import callback, Input, Output
 
 DebugFooter = dmc.Container(
     w="100%",
+    ta="center",
     children=[
+        dmc.Space(h="md"),
         dmc.Button(
             "show debug footer",
             id="show-debug-footer-button",
@@ -12,6 +14,7 @@ DebugFooter = dmc.Container(
         ),
         dmc.Container(
             id="debug-container",
+            ta="left",
             children=[
                 dmc.Text(id="subject-debug"),
                 dmc.Text(id="questions-debug"),
