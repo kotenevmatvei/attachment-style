@@ -122,11 +122,13 @@ def update_question(
             else:
                 return current_question_count, questions_answered_count + 1, answers, False, False, True, True
         # we are returning (rewriting, since clicking on the answer options, not navigation btns) after skipping back
-        elif current_question_count <= questions_answered_count:
-            logger.info(f"Already been here. Your previous answer was {answers[str(current_question_count)][1]} "
-                        f"Your new answer is {old_value}")
+        # but we have not yet reached the last answered question, so forward buttons enabled
+        elif current_question_count < questions_answered_count:
             return current_question_count + 1, questions_answered_count, answers, False, False, False, False
-        # we are moving to a new question
+        # we have reached the last answered question - block the forward buttons for the next one (new!)
+        elif current_question_count == questions_answered_count:
+            return current_question_count + 1, questions_answered_count, answers, False, False, True, True
+        # we are answering a new question
         elif current_question_count == questions_answered_count + 1: # tested
             return current_question_count + 1, questions_answered_count + 1, answers, False, False, True, True
 
