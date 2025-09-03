@@ -5,6 +5,7 @@ from dash import dcc, Input, Output, callback
 from dash_iconify import DashIconify
 
 import constants
+from utils.utils import build_ecr_r_chart
 
 app = dash.Dash(__name__)
 dmc.add_figure_templates()
@@ -17,8 +18,7 @@ results_data = {
 }
 
 
-def create_results_chart(color_scheme="light"):
-    fig = go.Figure(
+Chart = go.Figure(
         data=[
             go.Bar(
                 x=["Anxious", "Avoidant", "Secure"],
@@ -41,23 +41,8 @@ def create_results_chart(color_scheme="light"):
         ]
     )
 
-    fig.update_layout(
-        title="Your Attachment Style Scores",
-        xaxis_title="Attachment Style",
-        yaxis_title="Score (%)",
-        yaxis=dict(range=[0, 100]),
-        template=f"mantine_{color_scheme}",
-        height=400,
-        showlegend=False,
-        font=dict(size=14),
-        title_font=dict(size=18, color="#212529"),
-    )
 
-    return fig
-
-
-def create_score_cards():
-    return dmc.SimpleGrid(
+ScoreCards = dmc.SimpleGrid(
         cols=3,
         children=[
             # Anxious Score Card
@@ -169,8 +154,7 @@ def create_score_cards():
     )
 
 
-def create_result_interpretation():
-    return dmc.Paper(
+ResultsInterpretation = dmc.Paper(
         [
             dmc.Stack(
                 [
@@ -241,8 +225,7 @@ def create_result_interpretation():
     )
 
 
-def build_results_board():
-    return dmc.Container(
+ResultsBoard = dmc.Container(
         [
             dmc.Stack(
                 [
@@ -251,7 +234,7 @@ def build_results_board():
                             "Your Results", c=constants.PRIMARY,
                         ),
                     ),
-                    create_score_cards(),
+                    ScoreCards,
                     # Chart
                     dmc.Paper(
                         [
@@ -265,7 +248,7 @@ def build_results_board():
                         withBorder=True,
                         shadow="sm",
                     ),
-                    create_result_interpretation(),
+                    ResultsInterpretation,
                     dmc.Paper(
                         [
                             dmc.Stack(
@@ -349,12 +332,12 @@ def build_results_board():
     )
 
 
-@callback(
-    Output("results-chart", "figure"),
-    Input("mantine-provider", "forceColorScheme"),
-)
-def update_chart_theme(color_scheme):
-    return create_results_chart(color_scheme)
+# @callback(
+#     Output("results-chart", "figure"),
+#     Input("mantine-provider", "forceColorScheme"),
+# )
+# def update_chart_theme(color_scheme):
+#     return create_results_chart(color_scheme)
 
 
 @callback(

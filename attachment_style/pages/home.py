@@ -4,7 +4,7 @@ import dash_mantine_components as dmc
 from components.demographics_questionnaire_revised import DemographicsQuestionnaireRevised
 # from components.question_card import QuestionCard
 from components.question_card_revised import QuestionComponent
-from components.results_revised import build_results_board
+from components.results_revised import ResultsBoard
 from components.subject_switch import SubjectSwitch
 
 register_page(__name__, path="/")
@@ -39,7 +39,7 @@ def layout(**kwargs):
                 opened=False,
                 id="results-board-collapse",
                 children=[
-                    build_results_board(),
+                    ResultsBoard
                 ]
             ),
         ]
