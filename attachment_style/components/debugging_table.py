@@ -21,9 +21,20 @@ DebuggingTable = dmc.Container(
     id="debugging-container",
 )
 
+CurrentCount = dmc.Container(
+    children=[
+        dmc.Badge(id="debug-current-question"),
+        dmc.Badge(id="debug-answered-questions"),
+    ]
+)
+
 
 @callback(
+[
     Output("debugging-container", "children"),
+    Output("debug-current-question", "children"),
+    Output("debug-answered-questions", "children"),
+],
 [
     Input("answers-store", "data"),
     Input("current-question-count-store", "data"),
@@ -31,7 +42,7 @@ DebuggingTable = dmc.Container(
 ]
 )
 def update_answers_in_debug_table(answers, current_question, questions_answered):
-    logger.info("Drawing the table")
+    # logger.info("Drawing the table")
     head = dmc.TableThead(
         dmc.TableTr(
             [
@@ -81,7 +92,7 @@ def update_answers_in_debug_table(answers, current_question, questions_answered)
     body = dmc.TableTbody(rows)
     caption = dmc.TableCaption("Debugging table")
     table = dmc.Table([head, body, caption])
-    logger.info(f"just drew the table with {len(rows)} rows")
+    # logger.info(f"just drew the table with {len(rows)} rows")
 
-    return table
+    return table, current_question, questions_answered
 

@@ -15,7 +15,7 @@ logging.basicConfig(
 import constants
 from components.header_revised import header
 
-from components.debugging_table import DebuggingTable
+from components.debugging_table import DebuggingTable, CurrentCount
 
 from utils.utils import read_questions
 
@@ -52,6 +52,7 @@ app_shell = dmc.AppShell(
             dmc.Container(
                 [
                     page_container,
+                    CurrentCount,
                     DebuggingTable,
                 ],
                 size="xl",

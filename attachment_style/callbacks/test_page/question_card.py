@@ -106,52 +106,70 @@ def update_question(
         # old value for loggin / debugging
         if answers[str(current_question_count)]:
             old_value = answers[str(current_question_count)][1]
-            logger.info(f"already been here. your old value: {old_value}")
+            # logger.info(f"already been here. your old value: {old_value}")
+            logger.info("Navigation case 1")
 
         answers[str(current_question_count)] = (
             questions[current_question_count - 1][1], value, questions[current_question_count - 1][0]
         )
-        logger.info(f"your new value: {answers[str(current_question_count)][1]}")
+        # logger.info(f"your new value: {answers[str(current_question_count)][1]}")
 
         # at the last question
         if current_question_count == questions_len:
             # has it already been answered? -> don't update questions_answered_count
             if questions_answered_count == questions_len:
+                logger.info("Navigation case 2")
                 return current_question_count, questions_answered_count, answers, False, False, True, True
             # update question_count (should become eq. questions_len now)
             else:
+                logger.info("Navigation case 3")
                 return current_question_count, questions_answered_count + 1, answers, False, False, True, True
         # we are returning (rewriting, since clicking on the answer options, not navigation btns) after skipping back
         # but we have not yet reached the last answered question, so forward buttons enabled
         elif current_question_count < questions_answered_count:
+            # check if next comes the last question!
+            if current_question_count == questions_len - 1:
+                return current_question_count + 1, questions_answered_count, answers, False, False, True, True
+            logger.info("Navigation case 4")
             return current_question_count + 1, questions_answered_count, answers, False, False, False, False
         # we have reached the last answered question - block the forward buttons for the next one (new!)
         elif current_question_count == questions_answered_count:
+            logger.info("Navigation case 5")
             return current_question_count + 1, questions_answered_count, answers, False, False, True, True
         # we are answering a new question
-        elif current_question_count == questions_answered_count + 1: # tested
+        elif current_question_count == questions_answered_count + 1:
+            logger.info("Navigation case 6")
             return current_question_count + 1, questions_answered_count + 1, answers, False, False, True, True
 
     # ---------- skipping through questions via navigation buttons ------------
     # moving forward
     if triggered_id in ["forward-button", "next-button"]:
-        # disable the forward buttons if the next question is the last the useer had answered
+        # check if next comes the last question!
+        if current_question_count == questions_len - 1:
+            return current_question_count + 1, questions_answered_count, answers, False, False, True, True
+        # disable the forward buttons if the next question is the last onw the user had answered
         if current_question_count == questions_answered_count:
+            logger.info("Navigation case 7")
             return current_question_count + 1, questions_answered_count, answers, False, False, True, True
         else:
+            logger.info("Navigation case 8")
             return current_question_count + 1, questions_answered_count, answers, False, False, False, False
 
     # moving backwards
     if triggered_id in ["back-button", "prev-button"]:
-        # we have reached the beginning
-        if current_question_count == 1:
-            return current_question_count, questions_answered_count, answers, True, True, False, False
+        # we have reached the beginning ------> ah this state is impossible to reach :)
+        # if current_question_count == 1:
+        #     logger.info("Navigation case 9")
+        #     return current_question_count, questions_answered_count, answers, True, True, False, False
         # block the back buttons already if next comes the first question
-        elif current_question_count == 2:
+        if current_question_count == 2:
+            logger.info("Navigation case 10")
             return current_question_count - 1, questions_answered_count, answers, True, True, False, False
         else:
+            logger.info("Navigation case 11")
             return current_question_count - 1, questions_answered_count, answers, False, False, False, False
 
+    logger.info("Navigation case 0")
     return 1, 0, answers, True, True, True, True
 
 
