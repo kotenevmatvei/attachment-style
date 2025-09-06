@@ -6,6 +6,7 @@
 
 # backend
 - [x] separate downloading image from showing the results!!! that's what takes so ultra long 
+- [ ] clear the store components when switching to a different page!
 - [ ] provide total number of scores with and without test
 - [ ] separate updating data from the db and filtering (include/exclude test, you/others)
       (then don't even need extra chaching)
