@@ -78,9 +78,13 @@ def calculate_scores(
     if secure_answers:
         secure_score = np.average(secure_answers)
     else:
-        x_and_y_coord = (anxious_score + avoidant_score) / 2
-        sign = np.sign(x_and_y_coord)
-        secure_score = np.sqrt(2 * (x_and_y_coord) ** 2) * sign
+        # x_and_y_coord = (anxious_score + avoidant_score) / 2
+        # sign = np.sign(x_and_y_coord)
+        # secure_score = np.sqrt(2 * (x_and_y_coord) ** 2) * sign
+        x_reverted = 4 - anxious_score
+        y_reverted = 4 - avoidant_score
+        diag_coord = (x_reverted + y_reverted) / 2
+        secure_score = 4 + diag_coord
 
     return anxious_score, secure_score, avoidant_score
 
@@ -99,7 +103,7 @@ def build_pie_chart(
     return fig
 
 
-def build_ecr_r_chart(anxious_score: float, avoidant_score: float):
+def build_ecr_r_chart(anxious_score: float, avoidant_score: float, secure_score: float):
     # Set default renderer to browser
     # pio.renderers.default = "browser"
 
@@ -138,7 +142,7 @@ def build_ecr_r_chart(anxious_score: float, avoidant_score: float):
         y0=scale_mid,
         x1=scale_max,
         y1=scale_mid,
-        line=dict(color="black", width=2),
+        line=dict(width=2),
     )
 
     # Vertical Avoidance Axis (conceptually at x=scale_mid)
@@ -148,7 +152,7 @@ def build_ecr_r_chart(anxious_score: float, avoidant_score: float):
         y0=scale_min,
         x1=scale_mid,
         y1=scale_max,
-        line=dict(color="black", width=2),
+        line=dict(width=2),
     )
 
     # 2. Draw Diagonal Axes
@@ -159,7 +163,7 @@ def build_ecr_r_chart(anxious_score: float, avoidant_score: float):
         y0=scale_min,
         x1=scale_max,
         y1=scale_max,
-        line=dict(color="darkgrey", width=1, dash="dash"),
+        line=dict(width=1, dash="dash"),
     )
     # Dismissive (1,7) to Preoccupied (7,1)
     fig.add_shape(
@@ -168,13 +172,13 @@ def build_ecr_r_chart(anxious_score: float, avoidant_score: float):
         y0=scale_max,
         x1=scale_max,
         y1=scale_min,
-        line=dict(color="darkgrey", width=1, dash="dash"),
+        line=dict(width=1, dash="dash"),
     )
 
     # 3. Add Ticks (dots) and Labels for Axes
     tick_values = list(range(scale_min, scale_max + 1))
-    tick_marker_style = dict(color="black", size=6)
-    tick_label_font_style = dict(size=10, color="black")
+    tick_marker_style = dict(size=6, color="gray")
+    tick_label_font_style = dict(size=10)
 
     # Anxiety Axis Ticks (on the line y=scale_mid)
     fig.add_trace(
@@ -261,7 +265,7 @@ def build_ecr_r_chart(anxious_score: float, avoidant_score: float):
     # Secure-Fearful-Avoidant Axis Label (Optional - can get crowded)
     # fig.add_annotation(x=scale_max, y=scale_max + 0.3, text="Secure-Fearful", showarrow=False, font=dict(size=10))
     # 5. Add Attachment Style Labels in Quadrants
-    style_label_font_style = dict(size=14, color="dimgray")
+    style_label_font_style = dict(size=14)
     fig.add_annotation(
         x=scale_min,
         y=scale_min + 0.4,
@@ -297,15 +301,16 @@ def build_ecr_r_chart(anxious_score: float, avoidant_score: float):
 
     # add the legend of the results
     fig.add_annotation(
-        x=scale_min,
-        y=scale_min - 0.8,
+        x=scale_mid,
+        y=scale_min - 1,
         text=f"Your anxious score: {round(anxious_score, 2)}, "
-        f"Your avoidant score: {round(avoidant_score, 2)}",
+        f"Your avoidant score: {round(avoidant_score, 2)}, "
+             f"Your secure score: {round(secure_score, 2)}",
         showarrow=False,
         yanchor="middle",
-        xanchor="left",
+        xanchor="center",
         textangle=0,
-        font={"size": 16, "color": "red", "weight": "bold"},
+        font={"size": 16, "weight": "bold"},
     )
 
     # 6. Add the Extra Point
@@ -318,7 +323,7 @@ def build_ecr_r_chart(anxious_score: float, avoidant_score: float):
             text=[extra_point_coords["text"]],
             textposition="bottom left",
             hoverinfo="text",
-            textfont=dict(size=12, color="red"),
+            textfont=dict(size=12),
         )
     )
 
@@ -415,7 +420,7 @@ def build_ecr_r_chart(anxious_score: float, avoidant_score: float):
         ),
         width=800,
         height=800,
-        # margin=dict(l=50, r=50, b=50, t=50),
+        margin=dict(l=50, r=50, b=50, t=50),
         showlegend=False,
         # plot_bgcolor="white",
         # paper_bgcolor="white",

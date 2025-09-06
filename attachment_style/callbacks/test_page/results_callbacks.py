@@ -18,6 +18,7 @@ dmc.add_figure_templates()
 def update_score_cards(scores):
     # convert to relative percentage
     total_score = scores["anxious_score"] + scores["avoidant_score"] + scores["secure_score"]
+    print("total score: ", total_score)
     anxious_percent = round(((scores["anxious_score"] / total_score) * 100), 1)
     avoidant_percent = round(((scores["avoidant_score"] / total_score) * 100), 1)
     secure_percent = round(((scores["secure_score"] / total_score) * 100), 1)
@@ -39,7 +40,8 @@ def update_score_cards(scores):
 def update_results_chart(scores, theme):
     anxious_score = scores["anxious_score"]
     avoidant_score = scores["avoidant_score"]
-    figure = build_ecr_r_chart(anxious_score, avoidant_score)
+    secure_score = scores["secure_score"]
+    figure = build_ecr_r_chart(anxious_score, avoidant_score, secure_score)
     if theme == "dark":
         figure.update_layout(template="mantine_dark")
     else:
