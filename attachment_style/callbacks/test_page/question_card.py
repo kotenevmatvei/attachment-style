@@ -6,24 +6,29 @@ We need:
     * show submit button after the last question has been visited and leave it there
     *
 """
+import logging
+
 import dash_mantine_components as dmc
 from dash import callback, Input, Output, State, ctx, ALL
 from dash.exceptions import PreventUpdate
-import logging
 
 import constants
+from utils.utils import revert_scores_for_reverted_questions, calculate_scores
 
 logger = logging.getLogger(__name__)
+
 
 # current item badge
 @callback(
     Output("current-item-badge", "children"),
-    Input("current-question-count-store", "data"),
-    State("questions-store", "data"),
+    [
+        Input("current-question-count-store", "data"),
+        Input("questions-store", "data"),
+    ]
 )
-def update_current_item_badge(questions_answered, questions):
+def update_current_item_badge(current_question, questions):
     total_items = len(questions)
-    return f"Item {questions_answered} from {total_items}"
+    return f"Item {current_question} from {total_items}"
 
 
 # display question
@@ -63,7 +68,7 @@ def display_question(current_question_count, questions, subject):
         Input("prev-button", "n_clicks"),
     ]
     # answer option buttons
-    + [Input(f"option-{i}", "n_clicks") for i in range(1,8)],
+    + [Input(f"option-{i}", "n_clicks") for i in range(1, 8)],
     [
         State("current-question-count-store", "data"),
         State("questions-len", "data"),
@@ -99,7 +104,7 @@ def update_question(
         raise PreventUpdate
 
     # --------- click on one of the options -----------
-    if triggered_id in [f"option-{i}" for i in range(1,8)]:
+    if triggered_id in [f"option-{i}" for i in range(1, 8)]:
         # get the value in any case
         value = int(triggered_id.split("-")[1])
 
@@ -107,7 +112,7 @@ def update_question(
         if answers[str(current_question_count)]:
             old_value = answers[str(current_question_count)][1]
             # logger.info(f"already been here. your old value: {old_value}")
-            logger.info("Navigation case 1")
+            # logger.info("Navigation case 1")
 
         answers[str(current_question_count)] = (
             questions[current_question_count - 1][1], value, questions[current_question_count - 1][0]
@@ -118,11 +123,11 @@ def update_question(
         if current_question_count == questions_len:
             # has it already been answered? -> don't update questions_answered_count
             if questions_answered_count == questions_len:
-                logger.info("Navigation case 2")
+                # logger.info("Navigation case 2")
                 return current_question_count, questions_answered_count, answers, False, False, True, True
             # update question_count (should become eq. questions_len now)
             else:
-                logger.info("Navigation case 3")
+                # logger.info("Navigation case 3")
                 return current_question_count, questions_answered_count + 1, answers, False, False, True, True
         # we are returning (rewriting, since clicking on the answer options, not navigation btns) after skipping back
         # but we have not yet reached the last answered question, so forward buttons enabled
@@ -130,15 +135,15 @@ def update_question(
             # check if next comes the last question!
             if current_question_count == questions_len - 1:
                 return current_question_count + 1, questions_answered_count, answers, False, False, True, True
-            logger.info("Navigation case 4")
+            # logger.info("Navigation case 4")
             return current_question_count + 1, questions_answered_count, answers, False, False, False, False
         # we have reached the last answered question - block the forward buttons for the next one (new!)
         elif current_question_count == questions_answered_count:
-            logger.info("Navigation case 5")
+            # logger.info("Navigation case 5")
             return current_question_count + 1, questions_answered_count, answers, False, False, True, True
         # we are answering a new question
         elif current_question_count == questions_answered_count + 1:
-            logger.info("Navigation case 6")
+            # logger.info("Navigation case 6")
             return current_question_count + 1, questions_answered_count + 1, answers, False, False, True, True
 
     # ---------- skipping through questions via navigation buttons ------------
@@ -150,9 +155,9 @@ def update_question(
         # disable the forward buttons if the next question is the last onw the user had answered
         if current_question_count == questions_answered_count:
             logger.info("Navigation case 7")
-            return current_question_count + 1, questions_answered_count, answers, False, False, True, True
+            # return current_question_count + 1, questions_answered_count, answers, False, False, True, True
         else:
-            logger.info("Navigation case 8")
+            # logger.info("Navigation case 8")
             return current_question_count + 1, questions_answered_count, answers, False, False, False, False
 
     # moving backwards
@@ -163,13 +168,13 @@ def update_question(
         #     return current_question_count, questions_answered_count, answers, True, True, False, False
         # block the back buttons already if next comes the first question
         if current_question_count == 2:
-            logger.info("Navigation case 10")
+            # logger.info("Navigation case 10")
             return current_question_count - 1, questions_answered_count, answers, True, True, False, False
         else:
-            logger.info("Navigation case 11")
+            # logger.info("Navigation case 11")
             return current_question_count - 1, questions_answered_count, answers, False, False, False, False
 
-    logger.info("Navigation case 0")
+    # logger.info("Navigation case 0")
     return 1, 0, answers, True, True, True, True
 
 
@@ -214,23 +219,23 @@ def enable_to_results_button(questions_answered_count, questions_len):
 # style depending on the theme
 @callback(
     [Output("question-paper", "style")]
-    + [Output(f"option-{i}", "bg") for i in range(1,8)]
-    + [Output(f"option-{i}", "c") for i in range(1,8)],
+    + [Output(f"option-{i}", "bg") for i in range(1, 8)]
+    + [Output(f"option-{i}", "c") for i in range(1, 8)],
     Input("mantine-provider", "forceColorScheme"),
 )
 def update_question_card_style(theme):
     if theme == "dark":
         return (
             {"backgroundColor": dmc.DEFAULT_THEME["colors"]["dark"][6]},
-            *["dark" for i in range(1,8)],
-            *["white" for i in range(1,8)]
+            *["dark" for i in range(1, 8)],
+            *["white" for i in range(1, 8)]
             # *[dmc.DEFAULT_THEME["colors"]["dark"][7] for i in range(1,8)]
         )
     else:
         return (
             {"backgroundColor": dmc.DEFAULT_THEME["colors"]["gray"][1]},
-            *["gray.1" for i in range(1,8)],
-            *["black" for i in range(1,8)]
+            *["gray.1" for i in range(1, 8)],
+            *["black" for i in range(1, 8)]
             # *[dmc.DEFAULT_THEME["colors"]["dark"][1] for i in range(1,8)]
         )
 
@@ -239,13 +244,18 @@ def update_question_card_style(theme):
     [
         Output("results-board-collapse", "opened"),
         Output("question-card-collapse", "opened", allow_duplicate=True),
+        Output("result-scores-store", "data"),
     ],
-    [
-        Input("to-results-button", "n_clicks"),
-    ],
+    Input("to-results-button", "n_clicks"),
+    State("answers-store", "data"),
     prevent_initial_call=True,
 )
-def toggle_results_collapse(to_results_click):
+def toggle_results_collapse(to_results_click, answers):
     if to_results_click:
-        return True, False
-    return False, True
+        reverted_answers = revert_scores_for_reverted_questions(answers)
+        anxious_score, secure_score, avoidant_score = calculate_scores(reverted_answers)
+        result_scores = {"anxious_score": anxious_score, "secure_score": secure_score, "avoidant_score": avoidant_score}
+        return True, False, result_scores
+
+    # start with 1's to avoid dividing by 0
+    return False, True, {"anxious_score": 1, "avoidant_score": 0, "secure_score": 0}

@@ -19,7 +19,7 @@ from components.debugging_table import DebuggingTable, CurrentCount
 
 from utils.utils import read_questions
 
-from callbacks.test_page import subject, demographics, question_card
+from callbacks.test_page import subject, demographics, question_card, results_callbacks
 
 # required stylesheets for full DMC functionality
 stylesheets = [
@@ -46,7 +46,7 @@ app_shell = dmc.AppShell(
         dcc.Store(id="answers-store", data={}),
         dcc.Store(id="questions-answered-count-store", data=0),
         dcc.Store(id="current-question-count-store", data=1),
-        dcc.Store(id="last-question-visited", data=False),
+        dcc.Store(id="result-scores-store", data={}),
         dmc.AppShellHeader(header, h=80),
         dmc.AppShellMain(
             dmc.Container(

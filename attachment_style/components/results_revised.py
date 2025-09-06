@@ -62,10 +62,11 @@ ScoreCards = dmc.SimpleGrid(
                                 gap="xs",
                             ),
                             dmc.Text(
-                                f"{results_data['anxious_score']}%",
+                                # f"{results_data['anxious_score']}%",
                                 size="xl",
                                 fw=700,
                                 c="#FA5252",
+                                id="anxious-score-percent-text",
                             ),
                             dmc.Text(
                                 "Seeks closeness but worries about relationships",
@@ -96,10 +97,11 @@ ScoreCards = dmc.SimpleGrid(
                                 gap="xs",
                             ),
                             dmc.Text(
-                                f"{results_data['avoidant_score']}%",
+                                # f"{results_data['avoidant_score']}%",
                                 size="xl",
                                 fw=700,
                                 c="#20C997",
+                                id="avoidant-score-percent-text",
                             ),
                             dmc.Text(
                                 "Values independence and self-reliance",
@@ -130,10 +132,11 @@ ScoreCards = dmc.SimpleGrid(
                                 gap="xs",
                             ),
                             dmc.Text(
-                                f"{results_data['secure_score']}%",
+                                # f"{results_data['secure_score']}%",
                                 size="xl",
                                 fw=700,
                                 c="#339AF0",
+                                id="secure-score-percent-text",
                             ),
                             dmc.Text(
                                 "Comfortable with intimacy and autonomy",
@@ -269,7 +272,8 @@ ResultsBoard = dmc.Container(
                                         gap="sm",
                                     ),
                                     dmc.Text(
-                                        "Get a comprehensive PDF report with your attachment style analysis, detailed explanations, and personalized recommendations.",
+                                        "Get a comprehensive PDF report with your attachment style analysis, "
+                                        "detailed explanations, and personalized recommendations.",
                                         size="md",
                                         c="dimmed",
                                     ),
@@ -338,6 +342,8 @@ ResultsBoard = dmc.Container(
 # )
 # def update_chart_theme(color_scheme):
 #     return create_results_chart(color_scheme)
+
+
 
 
 @callback(

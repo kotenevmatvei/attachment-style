@@ -42,20 +42,21 @@ def read_questions_file(
     with open(questions_file_path, "r") as file:
         for line in file:
             decoded_line = codecs.decode(line.strip(), "unicode_escape")
-            line_with_reverse_score_accounted = decoded_line.replace(" /r/", "  ")
+            line_with_reverse_score_accounted = decoded_line.replace(" /r/", "   ")
             questions_list.append((line_with_reverse_score_accounted, attachment_style))
 
     return questions_list
 
 
-def revert_questions(
+def revert_scores_for_reverted_questions(
     answers: dict[str, tuple[str, float, str]],
 ) -> dict[str, tuple[str, float, str]]:
-    # revert the questions when needed (only relevant for ecr-r)
     if len(answers) == 36:
         for key, value in answers.items():
-            if value[2].endswith("  "):
+            if value[2].endswith("  **"):
+                original_value = value  # for debugging
                 reverted_value = (value[0], abs(8 - value[1]), value[2])
+                logger.info(f"reverting {original_value[1]} to {reverted_value[1]}")
                 answers[key] = reverted_value
 
     return answers
