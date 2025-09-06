@@ -99,7 +99,7 @@ def build_pie_chart(
     return fig
 
 
-def build_ecr_r_chart(anxious_score: float, secure_score: float, avoidant_score: float):
+def build_ecr_r_chart(anxious_score: float, avoidant_score: float):
     # Set default renderer to browser
     # pio.renderers.default = "browser"
 
@@ -415,10 +415,10 @@ def build_ecr_r_chart(anxious_score: float, secure_score: float, avoidant_score:
         ),
         width=800,
         height=800,
-        margin=dict(l=50, r=50, b=50, t=50),
+        # margin=dict(l=50, r=50, b=50, t=50),
         showlegend=False,
-        plot_bgcolor="white",
-        paper_bgcolor="white",
+        # plot_bgcolor="white",
+        # paper_bgcolor="white",
     )
 
     # Invert y-axis (low avoidance at top [y=1], high avoidance at bottom [y=7])

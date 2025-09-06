@@ -1,4 +1,9 @@
-from dash import callback, Output, Input, State
+from dash import callback, Output, Input, State, no_update
+import dash_mantine_components as dmc
+from utils.utils import build_ecr_r_chart
+
+dmc.add_figure_templates()
+
 
 # update the score cards on top
 @callback(
@@ -21,3 +26,25 @@ def update_score_cards(scores):
         f"{avoidant_percent}%",
         f"{secure_percent}%",
     )
+
+
+@callback(
+    Output("results-chart", "figure"),
+    [
+        Input("result-scores-store", "data"),
+        Input("mantine-provider", "forceColorScheme"),
+    ],
+    prevent_inital_callback=True,
+)
+def update_results_chart(scores, theme):
+    anxious_score = scores["anxious_score"]
+    avoidant_score = scores["avoidant_score"]
+    figure = build_ecr_r_chart(anxious_score, avoidant_score)
+    if theme == "dark":
+        figure.update_layout(template="mantine_dark")
+    else:
+        figure.update_layout(template="mantine_light")
+
+    return figure
+
+

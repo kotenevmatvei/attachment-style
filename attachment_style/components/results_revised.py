@@ -5,7 +5,6 @@ from dash import dcc, Input, Output, callback
 from dash_iconify import DashIconify
 
 import constants
-from utils.utils import build_ecr_r_chart
 
 app = dash.Dash(__name__)
 dmc.add_figure_templates()
