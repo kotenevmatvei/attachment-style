@@ -5,7 +5,7 @@ from utils.utils import build_ecr_r_chart
 dmc.add_figure_templates()
 
 
-# update the score cards on top
+# score cards on top
 @callback(
     [
         Output("anxious-score-percent-text", "children"),
@@ -13,7 +13,7 @@ dmc.add_figure_templates()
         Output("secure-score-percent-text", "children"),
     ],
     Input("result-scores-store", "data"),
-    prevent_initial_callback=True,
+    prevent_initial_call=True,
 )
 def update_score_cards(scores):
     # convert to relative percentage
@@ -28,14 +28,14 @@ def update_score_cards(scores):
         f"{secure_percent}%",
     )
 
-
+# ecr-r chart
 @callback(
     Output("results-chart", "figure"),
     [
         Input("result-scores-store", "data"),
         Input("mantine-provider", "forceColorScheme"),
     ],
-    prevent_inital_callback=True,
+    prevent_inital_call=True,
 )
 def update_results_chart(scores, theme):
     anxious_score = scores["anxious_score"]
@@ -50,3 +50,37 @@ def update_results_chart(scores, theme):
     return figure
 
 
+# dominant style
+@callback(
+    Output("dominant-style-text", "children"),
+    Input("result-scores-store", "data"),
+    prevent_initial_call=True,
+)
+def update_dominant_style_text(scores):
+    anxious_score = scores["anxious_score"]
+    avoidant_score = scores["avoidant_score"]
+    secure_score = scores["secure_score"]
+    if (anxious_score >= avoidant_score) and (anxious_score >= secure_score):
+        dominant_style = "Anxious"
+        dominant_score = anxious_score
+    if (secure_score >= avoidant_score) and (secure_score >= anxious_score):
+        dominant_style = "Secure"
+        dominant_score = secure_score
+    if (avoidant_score >= secure_score) and (avoidant_score >= anxious_score):
+        dominant_style = "Avoidant"
+        dominant_score = avoidant_score
+
+    text = dmc.Text(
+        [
+            "Your dominant attachment style is ",
+            dmc.Text(
+                dominant_style,
+                fw=700,
+                span=True,
+                c="#339AF0",
+            ),
+            f" with a score of {round(dominant_score, 1)} from 7.",
+        ]
+    ),
+
+    return text

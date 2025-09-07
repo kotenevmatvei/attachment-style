@@ -168,20 +168,7 @@ ResultsInterpretation = dmc.Paper(
                         gap="sm",
                     ),
                     dmc.Alert(
-                        children=[
-                            dmc.Text(
-                                [
-                                    "Your dominant attachment style is ",
-                                    dmc.Text(
-                                        results_data["dominant_style"],
-                                        fw=700,
-                                        span=True,
-                                        c="#339AF0",
-                                    ),
-                                    f" with a score of {results_data['secure_score']}%.",
-                                ]
-                            ),
-                        ],
+                        id="dominant-style-text",
                         title="Primary Attachment Style",
                         icon=DashIconify(icon="tabler:info-circle"),
                         color=constants.PRIMARY,
