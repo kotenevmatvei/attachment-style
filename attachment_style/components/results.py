@@ -184,21 +184,12 @@ ResultsInterpretation = dmc.Paper(
                             "being alone or being accepted.",
                         ],
                         size="md",
+                        id="result-interpretation-text",
                     ),
                     dmc.Divider(),
                     dmc.Text("Key Characteristics:", fw=600, size="md"),
                     dmc.List(
-                        [
-                            dmc.ListItem("Comfortable with emotional intimacy"),
-                            dmc.ListItem("Effective communication skills"),
-                            dmc.ListItem(
-                                "Balanced need for independence and closeness"
-                            ),
-                            dmc.ListItem("Positive self-image and view of others"),
-                            dmc.ListItem(
-                                "Resilient in handling relationship conflicts"
-                            ),
-                        ],
+                        id="result-interpretation-list",
                         icon=DashIconify(
                             icon="tabler:check", width=16, color="#51CF66"
                         ),

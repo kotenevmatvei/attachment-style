@@ -64,9 +64,13 @@ def update_results_chart(scores, theme, subject):
     return figure
 
 
-# dominant style
+# interpretation
 @callback(
-    Output("dominant-style-text", "children"),
+    [
+        Output("dominant-style-text", "children"),
+        Output("result-interpretation-text", "children"),
+        Output("result-interpretation-list", "children"),
+    ],
     Input("result-scores-store", "data"),
     prevent_initial_call=True,
 )
@@ -77,14 +81,74 @@ def update_dominant_style_text(scores):
     if (anxious_score >= avoidant_score) and (anxious_score >= secure_score):
         dominant_style = "Anxious"
         dominant_score = anxious_score
+        interpretation_text = [
+            "People with a ",
+            dmc.Text("anxious attachment style", fw=600, span=True),
+            " tend to crave emotional intimacy but often feel "
+            "insecure and doubtful about their partner's love and commitment. They may have a negative "
+            "self-view and a positive view of their partners, leading to a deep-seated fear of abandonment. "
+            "This anxiety can cause them to seek constant reassurance, over-analyze their partner's behavior, and "
+            "become highly dependent on the relationship for their sense of self-worth.",
+        ]
+        key_characteristics = [
+            dmc.ListItem("Intense craving for closeness and intimacy"),
+            dmc.ListItem("Persistent worry about the partner's love and the relationship's stability"),
+            dmc.ListItem(
+                "Tendency to be emotionally dependent on the partner"
+            ),
+            dmc.ListItem("High sensitivity to a partner's moods and actions"),
+            dmc.ListItem(
+                "Fear of being alone or rejected"
+            ),
+        ]
     if (secure_score >= avoidant_score) and (secure_score >= anxious_score):
         dominant_style = "Secure"
         dominant_score = secure_score
+        interpretation_text = [
+            "People with a ",
+            dmc.Text("secure attachment style", fw=600, span=True),
+            " typically feel comfortable with intimacy and are usually warm and loving. They have "
+            "a positive view of themselves and their partners. They communicate effectively, are "
+            "comfortable depending on others and having others depend on them, and don't worry about "
+            "being alone or being accepted.",
+        ]
+
+        key_characteristics = [
+            dmc.ListItem("Comfortable with emotional intimacy"),
+            dmc.ListItem("Effective communication skills"),
+            dmc.ListItem(
+                "Balanced need for independence and closeness"
+            ),
+            dmc.ListItem("Positive self-image and view of others"),
+            dmc.ListItem(
+                "Resilient in handling relationship conflicts"
+            ),
+        ]
     if (avoidant_score >= secure_score) and (avoidant_score >= anxious_score):
         dominant_style = "Avoidant"
         dominant_score = avoidant_score
+        interpretation_text = [
+            "People with a ",
+            dmc.Text("avoidant attachment style", fw=600, span=True),
+            " are often highly independent and self-sufficient, preferring to handle problems on their own. "
+            "They tend to be uncomfortable with emotional closeness and may suppress their feelings to avoid intimacy. "
+            "While they may have a positive self-image, they can be dismissive of others' needs for closeness and may "
+            "view partners as overly demanding. They prioritize their freedom and may distance themselves when they feel "
+            "a partner is getting too close..",
+        ]
+        key_characteristics = [
+            dmc.ListItem("Strong emphasis on independence and self-reliance"),
+            dmc.ListItem("Discomfort with emotional intimacy and sharing feelings"),
+            dmc.ListItem(
+                "Tendency to create distance in relationships"
+            ),
+            dmc.ListItem("Avoidance of dependency on others"),
+            dmc.ListItem(
+                "Suppression of emotional expression"
+            ),
+        ]
 
-    text = dmc.Text(
+    dominant_style_text = dmc.Text(
         [
             "Your dominant attachment style is ",
             dmc.Text(
@@ -97,4 +161,4 @@ def update_dominant_style_text(scores):
         ]
     ),
 
-    return text
+    return dominant_style_text, interpretation_text, key_characteristics
