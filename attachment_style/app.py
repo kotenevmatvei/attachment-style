@@ -47,6 +47,8 @@ app_shell = dmc.AppShell(
         dcc.Store(id="questions-answered-count-store", data=0),
         dcc.Store(id="current-question-count-store", data=1),
         dcc.Store(id="result-scores-store", data={}),
+        dcc.Store(id="figure-store"),
+        dcc.Download(id="download-report"),
         dmc.AppShellHeader(header, h=80),
         dmc.AppShellMain(
             dmc.Container(

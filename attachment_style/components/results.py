@@ -1,44 +1,13 @@
 import dash
 import dash_mantine_components as dmc
 import plotly.graph_objects as go
-from dash import dcc, Input, Output, callback
+from dash import dcc, Input, Output, callback, html
 from dash_iconify import DashIconify
 
 import constants
 
 app = dash.Dash(__name__)
 dmc.add_figure_templates()
-
-results_data = {
-    "anxious_score": 65,
-    "avoidant_score": 45,
-    "secure_score": 80,
-    "dominant_style": "Secure",
-}
-
-
-Chart = go.Figure(
-        data=[
-            go.Bar(
-                x=["Anxious", "Avoidant", "Secure"],
-                y=[
-                    results_data["anxious_score"],
-                    results_data["avoidant_score"],
-                    results_data["secure_score"],
-                ],
-                marker_color=["#FA5252", "#20C997", "#339AF0"],
-                text=[
-                    f"{score}%"
-                    for score in [
-                        results_data["anxious_score"],
-                        results_data["avoidant_score"],
-                        results_data["secure_score"],
-                    ]
-                ],
-                textposition="auto",
-            )
-        ]
-    )
 
 
 ScoreCards = dmc.SimpleGrid(
@@ -207,6 +176,7 @@ ResultsInterpretation = dmc.Paper(
 
 ResultsBoard = dmc.Container(
         [
+            html.Div(id="dummy-div-pic-download"),
             dmc.Stack(
                 [
                     dmc.Center(
@@ -263,7 +233,7 @@ ResultsBoard = dmc.Container(
                                         color="orange",
                                         variant="gradient",
                                         gradient={"from": "orange", "to": "red"},
-                                        id="download-pdf",
+                                        id="download-report-button",
                                         fullWidth=True,
                                     ),
                                 ],
@@ -305,41 +275,3 @@ ResultsBoard = dmc.Container(
         px="xl",
         py="lg",
     )
-
-
-# @callback(
-#     Output("results-chart", "figure"),
-#     Input("mantine-provider", "forceColorScheme"),
-# )
-# def update_chart_theme(color_scheme):
-#     return create_results_chart(color_scheme)
-
-
-
-
-@callback(
-    Output("download-paper", "style"),
-    Input("mantine-provider", "forceColorScheme"),
-)
-def update_download_paper_style(color_scheme):
-    if color_scheme == "dark":
-        return {
-            "background": f"linear-gradient(135deg, {dmc.DEFAULT_THEME['colors']['dark'][8]} 0%, "
-                          f"{dmc.DEFAULT_THEME['colors']['dark'][6]} 100%)"
-        }
-    return {"background": "linear-gradient(135deg, #FFF5F5 0%, #FFF8DC 100%)"}
-
-
-@callback(
-    Output("download-pdf", "loading"),
-    Input("download-pdf", "n_clicks"),
-    prevent_initial_call=True,
-)
-def handle_pdf_download(n_clicks):
-    if n_clicks:
-        return True
-    return False
-
-
-if __name__ == "__main__":
-    app.run(debug=True)

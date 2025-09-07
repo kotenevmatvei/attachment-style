@@ -1,9 +1,15 @@
+import logging
+
 import dash_mantine_components as dmc
 import pandas as pd
 import plotly.express as px
-from dash import callback, Output, Input, State
+import plotly.io as pio
+from dash import callback, Output, Input, State, dcc
 
-from utils.utils import build_ecr_r_chart
+from utils.generate_pdf import generate_report
+from utils.utils import build_ecr_r_chart, revert_scores_for_reverted_questions
+
+logger = logging.getLogger(__name__)
 
 dmc.add_figure_templates()
 
@@ -34,7 +40,10 @@ def update_score_cards(scores):
 
 # ecr-r chart
 @callback(
-    Output("results-chart", "figure"),
+    [
+        Output("results-chart", "figure"),
+        Output("figure-store", "data"),
+    ],
     [
         Input("result-scores-store", "data"),
         Input("mantine-provider", "forceColorScheme"),
@@ -61,7 +70,9 @@ def update_results_chart(scores, theme, subject):
     else:
         figure.update_layout(template="mantine_light")
 
-    return figure
+    fig_json = figure.to_json()
+
+    return figure, fig_json
 
 
 # interpretation
@@ -162,3 +173,68 @@ def update_dominant_style_text(scores):
     ),
 
     return dominant_style_text, interpretation_text, key_characteristics
+
+
+# download picture
+@callback(
+    Output("dummy-div-pic-download", "style"),
+    Input("figure-store", "data"),
+    prevent_initial_call=True,
+)
+def download_plot_picture(fig_json):
+    fig = pio.from_json(fig_json)
+
+    logger.info("Saving the image...")
+    fig.write_image(
+        "tmp/figure_you.png", width=700, height=500
+    )
+    logger.info("Image saved")
+
+    return {}
+
+
+@callback(
+    Output("download-report", "data"),
+    Input("download-report-button", "n_clicks"),
+    [
+        State("answers-store", "data"),
+        State("figure-store", "data"),
+    ],
+    prevent_initial_call=True,
+)
+def load_report(n_clicks, answers, fig_json):
+    if n_clicks:
+        fig = pio.from_json(fig_json)
+
+        logger.info("Saving the image...")
+        fig.write_image(
+            "tmp/figure.png", width=700, height=500
+        )
+        logger.info("Image saved")
+        reverted_scores = revert_scores_for_reverted_questions(answers)
+        generate_report(reverted_scores)
+        return dcc.send_file("tmp/attachment_style_report.pdf", type="pdf")
+
+
+@callback(
+    Output("download-paper", "style"),
+    Input("mantine-provider", "forceColorScheme"),
+)
+def update_download_paper_style(color_scheme):
+    if color_scheme == "dark":
+        return {
+            "background": f"linear-gradient(135deg, {dmc.DEFAULT_THEME['colors']['dark'][8]} 0%, "
+                          f"{dmc.DEFAULT_THEME['colors']['dark'][6]} 100%)"
+        }
+    return {"background": "linear-gradient(135deg, #FFF5F5 0%, #FFF8DC 100%)"}
+
+
+@callback(
+    Output("download-report-button", "loading"),
+    Input("download-report-button", "n_clicks"),
+    prevent_initial_call=True,
+)
+def handle_pdf_download(n_clicks):
+    if n_clicks:
+        return True
+    return False
