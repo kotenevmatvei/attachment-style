@@ -287,12 +287,6 @@ ResultsBoard = dmc.Container(
                                 id="retake-survey",
                             ),
                             dmc.Button(
-                                "Share Results",
-                                variant="light",
-                                leftSection=DashIconify(icon="tabler:share", width=16),
-                                id="share-results",
-                            ),
-                            dmc.Button(
                                 "Learn More",
                                 variant="light",
                                 color="grape",
