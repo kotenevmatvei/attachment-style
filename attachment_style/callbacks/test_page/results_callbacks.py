@@ -260,9 +260,8 @@ clientside_callback(
     ],
     [
         Input("retake-survey-button", "n_clicks"),
-        Input("learn-more-button", "n_clicks"),
     ],
     prevent_initial_call=True,
 )
-def clear_state(retake_servey_clicks, learn_more_clicks):
+def clear_state(retake_servey_clicks):
     return 1, 0, {}, "you", {"anxious_score": 1, "avoidant_score": 1, "secure_score": 1}, 36, {}

@@ -14,8 +14,7 @@ logging.basicConfig(
 
 import constants
 from components.header import header
-from components.footer import Footer
-from components.debugging_table import DebuggingTable, CurrentCount
+# from components.debugging_table import DebuggingTable, CurrentCount
 
 from utils.utils import read_questions
 
@@ -55,15 +54,13 @@ app_shell = dmc.AppShell(
             dmc.Container(
                 [
                     page_container,
-                    CurrentCount,
-                    DebuggingTable,
-                    Footer,
+                    # CurrentCount,
+                    # DebuggingTable,
                 ],
                 size="xl",
                 py="xl",
             )
         ),
-
     ],
     header={"height": 80},
     padding="md",

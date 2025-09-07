@@ -96,6 +96,13 @@ QuestionComponent = dmc.Container(
     [
         dmc.Container(
             [
+                dmc.Title(
+                    "Questionnaire",
+                    order=1,
+                    ta="center",
+                    c=constants.PRIMARY,
+                    mb="xl",
+                ),
                 dmc.Stack(
                     [
                         # Progress and navigation

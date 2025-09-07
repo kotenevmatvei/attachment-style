@@ -80,7 +80,7 @@ def submit_personal_questionnaire(
         therapy_experience_error = "Please select your therapy experience" if not therapy_experience else None
         gender_error = "Please select your gender" if not gender else None
         return (
-            True, True,
+            True, False,
             age_error, relationship_status_error, therapy_experience_error, gender_error,
             ""
         )
