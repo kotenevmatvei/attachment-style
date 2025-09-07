@@ -1,3 +1,8 @@
+import logging
+from datetime import datetime
+
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import (
     SimpleDocTemplate,
     Paragraph,
@@ -7,107 +12,148 @@ from reportlab.platypus import (
     Table,
     Indenter,
 )
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib import colors
-import logging
 
 logger = logging.getLogger(__name__)
 
-def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
-    top_margin = 0.5 * 72
-    # Create a SimpleDocTemplate
-    doc = SimpleDocTemplate("tmp/attachment_style_report.pdf", topMargin=top_margin)
-    # Fetch the built-in styles, and return a list to append elements to
-    styles = getSampleStyleSheet()
-    story = []
-    # create a title
-    title = Paragraph("Attachment Style Report", styles["Title"])
-    story.append(title)
-    # add space
-    story.append(Spacer(0, 10))
-    # add chart
-    chart = Image("tmp/figure.png", width=400, height=300)
-    story.append(chart)
-    # if len(answers) == 36:
-    #     chart = Image("tmp/figure_you.png", width=700 / 2, height=500 / 2)
-    #     story.append(chart)
-    # elif len(answers) == 33:
-    #     chart = Image("tmp/figure_others.png", width=700 / 2, height=500 / 2)
-    #     story.append(chart)
-    # else:
-    #     logger.error("The number of answers is wrong. Not able to add a chart.")
-        
-    
-    # add a horizontal ruler to divide next section
-    story.append(
-        HRFlowable(
-            width="90%",
-            thickness=1,
-            lineCap="round",
-            spaceBefore=15,
-            spaceAfter=10,
-            hAlign="CENTER",
-            vAlign="BOTTOM",
-            dash=None,
-        )
-    )
-    # write anxious description
-    anxious_description_text = """
-        <b>Anxious</b>: You love to be very close to your romantic partners and have the capacity 
-        for great intimacy. You often fear, however, that your partner does not wish to be as 
-        close as you would like them to be. Relationships tend to consume a large part of 
-        your emotional energy. You tend to be very sensitive to small fluctuations in your 
-        partner’s moods and actions, and although your senses are often accurate, you take 
-        your partner’s behaviors too personally. You experience a lot of negative emotions 
-        within the relationship and get easily upset. As a result, you tend to act out and 
-        say things you later regret. If the other person provides a lot of security and 
-        reassurance, however, you are able to shed much of your preoccupation and feel 
-        contented.
-    """
-    secure_description = Paragraph(anxious_description_text, styles["Normal"])
-    story.append(secure_description)
-    story.append(Spacer(0, 10))
-    # write secure description
-    # secure_description_text = """
-    #     <b>Secure</b>: Being warm and loving in a relationship comes naturally to you. You 
-    #     enjoy being intimate without becoming overly worried about your relationships. 
-    #     You take things in stride when it comes to romance and don’t get easily upset 
-    #     over relationship matters. You effectively communicate your needs and feelings 
-    #     to your partner and are strong at reading your partner’s emotional cues and 
-    #     responding to them. You share your successes and problems with your partner, and 
-    #     are able to be there for him or her in times of need.
-    # """
-    # secure_description = Paragraph(secure_description_text, styles["Normal"])
-    story.append(secure_description)
-    story.append(Spacer(0, 10))
-    avoidant_description_text = """
-        <b>Avoidant</b>: It is very important for you to maintain your independence and 
-        self-sufficiency and you often prefer autonomy to intimate relationships. Even 
-        though you do want to be close to others, you feel uncomfortable with too much 
-        closeness and tend to keep your partner at arm’s length. You don’t spend much 
-        time  worrying about your romantic relationships or about being rejected. You 
-        tend not to open up to your partners and they often complain that you are 
-        emotionally distant. In relationships, you are often on high alert for any signs 
-        of control or impingement on your territory by your partner.
-    """
-    avoidant_description = Paragraph(avoidant_description_text, styles["Normal"])
-    story.append(avoidant_description)
 
-    # add a horizontal ruler to divide next section
+def generate_report(answers: dict[str, tuple[str, float, str]], dominant_style) -> None:
+    top_margin = 0.75 * 72
+    doc = SimpleDocTemplate(
+        "tmp/attachment_style_report.pdf",
+        topMargin=top_margin,
+        leftMargin=0.75 * 72,
+        rightMargin=0.75 * 72,
+        bottomMargin=0.75 * 72,
+    )
+    styles = getSampleStyleSheet()
+    # Custom styles
+    subtitle_style = ParagraphStyle(
+        name="Subtitle",
+        parent=styles["Heading2"],
+        textColor=colors.HexColor("#2B2D42"),
+        spaceAfter=6,
+        alignment=1,
+    )
+    section_header = ParagraphStyle(
+        name="SectionHeader",
+        parent=styles["Heading3"],
+        textColor=colors.HexColor("#1D3557"),
+        spaceBefore=12,
+        spaceAfter=6,
+    )
+    normal_style = ParagraphStyle(
+        name="Body",
+        parent=styles["BodyText"],
+        leading=15,
+    )
+    bullet_style = ParagraphStyle(
+        name="Bullet",
+        parent=styles["BodyText"],
+        leftIndent=14,
+        bulletIndent=4,
+        spaceBefore=2,
+        spaceAfter=2,
+    )
+
+    story = []
+    # Title
+    # Make a single title with the subtitle's visual style, centered at the top
+    story.append(Paragraph("Your attachment style report", subtitle_style))
+    story.append(Spacer(0, 12))
+
+    # Chart (prefer 'figure_you.png' if available by context; fall back handled by caller saving file)
+    chart = Image("tmp/figure.png", width=440, height=315)
+    story.append(chart)
+
     story.append(
         HRFlowable(
-            width="90%",
+            width="100%",
             thickness=1,
             lineCap="round",
             spaceBefore=15,
             spaceAfter=10,
             hAlign="CENTER",
             vAlign="BOTTOM",
-            dash=None,
         )
     )
-    # add anxious Q&A
+
+    # Build style descriptions using the same wording as results_callbacks.py
+    # We don't import Dash components; we rephrase them as plain text.
+    def style_block(name: str, text: str, bullets: list[str]):
+        # Keep headings with the first paragraph to reduce awkward page breaks
+        section_header.keepWithNext = True
+        story.append(Paragraph(f"<b>{name}</b>", section_header))
+        story.append(Paragraph(text, normal_style))
+        if bullets:
+            for b in bullets:
+                story.append(Paragraph(f"• {b}", bullet_style))
+        story.append(Spacer(0, 8))
+
+    # Texts adapted from results_callbacks.update_dominant_style_text
+    anxious_text = (
+        "People with an anxious attachment style tend to crave emotional intimacy but often "
+        "feel insecure and doubtful about their partner's love and commitment. They may have "
+        "a negative self-view and a positive view of their partners, leading to a deep-seated "
+        "fear of abandonment. This anxiety can cause them to seek constant reassurance, over-"
+        "analyze their partner's behavior, and become highly dependent on the relationship "
+        "for their sense of self-worth."
+    )
+    anxious_bullets = [
+        "Intense craving for closeness and intimacy",
+        "Persistent worry about the partner's love and the relationship's stability",
+        "Tendency to be emotionally dependent on the partner",
+        "High sensitivity to a partner's moods and actions",
+        "Fear of being alone or rejected",
+    ]
+
+    secure_text = (
+        "People with a secure attachment style typically feel comfortable with intimacy and are "
+        "usually warm and loving. They have a positive view of themselves and their partners. "
+        "They communicate effectively, are comfortable depending on others and having others "
+        "depend on them, and don't worry about being alone or being accepted."
+    )
+    secure_bullets = [
+        "Comfortable with emotional intimacy",
+        "Effective communication skills",
+        "Balanced need for independence and closeness",
+        "Positive self-image and view of others",
+        "Resilient in handling relationship conflicts",
+    ]
+
+    avoidant_text = (
+        "People with an avoidant attachment style are often highly independent and self-"
+        "sufficient, preferring to handle problems on their own. They tend to be uncomfortable "
+        "with emotional closeness and may suppress their feelings to avoid intimacy. While they "
+        "may have a positive self-image, they can be dismissive of others' needs for closeness and "
+        "may view partners as overly demanding. They prioritize their freedom and may distance "
+        "themselves when they feel a partner is getting too close."
+    )
+    avoidant_bullets = [
+        "Strong emphasis on independence and self-reliance",
+        "Discomfort with emotional intimacy and sharing feelings",
+        "Tendency to create distance in relationships",
+        "Avoidance of dependency on others",
+        "Suppression of emotional expression",
+    ]
+
+    style_block("Anxious", anxious_text, anxious_bullets)
+    style_block("Secure", secure_text, secure_bullets)
+    style_block("Avoidant", avoidant_text, avoidant_bullets)
+
+    story.append(
+        HRFlowable(
+            width="100%",
+            thickness=1,
+            lineCap="round",
+            spaceBefore=15,
+            spaceAfter=10,
+            hAlign="CENTER",
+            vAlign="BOTTOM",
+        )
+    )
+
     centered = ParagraphStyle(name="Centered", parent=styles["Heading3"], alignment=1)
+    # Section: Your Answers (no forced page break)
     story.append(Paragraph("Your Answers:", centered))
     # add anxious answers
     story.append(Paragraph("<u><b>Anxious</b></u>:"))
@@ -136,10 +182,24 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
                 single_question = Paragraph(line)
         question = [header, indenter_on, bullet_points, indenter_off, single_question]
         data_anxious.append([question, answer[1]])
+    # Add header row
+    data_anxious.insert(0, [Paragraph("<b>Question / Rationale</b>", styles["BodyText"]),
+                            Paragraph("<b>Score</b>", styles["BodyText"])])
     table_anxious = Table(
         data_anxious,
-        colWidths=[400, 50],
-        style=[("GRID", (0, 0), (-1, -1), 1, colors.gray)],
+        colWidths=[400, 60],
+        repeatRows=1,
+        style=[
+            ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#BFC0C0")),
+            ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#F1F3F5")),
+            ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.whitesmoke, colors.Color(0.98, 0.98, 1)]),
+            ("VALIGN", (0, 0), (-1, -1), "TOP"),
+            ("ALIGN", (1, 1), (1, -1), "CENTER"),
+            ("LEFTPADDING", (0, 0), (-1, -1), 6),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+            ("TOPPADDING", (0, 0), (-1, -1), 4),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+        ],
     )
     story.append(table_anxious)
 
@@ -172,10 +232,24 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
                     single_question = Paragraph(line)
             question = [single_question, header, indenter_on, bullet_points, indenter_off]
             data_secure.append([question, answer[1]])
+        # Add header row
+        data_secure.insert(0, [Paragraph("<b>Question / Rationale</b>", styles["BodyText"]),
+                               Paragraph("<b>Score</b>", styles["BodyText"])])
         table_secure = Table(
             data_secure,
-            colWidths=[400, 50],
-            style=[("GRID", (0, 0), (-1, -1), 1, colors.gray)],
+            colWidths=[400, 60],
+            repeatRows=1,
+            style=[
+                ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#BFC0C0")),
+                ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#F1F3F5")),
+                ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.whitesmoke, colors.Color(0.98, 0.98, 1)]),
+                ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                ("ALIGN", (1, 1), (1, -1), "CENTER"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 6),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+                ("TOPPADDING", (0, 0), (-1, -1), 4),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+            ],
         )
         story.append(table_secure)
 
@@ -207,11 +281,81 @@ def generate_report(answers: dict[str, tuple[str, float, str]]) -> None:
                 single_question = Paragraph(line)
         question = [single_question, header, indenter_on, bullet_points, indenter_off]
         data_avoidant.append([question, answer[1]])
+    # Add header row
+    data_avoidant.insert(0, [Paragraph("<b>Question / Rationale</b>", styles["BodyText"]),
+                             Paragraph("<b>Score</b>", styles["BodyText"])])
     table_avoidant = Table(
         data_avoidant,
-        colWidths=[400, 50],
-        style=[("GRID", (0, 0), (-1, -1), 1, colors.gray)],
+        colWidths=[400, 60],
+        repeatRows=1,
+        style=[
+            ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#BFC0C0")),
+            ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#F1F3F5")),
+            ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.whitesmoke, colors.Color(0.98, 0.98, 1)]),
+            ("VALIGN", (0, 0), (-1, -1), "TOP"),
+            ("ALIGN", (1, 1), (1, -1), "CENTER"),
+            ("LEFTPADDING", (0, 0), (-1, -1), 6),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+            ("TOPPADDING", (0, 0), (-1, -1), 4),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+        ],
     )
     story.append(table_avoidant)
-    # build the PDF document
-    doc.build(story)
+
+    # Next steps section based on dominant style
+    # Encourage a page break before suggestions to avoid splitting tables and tips
+    story.append(Spacer(0, 12))
+    story.append(HRFlowable(width="100%", thickness=1, spaceBefore=10, spaceAfter=8))
+    story.append(Paragraph("Suggestions to work on", section_header))
+
+    suggestions = {
+        "anxious": [
+            "Mindset: Name the feeling ('I notice anxiety') and rate intensity (0–10)",
+            "Practice: 4-7-8 breathing or body scan for 2–3 minutes",
+            "Practice: Delay reassurance seeking by 10 minutes and journal your thought",
+            "Conversation: Share needs using 'When X happens, I feel Y, I'd appreciate Z'",
+            "Practice: Create a soothing playlist or anchor phrase for spikes",
+            "Mindset: Reality-check stories; list 3 alternative explanations",
+            "Practice: Schedule a weekly 'connection ritual' (walk, check-in questions)",
+        ],
+        "avoidant": [
+            "Mindset: Notice the first urge to withdraw; label it without acting",
+            "Practice: Share one small personal detail with a trusted person weekly",
+            "Practice: Set a 10–15 min timer to stay present during discomfort",
+            "Conversation: Express boundaries and needs instead of disappearing",
+            "Practice: Plan low-pressure quality time that keeps autonomy (co-working, walks)",
+            "Mindset: Reframe closeness as a skill-building experiment, not a trap",
+            "Practice: Try 2-minute daily emotional check-in (What am I feeling? Why?)",
+        ],
+        "secure": [
+            "Mindset: Maintain reflective listening in tough conversations",
+            "Practice: Model repair attempts (own your part, propose a next step)",
+            "Practice: Protect boundaries while staying warm and responsive",
+            "Conversation: Invite feedback—'What helps you feel cared for with me?'",
+            "Practice: Support partners with anxious/avoidant cues without over-functioning",
+            "Mindset: Continue rituals of connection and appreciation",
+        ],
+    }
+
+    story.append(Spacer(0, 4))
+    story.append(Paragraph("These are gentle suggestions—try 1–2 for the next week and iterate.", normal_style))
+    story.append(Spacer(0, 6))
+
+    for tip in suggestions.get(dominant_style):
+        story.append(Paragraph(f"• {tip}", bullet_style))
+
+    story.append(Spacer(0, 10))
+    story.append(Paragraph("Note: This report is informational and not a diagnosis.",
+                           ParagraphStyle(name="Note", parent=styles["BodyText"],
+                                          textColor=colors.HexColor("#495057"))))
+
+    # build the PDF document with footer
+    def _draw_footer(canvas, doc_):
+        canvas.saveState()
+        footer_text = f"Generated on {datetime.now().strftime('%Y-%m-%d %H:%M')}"
+        canvas.setFont("Helvetica", 8)
+        canvas.setFillColor(colors.HexColor("#6C757D"))
+        canvas.drawRightString(doc_.pagesize[0] - doc_.rightMargin, 0.5 * 72 - 6, footer_text)
+        canvas.restoreState()
+
+    doc.build(story, onFirstPage=_draw_footer, onLaterPages=_draw_footer)

@@ -199,11 +199,23 @@ def download_plot_picture(fig_json):
     [
         State("answers-store", "data"),
         State("figure-store", "data"),
+        State("result-scores-store", "data")
     ],
     prevent_initial_call=True,
 )
-def load_report(n_clicks, answers, fig_json):
+def load_report(n_clicks, answers, fig_json, scores):
     if n_clicks:
+        # determine dominant attachment style
+        anxious_score = scores["anxious_score"]
+        avoidant_score = scores["avoidant_score"]
+        secure_score = scores["secure_score"]
+        if (anxious_score >= avoidant_score) and (anxious_score >= secure_score):
+            dominant_style = "anxious"
+        if (avoidant_score >= secure_score) and (avoidant_score >= anxious_score):
+            dominant_style = "avoidant"
+        if (secure_score >= avoidant_score) and (secure_score >= anxious_score):
+            dominant_style = "secure"
+
         fig = pio.from_json(fig_json)
 
         logger.info("Saving the image...")
@@ -212,7 +224,7 @@ def load_report(n_clicks, answers, fig_json):
         )
         logger.info("Image saved")
         reverted_scores = revert_scores_for_reverted_questions(answers)
-        generate_report(reverted_scores)
+        generate_report(reverted_scores, dominant_style)
         return dcc.send_file("tmp/attachment_style_report.pdf", type="pdf")
 
 
