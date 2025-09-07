@@ -49,7 +49,7 @@ def update_score_cards(scores):
         Input("mantine-provider", "forceColorScheme"),
     ],
     State("subject-store", "data"),
-    prevent_inital_call=True,
+    prevent_initial_call=True,
 )
 def update_results_chart(scores, theme, subject):
     anxious_score = scores["anxious_score"]
