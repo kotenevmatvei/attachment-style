@@ -154,8 +154,8 @@ def update_question(
             return current_question_count + 1, questions_answered_count, answers, False, False, True, True
         # disable the forward buttons if the next question is the last onw the user had answered
         if current_question_count == questions_answered_count:
-            logger.info("Navigation case 7")
-            # return current_question_count + 1, questions_answered_count, answers, False, False, True, True
+            # logger.info("Navigation case 7")
+            return current_question_count + 1, questions_answered_count, answers, False, False, True, True
         else:
             # logger.info("Navigation case 8")
             return current_question_count + 1, questions_answered_count, answers, False, False, False, False

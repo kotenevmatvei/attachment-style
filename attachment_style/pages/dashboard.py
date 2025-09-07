@@ -1,76 +1,132 @@
-# from dash import Input, Output, html, callback, register_page, dcc
-# from utils.utils import retrieve_scores_from_db
-# import plotly.graph_objects as go
-# import logging
-# 
-# # from components.dashboard.box_plot import BoxModal, BoxThumbnail
-# from components.dashboard.histogram_plot import HistogramModal, HistogramThumbnail
-# from components.dashboard.scatter_plot import ScatterModal, ScatterThumbnail
-# from components.dashboard.spider_plot import SpiderModal, SpiderThumbnail
-# from components.dashboard.pie_plot import PieModal, PieThumbnail
-# from components.dashboard.parallel_plot import ParallelModal, ParallelThumbnail
-# 
-# logger = logging.getLogger(__name__)
-# 
-# register_page(__name__, path="/dashboard")
-# 
-# fig = go.Figure()
-# scores = retrieve_scores_from_db()
-# logger.info("Retrieved scores from the db for the first time")
-# 
-# 
-# def layout(**kwargs):
-#     return html.Div(
-#         [
-#             html.H3("Dashboard", className="text-center mb-2"),
-#             dcc.Checklist(
-#                 ["Include test data"],
-#                 ["Include test data"],
-#                 id="include_test_data",
-#             ),
-#             html.Div("Click on the thumbnails to explore the graphs", className="mb-4"),
-#             html.Div(
-#                 children=[
-#                     # BoxThumbnail,
-#                     ScatterThumbnail,
-#                     SpiderThumbnail,
-#                     PieThumbnail,
-#                     HistogramThumbnail,
-#                     ParallelThumbnail,
-#                 ],
-#                 className="thumbnail-container",
-#             ),
-#             # BoxModal,
-#             HistogramModal,
-#             ScatterModal,
-#             SpiderModal,
-#             PieModal,
-#             ParallelModal,
-#             dcc.Store(id="data-store", data=scores),
-#         ]
-#     )
-# 
-# # switch between test and real data
-# @callback(
-#     Output("data-store", "data"),
-#     Input("include_test_data", "value"),
-#     prevent_initial_call=True,
-# )
-# def include_test_data(include_test_data):
-#     scores = retrieve_scores_from_db()
-#     # todo add the option to keep both test and real data like in the initial load
-#     test = True if include_test_data == ["Include test data"] else False
-# 
-#     if test == True:
-#         logger.info("Include the test data")
-#         return scores
-#     else:
-#         indices_to_keep = [
-#             i for i, test_val in enumerate(scores["test"]) if test_val == False
-#         ]
-#         filtered_scores = {
-#             key: [scores[key][i] for i in indices_to_keep] for key in scores.keys()
-#         }
-#         logger.info("Exclude the test data")
-# 
-#         return filtered_scores
+import logging
+
+import dash_mantine_components as dmc
+import plotly.graph_objects as go
+from dash import register_page, dcc
+from dash_iconify import DashIconify
+
+import constants
+from components.dashboard.box_plot import BoxCard
+from components.dashboard.parallel_plot import ParallelCard
+from components.dashboard.scatter_3d import Scatter3dCard
+from components.dashboard.scatter_plot import ScatterCard
+from utils.utils import retrieve_scores_from_db
+
+logger = logging.getLogger(__name__)
+
+register_page(__name__, path="/simple-dashboard")
+
+fig = go.Figure()
+scores = retrieve_scores_from_db()
+logger.info("Retrieved scores from the db for the first time")
+
+
+def layout(**kwargs):
+    return [
+        # Replace the top badges section with a proper header
+        dmc.Paper(
+            [
+                dmc.Group(
+                    [
+                        dmc.Stack(
+                            [
+                                dmc.Text(
+                                    "Attachment Style Dashboard",
+                                    size="xl",
+                                    fw=700,
+                                    c=constants.PRIMARY,
+                                ),
+                                dmc.Text(
+                                    "Real-time analytics from survey responses",
+                                    size="sm",
+                                    c="dimmed",
+                                ),
+                            ],
+                            gap="xs",
+                        ),
+                        dmc.Button(
+                            "Refresh Data",
+                            leftSection=DashIconify(
+                                icon="tabler:refresh", width=16
+                            ),
+                            variant="light",
+                        ),
+                    ],
+                    justify="space-between",
+                    align="center",
+                ),
+                # Statistics in a grid instead of badges
+                dmc.SimpleGrid(
+                    cols=5,
+                    children=[
+                        dmc.Paper(
+                            [
+                                dmc.Stack(
+                                    [
+                                        dmc.Text(
+                                            "124",
+                                            size="xl",
+                                            fw=700,
+                                            ta="center",
+                                        ),
+                                        dmc.Text(
+                                            "Total Submissions",
+                                            size="sm",
+                                            c="dimmed",
+                                            ta="center",
+                                        ),
+                                    ],
+                                    gap=0,
+                                )
+                            ],
+                            p="md",
+                            radius="md",
+                            withBorder=True,
+                        ),
+                        # Repeat for other stats...
+                    ],
+                    spacing="md",
+                ),
+            ],
+            p="lg",
+            radius="md",
+            shadow="sm",
+            mb="xl",
+        ),
+        dmc.Flex(
+            gap="md",
+            justify="center",
+            align="center",
+            direction="row",
+            wrap="wrap",
+            mb="md",
+            children=[
+                dmc.Button("Refresh data", size="md", mr="xs"),
+                dmc.Text("Select the dataset:", size="lg"),
+                dmc.MultiSelect(
+                    # label="Select the dataset:",
+                    data=[
+                        {"label": "Assess Yourself", "value": "assess_yourself"},
+                        {"label": "Assess Others", "value": "assess_others"},
+                    ],
+                    value=["assess_yourself", "assess_others"],
+                    size="lg",
+                    comboboxProps={"shadow": "lg"},
+                ),
+                dmc.Checkbox("Include test data", size="lg", mr="xs"),
+            ],
+        ),
+        dmc.Flex(
+            gap="md",
+            justify="center",
+            direction="row",
+            wrap="wrap",
+            children=[
+                BoxCard,
+                ScatterCard,
+                Scatter3dCard,
+                ParallelCard,
+            ],
+        ),
+        dcc.Store("data-store", data=scores),
+    ]
