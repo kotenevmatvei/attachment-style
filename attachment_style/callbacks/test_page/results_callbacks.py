@@ -62,7 +62,8 @@ def update_results_chart(scores, theme, subject):
         df = pd.DataFrame({"style": ["Anxious Score", "Avoidant Score", "Secure Score"],
                            "scores": [anxious_score, avoidant_score, secure_score]})
         figure = px.bar(df, x="style", y="scores", color="style",
-                        labels={"scores": "Your Score", "style": "Attachment Style"})
+                        labels={"scores": "Your Score", "style": "Attachment Style"},
+                        width=800, height=600)
         figure.update_layout(showlegend=False)
 
     if theme == "dark":
