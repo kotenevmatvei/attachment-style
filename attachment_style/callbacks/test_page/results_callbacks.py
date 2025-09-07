@@ -1,5 +1,8 @@
-from dash import callback, Output, Input, State, no_update
 import dash_mantine_components as dmc
+import pandas as pd
+import plotly.express as px
+from dash import callback, Output, Input, State
+
 from utils.utils import build_ecr_r_chart
 
 dmc.add_figure_templates()
@@ -28,6 +31,7 @@ def update_score_cards(scores):
         f"{secure_percent}%",
     )
 
+
 # ecr-r chart
 @callback(
     Output("results-chart", "figure"),
@@ -35,13 +39,23 @@ def update_score_cards(scores):
         Input("result-scores-store", "data"),
         Input("mantine-provider", "forceColorScheme"),
     ],
+    State("subject-store", "data"),
     prevent_inital_call=True,
 )
-def update_results_chart(scores, theme):
+def update_results_chart(scores, theme, subject):
     anxious_score = scores["anxious_score"]
     avoidant_score = scores["avoidant_score"]
     secure_score = scores["secure_score"]
-    figure = build_ecr_r_chart(anxious_score, avoidant_score, secure_score)
+
+    if subject == "you":
+        figure = build_ecr_r_chart(anxious_score, avoidant_score, secure_score)
+    else:
+        df = pd.DataFrame({"style": ["Anxious Score", "Avoidant Score", "Secure Score"],
+                           "scores": [anxious_score, avoidant_score, secure_score]})
+        figure = px.bar(df, x="style", y="scores", color="style",
+                        labels={"scores": "Your Score", "style": "Attachment Style"})
+        figure.update_layout(showlegend=False)
+
     if theme == "dark":
         figure.update_layout(template="mantine_dark")
     else:
