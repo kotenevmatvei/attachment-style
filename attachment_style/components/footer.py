@@ -1,6 +1,6 @@
 from dash import html
 
-DebugFooter = html.Div(
+Footer = html.Div(
     html.Footer(
         "Created by Matvei Kotenev. Contact via kotenev.matvei@gmail.com.",
     ),
@@ -10,6 +10,6 @@ DebugFooter = html.Div(
         "padding-top": "5px",
         "padding-bottom": "5px",
         "font-size": "12px",
-        "background-color": "#F5F5F4",
+        # "background-color": "#F5F5F4",
     },
 )
