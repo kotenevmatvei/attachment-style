@@ -4,7 +4,7 @@ import dash_mantine_components as dmc
 import pandas as pd
 import plotly.express as px
 import plotly.io as pio
-from dash import callback, Output, Input, State, dcc
+from dash import callback, Output, Input, State, dcc, clientside_callback
 
 from utils.generate_pdf import generate_report
 from utils.utils import build_ecr_r_chart, revert_scores_for_reverted_questions
@@ -194,7 +194,10 @@ def download_plot_picture(fig_json):
 
 
 @callback(
-    Output("download-report", "data"),
+    [
+        Output("download-report", "data"),
+        Output("download-report-button", "loading", allow_duplicate=True),
+    ],
     Input("download-report-button", "n_clicks"),
     [
         State("answers-store", "data"),
@@ -225,7 +228,9 @@ def load_report(n_clicks, answers, fig_json, scores):
         logger.info("Image saved")
         reverted_scores = revert_scores_for_reverted_questions(answers)
         generate_report(reverted_scores, dominant_style)
-        return dcc.send_file("tmp/attachment_style_report.pdf", type="pdf")
+        return dcc.send_file("tmp/attachment_style_report.pdf", type="pdf"), False
+
+    return None, False
 
 
 @callback(
@@ -241,12 +246,15 @@ def update_download_paper_style(color_scheme):
     return {"background": "linear-gradient(135deg, #FFF5F5 0%, #FFF8DC 100%)"}
 
 
-@callback(
+clientside_callback(
+    """
+    function updateLoadingState(n_clicks) {
+        return true
+    }
+    """,
     Output("download-report-button", "loading"),
     Input("download-report-button", "n_clicks"),
     prevent_initial_call=True,
 )
-def handle_pdf_download(n_clicks):
-    if n_clicks:
-        return True
-    return False
+
+
