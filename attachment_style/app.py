@@ -20,6 +20,7 @@ from components.debugging_table import DebuggingTable, CurrentCount
 from utils.utils import read_questions
 
 from callbacks.test_page import subject, demographics, question_card, results_callbacks
+from callbacks import theme
 
 # required stylesheets for full DMC functionality
 stylesheets = [

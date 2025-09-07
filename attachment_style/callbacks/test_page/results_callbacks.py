@@ -234,20 +234,6 @@ def load_report(n_clicks, answers, fig_json, scores):
     return None, False
 
 
-# style download paper according to the theme
-@callback(
-    Output("download-paper", "style"),
-    Input("mantine-provider", "forceColorScheme"),
-)
-def update_download_paper_style(color_scheme):
-    if color_scheme == "dark":
-        return {
-            "background": f"linear-gradient(135deg, {dmc.DEFAULT_THEME['colors']['dark'][8]} 0%, "
-                          f"{dmc.DEFAULT_THEME['colors']['dark'][6]} 100%)"
-        }
-    return {"background": "linear-gradient(135deg, #FFF5F5 0%, #FFF8DC 100%)"}
-
-
 # show loading while downloading the pdf report
 clientside_callback(
     """

@@ -124,13 +124,5 @@ header = dmc.Container(
     style={"width": "100%"},  # Ensures it takes full width until max-width is reached
 )
 
-# Theme toggle callback
-@callback(
-    Output("mantine-provider", "forceColorScheme"),
-    Input("color-scheme-toggle", "n_clicks"),
-    State("mantine-provider", "forceColorScheme"),
-    prevent_initial_call=True,
-)
-def switch_theme(_, theme):
-    return "dark" if theme == "light" else "light"
+
 

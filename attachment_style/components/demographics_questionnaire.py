@@ -129,18 +129,3 @@ DemographicsQuestionnaireRevised = dmc.Container(
     ],
 )
 
-
-# @callback(
-#     [
-#         Output("question-card-collapse", "opened"),
-#         Output("demographics-questionnaire-collapse", "opened", allow_duplicate=True, )
-#     ],
-#     [
-#         Input("continue-to-test-button", "n_clicks"),
-#     ],
-#     prevent_initial_call=True,
-# )
-# def toggle_question_card(continue_to_test_click):
-#     if continue_to_test_click:
-#         return True, False
-#     return False, True

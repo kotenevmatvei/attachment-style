@@ -216,29 +216,6 @@ def enable_to_results_button(questions_answered_count, questions_len):
     return True
 
 
-# style depending on the theme
-@callback(
-    [Output("question-paper", "style")]
-    + [Output(f"option-{i}", "bg") for i in range(1, 8)]
-    + [Output(f"option-{i}", "c") for i in range(1, 8)],
-    Input("mantine-provider", "forceColorScheme"),
-)
-def update_question_card_style(theme):
-    if theme == "dark":
-        return (
-            {"backgroundColor": dmc.DEFAULT_THEME["colors"]["dark"][6]},
-            *["dark" for i in range(1, 8)],
-            *["white" for i in range(1, 8)]
-            # *[dmc.DEFAULT_THEME["colors"]["dark"][7] for i in range(1,8)]
-        )
-    else:
-        return (
-            {"backgroundColor": dmc.DEFAULT_THEME["colors"]["gray"][1]},
-            *["gray.1" for i in range(1, 8)],
-            *["black" for i in range(1, 8)]
-            # *[dmc.DEFAULT_THEME["colors"]["dark"][1] for i in range(1,8)]
-        )
-
 
 @callback(
     [
