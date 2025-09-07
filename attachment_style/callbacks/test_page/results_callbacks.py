@@ -193,6 +193,7 @@ def download_plot_picture(fig_json):
     return {}
 
 
+# download pdf report
 @callback(
     [
         Output("download-report", "data"),
@@ -233,6 +234,7 @@ def load_report(n_clicks, answers, fig_json, scores):
     return None, False
 
 
+# style download paper according to the theme
 @callback(
     Output("download-paper", "style"),
     Input("mantine-provider", "forceColorScheme"),
@@ -246,6 +248,7 @@ def update_download_paper_style(color_scheme):
     return {"background": "linear-gradient(135deg, #FFF5F5 0%, #FFF8DC 100%)"}
 
 
+# show loading while downloading the pdf report
 clientside_callback(
     """
     function updateLoadingState(n_clicks) {
@@ -258,3 +261,22 @@ clientside_callback(
 )
 
 
+# clear the state when going back to survey or about page
+@callback(
+    [
+        Output("current-question-count-store", "data", allow_duplicate=True),
+        Output("questions-answered-count-store", "data", allow_duplicate=True),
+        Output("answers-store", "data", allow_duplicate=True),
+        Output("subject-store", "data", allow_duplicate=True),
+        Output("result-scores-store", "data", allow_duplicate=True),
+        Output("questions-len", "data", allow_duplicate=True),
+        Output("figure-store", "data", allow_duplicate=True),
+    ],
+    [
+        Input("retake-survey-button", "n_clicks"),
+        Input("learn-more-button", "n_clicks"),
+    ],
+    prevent_initial_call=True,
+)
+def clear_state(retake_servey_clicks, learn_more_clicks):
+    return 1, 0, {}, "you", {"anxious_score": 1, "avoidant_score": 1, "secure_score": 1}, 36, {}
