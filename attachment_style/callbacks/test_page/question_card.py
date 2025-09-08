@@ -109,7 +109,7 @@ def update_question(
         value = int(triggered_id.split("-")[1])
 
         # old value for loggin / debugging
-        if answers[str(current_question_count)]:
+        if answers.get(current_question_count):
             old_value = answers[str(current_question_count)][1]
             # logger.info(f"already been here. your old value: {old_value}")
             # logger.info("Navigation case 1")

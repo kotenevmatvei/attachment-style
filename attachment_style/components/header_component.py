@@ -1,5 +1,5 @@
 import dash_mantine_components as dmc
-from dash import Dash, _dash_renderer, callback, Input, Output, State, dcc
+from dash import Dash, _dash_renderer, callback, Input, Output, State, dcc, html
 from dash_iconify import DashIconify
 import constants
 
@@ -19,16 +19,19 @@ header = dmc.Container(
     dmc.Group(
         [
             # Logo/Brand as clickable link (bigger title)
-            dmc.Anchor(
-                dmc.Group(
-                    [
-                        DashIconify(icon="tabler:brand-python", width=40, color=constants.PRIMARY),
-                        dmc.Text("Attachment Style Test", size="2rem", fw=900, c=constants.PRIMARY),
-                    ],
-                    gap="sm",
+            html.Div(
+                dmc.Anchor(
+                    dmc.Group(
+                        [
+                            DashIconify(icon="tabler:brand-python", width=40, color=constants.PRIMARY),
+                            dmc.Text("Attachment Style Test", size="2rem", fw=900, c=constants.PRIMARY),
+                        ],
+                        gap="sm",
+                    ),
+                    href="/",
+                    underline=False,
                 ),
-                href="/",
-                underline=False,
+                id="logo-div",
             ),
             # Right side: Navigation links and theme toggle
             dmc.Group(
@@ -36,8 +39,11 @@ header = dmc.Container(
                     # Navigation links
                     dmc.Group(
                         [
-                            dmc.Anchor(
-                                "Test", href="/", underline=False, c="dimmed", fw=500
+                            html.Div(
+                                dmc.Anchor(
+                                    "Test", href="/", underline=False, c="dimmed", fw=500,
+                                ),
+                                id="test-anchor-header",
                             ),
                             # dmc.Anchor(
                             #     "Assess Yourself",
