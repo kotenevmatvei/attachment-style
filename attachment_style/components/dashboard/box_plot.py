@@ -36,27 +36,3 @@ BoxCard = dmc.Card(
     radius="md",
     w=600,
 )
-
-# update box  lot graph
-@callback(
-    Output("box-graph", "figure"),
-    [
-        Input("demographic-radio", "value"),
-        Input("attachment-style-dropdown-demographics", "value"),
-        Input("data-store", "data"),
-    ],
-)
-def update_box_graph(demographic, selected_style, data):
-    fig = px.box(
-        data,
-        x=demographic,
-        y=selected_style,
-        title=f'{selected_style.split("_")[0].capitalize()} '
-        f'Attachment Scores by {demographic.replace("_", " ").title()}',
-        template="mantine_dark",
-    )
-    fig.update_xaxes(title=demographic.replace("_", " ").title())
-    fig.update_yaxes(
-        title=selected_style.split("_")[0].capitalize() + " Attachment Score"
-    )
-    return fig

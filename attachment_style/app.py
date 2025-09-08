@@ -13,12 +13,14 @@ logging.basicConfig(
 
 
 import constants
-from components.header import header
-# from components.debugging_table import DebuggingTable, CurrentCount
+from components.header_component import header
+from components.debugging_table_component import DebuggingTable, CurrentCount
+from components.dummy_components import DummyResultsChart
 
 from utils.utils import read_questions
 
 from callbacks.test_page import subject, demographics, question_card, results_callbacks
+from callbacks.dashboard import box_plot_callbacks, scatter_plot_callbacks, scatter_3d_callbacks, parallel_plot_callbacks
 from callbacks import theme
 
 # required stylesheets for full DMC functionality
@@ -32,7 +34,7 @@ stylesheets = [
     "https://unpkg.com/@mantine/nprogress@7/styles.css",
 ]
 
-app = Dash(__name__, external_stylesheets=stylesheets, use_pages=True)
+app = Dash(__name__, external_stylesheets=stylesheets, use_pages=True, suppress_callback_exceptions=True)
 
 app_shell = dmc.AppShell(
     [
@@ -49,7 +51,12 @@ app_shell = dmc.AppShell(
         dcc.Store(id="result-scores-store", data={}),
         dcc.Store(id="figure-store"),
         dcc.Download(id="download-report"),
+        dcc.Location(id="url", refresh=False),
+
+        DummyResultsChart,
+
         dmc.AppShellHeader(header, h=80),
+
         dmc.AppShellMain(
             dmc.Container(
                 [

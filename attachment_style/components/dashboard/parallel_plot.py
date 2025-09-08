@@ -35,32 +35,3 @@ ParallelCard = dmc.Card(
 )
 
 
-# update parallel graph
-@callback(
-    Output("parallel-graph", "figure"),
-    [
-        Input("parallel-categories-dropdown", "value"),
-        Input("parallel-color-dropdown", "value"),
-        Input("data-store", "data"),
-    ],
-)
-def update_parallel_graph(selected_dims, color_by, data):
-    if not selected_dims:
-        selected_dims = ["gender"]
-    if color_by == "any":
-        fig = px.parallel_categories(
-            data,
-            dimensions=selected_dims,
-            color_continuous_scale=px.colors.sequential.Inferno,
-            title="Parallel Categories Diagram",
-        )
-    else:
-        fig = px.parallel_categories(
-            data,
-            dimensions=selected_dims,
-            color=color_by,
-            color_continuous_scale=px.colors.sequential.Inferno,
-            title="Parallel Categories Diagram",
-            template="mantine_light",
-        )
-    return fig

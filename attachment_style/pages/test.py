@@ -1,11 +1,11 @@
 from dash import register_page, Output, Input, State, callback
 import dash_mantine_components as dmc
 
-from components.demographics_questionnaire import DemographicsQuestionnaireRevised
+from components.demographics_component import DemographicsQuestionnaireRevised
 # from components.question_card import QuestionCard
-from components.question_card import QuestionComponent
-from components.results import ResultsBoard
-from components.subject_switch import SubjectSwitch
+from components.question_card_component import QuestionComponent
+from components.results_component import ResultsBoard
+from components.subject_switch_component import SubjectSwitch
 
 register_page(__name__, path="/")
 

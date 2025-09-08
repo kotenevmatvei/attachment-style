@@ -5,6 +5,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.io as pio
 from dash import callback, Output, Input, State, dcc, clientside_callback
+from dash.exceptions import PreventUpdate
 
 from utils.generate_pdf import generate_report
 from utils.utils import build_ecr_r_chart, revert_scores_for_reverted_questions
@@ -52,6 +53,10 @@ def update_score_cards(scores):
     prevent_initial_call=True,
 )
 def update_results_chart(scores, theme, subject):
+
+    if not scores or "anxious_score" not in scores.keys():
+        raise PreventUpdate
+
     anxious_score = scores["anxious_score"]
     avoidant_score = scores["avoidant_score"]
     secure_score = scores["secure_score"]
@@ -87,6 +92,7 @@ def update_results_chart(scores, theme, subject):
     prevent_initial_call=True,
 )
 def update_dominant_style_text(scores):
+
     anxious_score = scores["anxious_score"]
     avoidant_score = scores["avoidant_score"]
     secure_score = scores["secure_score"]
@@ -176,24 +182,6 @@ def update_dominant_style_text(scores):
     return dominant_style_text, interpretation_text, key_characteristics
 
 
-# download picture
-@callback(
-    Output("dummy-div-pic-download", "style"),
-    Input("figure-store", "data"),
-    prevent_initial_call=True,
-)
-def download_plot_picture(fig_json):
-    fig = pio.from_json(fig_json)
-
-    logger.info("Saving the image...")
-    fig.write_image(
-        "tmp/figure_you.png", width=700, height=500
-    )
-    logger.info("Image saved")
-
-    return {}
-
-
 # download pdf report
 @callback(
     [
@@ -204,7 +192,7 @@ def download_plot_picture(fig_json):
     [
         State("answers-store", "data"),
         State("figure-store", "data"),
-        State("result-scores-store", "data")
+        State("result-scores-store", "data"),
     ],
     prevent_initial_call=True,
 )
@@ -222,6 +210,8 @@ def load_report(n_clicks, answers, fig_json, scores):
             dominant_style = "secure"
 
         fig = pio.from_json(fig_json)
+        # always save in the light theme:
+        fig.update_layout(template="mantine_light")
 
         logger.info("Saving the image...")
         fig.write_image(
@@ -249,20 +239,19 @@ clientside_callback(
 
 
 # clear the state when going back to survey or about page
-@callback(
-    [
-        Output("current-question-count-store", "data", allow_duplicate=True),
-        Output("questions-answered-count-store", "data", allow_duplicate=True),
-        Output("answers-store", "data", allow_duplicate=True),
-        Output("subject-store", "data", allow_duplicate=True),
-        Output("result-scores-store", "data", allow_duplicate=True),
-        Output("questions-len", "data", allow_duplicate=True),
-        Output("figure-store", "data", allow_duplicate=True),
-    ],
-    [
-        Input("retake-survey-button", "n_clicks"),
-    ],
-    prevent_initial_call=True,
-)
-def clear_state(retake_servey_clicks):
-    return 1, 0, {}, "you", {"anxious_score": 1, "avoidant_score": 1, "secure_score": 1}, 36, {}
+# @callback(
+#     [
+#         Output("current-question-count-store", "data", allow_duplicate=True),
+#         Output("questions-answered-count-store", "data", allow_duplicate=True),
+#         Output("answers-store", "data", allow_duplicate=True),
+#         Output("subject-store", "data", allow_duplicate=True),
+#         # Output("result-scores-store", "data", allow_duplicate=True),
+#         Output("questions-len", "data", allow_duplicate=True),
+#     ],
+#     [
+#         Input("retake-survey-button", "n_clicks"),
+#     ],
+#     prevent_initial_call=True,
+# )
+# def clear_state(retake_servey_clicks):
+#     return 1, 0, {}, "you", {"anxious_score": 1, "avoidant_score": 1, "secure_score": 1}, 36

@@ -31,36 +31,3 @@ Scatter3dCard = dmc.Card(
     w=600,
 )
 
-
-# update 3d scatter
-@callback(
-    Output("scatter3d-graph", "figure"),
-    [Input("data-store", "data"), Input("scatter3d-color-radio", "value")],
-)
-def update_scatter3d_graph(data, color_value):
-    data = pd.DataFrame(data)
-    fig = px.scatter_3d(
-        data,
-        x="anxious_score",
-        y="avoidant_score",
-        z="secure_score",
-        color=color_value,
-        color_continuous_scale=px.colors.sequential.Viridis,
-        title="3D View of Attachment Dimensions",
-        labels={
-            "anxious_score": "Anxiety Score",
-            "avoidant_score": "Avoidance Score",
-            "secure_score": "Security Score",
-        },
-    )
-
-    # fig.update_layout(
-    #     scene=dict(
-    #         xaxis=dict(backgroundcolor="rgba(0, 0, 0, 0)"),
-    #         yaxis=dict(backgroundcolor="rgba(0, 0, 0, 0)"),
-    #         zaxis=dict(backgroundcolor="rgba(0, 0, 0, 0)"),
-    #     ),
-    #     margin=dict(l=0, r=0, b=0, t=40) # Adjust margins
-    # )
-
-    return fig
