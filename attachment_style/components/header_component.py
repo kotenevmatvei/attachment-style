@@ -61,7 +61,7 @@ header = dmc.Container(
                             # ),
                             dmc.Anchor(
                                 "Dashboard",
-                                href="/simple-dashboard",
+                                href="/dashboard",
                                 underline=False,
                                 c="dimmed",
                                 fw=500,

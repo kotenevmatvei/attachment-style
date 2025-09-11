@@ -14,7 +14,7 @@ from utils.utils import retrieve_scores_from_db
 
 logger = logging.getLogger(__name__)
 
-register_page(__name__, path="/simple-dashboard")
+register_page(__name__, path="/dashboard")
 
 fig = go.Figure()
 scores = retrieve_scores_from_db()
