@@ -12,7 +12,10 @@ import constants
 
 Scatter3dCard = dmc.Card(
     children=[
-        dmc.Title("Scatter 3D", order=2, c=constants.PRIMARY, ta="center"),
+        dmc.CardSection(
+            dmc.Title("Scatter 3D", order=2, c=constants.PRIMARY, ta="center"),
+            withBorder=True, p="md", mb="xs",
+        ),
         dmc.RadioGroup(
             label="Color by",
             id="scatter3d-color-radio",

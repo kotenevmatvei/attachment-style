@@ -1,18 +1,17 @@
-from dash import html, dcc, callback, Input, Output, State
-import dash_bootstrap_components as dbc
 import dash_mantine_components as dmc
-from numpy import size
-from data.options import demographics_labels_values, attachment_style_labels_values, demographics_radio_options
-import pandas as pd
-import plotly.express as px
-import constants
+from dash import dcc
 
+import constants
+from data.options import attachment_style_labels_values, demographics_radio_options
 
 dmc.add_figure_templates()
 
 BoxCard = dmc.Card(
     children=[
-        dmc.CardSection(dmc.Title("Box Plot", order=2, ta="center", c=constants.PRIMARY), withBorder=True, p="md"),
+        dmc.CardSection(
+            dmc.Title("Box Plot", order=2, ta="center", c=constants.PRIMARY),
+            withBorder=True, p="md", mb="xs",
+        ),
         # dmc.CardSection("Box Plot", withBorder=True, p="md", c=constants.PRIMARY),
         dmc.RadioGroup(
             label="Select demographic variable",

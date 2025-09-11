@@ -10,7 +10,10 @@ dmc.add_figure_templates()
 
 ParallelCard = dmc.Card(
     [
-        dmc.Title("Parllel Coordinates", order=2, c=constants.PRIMARY, ta="center"),
+        dmc.CardSection(
+            dmc.Title("Parllel Coordinates", order=2, c=constants.PRIMARY, ta="center"),
+            withBorder=True, p="md", mb="xs",
+        ),
         dmc.MultiSelect(
             label="Select Variables",
             id="parallel-categories-dropdown",
