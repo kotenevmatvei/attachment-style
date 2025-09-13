@@ -13,7 +13,7 @@ from dash import callback, Input, Output, State, ctx, ALL
 from dash.exceptions import PreventUpdate
 
 import constants
-from utils.utils import revert_scores_for_reverted_questions, calculate_scores
+from utils.scoring import revert_scores_for_reverted_questions, calculate_scores
 
 logger = logging.getLogger(__name__)
 

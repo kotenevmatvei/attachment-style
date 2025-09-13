@@ -10,7 +10,7 @@ from components.dashboard.box_plot import BoxCard
 from components.dashboard.parallel_plot import ParallelCard
 from components.dashboard.scatter_3d import Scatter3dCard
 from components.dashboard.scatter_plot import ScatterCard
-from utils.utils import retrieve_scores_from_db
+from utils.database import retrieve_scores_from_db
 
 logger = logging.getLogger(__name__)
 

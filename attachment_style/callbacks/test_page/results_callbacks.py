@@ -8,7 +8,8 @@ from dash import callback, Output, Input, State, dcc, clientside_callback
 from dash.exceptions import PreventUpdate
 
 from utils.generate_pdf import generate_report
-from utils.utils import build_ecr_r_chart, revert_scores_for_reverted_questions
+from utils.plots import build_ecr_r_chart
+from utils.scoring import revert_scores_for_reverted_questions
 
 logger = logging.getLogger(__name__)
 
