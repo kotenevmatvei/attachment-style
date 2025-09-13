@@ -11,7 +11,7 @@ import constants
     [
         Input("demographic-radio", "value"),
         Input("attachment-style-dropdown-demographics", "value"),
-        Input("data-store", "data"),
+        Input("presented-data-store", "data"),
         Input("mantine-provider", "forceColorScheme"),
     ],
 )

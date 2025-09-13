@@ -15,6 +15,7 @@ DashboardSettings = dmc.Flex(
                 icon="tabler:refresh", width=16
             ),
             variant="light",
+            id="refresh-data-button",
         ),
         dmc.Text("Select the dataset:", size="lg"),
         dmc.MultiSelect(
@@ -27,6 +28,6 @@ DashboardSettings = dmc.Flex(
             size="lg",
             comboboxProps={"shadow": "lg"},
         ),
-        dmc.Switch("Include test data", size="lg", mr="xs"),
+        dmc.Switch("Include test data", size="lg", mr="xs", id="include-test-data-button"),
     ],
 )

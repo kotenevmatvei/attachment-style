@@ -11,6 +11,7 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M",
 )
 
+logger = logging.getLogger(__name__)
 
 import constants
 from components.header_component import header
@@ -18,9 +19,11 @@ from components.debugging_table_component import DebuggingTable, CurrentCount
 from components.dummy_components import DummyResultsChart
 
 from utils.utils import read_questions
+from utils.database import retrieve_scores_from_db
 
 from callbacks.test_page import subject, demographics, question_card, results_callbacks
 from callbacks.dashboard import box_plot_callbacks, scatter_plot_callbacks, scatter_3d_callbacks, parallel_plot_callbacks
+from callbacks.dashboard.dashboard_settings_callbacks import refresh_data
 from callbacks.test_page import stepper_callbacks
 from callbacks import theme_callbacks
 from callbacks import clear_state_callbacks
@@ -38,6 +41,9 @@ stylesheets = [
 
 app = Dash(__name__, external_stylesheets=stylesheets, use_pages=True, suppress_callback_exceptions=True)
 
+scores = retrieve_scores_from_db()
+logger.info("Retrieved scores from the db for the first time")
+
 app_shell = dmc.AppShell(
     [
         dcc.Store(id="subject-store"),
@@ -52,6 +58,8 @@ app_shell = dmc.AppShell(
         dcc.Store(id="current-question-count-store", data=1),
         dcc.Store(id="result-scores-store", data={}),
         dcc.Store(id="figure-store"),
+        dcc.Store("data-store", data=scores),
+        dcc.Store("presented-data-store", data=scores),
         dcc.Download(id="download-report"),
         dcc.Location(id="url", refresh=False),
 

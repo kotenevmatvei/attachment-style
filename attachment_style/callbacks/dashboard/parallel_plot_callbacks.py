@@ -7,7 +7,7 @@ import plotly.express as px
     [
         Input("parallel-categories-dropdown", "value"),
         Input("parallel-color-dropdown", "value"),
-        Input("data-store", "data"),
+        Input("presented-data-store", "data"),
         Input("mantine-provider", "forceColorScheme"),
     ],
 )

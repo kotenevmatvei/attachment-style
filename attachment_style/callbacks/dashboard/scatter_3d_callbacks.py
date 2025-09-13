@@ -7,7 +7,7 @@ import dash_mantine_components as dmc
 @callback(
     Output("scatter3d-graph", "figure"),
     [
-        Input("data-store", "data"),
+        Input("presented-data-store", "data"),
         Input("scatter3d-color-radio", "value"),
         Input("mantine-provider", "forceColorScheme")
     ],

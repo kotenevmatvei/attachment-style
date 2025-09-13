@@ -9,7 +9,7 @@ from components.dashboard.box_plot import BoxCard
 from components.dashboard.parallel_plot import ParallelCard
 from components.dashboard.scatter_3d import Scatter3dCard
 from components.dashboard.scatter_plot import ScatterCard
-from components.dashboard.settings import DashboardSettings
+from components.dashboard.dashboard_settings import DashboardSettings
 from components.dashboard.KPIs import DashboardKPIs
 from utils.database import retrieve_scores_from_db
 
@@ -20,8 +20,6 @@ logger = logging.getLogger(__name__)
 register_page(__name__, path="/dashboard")
 
 fig = go.Figure()
-scores = retrieve_scores_from_db()
-logger.info("Retrieved scores from the db for the first time")
 
 
 def layout(**kwargs):
@@ -40,5 +38,4 @@ def layout(**kwargs):
                 ParallelCard,
             ],
         ),
-        dcc.Store("data-store", data=scores),
     ]

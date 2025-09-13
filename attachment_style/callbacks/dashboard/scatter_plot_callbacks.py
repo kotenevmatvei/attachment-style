@@ -8,7 +8,7 @@ import plotly.express as px
         Input("scatter-x-dropdown", "value"),
         Input("scatter-y-dropdown", "value"),
         Input("scatter-color-radio", "value"),
-        Input("data-store", "data"),
+        Input("presented-data-store", "data"),
         Input("mantine-provider", "forceColorScheme")
     ],
 )
