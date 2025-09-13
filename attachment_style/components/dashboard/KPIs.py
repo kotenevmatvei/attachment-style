@@ -5,7 +5,7 @@ DashboardKPIs = dmc.Paper(
     [
         # Statistics in a grid instead of badges
         dmc.SimpleGrid(
-            cols=4,
+            cols={"base": 2, "md": 4},
             children=[
                 dmc.Paper(
                     [
@@ -114,5 +114,6 @@ DashboardKPIs = dmc.Paper(
     p="lg",
     radius="md",
     shadow="sm",
+    withBorder=True,
     mb="xl",
 )

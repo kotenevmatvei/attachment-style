@@ -23,7 +23,7 @@ from utils.database import retrieve_scores_from_db
 
 from callbacks.test_page import subject, demographics, question_card, results_callbacks
 from callbacks.dashboard import box_plot_callbacks, scatter_plot_callbacks, scatter_3d_callbacks, parallel_plot_callbacks
-from callbacks.dashboard.dashboard_settings_callbacks import refresh_data
+from callbacks.dashboard import dashboard_settings_callbacks
 from callbacks.test_page import stepper_callbacks
 from callbacks import theme_callbacks
 from callbacks import clear_state_callbacks

@@ -27,7 +27,8 @@ DashboardSettings = dmc.Flex(
             value=["assess_yourself", "assess_others"],
             size="lg",
             comboboxProps={"shadow": "lg"},
+            id="dataset-multiselect"
         ),
-        dmc.Switch("Include test data", size="lg", mr="xs", id="include-test-data-button"),
+        dmc.Switch("Include test data", size="lg", mr="xs", id="include-test-data-switch"),
     ],
 )
