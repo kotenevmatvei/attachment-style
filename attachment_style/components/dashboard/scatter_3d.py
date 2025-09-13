@@ -24,7 +24,7 @@ Scatter3dCard = dmc.Card(
             ),
             size="md",
             value="gender",
-            mb=0,
+            mb="xs",
         ),
         dcc.Graph(id="scatter3d-graph"),
     ],

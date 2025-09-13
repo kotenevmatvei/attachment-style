@@ -27,6 +27,7 @@ BoxCard = dmc.Card(
             data=attachment_style_labels_values,
             value="avoidant_score",
             size="md",
+            mb="xs",
         ),
         dcc.Graph(id="box-graph"),
     ],

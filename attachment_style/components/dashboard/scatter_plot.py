@@ -44,7 +44,8 @@ ScatterCard = dmc.Card(
                     value="avoidant_score",
                     size="md",
                 ),
-            ]
+            ],
+            mb="xs",
         ),
         dcc.Graph(id="scatter-graph"),
     ],

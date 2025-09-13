@@ -12,6 +12,8 @@ from components.dashboard.scatter_3d import Scatter3dCard
 from components.dashboard.scatter_plot import ScatterCard
 from utils.database import retrieve_scores_from_db
 
+import constants
+
 logger = logging.getLogger(__name__)
 
 register_page(__name__, path="/dashboard")
@@ -23,76 +25,6 @@ logger.info("Retrieved scores from the db for the first time")
 
 def layout(**kwargs):
     return [
-        # Replace the top badges section with a proper header
-        dmc.Paper(
-            [
-                dmc.Group(
-                    [
-                        dmc.Stack(
-                            [
-                                dmc.Text(
-                                    "Attachment Style Dashboard",
-                                    size="xl",
-                                    fw=700,
-                                    c=constants.PRIMARY,
-                                ),
-                                dmc.Text(
-                                    "Real-time analytics from survey responses",
-                                    size="sm",
-                                    c="dimmed",
-                                ),
-                            ],
-                            gap="xs",
-                        ),
-                        dmc.Button(
-                            "Refresh Data",
-                            leftSection=DashIconify(
-                                icon="tabler:refresh", width=16
-                            ),
-                            variant="light",
-                        ),
-                    ],
-                    justify="space-between",
-                    align="center",
-                ),
-                # Statistics in a grid instead of badges
-                dmc.SimpleGrid(
-                    cols=5,
-                    children=[
-                        dmc.Paper(
-                            [
-                                dmc.Stack(
-                                    [
-                                        dmc.Text(
-                                            "124",
-                                            size="xl",
-                                            fw=700,
-                                            ta="center",
-                                        ),
-                                        dmc.Text(
-                                            "Total Submissions",
-                                            size="sm",
-                                            c="dimmed",
-                                            ta="center",
-                                        ),
-                                    ],
-                                    gap=0,
-                                )
-                            ],
-                            p="md",
-                            radius="md",
-                            withBorder=True,
-                        ),
-                        # Repeat for other stats...
-                    ],
-                    spacing="md",
-                ),
-            ],
-            p="lg",
-            radius="md",
-            shadow="sm",
-            mb="xl",
-        ),
         dmc.Flex(
             gap="md",
             justify="center",
@@ -101,7 +33,13 @@ def layout(**kwargs):
             wrap="wrap",
             mb="md",
             children=[
-                dmc.Button("Refresh data", size="md", mr="xs"),
+                dmc.Button(
+                    "Refresh Data",
+                    leftSection=DashIconify(
+                        icon="tabler:refresh", width=16
+                    ),
+                    variant="light",
+                ),
                 dmc.Text("Select the dataset:", size="lg"),
                 dmc.MultiSelect(
                     # label="Select the dataset:",
@@ -113,8 +51,123 @@ def layout(**kwargs):
                     size="lg",
                     comboboxProps={"shadow": "lg"},
                 ),
-                dmc.Checkbox("Include test data", size="lg", mr="xs"),
+                dmc.Switch("Include test data", size="lg", mr="xs"),
             ],
+        ),
+        dmc.Paper(
+            [
+                # Statistics in a grid instead of badges
+                dmc.SimpleGrid(
+                    cols=4,
+                    children=[
+                        dmc.Paper(
+                            [
+                                dmc.Stack(
+                                    [
+                                        dmc.Text(
+                                            "Anxious: 57%",
+                                            size="xl",
+                                            fw=700,
+                                            ta="center",
+                                            c=constants.PRIMARY,
+                                        ),
+                                        dmc.Text(
+                                            "Dominant attachment style",
+                                            size="sm",
+                                            c="dimmed",
+                                            ta="center",
+                                        ),
+                                    ],
+                                    gap=0,
+                                ),
+                            ],
+                            p="md",
+                            radius="md",
+                            withBorder=True,
+                        ),
+                        dmc.Paper(
+                            [
+                                dmc.Stack(
+                                    [
+                                        dmc.Text(
+                                            "Female: 48%",
+                                            size="xl",
+                                            fw=700,
+                                            ta="center",
+                                            c=constants.PRIMARY,
+                                        ),
+                                        dmc.Text(
+                                            "Dominant gender",
+                                            size="sm",
+                                            c="dimmed",
+                                            ta="center",
+                                        ),
+                                    ],
+                                    gap=0,
+                                ),
+                            ],
+                            p="md",
+                            radius="md",
+                            withBorder=True,
+                        ),
+                        dmc.Paper(
+                            [
+                                dmc.Stack(
+                                    [
+                                        dmc.Text(
+                                            "Some: 49%",
+                                            size="xl",
+                                            fw=700,
+                                            ta="center",
+                                            c=constants.PRIMARY,
+                                        ),
+                                        dmc.Text(
+                                            "Dominant therapy experience",
+                                            size="sm",
+                                            c="dimmed",
+                                            ta="center",
+                                        ),
+                                    ],
+                                    gap=0,
+                                ),
+                            ],
+                            p="md",
+                            radius="md",
+                            withBorder=True,
+                        ),
+                        dmc.Paper(
+                            [
+                                dmc.Stack(
+                                    [
+                                        dmc.Text(
+                                            "124",
+                                            size="xl",
+                                            fw=700,
+                                            ta="center",
+                                            c=constants.PRIMARY,
+                                        ),
+                                        dmc.Text(
+                                            "Total Submissions",
+                                            size="sm",
+                                            c="dimmed",
+                                            ta="center",
+                                        ),
+                                    ],
+                                    gap=0,
+                                ),
+                            ],
+                            p="md",
+                            radius="md",
+                            withBorder=True,
+                        ),
+                    ],
+                    spacing="md",
+                ),
+            ],
+            p="lg",
+            radius="md",
+            shadow="sm",
+            mb="xl",
         ),
         dmc.Flex(
             gap="md",

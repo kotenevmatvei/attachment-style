@@ -1,6 +1,7 @@
 from dash import callback, Output, Input
 import plotly.express as px
 import pandas as pd
+import dash_mantine_components as dmc
 
 # update 3d scatter
 @callback(

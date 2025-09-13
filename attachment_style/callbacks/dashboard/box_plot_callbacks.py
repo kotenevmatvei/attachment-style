@@ -1,5 +1,9 @@
 from dash import callback, Output, Input
 import plotly.express as px
+import dash_mantine_components as dmc
+
+import constants
+
 
 # update box plot graph
 @callback(
@@ -23,6 +27,8 @@ def update_box_graph(demographic, selected_style, data, theme):
     fig.update_yaxes(
         title=selected_style.split("_")[0].capitalize() + " Attachment Score"
     )
+
+
 
     if theme == "light":
         fig.update_layout(template="mantine_light")

@@ -28,6 +28,7 @@ ParallelCard = dmc.Card(
             + ({"label": "Any", "value": "any"},),
             value="anxious_score",
             size="md",
+            mb="xs",
         ),
         dcc.Graph(id="parallel-graph"),
     ],
