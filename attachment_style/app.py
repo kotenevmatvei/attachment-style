@@ -14,16 +14,16 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 import constants
-from components.header_component import header
-from components.debugging_table_component import DebuggingTable, CurrentCount
-from components.dummy_components import DummyResultsChart
+from components.header import header
+from components.debugging_table import DebuggingTable, CurrentCount
+from components.dummy import DummyResultsChart
 
 from utils.utils import read_questions
 from utils.database import retrieve_scores_from_db
 
 from callbacks.test_page import subject, demographics, question_card, results_callbacks
 from callbacks.dashboard import box_plot_callbacks, scatter_plot_callbacks, scatter_3d_callbacks, parallel_plot_callbacks
-from callbacks.dashboard import dashboard_settings_callbacks
+from callbacks.dashboard import dashboard_filters_callbacks
 from callbacks.test_page import stepper_callbacks
 from callbacks import theme_callbacks
 from callbacks import clear_state_callbacks
