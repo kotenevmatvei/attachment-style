@@ -8,11 +8,11 @@ We need:
 """
 import logging
 
-import dash_mantine_components as dmc
 from dash import callback, Input, Output, State, ctx, ALL
 from dash.exceptions import PreventUpdate
 
 import constants
+from utils.database import upload_to_db
 from utils.scoring import revert_scores_for_reverted_questions, calculate_scores
 
 logger = logging.getLogger(__name__)
@@ -216,7 +216,6 @@ def enable_to_results_button(questions_answered_count, questions_len):
     return True
 
 
-
 @callback(
     [
         Output("results-board-collapse", "opened"),
@@ -224,12 +223,16 @@ def enable_to_results_button(questions_answered_count, questions_len):
         Output("result-scores-store", "data"),
     ],
     Input("to-results-button", "n_clicks"),
-    State("answers-store", "data"),
+    [
+        State("answers-store", "data"),
+        State("demographics-answers-store", "data"),
+    ],
     prevent_initial_call=True,
 )
-def toggle_results_collapse(to_results_click, answers):
+def toggle_results_collapse(to_results_click, answers, demographics):
     if to_results_click:
         reverted_answers = revert_scores_for_reverted_questions(answers)
+        upload_to_db(answers, personal_answers=demographics)
         anxious_score, secure_score, avoidant_score = calculate_scores(reverted_answers)
         result_scores = {"anxious_score": anxious_score, "secure_score": secure_score, "avoidant_score": avoidant_score}
         return True, False, result_scores

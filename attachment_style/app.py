@@ -21,7 +21,7 @@ from components.dummy import DummyResultsChart
 from utils.utils import read_questions
 from utils.database import retrieve_scores_from_db
 
-from callbacks.test_page import subject, demographics, question_card, results_callbacks
+from callbacks.test_page import subject_callbacks, demographics_callbacks, question_card_callbacks, results_callbacks
 from callbacks.dashboard import box_plot_callbacks, scatter_plot_callbacks, scatter_3d_callbacks, parallel_plot_callbacks
 from callbacks.dashboard import dashboard_filters_callbacks
 from callbacks.test_page import stepper_callbacks
@@ -50,7 +50,7 @@ app_shell = dmc.AppShell(
         # questions are stored as [("question-text", "corresponding-attachment-style"), (...), ...]
         dcc.Store(id="questions-store", data=read_questions("you")),
         dcc.Store(id="questions-len", data=36),
-        dcc.Store(id="demographics-answers-store"),
+        dcc.Store(id="demographics-answers-store", data={}),
         # answers are stored as
         # {"question-ind": ("attachment-style", value, "question-text"), "question-ind+1": (...), ...}
         dcc.Store(id="answers-store", data={}),

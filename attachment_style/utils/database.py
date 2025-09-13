@@ -1,4 +1,5 @@
 from datetime import datetime as dt
+from datetime import timedelta
 import logging
 import os
 from sqlalchemy import literal_column, union_all
@@ -23,7 +24,7 @@ logger = logging.getLogger(__name__)
 def upload_to_db(
         answers: dict[str, tuple[str, float, str]],
         personal_answers: dict[str, str],
-        test: bool = True,
+        test: bool = False,
 ):
     anxious_answers = sorted(
         [(value[2], value[1]) for value in answers.values() if value[0] == "anxious"]

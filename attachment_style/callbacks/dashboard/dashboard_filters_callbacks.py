@@ -21,12 +21,10 @@ def refresh_data(n_clicks):
     ],
     [
         Input("dataset-multiselect", "value"),
-        Input("include-test-data-switch", "checked")
+        Input("include-test-data-switch", "checked"),
+        Input("data-store", "data"),
     ],
-    [
-        State("data-store", "data"),
-        State("presented-data-store", "data"),
-    ],
+    State("presented-data-store", "data"),
     prevent_initial_call=True,
 )
 def select_dataset(dataset_selection, include_test_data, data, presented_data):

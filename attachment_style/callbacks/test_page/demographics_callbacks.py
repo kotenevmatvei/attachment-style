@@ -67,7 +67,7 @@ def submit_personal_questionnaire(
                 "relationship_status": relationship_status,
                 "gender": gender,
                 "therapy_experience": therapy_experience,
-            },
+            }
             print(demographics_answers)
             return (
                 False, True,
@@ -82,7 +82,8 @@ def submit_personal_questionnaire(
         return (
             True, False,
             age_error, relationship_status_error, therapy_experience_error, gender_error,
-            ""
+            {}
         )
 
-    return False, False, None, None, None, None, ""
+    return False, False, None, None, None, None, {}
+from datetime import timedelta
