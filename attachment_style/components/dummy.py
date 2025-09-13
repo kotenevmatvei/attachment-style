@@ -13,7 +13,7 @@ DummyResultsChart = dmc.Collapse(
 )
 
 @callback(
-    Output("dummpy-results-chart-collapse", "opened"),
+    Output("dummy-results-chart-collapse", "opened"),
     Input("results-board-collapse", "opened"),
 )
 def register_dummy_results_chart_in_layout(original_opened):
