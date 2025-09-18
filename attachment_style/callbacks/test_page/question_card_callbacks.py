@@ -13,7 +13,7 @@ from dash.exceptions import PreventUpdate
 
 import constants
 from utils.database import upload_to_db
-from utils.scoring import revert_scores_for_reverted_questions, calculate_scores
+from utils.calculations import revert_scores_for_reverted_questions, calculate_scores
 
 logger = logging.getLogger(__name__)
 

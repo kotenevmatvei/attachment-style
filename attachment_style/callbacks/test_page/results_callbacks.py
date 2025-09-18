@@ -9,7 +9,7 @@ from dash.exceptions import PreventUpdate
 
 from utils.generate_pdf import generate_report
 from utils.plots import build_ecr_r_chart
-from utils.scoring import revert_scores_for_reverted_questions
+from utils.calculations import revert_scores_for_reverted_questions
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +54,6 @@ def update_score_cards(scores):
     prevent_initial_call=True,
 )
 def update_results_chart(scores, subject, theme):
-    print("We are on the right track")
     if not scores or "anxious_score" not in scores.keys():
         raise PreventUpdate
 
@@ -63,10 +62,8 @@ def update_results_chart(scores, subject, theme):
     secure_score = scores["secure_score"]
 
     if subject == "you":
-        print("We are on the very right track")
         figure = build_ecr_r_chart(anxious_score, avoidant_score, secure_score)
     else:
-        print("We fucked up")
         df = pd.DataFrame({"style": ["Anxious Score", "Avoidant Score", "Secure Score"],
                            "scores": [anxious_score, avoidant_score, secure_score]})
         figure = px.bar(df, x="style", y="scores", color="style",
@@ -238,4 +235,5 @@ clientside_callback(
     Input("download-report-button", "n_clicks"),
     prevent_initial_call=True,
 )
+
 

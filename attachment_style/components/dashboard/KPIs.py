@@ -17,6 +17,7 @@ DashboardKPIs = dmc.Paper(
                                     fw=700,
                                     ta="center",
                                     c=constants.PRIMARY,
+                                    id="dominant-style-kpi",
                                 ),
                                 dmc.Text(
                                     "Dominant attachment style",
@@ -42,6 +43,7 @@ DashboardKPIs = dmc.Paper(
                                     fw=700,
                                     ta="center",
                                     c=constants.PRIMARY,
+                                    id="dominant-gender-kpi",
                                 ),
                                 dmc.Text(
                                     "Dominant gender",
@@ -67,6 +69,7 @@ DashboardKPIs = dmc.Paper(
                                     fw=700,
                                     ta="center",
                                     c=constants.PRIMARY,
+                                    id="dominant-therapy-experience-kpi",
                                 ),
                                 dmc.Text(
                                     "Dominant therapy experience",
@@ -92,6 +95,7 @@ DashboardKPIs = dmc.Paper(
                                     fw=700,
                                     ta="center",
                                     c=constants.PRIMARY,
+                                    id="total-submissions-kpi"
                                 ),
                                 dmc.Text(
                                     "Total Submissions",

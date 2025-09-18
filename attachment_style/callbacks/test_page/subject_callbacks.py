@@ -2,7 +2,7 @@ import dash_mantine_components as dmc
 from dash import callback, Input, Output, ctx
 import logging
 
-from utils.utils import read_questions
+from utils.io import read_questions
 
 logger = logging.getLogger(__name__)
 

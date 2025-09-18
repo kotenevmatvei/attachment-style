@@ -7,7 +7,7 @@ from datetime import datetime
 import pandas as pd
 from psycopg2.extensions import register_adapter, AsIs
 from models import AssessYourself, AssessOthers
-from utils.utils import upload_objects_to_db
+from utils.io import upload_objects_to_db
 
 register_adapter(np.int64, AsIs)
 register_adapter(np.int32, AsIs)
