@@ -239,20 +239,3 @@ clientside_callback(
     prevent_initial_call=True,
 )
 
-# clear the state when going back to survey or about page
-# @callback(
-#     [
-#         Output("current-question-count-store", "data", allow_duplicate=True),
-#         Output("questions-answered-count-store", "data", allow_duplicate=True),
-#         Output("answers-store", "data", allow_duplicate=True),
-#         Output("subject-store", "data", allow_duplicate=True),
-#         # Output("result-scores-store", "data", allow_duplicate=True),
-#         Output("questions-len", "data", allow_duplicate=True),
-#     ],
-#     [
-#         Input("retake-survey-button", "n_clicks"),
-#     ],
-#     prevent_initial_call=True,
-# )
-# def clear_state(retake_servey_clicks):
-#     return 1, 0, {}, "you", {"anxious_score": 1, "avoidant_score": 1, "secure_score": 1}, 36

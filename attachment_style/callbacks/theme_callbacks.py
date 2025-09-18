@@ -53,6 +53,7 @@ def update_download_paper_style(color_scheme):
     return {"background": "linear-gradient(135deg, #FFF5F5 0%, #FFF8DC 100%)"}
 
 
+# results chart
 @callback(
     Output("results-chart", "figure", allow_duplicate=True),
     Input("mantine-provider", "forceColorScheme"),
