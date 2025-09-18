@@ -16,7 +16,6 @@ logger = logging.getLogger(__name__)
 import constants
 from components.header import header
 from components.debugging_table import DebuggingTable, CurrentCount
-from components.dummy import DummyResultsChart
 
 from utils.utils import read_questions
 from utils.database import retrieve_scores_from_db
@@ -63,7 +62,7 @@ app_shell = dmc.AppShell(
         dcc.Download(id="download-report"),
         dcc.Location(id="url", refresh=False),
 
-        DummyResultsChart,
+        # DummyResultsChart,
 
         dmc.AppShellHeader(header, h=80),
 
@@ -71,8 +70,8 @@ app_shell = dmc.AppShell(
             dmc.Container(
                 [
                     page_container,
-                    CurrentCount,
-                    DebuggingTable,
+                    # CurrentCount,
+                    # DebuggingTable,
                 ],
                 size="xl",
                 py="xl",

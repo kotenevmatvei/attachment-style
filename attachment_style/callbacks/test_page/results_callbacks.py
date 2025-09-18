@@ -29,7 +29,7 @@ dmc.add_figure_templates()
 def update_score_cards(scores):
     # convert to relative percentage
     total_score = scores["anxious_score"] + scores["avoidant_score"] + scores["secure_score"]
-    print("total score: ", total_score)
+    # print("total score: ", total_score)
     anxious_percent = round(((scores["anxious_score"] / total_score) * 100), 1)
     avoidant_percent = round(((scores["avoidant_score"] / total_score) * 100), 1)
     secure_percent = round(((scores["secure_score"] / total_score) * 100), 1)
@@ -46,15 +46,15 @@ def update_score_cards(scores):
         Output("results-chart", "figure"),
         Output("figure-store", "data"),
     ],
+    Input("result-scores-store", "data"),
     [
-        Input("result-scores-store", "data"),
-        Input("mantine-provider", "forceColorScheme"),
+        State("subject-store", "data"),
+        State("mantine-provider", "forceColorScheme"),
     ],
-    State("subject-store", "data"),
     prevent_initial_call=True,
 )
-def update_results_chart(scores, theme, subject):
-
+def update_results_chart(scores, subject, theme):
+    print("We are on the right track")
     if not scores or "anxious_score" not in scores.keys():
         raise PreventUpdate
 
@@ -63,8 +63,10 @@ def update_results_chart(scores, theme, subject):
     secure_score = scores["secure_score"]
 
     if subject == "you":
+        print("We are on the very right track")
         figure = build_ecr_r_chart(anxious_score, avoidant_score, secure_score)
     else:
+        print("We fucked up")
         df = pd.DataFrame({"style": ["Anxious Score", "Avoidant Score", "Secure Score"],
                            "scores": [anxious_score, avoidant_score, secure_score]})
         figure = px.bar(df, x="style", y="scores", color="style",
@@ -93,7 +95,6 @@ def update_results_chart(scores, theme, subject):
     prevent_initial_call=True,
 )
 def update_dominant_style_text(scores):
-
     anxious_score = scores["anxious_score"]
     avoidant_score = scores["avoidant_score"]
     secure_score = scores["secure_score"]
@@ -237,7 +238,6 @@ clientside_callback(
     Input("download-report-button", "n_clicks"),
     prevent_initial_call=True,
 )
-
 
 # clear the state when going back to survey or about page
 # @callback(

@@ -34,7 +34,7 @@ def update_subject_store(assess_yourself_click, assess_others_click):
     prevent_initial_call=True,
 )
 def update_current_subject(subject):
-    logger.info(f"Updating subject to {subject}")
+    # logger.info(f"Updating subject to {subject}")
     # first generate the steps for the progress bar
     questions_len = 36 if subject == "you" else 33
     progress_steps = dmc.Grid(

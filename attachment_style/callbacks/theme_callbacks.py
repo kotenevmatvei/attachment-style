@@ -1,5 +1,7 @@
-from dash import Output, Input, callback, State
 import dash_mantine_components as dmc
+from dash import Output, Input, callback, State
+import plotly.io as pio
+from dash.exceptions import PreventUpdate
 
 
 # toggle theme by clicking the button in the header
@@ -19,7 +21,7 @@ def switch_theme(_, theme):
     + [Output(f"option-{i}", "bg") for i in range(1, 8)]
     + [Output(f"option-{i}", "c") for i in range(1, 8)],
     Input("mantine-provider", "forceColorScheme"),
-    )
+)
 def update_question_card_style(theme):
     if theme == "dark":
         return (
@@ -36,6 +38,7 @@ def update_question_card_style(theme):
             # *[dmc.DEFAULT_THEME["colors"]["dark"][1] for i in range(1,8)]
         )
 
+
 # report download paper
 @callback(
     Output("download-paper", "style"),
@@ -49,4 +52,24 @@ def update_download_paper_style(color_scheme):
         }
     return {"background": "linear-gradient(135deg, #FFF5F5 0%, #FFF8DC 100%)"}
 
+
+@callback(
+    Output("results-chart", "figure", allow_duplicate=True),
+    Input("mantine-provider", "forceColorScheme"),
+    [
+        State("url", "pathname"),
+        State("figure-store", "data")
+    ],
+    prevent_initial_call=True,
+)
+def update_results_chart_theme(theme, pathname, figure_json):
+    if pathname == "/":
+        fig = pio.from_json(figure_json)
+        if theme == "dark":
+            fig.update_layout(template="mantine_dark")
+        else:
+            fig.update_layout(template="mantine_light")
+        return fig
+    else:
+        PreventUpdate()
 

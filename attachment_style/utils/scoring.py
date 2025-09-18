@@ -11,7 +11,7 @@ def revert_scores_for_reverted_questions(
             if value[2].endswith("  **"):
                 original_value = value  # for debugging
                 reverted_value = (value[0], abs(8 - value[1]), value[2])
-                logger.info(f"reverting {original_value[1]} to {reverted_value[1]}")
+                # logger.info(f"reverting {original_value[1]} to {reverted_value[1]}")
                 answers[key] = reverted_value
 
     return answers
