@@ -46,7 +46,7 @@ DemographicsQuestionnaireRevised = dmc.Container(
                                 dmc.Select(
                                     id="age-select",
                                     placeholder="Select age",
-                                    data=[str(i) for i in range(10, 121)],
+                                    data=[str(i) for i in range(16, 121)],
                                     size="lg",
                                     radius="md",
                                     leftSection=DashIconify(icon="tabler:calendar", width=20),
