@@ -59,7 +59,7 @@ gender_labels_values = [
 
 relationship_labels_values = [
     {"label": "Single", "value": "single"},
-    {"label": "In a relationship", "value": "relationship"},
+    {"label": "In a relationship", "value": "in_relationship"},
     {"label": "Married", "value": "married"},
 ]
 
