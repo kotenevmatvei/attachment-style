@@ -3,6 +3,7 @@ import plotly.express as px
 import dash_mantine_components as dmc
 
 import constants
+from data.options import demographics_radio_options, demographics_values
 
 
 # update box plot graph
@@ -22,6 +23,7 @@ def update_box_graph(demographic, selected_style, data, theme):
         y=selected_style,
         title=f'{selected_style.split("_")[0].capitalize()} '
               f'Attachment Scores by {demographic.replace("_", " ").title()}',
+        category_orders={demographic: demographics_values[demographic]}
     )
     fig.update_xaxes(title=demographic.replace("_", " ").title())
     fig.update_yaxes(
