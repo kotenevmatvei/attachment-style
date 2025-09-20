@@ -28,6 +28,10 @@ def crossfilter_by_scatter_zoom(relayoutData, x_var, y_var, data, presented_data
 
         df = df[(df[x_var] >= x_var_min) & (df[x_var] <= x_var_max)]
         df = df[(df[y_var] >= y_var_min) & (df[y_var] <= y_var_max)]
+
+        if df.empty:
+            return presented_data
+
         filtered_data = df.to_dict()
 
         return filtered_data
@@ -64,6 +68,9 @@ def crossfilter_by_box_zoom(relayoutData, x_var, y_var, data, presented_data):
             df = df[df[x_var] != demographics_values[x_var][2]]
 
         df = df[(df[y_var] >= y_var_min) & (df[y_var] <= y_var_max)]
+
+        if df.empty:
+            return presented_data
 
         filtered_data = df.to_dict()
         return filtered_data
