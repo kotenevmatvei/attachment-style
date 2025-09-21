@@ -24,6 +24,7 @@ from callbacks.test_page import subject_callbacks, demographics_callbacks, quest
 from callbacks.dashboard import box_plot_callbacks, scatter_plot_callbacks, scatter_3d_callbacks, parallel_plot_callbacks
 from callbacks.dashboard import dashboard_filters_callbacks, dashboard_kpis_callbacks, cross_filtering_callbacks
 from callbacks.test_page import stepper_callbacks
+from callbacks import feedback_callbacks
 from callbacks import theme_callbacks
 from callbacks import clear_state_callbacks
 

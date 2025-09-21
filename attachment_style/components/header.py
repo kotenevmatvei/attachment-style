@@ -67,6 +67,13 @@ header = dmc.Container(
                                 fw=500,
                             ),
                             dmc.Anchor(
+                                "Feedback",
+                                href="/feedback",
+                                underline=False,
+                                c="dimmed",
+                                fw=500,
+                            ),
+                            dmc.Anchor(
                                 "About",
                                 href="/about",
                                 underline=False,
