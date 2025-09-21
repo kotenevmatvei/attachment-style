@@ -29,6 +29,13 @@ def update_scatter3d_graph(data, color_value, theme):
         },
     )
 
+    fig.update_layout(
+        scene_camera={
+            "eye": {"x": 1.8, "y": 1.8, "z": 1.8},
+            # "up": {"x": 0, "y": 2, "z": 0}
+        }
+    )
+
     if theme == "light":
         fig.update_layout(template="mantine_light")
     else:

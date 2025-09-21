@@ -22,7 +22,7 @@ ParallelCard = dmc.Card(
             size="md",
         ),
         dmc.Select(
-            label="Color By Attachment Style:",
+            label="Attachment Style:",
             id="parallel-color-dropdown",
             data=attachment_style_labels_values
             + ({"label": "Any", "value": "any"},),
