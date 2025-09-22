@@ -1,12 +1,15 @@
+import os
 import smtplib
 from email.mime.text import MIMEText
+from dotenv import load_dotenv
 
 from dash import callback, Output, Input, State, clientside_callback
 
+load_dotenv()
 
 def send_email(subject, message, to_email):
     email = "kotenev.matvei@gmail.com"
-    password = "gqtc afhx miac yxka "
+    password = os.getenv("GMAIL_APP_PASSWORD")
 
     # Create message
     msg = MIMEText(message)
