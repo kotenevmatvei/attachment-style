@@ -6,22 +6,21 @@
 
 # backend
 - [x] separate downloading image from showing the results!!! that's what takes so ultra long 
-- [ ] clear the store components when switching to a different page!
-- [ ] provide total number of scores with and without test
-- [ ] separate updating data from the db and filtering (include/exclude test, you/others)
+- [x] clear the store components when switching to a different page!
+- [x] provide total number of scores with and without test
+- [x] separate updating data from the db and filtering (include/exclude test, you/others)
       (then don't even need extra chaching)
 
 
 # frontend
-- [ ] write stepper component
-- [ ]
+- [x] write stepper component
 - [x] add scores legend to ecr-r graph (ugly for now)
-    - [ ] center
-    - [ ] color
-    - [ ] font
+    - [x] center
+    - [x] color
+    - [x] font
 
-- [ ] design new dashboard layout
+- [x] design new dashboard layout
 
 # refactor
-- [ ] separate callbacks
-- [ ] separate database logic
+- [x] separate callbacks
+- [x] separate database logic
