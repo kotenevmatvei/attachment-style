@@ -85,10 +85,21 @@ def layout(**kwargs):
                 dmc.Button(
                     "Submit",
                     id="send-feedback-button",
+                    variant="gradient",
+                    gradient={"from": constants.PRIMARY, "to": "cyan"},
                     size="lg",
-                    radius="lg",
+                    m="lg",
+                    radius="xl",
                 ),
                 pt="lg",
+            ),
+            dmc.Collapse(
+                dmc.Alert(
+                    "Thank you for your feedback!",
+                    color="grape",
+                ),
+                opened=False,
+                id="thank-you-for-feedback-collapse",
             )
 
         ]

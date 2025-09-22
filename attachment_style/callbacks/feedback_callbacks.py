@@ -1,6 +1,7 @@
-from dash import callback, Output, Input, State
 import smtplib
 from email.mime.text import MIMEText
+
+from dash import callback, Output, Input, State, clientside_callback
 
 
 def send_email(subject, message, to_email):
@@ -20,7 +21,12 @@ def send_email(subject, message, to_email):
 
 
 @callback(
-    Output("dummy-email-div", "children"),
+    [
+        Output("thank-you-for-feedback-collapse", "opened"),
+        Output("feedback-input", "error"),
+        Output("email-input", "error"),
+        Output("send-feedback-button", "loading", allow_duplicate=True),
+    ],
     Input("send-feedback-button", "n_clicks"),
     [
         State("feedback-input", "value"),
@@ -29,6 +35,34 @@ def send_email(subject, message, to_email):
     prevent_initial_call=True,
 )
 def send_feedback(n_clicks, feedback, email):
-    send_email("AST FEEDBACK", feedback + f"\nemail: {email}", "kotenev.matvei@gmail.com")
+    if feedback and email:
+        if "@" in email:
+            message = feedback + f"\n\nemail: {email}"
+        else: return False, None, "Please enter a valid email", False
+    elif feedback:
+        message = feedback
+    else:
+        return False, "Please fill the form", None, False
+
+    if n_clicks == 1:
+        send_email("AST FEEDBACK", message, "kotenev.matvei@gmail.com")
+        return True, None, None, False
+    elif n_clicks > 1:
+        return True, None, None, False
+
+    return False, None, None, False
+
+
+# show loading while downloading the pdf report
+clientside_callback(
+    """
+    function updateLoadingState(n_clicks) {
+        return true
+    }
+    """,
+    Output("send-feedback-button", "loading"),
+    Input("send-feedback-button", "n_clicks"),
+    prevent_initial_call=True,
+)
 
 
