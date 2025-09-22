@@ -24,3 +24,11 @@
 # refactor
 - [x] separate callbacks
 - [x] separate database logic
+
+# about page
+- [ ] motivation
+- [ ] theory
+    - [ ] assess yourself - ecr-r
+        - [ ] scoring
+    - [ ] assess others - the book
+- [ ] technology
