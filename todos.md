@@ -26,9 +26,9 @@
 - [x] separate database logic
 
 # about page
-- [ ] motivation
-- [ ] theory
-    - [ ] assess yourself - ecr-r
-        - [ ] scoring
-    - [ ] assess others - the book
-- [ ] technology
+- [x] motivation
+- [x] theory
+    - [x] assess yourself - ecr-r
+        - [x] scoring
+    - [x] assess others - the book
+- [x] technology
