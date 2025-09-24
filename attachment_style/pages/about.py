@@ -1,5 +1,5 @@
-from dash import register_page
 import dash_mantine_components as dmc
+from dash import register_page
 
 import constants
 
@@ -15,191 +15,162 @@ def layout(**kwargs):
                 children=[
                     dmc.AccordionItem(
                         [
-                            dmc.AccordionControl("Assess Yourself"),
+                            dmc.AccordionControl(dmc.Title("Adult Attachment Style Theory", order=4, fw="normal")),
                             dmc.AccordionPanel(
                                 children=[
                                     dmc.Text(
-                                        "The 'Assess Yourself' quiz is based on the ECR-R (Experiences in Close Relationships-Revised) scale, "
-                                        "a scientifically validated instrument for measuring adult attachment styles in romantic relationships."
+                                        "Adult attachment styles theory extends John Bowlby's original attachment framework "
+                                        "to understand how early caregiver relationships influence adult romantic bonds. "
+                                        "The theory has evolved from categorical approaches to a dimensional model focusing "
+                                        "on two primary dimensions: attachment anxiety and attachment avoidance."
+                                    ),
+                                    dmc.Space(h="md"),
+                                    dmc.Text("Core Dimensions", fw="bold", c=constants.PRIMARY),
+                                    dmc.Text(
+                                        "Attachment anxiety reflects the extent to which individuals worry about abandonment "
+                                        "and need constant reassurance from partners. Attachment avoidance represents discomfort "
+                                        "with intimacy and preference for emotional independence. These dimensions combine to "
+                                        "create different attachment patterns in adult relationships."
+                                    ),
+                                    dmc.Space(h="md"),
+                                    dmc.Text("Key Studies and Measures", fw="bold", c=constants.PRIMARY),
+                                    dmc.Text(
+                                        [
+                                            "The most significant advancement came with ",
+                                            dmc.Anchor("Brennan, Clark, and Shaver's (1998) ",
+                                                       href="https://www.researchgate.net/publication/301325948_Self-report_measurement_of_adult_attachment_An_integrative_overview",
+                                                       target="_blank",),
+                                            "development of the Experiences in Close Relationships (ECR) scale, followed by ",
+                                            dmc.Anchor("Fraley, Waller, and Brennan's (2000) ECR-Revised (ECR-R)", href="https://www.web-research-design.net/PDF/FW&B2000.pdf"),
+                                            ". The ECR-R is a 36-item self-report "
+                                            "measure that assesses both anxiety and avoidance dimensions, demonstrating excellent "
+                                            "reliability with ",
+                                            dmc.Anchor("alpha coefficients", href="https://en.wikipedia.org/wiki/Cronbach%27s_alpha"), " near or above 0.90."
+                                        ],
                                     ),
                                     dmc.Space(h="md"),
                                     dmc.Text(
-                                        "This assessment consists of 36 questions divided into two dimensions:"
+                                        "The ECR-R has become the most widely used and robust measure of adult attachment, "
+                                        "translated into 17 languages and used in hundreds of academic studies. Research "
+                                        "using this measure has demonstrated how attachment styles predict relationship "
+                                        "satisfaction, emotional regulation, and interpersonal functioning. Studies by "
+                                        "Mikulincer and Shaver (2007) found that anxious individuals experience emotional "
+                                        "instability, while avoidant individuals withdraw from intimacy, both leading to "
+                                        "relationship difficulties."
+                                    )
+                                ]
+                            )
+                        ],
+                        value="adult-attachment-style-theory",
+                    ),
+                    dmc.AccordionItem(
+                        [
+                            dmc.AccordionControl(dmc.Title("A More Practical Approach", order=4, fw="normal")),
+                            dmc.AccordionPanel(
+                                children=[
+                                    dmc.Text(
+                                        "Amir Levine and Rachel Heller made two key modifications to the ECR-R questionnaire "
+                                        "in their popular book \"Attached\" to make attachment assessment more practical "
+                                        "for everyday relationships."
                                     ),
-                                    dmc.List([
-                                        dmc.ListItem(
-                                            dmc.Text("Anxious Attachment (18 questions): Measures fear of abandonment, "
-                                                   "need for reassurance, and worry about relationships")
-                                        ),
-                                        dmc.ListItem(
-                                            dmc.Text("Avoidant Attachment (18 questions): Measures discomfort with closeness, "
-                                                   "preference for independence, and difficulty with emotional intimacy")
-                                        ),
-                                    ]),
+                                    dmc.Space(h="md"),
+                                    dmc.Text("Assessing Others", fw="bold", c=constants.PRIMARY),
+                                    dmc.Text(
+                                        "The authors created a partner assessment questionnaire titled \"Determining Your "
+                                        "Partner's Attachment Style\" that allows individuals to evaluate their romantic "
+                                        "partner's attachment behaviors rather than just their own. This modification "
+                                        "transforms the self-report nature of the original ECR-R into an observational "
+                                        "tool, enabling people to identify attachment patterns in their partners through "
+                                        "behavioral indicators and relationship dynamics."
+                                    ),
+                                    dmc.Space(h="md"),
+                                    dmc.Text("Explicit Secure Scoring", fw="bold", c=constants.PRIMARY),
+                                    dmc.Text(
+                                        "Unlike the traditional ECR-R which primarily measures anxiety and avoidance "
+                                        "dimensions, Levine and Heller's version explicitly includes secure attachment "
+                                        "as a distinct scored category. Their model uses a four-quadrant system where "
+                                        "secure attachment is defined as low avoidance combined with low anxiety, "
+                                        "creating a clear secure classification rather than leaving it as simply the "
+                                        "absence of insecure traits."
+                                    ),
                                     dmc.Space(h="md"),
                                     dmc.Text(
-                                        "Your responses help determine your primary attachment style: Secure, Anxious, or Avoidant. "
-                                        "The ECR-R is widely used in psychological research and provides reliable insights into "
-                                        "how you approach close relationships."
+                                        "The authors designed their modified version to \"work best in everyday life\" "
+                                        "by making attachment styles more accessible and actionable for relationship "
+                                        "decisions. This approach allows couples to understand both their own and their "
+                                        "partner's attachment needs, facilitating better relationship dynamics and "
+                                        "communication strategies."
+                                    ),
+                                    dmc.Space(h="md"),
+                                    dmc.Text(
+                                        "Their modifications transformed academic attachment measurement into a practical "
+                                        "relationship tool that has reached over two million readers seeking to improve "
+                                        "their romantic connections."
+                                    )
+                                ]
+                            )
+                        ],
+                        value="more-practival-approach",
+                    ),
+                    dmc.AccordionItem(
+                        [
+                            dmc.AccordionControl(dmc.Title("This Website's Objective", order=4, fw="normal")),
+                            dmc.AccordionPanel(
+                                children=[
+                                    dmc.Text(
+                                        [
+                                            "This website combines two established assessment approaches. The \"Assess Yourself\" "
+                                            "questionnaire uses the unmodified ECR-R study format, while the \"Assess Others\" q"
+                                            "uestionnaire is based on the version developed by Dr. Amir Levine and Rachel Heller, "
+                                            "which I've modified to respect copyright requirements."
+                                        ],
+                                    ),
+                                    dmc.Space(h="md"),
+                                    dmc.Text("Scoring", fw="bold", c=constants.PRIMARY),
+                                    dmc.Text(
+                                        [
+                                            "The \"Assess Others\" questionnaire contains three distinct question groups "
+                                            "that test for secure, anxious, and avoidant attachment traits. Each dimension's "
+                                            "score is calculated as the average of its corresponding questions.",
+                                            dmc.Space(h="md"),
+                                            "The \"Assess Yourself\" questionnaire follows the ",
+                                            dmc.Anchor("scoring guidelines",
+                                                       href="https://centerforhealingkc.com/sites/centerfh/files/ecr-r.pdf"),
+                                            " provided in the ECR-R study. This methodology includes reverse-scoring certain "
+                                            "questions that ask similar concepts with opposite wording, which helps minimize "
+                                            "response bias tendencies.",
+                                        ]
+                                    ),
+                                    dmc.Space(h="md"),
+                                    dmc.Text(
+                                        [
+                                            " Since the ECR-R questionnaire doesn't provide an explicit secure attachment score, "
+                                            "I mathematically derive one from the anxious and avoidant results. The scoring "
+                                            "is normalized so that low anxious and avoidant scores (both at 1) yield a maximum "
+                                            "secure score of 7, while high anxious and avoidant scores (both at 7) produce a "
+                                            "minimum secure score of 1.",
+                                            dmc.Space(h="md"),
+                                            dmc.Text(
+                                                [
+                                                    "This approach serves two purposes. First, it creates consistency across the application—the ",
+                                                    dmc.Anchor("dashboard", href="/dashboard"),
+                                                    " displays statistics for all three attachment dimensions, allowing "
+                                                    "universal use of the same visualization tools for both questionnaires. Second, "
+                                                    "this derived score supplements rather than alters the original ECR-R results, "
+                                                    "providing an additional metric that helps users better understand their attachment "
+                                                    "style profile."
+                                                ],
+                                            )
+                                        ],
                                     ),
                                 ]
                             )
                         ],
-                        value="assess-yourself",
+                        value="objective",
                     ),
                     dmc.AccordionItem(
                         [
-                            dmc.AccordionControl("Assess Others (ECR-R)"),
-                            dmc.AccordionPanel(
-                                children=[
-                                    dmc.Text(
-                                        "The 'Assess Others' feature uses a modified version of the ECR-R scale adapted for "
-                                        "evaluating the attachment behaviors of other people in your life - such as romantic "
-                                        "partners, friends, or family members."
-                                    ),
-                                    dmc.Space(h="md"),
-                                    dmc.Text(
-                                        "This assessment includes 33 questions across three dimensions:"
-                                    ),
-                                    dmc.List([
-                                        dmc.ListItem(
-                                            dmc.Text("Anxious behaviors (11 questions): Observable signs of relationship anxiety "
-                                                   "and fear of abandonment in others")
-                                        ),
-                                        dmc.ListItem(
-                                            dmc.Text("Avoidant behaviors (11 questions): Observable signs of emotional distance "
-                                                   "and discomfort with intimacy in others")
-                                        ),
-                                        dmc.ListItem(
-                                            dmc.Text("Secure behaviors (11 questions): Observable signs of healthy relationship "
-                                                   "patterns and emotional availability in others")
-                                        ),
-                                    ]),
-                                    dmc.Space(h="md"),
-                                    dmc.Text(
-                                        "This tool helps you better understand the attachment patterns of people around you, "
-                                        "which can improve communication and relationship dynamics. The questions focus on "
-                                        "observable behaviors rather than internal feelings."
-                                    ),
-                                ]
-                            )
-                        ],
-                        value="assess-others",
-                    ),
-                    dmc.AccordionItem(
-                        [
-                            dmc.AccordionControl("Scoring"),
-                            dmc.AccordionPanel(
-                                children=[
-                                    dmc.Text(
-                                        "Our scoring system is based on established psychological research and provides "
-                                        "nuanced insights into attachment patterns:"
-                                    ),
-                                    dmc.Space(h="md"),
-                                    dmc.Title("ECR-R Scoring (Assess Yourself)", order=4, c=constants.PRIMARY),
-                                    dmc.List([
-                                        dmc.ListItem(
-                                            dmc.Text("Questions are rated on a 7-point scale (1 = strongly disagree, 7 = strongly agree)")
-                                        ),
-                                        dmc.ListItem(
-                                            dmc.Text("Reverse-coded items (marked with /r/) are automatically adjusted")
-                                        ),
-                                        dmc.ListItem(
-                                            dmc.Text("Anxious and Avoidant scores are calculated as averages of their respective items")
-                                        ),
-                                        dmc.ListItem(
-                                            dmc.Text("Secure score is mathematically derived from the other two dimensions using: "
-                                                   "Secure = 4 + ((4 - Anxious) + (4 - Avoidant)) / 2")
-                                        ),
-                                    ]),
-                                    dmc.Space(h="md"),
-                                    dmc.Title("Assess Others Scoring", order=4, c=constants.PRIMARY),
-                                    dmc.List([
-                                        dmc.ListItem(
-                                            dmc.Text("Also uses a 7-point rating scale")
-                                        ),
-                                        dmc.ListItem(
-                                            dmc.Text("Includes direct measurement of secure behaviors")
-                                        ),
-                                        dmc.ListItem(
-                                            dmc.Text("Each dimension (Anxious, Avoidant, Secure) is scored independently")
-                                        ),
-                                    ]),
-                                    dmc.Space(h="md"),
-                                    dmc.Text(
-                                        "Higher scores indicate stronger tendencies toward that attachment style. "
-                                        "Your primary attachment style is determined by your highest score, but most "
-                                        "people show elements of multiple styles."
-                                    ),
-                                ]
-                            )
-                        ],
-                        value="scoring",
-                    ),
-                    dmc.AccordionItem(
-                        [
-                            dmc.AccordionControl("Technology"),
-                            dmc.AccordionPanel(
-                                children=[
-                                    dmc.Text(
-                                        "This application is built entirely in Python, demonstrating the capabilities "
-                                        "of modern Python web frameworks for creating interactive psychological assessments."
-                                    ),
-                                    dmc.Space(h="md"),
-                                    dmc.Title("Tech Stack", order=4, c=constants.PRIMARY),
-                                    dmc.List([
-                                        dmc.ListItem(
-                                            dmc.Text("Frontend: Dash Plotly with Dash Mantine Components for UI")
-                                        ),
-                                        dmc.ListItem(
-                                            dmc.Text("Backend: Flask (underlying Dash framework)")
-                                        ),
-                                        dmc.ListItem(
-                                            dmc.Text("Database: PostgreSQL with SQLAlchemy ORM")
-                                        ),
-                                        dmc.ListItem(
-                                            dmc.Text("Data Processing: NumPy and Pandas for calculations")
-                                        ),
-                                        dmc.ListItem(
-                                            dmc.Text("Visualizations: Plotly for interactive charts")
-                                        ),
-                                        dmc.ListItem(
-                                            dmc.Text("Deployment: Docker containers with database migrations via Alembic")
-                                        ),
-                                    ]),
-                                    dmc.Space(h="md"),
-                                    dmc.Title("Key Features", order=4, c=constants.PRIMARY),
-                                    dmc.List([
-                                        dmc.ListItem(
-                                            dmc.Text("PDF generation for downloadable results")
-                                        ),
-                                        dmc.ListItem(
-                                            dmc.Text("Real-time dashboard with aggregate statistics")
-                                        ),
-                                        dmc.ListItem(
-                                            dmc.Text("Responsive design that works on all devices")
-                                        ),
-                                        dmc.ListItem(
-                                            dmc.Text("Secure data storage with privacy protection")
-                                        ),
-                                        dmc.ListItem(
-                                            dmc.Text("Interactive visualizations for exploring results")
-                                        ),
-                                    ]),
-                                    dmc.Space(h="md"),
-                                    dmc.Text(
-                                        "This project serves as both a functional psychological assessment tool and "
-                                        "a demonstration of Python's capabilities for building full-stack web applications "
-                                        "without traditional HTML/CSS/JavaScript development."
-                                    ),
-                                ]
-                            )
-                        ],
-                        value="technology",
-                    ),
-                    dmc.AccordionItem(
-                        [
-                            dmc.AccordionControl("Dashboard"),
+                            dmc.AccordionControl(dmc.Title("Dashboard", order=4, fw="normal")),
                             dmc.AccordionPanel(
                                 children=[
                                     dmc.Text(
@@ -208,24 +179,28 @@ def layout(**kwargs):
                                         "different demographics."
                                     ),
                                     dmc.Space(h="md"),
-                                    dmc.Title("Available Visualizations", order=4, c=constants.PRIMARY),
+                                    dmc.Text("Available Visualizations", fw="bold", c=constants.PRIMARY),
                                     dmc.List([
                                         dmc.ListItem(
-                                            dmc.Text("Box Plots: Show distribution of attachment scores by demographic groups "
-                                                   "(age, gender, relationship status, therapy experience)")
+                                            dmc.Text(
+                                                "Box Plots: Show distribution of attachment scores by demographic groups "
+                                                "(age, gender, relationship status, therapy experience)")
                                         ),
                                         dmc.ListItem(
-                                            dmc.Text("Scatter Plots: Explore relationships between different attachment dimensions")
+                                            dmc.Text(
+                                                "Scatter Plots: Explore relationships between different attachment dimensions")
                                         ),
                                         dmc.ListItem(
-                                            dmc.Text("3D Scatter Plot: Visualize all three attachment dimensions simultaneously")
+                                            dmc.Text(
+                                                "3D Scatter Plot: Visualize all three attachment dimensions simultaneously")
                                         ),
                                         dmc.ListItem(
-                                            dmc.Text("Parallel Coordinates: Compare attachment profiles across multiple dimensions")
+                                            dmc.Text(
+                                                "Parallel Coordinates: Explore the correlation between different demographic variables")
                                         ),
                                     ]),
                                     dmc.Space(h="md"),
-                                    dmc.Title("Dashboard Features", order=4, c=constants.PRIMARY),
+                                    dmc.Text("Dashboard Features", fw="bold", c=constants.PRIMARY),
                                     dmc.List([
                                         dmc.ListItem(
                                             dmc.Text("Filter data by assessment type (Self vs. Others)")
@@ -244,13 +219,71 @@ def layout(**kwargs):
                                     dmc.Text(
                                         "All visualizations update dynamically based on your filter selections, "
                                         "allowing for detailed exploration of how attachment styles vary across "
-                                        "different populations and contexts. The dashboard respects user privacy "
-                                        "by only showing aggregate, anonymized data."
+                                        "different populations and contexts"
                                     ),
                                 ]
                             )
                         ],
                         value="dashboard",
+                    ),
+                    dmc.AccordionItem(
+                        [
+                            dmc.AccordionControl(dmc.Title("Technology", order=4, fw="normal")),
+                            dmc.AccordionPanel(
+                                children=[
+                                    dmc.Text(
+                                        "This application is built entirely in Python, demonstrating the capabilities "
+                                        "of modern Python web frameworks for creating interactive psychological assessments."
+                                    ),
+                                    dmc.Space(h="md"),
+                                    dmc.Text("Tech Stack", fw="bold", c=constants.PRIMARY),
+                                    dmc.List([
+                                        dmc.ListItem(
+                                            dmc.Text("Frontend: Dash Plotly with Dash Mantine Components for UI")
+                                        ),
+                                        dmc.ListItem(
+                                            dmc.Text("Backend: Flask (underlying Dash framework)")
+                                        ),
+                                        dmc.ListItem(
+                                            dmc.Text("Database: PostgreSQL with SQLAlchemy ORM")
+                                        ),
+                                        dmc.ListItem(
+                                            dmc.Text("Data Processing: NumPy and Pandas for calculations")
+                                        ),
+                                        dmc.ListItem(
+                                            dmc.Text("Visualizations: Plotly for interactive charts")
+                                        ),
+                                        dmc.ListItem(
+                                            dmc.Text(
+                                                "Deployment: Docker containers with database migrations via Alembic")
+                                        ),
+                                    ]),
+                                    dmc.Space(h="md"),
+                                    dmc.Text("Key Features", fw="bold", c=constants.PRIMARY),
+                                    dmc.List([
+                                        dmc.ListItem(
+                                            dmc.Text("PDF generation for downloadable results")
+                                        ),
+                                        dmc.ListItem(
+                                            dmc.Text("Real-time dashboard with aggregate statistics")
+                                        ),
+                                        dmc.ListItem(
+                                            dmc.Text("Responsive design that works on all devices")
+                                        ),
+                                        dmc.ListItem(
+                                            dmc.Text("Interactive visualizations for exploring results")
+                                        ),
+                                    ]),
+                                    dmc.Space(h="md"),
+                                    dmc.Text(
+                                        "This project serves as both a functional psychological assessment tool and "
+                                        "a demonstration of Python's capabilities for building full-stack web applications "
+                                        "without traditional HTML/CSS/JavaScript development."
+                                    ),
+                                ]
+                            )
+                        ],
+                        value="technology",
                     ),
                 ],
             )
