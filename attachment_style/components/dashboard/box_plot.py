@@ -56,6 +56,7 @@ BoxCard = dmc.Card(
             size="lg",
             children=[
                 dmc.Image(src="assets/boxplot_info.jpg"),
+                dmc.Space(h="md"),
                 dmc.Text(
                     "A box plot is a standardized way to display data distribution using five key statistical measures "
                     "that reveal the spread and central tendency of a dataset. This visualization method provides a quick "
@@ -85,7 +86,6 @@ BoxCard = dmc.Card(
                     "reveals skewness. If the median line sits closer to Q1, the data is right-skewed; if closer to Q3, "
                     "it's left-skewed."
                 ),
-                dmc.Space(h="md"),
                 dmc.Space(h="md"),
                 dmc.Text(
                     "The length of the whiskers shows the spread of the outer data ranges, and the presence of outlier "

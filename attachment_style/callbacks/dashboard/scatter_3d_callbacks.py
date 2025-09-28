@@ -1,4 +1,4 @@
-from dash import callback, Output, Input
+from dash import callback, Output, Input, State
 import plotly.express as px
 import pandas as pd
 import dash_mantine_components as dmc
@@ -42,3 +42,12 @@ def update_scatter3d_graph(data, color_value, theme):
         fig.update_layout(template="mantine_dark")
 
     return fig
+
+@callback(
+    Output("scatter-3d-info-modal", "opened"),
+    Input("scatter-3d-info-modal-button", "n_clicks"),
+    State("scatter-3d-info-modal", "opened"),
+    prevent_initial_call=True,
+)
+def toggle_box_info_modal(n_clicks, opened):
+    return not opened

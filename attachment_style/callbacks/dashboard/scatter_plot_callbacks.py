@@ -1,4 +1,4 @@
-from dash import callback, Output, Input
+from dash import callback, Output, Input, State
 import plotly.express as px
 
 # update scatter graph
@@ -40,3 +40,12 @@ def update_scatter_graph(x_var, y_var, color_var, data, theme):
         fig.update_layout(template="mantine_dark")
 
     return fig
+
+@callback(
+    Output("scatter-info-modal", "opened"),
+    Input("scatter-info-modal-button", "n_clicks"),
+    State("scatter-info-modal", "opened"),
+    prevent_initial_call=True,
+)
+def toggle_box_info_modal(n_clicks, opened):
+    return not opened
