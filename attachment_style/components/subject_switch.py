@@ -8,14 +8,26 @@ SubjectSwitch = dmc.Paper(
     shadow="lg",
     mt="xl",
     p="xl",
-    pt=50,
+    pt={"base": 0, "sm": 50},
     children=[
         dmc.Center(
-            dmc.Title(
-                "Would you like to assess yourself or someone else?",
-                c=constants.PRIMARY,
-                mb="lg",
-            ),
+            [
+                # for mobile
+                dmc.Title(
+                    "Would you like to assess yourself or someone else?",
+                    c=constants.PRIMARY,
+                    order=3,
+                    hiddenFrom="sm",
+                    mb="lg",
+                ),
+                dmc.Title(
+                    "Would you like to assess yourself or someone else?",
+                    c=constants.PRIMARY,
+                    mb="lg",
+                    order=2,
+                    visibleFrom="sm",
+                ),
+            ]
         ),
         dmc.Flex(
             align="center",
@@ -29,6 +41,17 @@ SubjectSwitch = dmc.Paper(
                     size="lg",
                     m="lg",
                     radius="xl",
+                    visibleFrom="sm",
+                ),
+                dmc.Button(
+                    "You",
+                    id="assess-yourself-button",
+                    variant="gradient",
+                    gradient={"from": constants.PRIMARY, "to": "cyan"},
+                    size="lg",
+                    mr="md",
+                    radius="xl",
+                    hiddenFrom="sm",
                 ),
                 dmc.Button(
                     "Assess others",
@@ -38,6 +61,17 @@ SubjectSwitch = dmc.Paper(
                     m="lg",
                     size="lg",
                     radius="xl",
+                    visibleFrom="sm",
+                ),
+                dmc.Button(
+                    "Others",
+                    id="assess-others-button",
+                    variant="gradient",
+                    gradient={"from": constants.PRIMARY, "to": "cyan"},
+                    ml="md",
+                    size="lg",
+                    radius="xl",
+                    hiddenFrom="sm",
                 ),
             ],
         ),
