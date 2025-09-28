@@ -98,24 +98,28 @@ header = dmc.Container(
                             dmc.MenuDropdown(
                                 [
                                     dmc.MenuItem(
-                                        "Home",
+                                        "Test",
                                         leftSection=DashIconify(icon="tabler:home"),
+                                        href="/"
                                     ),
                                     dmc.MenuItem(
-                                        "Analytics",
+                                        "Dashboard",
                                         leftSection=DashIconify(
                                             icon="tabler:chart-bar"
                                         ),
+                                        href="/dashboard"
                                     ),
                                     dmc.MenuItem(
-                                        "Reports",
+                                        "Feedback",
                                         leftSection=DashIconify(
                                             icon="tabler:file-text"
                                         ),
+                                        href="/feedback"
                                     ),
                                     dmc.MenuItem(
-                                        "Settings",
-                                        leftSection=DashIconify(icon="tabler:settings"),
+                                        "About",
+                                        leftSection=DashIconify(icon="tabler:clipboard-text"),
+                                        href="/about"
                                     ),
                                 ]
                             ),
