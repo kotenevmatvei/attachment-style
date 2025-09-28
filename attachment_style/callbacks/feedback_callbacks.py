@@ -41,6 +41,7 @@ def send_feedback(n_clicks, feedback, email):
     if feedback and email:
         if "@" in email:
             message = feedback + f"\n\nemail: {email}"
+            send_email("AST FEEDBACK", message, "kotenev.matvei@gmail.com")
         else: return False, None, "Please enter a valid email", False
     elif feedback:
         message = feedback
