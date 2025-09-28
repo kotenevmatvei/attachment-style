@@ -6,7 +6,7 @@ from components.demographics import DemographicsQuestionnaireRevised
 from components.question_card import QuestionComponent
 from components.results import ResultsBoard
 from components.subject_switch import SubjectSwitch
-from components.stepper import Stepper
+from components.stepper import Stepper, StepperMobile
 
 register_page(__name__, path="/")
 
@@ -16,6 +16,7 @@ def layout(**kwargs):
         mt="lg",
         children=[
             Stepper,
+            StepperMobile,
             dmc.Collapse(
                 id="subject-switch-collapse",
                 opened=True,
