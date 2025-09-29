@@ -20,11 +20,12 @@ SubjectSwitch = dmc.Paper(
                     hiddenFrom="sm",
                     mb="lg",
                 ),
+                # for desktop
                 dmc.Title(
                     "Would you like to assess yourself or someone else?",
                     c=constants.PRIMARY,
                     mb="lg",
-                    order=2,
+                    order=1,
                     visibleFrom="sm",
                 ),
             ]
@@ -33,6 +34,7 @@ SubjectSwitch = dmc.Paper(
             align="center",
             justify="center",
             children=[
+                # desktop size
                 dmc.Button(
                     "Assess yourself",
                     id="assess-yourself-button",
@@ -44,16 +46,6 @@ SubjectSwitch = dmc.Paper(
                     visibleFrom="sm",
                 ),
                 dmc.Button(
-                    "You",
-                    id="assess-yourself-button",
-                    variant="gradient",
-                    gradient={"from": constants.PRIMARY, "to": "cyan"},
-                    size="lg",
-                    mr="md",
-                    radius="xl",
-                    hiddenFrom="sm",
-                ),
-                dmc.Button(
                     "Assess others",
                     id="assess-others-button",
                     variant="gradient",
@@ -63,13 +55,27 @@ SubjectSwitch = dmc.Paper(
                     radius="xl",
                     visibleFrom="sm",
                 ),
+
+                # mobile
+                dmc.Button(
+                    "You",
+                    id="assess-yourself-button",
+                    variant="gradient",
+                    gradient={"from": constants.PRIMARY, "to": "cyan"},
+                    size="lg",
+                    fullWidth=True,
+                    mr="sm",
+                    radius="xl",
+                    hiddenFrom="sm",
+                ),
                 dmc.Button(
                     "Others",
                     id="assess-others-button",
                     variant="gradient",
                     gradient={"from": constants.PRIMARY, "to": "cyan"},
-                    ml="md",
+                    ml="sm",
                     size="lg",
+                    fullWidth=True,
                     radius="xl",
                     hiddenFrom="sm",
                 ),
