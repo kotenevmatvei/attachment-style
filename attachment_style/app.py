@@ -24,6 +24,7 @@ from callbacks.test_page import subject_callbacks, demographics_callbacks, quest
 from callbacks.dashboard import box_plot_callbacks, scatter_plot_callbacks, scatter_3d_callbacks, parallel_plot_callbacks
 from callbacks.dashboard import dashboard_filters_callbacks, dashboard_kpis_callbacks, cross_filtering_callbacks
 from callbacks.test_page import stepper_callbacks
+from callbacks.test_page import subject_switch_callbacks
 from callbacks import feedback_callbacks
 from callbacks import theme_callbacks
 from callbacks import clear_state_callbacks
@@ -58,8 +59,9 @@ app_shell = dmc.AppShell(
         dcc.Store(id="current-question-count-store", data=1),
         dcc.Store(id="result-scores-store", data={}),
         dcc.Store(id="figure-store"),
-        dcc.Store("data-store", data=scores),
-        dcc.Store("presented-data-store", data=scores),
+        dcc.Store(id="data-store", data=scores),
+        dcc.Store(id="presented-data-store", data=scores),
+
         dcc.Download(id="download-report"),
         dcc.Location(id="url", refresh=False),
 

@@ -10,12 +10,14 @@ logger = logging.getLogger(__name__)
     Output("subject-store", "data"),
     [
         Input("assess-yourself-button", "n_clicks"),
+        Input("assess-yourself-button-mobile", "n_clicks"),
         Input("assess-others-button", "n_clicks"),
+        Input("assess-others-button-mobile", "n_clicks"),
     ]
 )
-def update_subject_store(assess_yourself_click, assess_others_click):
+def update_subject_store(assess_yourself_click, assess_yourself_mobile_click,  assess_others_click, assess_others_mobile_click):
     triggered_id = ctx.triggered_id
-    if triggered_id == "assess-others-button":
+    if triggered_id in ["assess-others-button", "assess-others-button-mobile"]:
         return "others"
     return "you"
 

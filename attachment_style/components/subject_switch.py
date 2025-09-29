@@ -15,6 +15,7 @@ SubjectSwitch = dmc.Paper(
                 # for mobile
                 dmc.Title(
                     "Would you like to assess yourself or someone else?",
+                    id="subject-switch-title",
                     c=constants.PRIMARY,
                     order=3,
                     hiddenFrom="sm",
@@ -59,7 +60,7 @@ SubjectSwitch = dmc.Paper(
                 # mobile
                 dmc.Button(
                     "You",
-                    id="assess-yourself-button",
+                    id="assess-yourself-button-mobile",
                     variant="gradient",
                     gradient={"from": constants.PRIMARY, "to": "cyan"},
                     size="lg",
@@ -70,7 +71,7 @@ SubjectSwitch = dmc.Paper(
                 ),
                 dmc.Button(
                     "Others",
-                    id="assess-others-button",
+                    id="assess-others-button-mobile",
                     variant="gradient",
                     gradient={"from": constants.PRIMARY, "to": "cyan"},
                     ml="sm",
@@ -83,23 +84,3 @@ SubjectSwitch = dmc.Paper(
         ),
     ]
 )
-
-
-@callback(
-    [
-        Output("demographics-questionnaire-collapse", "opened", allow_duplicate=True),
-        Output("subject-switch-collapse", "opened")
-    ],
-    [
-        Input("assess-yourself-button", "n_clicks"),
-        Input("assess-others-button", "n_clicks"),
-    ],
-    prevent_initial_call=True,
-)
-def toggle_demographics_questionnaire(assess_yourself_click, assess_others_click):
-    if assess_yourself_click:
-        return True, False
-    elif assess_others_click:
-        return True, False
-    return False, True
-
