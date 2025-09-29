@@ -1,4 +1,4 @@
-from dash import callback, Output, Input
+from dash import callback, Output, Input, ctx
 
 @callback(
     [
@@ -14,9 +14,5 @@ from dash import callback, Output, Input
     prevent_initial_call=True
 )
 def toggle_demographics_questionnaire(assess_yourself_click, assess_yourself_mobile_click, assess_others_click, assess_others_mobile_click):
-    if assess_yourself_click or assess_yourself_mobile_click:
-        return True, False
-    elif assess_others_click or assess_others_mobile_click:
-        return True, False
-    return False, True
+    return True, False
 

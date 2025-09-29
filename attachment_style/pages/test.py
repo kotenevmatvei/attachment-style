@@ -1,7 +1,7 @@
 from dash import register_page, Output, Input, State, callback
 import dash_mantine_components as dmc
 
-from components.demographics import DemographicsQuestionnaireRevised
+from components.demographics import Demographics
 # from components.question_card import QuestionCard
 from components.question_card import QuestionComponent
 from components.results import ResultsBoard
@@ -28,7 +28,7 @@ def layout(**kwargs):
                 id="demographics-questionnaire-collapse",
                 opened=False,
                 children=[
-                    DemographicsQuestionnaireRevised,
+                    Demographics,
                 ]
             ),
             dmc.Collapse(

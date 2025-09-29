@@ -8,7 +8,7 @@ from data.options import (
     relationship_labels_values,
 )
 
-DemographicsQuestionnaireRevised = dmc.Container(
+Demographics = dmc.Container(
     size="xl",
     py={"base": "xs", "sm": "xl"},
     children=[
@@ -116,25 +116,25 @@ DemographicsQuestionnaireRevised = dmc.Container(
                 mt={"base": "xs", "sm": "xl"},
                 px="xl",
             ),
-            mt="xl",
-            visibleFrom="sm",
+            mt={"base": "lg", "sm": "xl"},
+            # visibleFrom="sm",
         ),
 
-        # mobile
-        dmc.Center(
-            dmc.Button(
-                "To the test",
-                id="continue-to-test-button",
-                size="lg",
-                radius="xl",
-                leftSection=DashIconify(icon="tabler:arrow-right", width=20),
-                variant="gradient",
-                gradient={"from": constants.PRIMARY, "to": "cyan"},
-                mt={"base": "xs", "sm": "xl"},
-                # px="xl",
-            ),
-            mt="lg",
-            hiddenFrom="sm",
-        ),
+        # # mobile
+        # dmc.Center(
+        #     dmc.Button(
+        #         "To the test",
+        #         id="continue-to-test-button-mobile",
+        #         size="lg",
+        #         radius="xl",
+        #         leftSection=DashIconify(icon="tabler:arrow-right", width=20),
+        #         variant="gradient",
+        #         gradient={"from": constants.PRIMARY, "to": "cyan"},
+        #         mt={"base": "xs", "sm": "xl"},
+        #         # px="xl",
+        #     ),
+        #     mt="lg",
+        #     hiddenFrom="sm",
+        # ),
     ],
 )
