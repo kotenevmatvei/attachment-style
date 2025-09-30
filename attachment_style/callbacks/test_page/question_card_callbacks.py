@@ -53,7 +53,7 @@ def display_question(current_question_count, questions, subject):
         Output("current-question-count-store", "data"),
         Output("questions-answered-count-store", "data"),
         Output("answers-store", "data"),
-        # navigation buttons disables?
+        # navigation buttons disabled?
         Output("back-button", "disabled"),
         Output("prev-button", "disabled"),
         Output("forward-button", "disabled"),
