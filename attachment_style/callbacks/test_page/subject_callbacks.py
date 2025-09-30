@@ -2,7 +2,7 @@ import dash_mantine_components as dmc
 from dash import callback, Input, Output, ctx
 import logging
 
-from utils.io import read_questions
+from utils.io import read_questions, read_questions_json
 
 logger = logging.getLogger(__name__)
 
@@ -24,9 +24,9 @@ def update_subject_store(assess_yourself_click, assess_others_click):
     [
         Output("questions-store", "data"),
         Output("questions-len", "data"),
-        Output("question-markdown", "style"),
-        Output("question-paper", "h"),
-        Output("question-content-flex", "justify"),
+        # Output("question-markdown", "style"),
+        # Output("question-paper", "h"),
+        # Output("question-content-flex", "justify"),
         Output("progress-bar", "children"),
         Output("answers-store", "data", allow_duplicate=True),
     ],
@@ -50,11 +50,11 @@ def update_current_subject(subject):
     )
 
     if subject == "others":
-        questions = read_questions("others")
+        questions = read_questions_json("others")
         answers = {f"{i}": None for i in range(1, 34)}
-        return questions, 33, {"textAlign": "left"}, "230px", "start", progress_steps, answers
+        return questions, 33, progress_steps, answers
 
-    questions = read_questions("you")
+    questions = read_questions_json("you")
     answers = {f"{i}": None for i in range(1, 37)}
-    return questions, 36, {"textAlign": "center"}, "100px", "center", progress_steps, answers
+    return questions, 36, progress_steps, answers
 
