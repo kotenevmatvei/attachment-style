@@ -16,7 +16,7 @@ from reportlab.platypus import (
 logger = logging.getLogger(__name__)
 
 
-def generate_report(answers: dict[str, tuple[str, float, str]], dominant_style) -> None:
+def generate_report(answers: dict[str, dict], dominant_style) -> None:
     top_margin = 0.75 * 72
     doc = SimpleDocTemplate(
         "tmp/attachment_style_report.pdf",
@@ -159,10 +159,10 @@ def generate_report(answers: dict[str, tuple[str, float, str]], dominant_style) 
     story.append(Paragraph("<u><b>Anxious</b></u>:"))
     story.append(Spacer(0, 10))
     anxious_answers = [
-        (value[2], value[1]) for value in answers.values() if value[0] == "anxious"
+        (value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "anxious"
     ]
     # sort anxious answers
-    anxious_answers = sorted(anxious_answers)
+    # anxious_answers = sorted(anxious_answers)
     data_anxious = []
     for answer in anxious_answers:
         # Convert markdown to HTML
@@ -209,10 +209,10 @@ def generate_report(answers: dict[str, tuple[str, float, str]], dominant_style) 
         story.append(Paragraph("<u><b>Secure</b></u>:"))
         story.append(Spacer(0, 10))
         secure_answers = [
-            (value[2], value[1]) for value in answers.values() if value[0] == "secure"
+            (value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "secure"
         ]
         # sort secure answers
-        secure_answers = sorted(secure_answers)
+        # secure_answers = sorted(secure_answers)
         data_secure = []
         for answer in secure_answers:
             # Convert markdown to HTML
@@ -258,7 +258,7 @@ def generate_report(answers: dict[str, tuple[str, float, str]], dominant_style) 
     story.append(Paragraph("<u><b>Avoidant</b></u>:"))
     story.append(Spacer(0, 10))
     avoidant_answers = [
-        (value[2], value[1]) for value in answers.values() if value[0] == "avoidant"
+        (value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "avoidant"
     ]
     # sort avoidant answers
     # avoidant_answers = sorted(avoidant_answers)

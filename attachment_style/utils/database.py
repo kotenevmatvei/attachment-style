@@ -22,18 +22,18 @@ engine = create_engine(url=DB_URL)
 logger = logging.getLogger(__name__)
 
 def upload_to_db(
-        answers: dict[str, tuple[str, float, str]],
+        answers: dict[str, dict],
         personal_answers: dict[str, str],
         test: bool = False,
 ):
     anxious_answers = sorted(
-        [(value[2], value[1]) for value in answers.values() if value[0] == "anxious"]
+        [(value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "anxious"]
     )
     secure_answers = sorted(
-        [(value[2], value[1]) for value in answers.values() if value[0] == "secure"]
+        [(value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "secure"]
     )
     avoidant_answers = sorted(
-        [(value[2], value[1]) for value in answers.values() if value[0] == "avoidant"]
+        [(value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "avoidant"]
     )
     values = []
     values.extend([value[1] for value in anxious_answers])

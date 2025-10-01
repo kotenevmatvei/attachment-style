@@ -6,38 +6,41 @@ logger = logging.getLogger(__name__)
 
 
 def revert_scores_for_reverted_questions(
-        answers: dict[str, tuple[str, float, str]],
-) -> dict[str, tuple[str, float, str]]:
+        answers: dict[str, dict],
+) -> dict[str, dict]:
     if len(answers) == 36:
         for key, value in answers.items():
-            if value[2].endswith("  **"):
+            if value and value.get("question_text", "").endswith("  **"):
                 original_value = value  # for debugging
-                reverted_value = (value[0], abs(8 - value[1]), value[2])
-                # logger.info(f"reverting {original_value[1]} to {reverted_value[1]}")
+                reverted_value = {
+                    "attachment_style": value["attachment_style"],
+                    "score": abs(8 - value["score"]),
+                    "question_text": value["question_text"],
+                }
+                # logger.info(f"reverting {original_value['value']} to {reverted_value['value']}")
                 answers[key] = reverted_value
 
     return answers
 
 
 def calculate_scores(
-        answers: dict[str, tuple[str, float, str]],
+        answers: dict[str, dict],
 ) -> tuple[float, float, float]:
-    anxious_score = np.average(
-        [answers[_][1] for _ in answers.keys() if answers[_][0] == "anxious"]
-    )
-    avoidant_score = np.average(
-        [answers[_][1] for _ in answers.keys() if answers[_][0] == "avoidant"]
-    )
-    # secure_answers are empty for ecr-r (test yourself)
-    secure_answers = [
-        answers[_][1] for _ in answers.keys() if answers[_][0] == "secure"
+    anxious_vals = [
+        answers[_]["score"] for _ in answers.keys() if answers[_] and answers[_]["attachment_style"] == "anxious"
     ]
-    if secure_answers:
-        secure_score = np.average(secure_answers)
+    avoidant_vals = [
+        answers[_]["score"] for _ in answers.keys() if answers[_] and answers[_]["attachment_style"] == "avoidant"
+    ]
+    anxious_score = np.average(anxious_vals) if anxious_vals else 0
+    avoidant_score = np.average(avoidant_vals) if avoidant_vals else 0
+    # secure_answers are empty for ecr-r (test yourself)
+    secure_vals = [
+        answers[_]["score"] for _ in answers.keys() if answers[_] and answers[_]["attachment_style"] == "secure"
+    ]
+    if secure_vals:
+        secure_score = np.average(secure_vals)
     else:
-        # x_and_y_coord = (anxious_score + avoidant_score) / 2
-        # sign = np.sign(x_and_y_coord)
-        # secure_score = np.sqrt(2 * (x_and_y_coord) ** 2) * sign
         x_reverted = 4 - anxious_score
         y_reverted = 4 - avoidant_score
         diag_coord = (x_reverted + y_reverted) / 2
