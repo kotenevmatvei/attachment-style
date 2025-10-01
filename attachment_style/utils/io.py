@@ -4,6 +4,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 def read_questions_file(
         questions_file_path: str, attachment_style: str
 ) -> list[tuple[str, str]]:
@@ -59,16 +60,20 @@ def read_questions_json_files(file_path, attachment_style):
         data = json.load(file)
         return [(question, attachment_style) for question in data["questions"]]
 
+
 def read_questions_json(subject):
     questions = []
     if subject == "others":
         questions.extend(read_questions_json_files("data/partner/anxious.json", "anxious"))
         questions.extend(read_questions_json_files("data/partner/secure.json", "secure"))
         questions.extend(read_questions_json_files("data/partner/avoidant.json", "avoidant"))
-        print(questions)
         return questions
     else:
         questions.extend(read_questions_json_files("data/ecr-r/anxious.json", "anxious"))
-        questions.extend(read_questions_json_files("data/ecr-r/anxious.json", "avoidant"))
-        print(questions)
+        questions.extend(read_questions_json_files("data/ecr-r/avoidant.json", "avoidant"))
+        for question in questions:
+            question[0]["title"] = question[0]["title"].replace(" /r/", "   ")
+
         return questions
+
+
