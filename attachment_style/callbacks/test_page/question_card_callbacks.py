@@ -42,7 +42,7 @@ def update_current_item_badge(current_question, questions):
 )
 def display_question(current_question_count, questions, subject):
     question_ind = current_question_count - 1
-    question_text = questions[question_ind][0]
+    question_text = questions[question_ind]["question_text"]
     return question_text
 
 
@@ -93,7 +93,7 @@ def update_question(
     """
     Update the question, the progress, and the answers. Answers are stored in a dictionary
     with the following structure:
-    {"question-ind": ("attachment-style", value, "question-text"), "question-ind+1": (...), ...}
+    {ind: {attachment_style: <attachment_style>, score: <score>, question_text: <question_text>}, ...}
     We are storing the corresponding attachment style because the questions are shuffled.
     """
 
@@ -110,14 +110,16 @@ def update_question(
 
         # old value for loggin / debugging
         if answers.get(current_question_count):
-            old_value = answers[str(current_question_count)][1]
+            old_value = answers[str(current_question_count)]["score"]
             # logger.info(f"already been here. your old value: {old_value}")
             # logger.info("Navigation case 1")
 
-        answers[str(current_question_count)] = (
-            questions[current_question_count - 1][1], value, questions[current_question_count - 1][0]
-        )
-        # logger.info(f"your new value: {answers[str(current_question_count)][1]}")
+        answers[str(current_question_count)] = {
+            "attachment_style": questions[current_question_count - 1]["attachment_style"],
+            "score": value,
+            "question_text": questions[current_question_count - 1]["question_text"],
+        }
+        # logger.info(f"your new score: {answers[str(current_question_count)]['score']}")
 
         # at the last question
         if current_question_count == questions_len:

@@ -47,12 +47,12 @@ logger.info("Retrieved scores from the db for the first time")
 app_shell = dmc.AppShell(
     [
         dcc.Store(id="subject-store"),
-        # questions are stored as [("question-text", "corresponding-attachment-style"), (...), ...]
+        # questions are stored as [{"question_text": <text>, "attachment_style": <style>}, ...]
         dcc.Store(id="questions-store", data=read_questions("you")),
         dcc.Store(id="questions-len", data=36),
         dcc.Store(id="demographics-answers-store", data={}),
         # answers are stored as
-        # {"question-ind": ("attachment-style", value, "question-text"), "question-ind+1": (...), ...}
+        # {ind: {attachment_style: <attachment_style>, score: <score>, question_text: <question_text>}, ...}
         dcc.Store(id="answers-store", data={}),
         dcc.Store(id="questions-answered-count-store", data=0),
         dcc.Store(id="current-question-count-store", data=1),

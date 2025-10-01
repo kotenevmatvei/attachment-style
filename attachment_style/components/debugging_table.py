@@ -2,7 +2,7 @@
 I want a table summarizing the current state.
 Columns:
     * question_ind
-    * value
+    * score
     * question_text
 Styling:
     * red background for the current_question
@@ -48,7 +48,7 @@ def update_answers_in_debug_table(answers, current_question, questions_answered)
             [
                 dmc.TableTh("Index"),
                 dmc.TableTh("Text"),
-                dmc.TableTh("Value"),
+                dmc.TableTh("Score"),
             ]
         )
     )
@@ -65,8 +65,8 @@ def update_answers_in_debug_table(answers, current_question, questions_answered)
                 dmc.TableTr(
                     children=[
                         dmc.TableTd(key),
-                        dmc.TableTd(value[2]),
-                        dmc.TableTd(value[1]),
+                        dmc.TableTd(value["question_text"]),
+                        dmc.TableTd(value["score"]),
                     ],
                     style=style,
                 )
