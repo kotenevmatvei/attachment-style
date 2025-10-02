@@ -43,8 +43,7 @@ def update_current_item_badge(current_question, questions):
 )
 def display_question(current_question_count, questions, subject):
     question_ind = current_question_count - 1
-    question = questions[question_ind][0]
-    print(question)
+    question = questions[question_ind]["question_text"]
     question_title = question.get("title")
     question_bullet_points = question.get("bullet_points")
     if question_bullet_points:

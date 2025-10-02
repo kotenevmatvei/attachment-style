@@ -64,7 +64,7 @@ def read_questions(subject: str) -> list[dict]:
 def read_questions_json_files(file_path, attachment_style):
     with open(file_path) as file:
         data = json.load(file)
-        return [(question, attachment_style) for question in data["questions"]]
+        return [{"question_text": question, "attachment_style": attachment_style} for question in data["questions"]]
 
 
 def read_questions_json(subject):
@@ -78,7 +78,9 @@ def read_questions_json(subject):
         questions.extend(read_questions_json_files("data/ecr-r/anxious.json", "anxious"))
         questions.extend(read_questions_json_files("data/ecr-r/avoidant.json", "avoidant"))
         for question in questions:
-            question[0]["title"] = question[0]["title"].replace(" /r/", "   ")
+            # we don't want /r/ to be visible in the app, so we leave some trailing spaces to know later that the score
+            # is to be reverted
+            question["question_text"]["title"] = question["question_text"]["title"].replace(" /r/", "   ")
 
         return questions
 
