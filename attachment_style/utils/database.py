@@ -26,15 +26,9 @@ def upload_to_db(
         personal_answers: dict[str, str],
         test: bool = False,
 ):
-    anxious_answers = sorted(
-        [(value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "anxious"]
-    )
-    secure_answers = sorted(
-        [(value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "secure"]
-    )
-    avoidant_answers = sorted(
-        [(value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "avoidant"]
-    )
+    anxious_answers = [(value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "anxious"]
+    secure_answers = [(value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "secure"]
+    avoidant_answers = [(value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "avoidant"]
     values = []
     values.extend([value[1] for value in anxious_answers])
     values.extend([value[1] for value in secure_answers])

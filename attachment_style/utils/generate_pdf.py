@@ -158,30 +158,26 @@ def generate_report(answers: dict[str, dict], dominant_style) -> None:
     # add anxious answers
     story.append(Paragraph("<u><b>Anxious</b></u>:"))
     story.append(Spacer(0, 10))
-    anxious_answers = [
-        (value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "anxious"
-    ]
+    anxious_answers = {key: value for key, value in answers.items() if value and value["attachment_style"] == "anxious"}
     # sort anxious answers
     # anxious_answers = sorted(anxious_answers)
     data_anxious = []
-    for answer in anxious_answers:
+    for key, answer in anxious_answers.items():
         # Convert markdown to HTML
-        text = answer[0]
+        question = answer.get("question_text")
+
+        question_title = question.get("title")
+        header = Paragraph("<b>" + question_title + "</b>")
+
+        question_bullet_points = question.get("bullet_points", [])
         indenter_on = Indenter(left=10)
         indenter_off = Indenter(left=-10)
-        markdown_lines = text.split("\n")
         single_question = Paragraph("")
-        header = Paragraph("")
         bullet_points = []
-        for line in markdown_lines:
-            if line.startswith("**"):
-                header = Paragraph("<b>" + line[2:-2] + "</b>")
-            elif line.startswith("*"):
-                bullet_points.append(Paragraph("\u2022" + line[1:]))
-            else:
-                single_question = Paragraph(line)
-        question = [header, indenter_on, bullet_points, indenter_off, single_question]
-        data_anxious.append([question, answer[1]])
+        for point in question_bullet_points:
+            bullet_points.append(Paragraph("\u2022" + point))
+        question = [header, indenter_on, bullet_points, indenter_off]
+        data_anxious.append([question, answer["score"]])
     # Add header row
     data_anxious.insert(0, [Paragraph("<b>Question / Rationale</b>", styles["BodyText"]),
                             Paragraph("<b>Score</b>", styles["BodyText"])])
@@ -203,151 +199,151 @@ def generate_report(answers: dict[str, dict], dominant_style) -> None:
     )
     story.append(table_anxious)
 
-    # add secure answers
-    if len(answers) == 33:
-        story.append(Spacer(0, 10))
-        story.append(Paragraph("<u><b>Secure</b></u>:"))
-        story.append(Spacer(0, 10))
-        secure_answers = [
-            (value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "secure"
-        ]
-        # sort secure answers
-        # secure_answers = sorted(secure_answers)
-        data_secure = []
-        for answer in secure_answers:
-            # Convert markdown to HTML
-            text = answer[0]
-            indenter_on = Indenter(left=10)
-            indenter_off = Indenter(left=-10)
-            markdown_lines = text.split("\n")
-            single_question = Paragraph("")
-            header = Paragraph("")
-            bullet_points = []
-            for line in markdown_lines:
-                if line.startswith("**"):
-                    header = Paragraph("<b>" + line[2:-2] + "</b>")
-                elif line.startswith("*"):
-                    bullet_points.append(Paragraph("\u2022" + line[1:]))
-                else:
-                    single_question = Paragraph(line)
-            question = [single_question, header, indenter_on, bullet_points, indenter_off]
-            data_secure.append([question, answer[1]])
-        # Add header row
-        data_secure.insert(0, [Paragraph("<b>Question / Rationale</b>", styles["BodyText"]),
-                               Paragraph("<b>Score</b>", styles["BodyText"])])
-        table_secure = Table(
-            data_secure,
-            colWidths=[400, 60],
-            repeatRows=1,
-            style=[
-                ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#BFC0C0")),
-                ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#F1F3F5")),
-                ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.whitesmoke, colors.Color(0.98, 0.98, 1)]),
-                ("VALIGN", (0, 0), (-1, -1), "TOP"),
-                ("ALIGN", (1, 1), (1, -1), "CENTER"),
-                ("LEFTPADDING", (0, 0), (-1, -1), 6),
-                ("RIGHTPADDING", (0, 0), (-1, -1), 6),
-                ("TOPPADDING", (0, 0), (-1, -1), 4),
-                ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
-            ],
-        )
-        story.append(table_secure)
+    # # add secure answers
+    # if len(answers) == 33:
+    #     story.append(Spacer(0, 10))
+    #     story.append(Paragraph("<u><b>Secure</b></u>:"))
+    #     story.append(Spacer(0, 10))
+    #     secure_answers = [
+    #         (value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "secure"
+    #     ]
+    #     # sort secure answers
+    #     # secure_answers = sorted(secure_answers)
+    #     data_secure = []
+    #     for answer in secure_answers:
+    #         # Convert markdown to HTML
+    #         text = answer[0]
+    #         indenter_on = Indenter(left=10)
+    #         indenter_off = Indenter(left=-10)
+    #         markdown_lines = text.split("\n")
+    #         single_question = Paragraph("")
+    #         header = Paragraph("")
+    #         bullet_points = []
+    #         for line in markdown_lines:
+    #             if line.startswith("**"):
+    #                 header = Paragraph("<b>" + line[2:-2] + "</b>")
+    #             elif line.startswith("*"):
+    #                 bullet_points.append(Paragraph("\u2022" + line[1:]))
+    #             else:
+    #                 single_question = Paragraph(line)
+    #         question = [single_question, header, indenter_on, bullet_points, indenter_off]
+    #         data_secure.append([question, answer[1]])
+    #     # Add header row
+    #     data_secure.insert(0, [Paragraph("<b>Question / Rationale</b>", styles["BodyText"]),
+    #                            Paragraph("<b>Score</b>", styles["BodyText"])])
+    #     table_secure = Table(
+    #         data_secure,
+    #         colWidths=[400, 60],
+    #         repeatRows=1,
+    #         style=[
+    #             ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#BFC0C0")),
+    #             ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#F1F3F5")),
+    #             ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.whitesmoke, colors.Color(0.98, 0.98, 1)]),
+    #             ("VALIGN", (0, 0), (-1, -1), "TOP"),
+    #             ("ALIGN", (1, 1), (1, -1), "CENTER"),
+    #             ("LEFTPADDING", (0, 0), (-1, -1), 6),
+    #             ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+    #             ("TOPPADDING", (0, 0), (-1, -1), 4),
+    #             ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+    #         ],
+    #     )
+    #     story.append(table_secure)
 
-    # add avoidant questions
-    story.append(Spacer(0, 10))
-    story.append(Paragraph("<u><b>Avoidant</b></u>:"))
-    story.append(Spacer(0, 10))
-    avoidant_answers = [
-        (value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "avoidant"
-    ]
-    # sort avoidant answers
-    # avoidant_answers = sorted(avoidant_answers)
-    data_avoidant = []
-    for answer in avoidant_answers:
-        # Convert markdown to HTML
-        text = answer[0]
-        indenter_on = Indenter(left=10)
-        indenter_off = Indenter(left=-10)
-        markdown_lines = text.split("\n")
-        single_question = Paragraph("")
-        header = Paragraph("")
-        bullet_points = []
-        for line in markdown_lines:
-            if line.startswith("**"):
-                header = Paragraph("<b>" + line[2:-2] + "</b>")
-            elif line.startswith("*"):
-                bullet_points.append(Paragraph("\u2022" + line[1:]))
-            else:
-                single_question = Paragraph(line)
-        question = [single_question, header, indenter_on, bullet_points, indenter_off]
-        data_avoidant.append([question, answer[1]])
-    # Add header row
-    data_avoidant.insert(0, [Paragraph("<b>Question / Rationale</b>", styles["BodyText"]),
-                             Paragraph("<b>Score</b>", styles["BodyText"])])
-    table_avoidant = Table(
-        data_avoidant,
-        colWidths=[400, 60],
-        repeatRows=1,
-        style=[
-            ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#BFC0C0")),
-            ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#F1F3F5")),
-            ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.whitesmoke, colors.Color(0.98, 0.98, 1)]),
-            ("VALIGN", (0, 0), (-1, -1), "TOP"),
-            ("ALIGN", (1, 1), (1, -1), "CENTER"),
-            ("LEFTPADDING", (0, 0), (-1, -1), 6),
-            ("RIGHTPADDING", (0, 0), (-1, -1), 6),
-            ("TOPPADDING", (0, 0), (-1, -1), 4),
-            ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
-        ],
-    )
-    story.append(table_avoidant)
+    # # add avoidant questions
+    # story.append(Spacer(0, 10))
+    # story.append(Paragraph("<u><b>Avoidant</b></u>:"))
+    # story.append(Spacer(0, 10))
+    # avoidant_answers = [
+    #     (value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "avoidant"
+    # ]
+    # # sort avoidant answers
+    # # avoidant_answers = sorted(avoidant_answers)
+    # data_avoidant = []
+    # for answer in avoidant_answers:
+    #     # Convert markdown to HTML
+    #     text = answer[0]
+    #     indenter_on = Indenter(left=10)
+    #     indenter_off = Indenter(left=-10)
+    #     markdown_lines = text.split("\n")
+    #     single_question = Paragraph("")
+    #     header = Paragraph("")
+    #     bullet_points = []
+    #     for line in markdown_lines:
+    #         if line.startswith("**"):
+    #             header = Paragraph("<b>" + line[2:-2] + "</b>")
+    #         elif line.startswith("*"):
+    #             bullet_points.append(Paragraph("\u2022" + line[1:]))
+    #         else:
+    #             single_question = Paragraph(line)
+    #     question = [single_question, header, indenter_on, bullet_points, indenter_off]
+    #     data_avoidant.append([question, answer[1]])
+    # # Add header row
+    # data_avoidant.insert(0, [Paragraph("<b>Question / Rationale</b>", styles["BodyText"]),
+    #                          Paragraph("<b>Score</b>", styles["BodyText"])])
+    # table_avoidant = Table(
+    #     data_avoidant,
+    #     colWidths=[400, 60],
+    #     repeatRows=1,
+    #     style=[
+    #         ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#BFC0C0")),
+    #         ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#F1F3F5")),
+    #         ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.whitesmoke, colors.Color(0.98, 0.98, 1)]),
+    #         ("VALIGN", (0, 0), (-1, -1), "TOP"),
+    #         ("ALIGN", (1, 1), (1, -1), "CENTER"),
+    #         ("LEFTPADDING", (0, 0), (-1, -1), 6),
+    #         ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+    #         ("TOPPADDING", (0, 0), (-1, -1), 4),
+    #         ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+    #     ],
+    # )
+    # story.append(table_avoidant)
 
-    # Next steps section based on dominant style
-    # Encourage a page break before suggestions to avoid splitting tables and tips
-    story.append(Spacer(0, 12))
-    story.append(HRFlowable(width="100%", thickness=1, spaceBefore=10, spaceAfter=8))
-    story.append(Paragraph("Suggestions to work on", section_header))
+    # # Next steps section based on dominant style
+    # # Encourage a page break before suggestions to avoid splitting tables and tips
+    # story.append(Spacer(0, 12))
+    # story.append(HRFlowable(width="100%", thickness=1, spaceBefore=10, spaceAfter=8))
+    # story.append(Paragraph("Suggestions to work on", section_header))
 
-    suggestions = {
-        "anxious": [
-            "Mindset: Name the feeling ('I notice anxiety') and rate intensity (0–10)",
-            "Practice: 4-7-8 breathing or body scan for 2–3 minutes",
-            "Practice: Delay reassurance seeking by 10 minutes and journal your thought",
-            "Conversation: Share needs using 'When X happens, I feel Y, I'd appreciate Z'",
-            "Practice: Create a soothing playlist or anchor phrase for spikes",
-            "Mindset: Reality-check stories; list 3 alternative explanations",
-            "Practice: Schedule a weekly 'connection ritual' (walk, check-in questions)",
-        ],
-        "avoidant": [
-            "Mindset: Notice the first urge to withdraw; label it without acting",
-            "Practice: Share one small personal detail with a trusted person weekly",
-            "Practice: Set a 10–15 min timer to stay present during discomfort",
-            "Conversation: Express boundaries and needs instead of disappearing",
-            "Practice: Plan low-pressure quality time that keeps autonomy (co-working, walks)",
-            "Mindset: Reframe closeness as a skill-building experiment, not a trap",
-            "Practice: Try 2-minute daily emotional check-in (What am I feeling? Why?)",
-        ],
-        "secure": [
-            "Mindset: Maintain reflective listening in tough conversations",
-            "Practice: Model repair attempts (own your part, propose a next step)",
-            "Practice: Protect boundaries while staying warm and responsive",
-            "Conversation: Invite feedback—'What helps you feel cared for with me?'",
-            "Practice: Support partners with anxious/avoidant cues without over-functioning",
-            "Mindset: Continue rituals of connection and appreciation",
-        ],
-    }
+    # suggestions = {
+    #     "anxious": [
+    #         "Mindset: Name the feeling ('I notice anxiety') and rate intensity (0–10)",
+    #         "Practice: 4-7-8 breathing or body scan for 2–3 minutes",
+    #         "Practice: Delay reassurance seeking by 10 minutes and journal your thought",
+    #         "Conversation: Share needs using 'When X happens, I feel Y, I'd appreciate Z'",
+    #         "Practice: Create a soothing playlist or anchor phrase for spikes",
+    #         "Mindset: Reality-check stories; list 3 alternative explanations",
+    #         "Practice: Schedule a weekly 'connection ritual' (walk, check-in questions)",
+    #     ],
+    #     "avoidant": [
+    #         "Mindset: Notice the first urge to withdraw; label it without acting",
+    #         "Practice: Share one small personal detail with a trusted person weekly",
+    #         "Practice: Set a 10–15 min timer to stay present during discomfort",
+    #         "Conversation: Express boundaries and needs instead of disappearing",
+    #         "Practice: Plan low-pressure quality time that keeps autonomy (co-working, walks)",
+    #         "Mindset: Reframe closeness as a skill-building experiment, not a trap",
+    #         "Practice: Try 2-minute daily emotional check-in (What am I feeling? Why?)",
+    #     ],
+    #     "secure": [
+    #         "Mindset: Maintain reflective listening in tough conversations",
+    #         "Practice: Model repair attempts (own your part, propose a next step)",
+    #         "Practice: Protect boundaries while staying warm and responsive",
+    #         "Conversation: Invite feedback—'What helps you feel cared for with me?'",
+    #         "Practice: Support partners with anxious/avoidant cues without over-functioning",
+    #         "Mindset: Continue rituals of connection and appreciation",
+    #     ],
+    # }
 
-    story.append(Spacer(0, 4))
-    story.append(Paragraph("These are gentle suggestions—try 1–2 for the next week and iterate.", normal_style))
-    story.append(Spacer(0, 6))
+    # story.append(Spacer(0, 4))
+    # story.append(Paragraph("These are gentle suggestions—try 1–2 for the next week and iterate.", normal_style))
+    # story.append(Spacer(0, 6))
 
-    for tip in suggestions.get(dominant_style):
-        story.append(Paragraph(f"• {tip}", bullet_style))
+    # for tip in suggestions.get(dominant_style):
+    #     story.append(Paragraph(f"• {tip}", bullet_style))
 
-    story.append(Spacer(0, 10))
-    story.append(Paragraph("Note: This report is informational and not a diagnosis.",
-                           ParagraphStyle(name="Note", parent=styles["BodyText"],
-                                          textColor=colors.HexColor("#495057"))))
+    # story.append(Spacer(0, 10))
+    # story.append(Paragraph("Note: This report is informational and not a diagnosis.",
+    #                        ParagraphStyle(name="Note", parent=styles["BodyText"],
+    #                                       textColor=colors.HexColor("#495057"))))
 
     # build the PDF document with footer
     def _draw_footer(canvas, doc_):
