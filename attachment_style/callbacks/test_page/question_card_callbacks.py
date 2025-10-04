@@ -10,6 +10,7 @@ import logging
 
 from dash import callback, Input, Output, State, ctx, ALL
 from dash.exceptions import PreventUpdate
+import dash_mantine_components as dmc
 
 import constants
 from utils.database import upload_to_db
@@ -33,7 +34,7 @@ def update_current_item_badge(current_question, questions):
 
 # display question
 @callback(
-    Output("question-markdown", "children"),
+    Output("question-card", "children"),
     [
         Input("current-question-count-store", "data"),
         Input("questions-store", "data"),
@@ -42,7 +43,19 @@ def update_current_item_badge(current_question, questions):
 )
 def display_question(current_question_count, questions, subject):
     question_ind = current_question_count - 1
-    question_text = questions[question_ind]["question_text"]
+    question = questions[question_ind]["question_text"]
+    question_title = question.get("title")
+    question_bullet_points = question.get("bullet_points")
+    if question_bullet_points:
+        question_text = [
+            dmc.Title(question_title, order=4),
+            dmc.List(
+                [dmc.ListItem(bullet_point) for bullet_point in question_bullet_points]
+            )
+        ]
+    else:
+        question_text = dmc.Title(question_title, order=4, ta="center")
+
     return question_text
 
 
@@ -53,7 +66,7 @@ def display_question(current_question_count, questions, subject):
         Output("current-question-count-store", "data"),
         Output("questions-answered-count-store", "data"),
         Output("answers-store", "data"),
-        # navigation buttons disables?
+        # navigation buttons disabled?
         Output("back-button", "disabled"),
         Output("prev-button", "disabled"),
         Output("forward-button", "disabled"),

@@ -58,20 +58,27 @@ ProgressIndicator = dmc.Group(
     justify="space-between",
 )
 
-QuestionCard = dmc.Paper(
-    # this is necessary for the proper text alignment depending on the question set
-    children=dmc.Flex(
-        dcc.Markdown(id="question-markdown"),
-        id="question-content-flex",
-        h="100%",
-        direction="column",
-    ),
-    id="question-paper",
+QuestionCard = dmc.Card(
+    id="question-card",
     shadow="sm",
     p="lg",
-    ta="center",
     radius="md",
     withBorder=True,
+
+
+    # this is necessary for the proper text alignment depending on the question set
+    # children=dmc.Flex(
+    #     dcc.Markdown(id="question-markdown"),
+    #     id="question-content-flex",
+    #     h="100%",
+    #     direction="column",
+    # ),
+    # id="question-paper",
+    # shadow="sm",
+    # p="lg",
+    # ta="center",
+    # radius="md",
+    # withBorder=True,
 )
 
 ResponseOptions = dmc.Stack(

@@ -158,30 +158,27 @@ def generate_report(answers: dict[str, dict], dominant_style) -> None:
     # add anxious answers
     story.append(Paragraph("<u><b>Anxious</b></u>:"))
     story.append(Spacer(0, 10))
-    anxious_answers = [
-        (value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "anxious"
-    ]
+    anxious_answers = {key: value for key, value in answers.items() if value and value["attachment_style"] == "anxious"}
     # sort anxious answers
-    # anxious_answers = sorted(anxious_answers)
+    anxious_answers = dict(sorted(anxious_answers.items(), key=lambda item: item[1]["question_text"]["title"]))
+    print(anxious_answers)
     data_anxious = []
-    for answer in anxious_answers:
+    for key, answer in anxious_answers.items():
         # Convert markdown to HTML
-        text = answer[0]
+        question = answer.get("question_text")
+
+        question_title = question.get("title")
+        header = Paragraph("<b>" + question_title + "</b>")
+
+        question_bullet_points = question.get("bullet_points", [])
         indenter_on = Indenter(left=10)
         indenter_off = Indenter(left=-10)
-        markdown_lines = text.split("\n")
         single_question = Paragraph("")
-        header = Paragraph("")
         bullet_points = []
-        for line in markdown_lines:
-            if line.startswith("**"):
-                header = Paragraph("<b>" + line[2:-2] + "</b>")
-            elif line.startswith("*"):
-                bullet_points.append(Paragraph("\u2022" + line[1:]))
-            else:
-                single_question = Paragraph(line)
-        question = [header, indenter_on, bullet_points, indenter_off, single_question]
-        data_anxious.append([question, answer[1]])
+        for point in question_bullet_points:
+            bullet_points.append(Paragraph("\u2022" + point))
+        question = [header, indenter_on, bullet_points, indenter_off]
+        data_anxious.append([question, answer["score"]])
     # Add header row
     data_anxious.insert(0, [Paragraph("<b>Question / Rationale</b>", styles["BodyText"]),
                             Paragraph("<b>Score</b>", styles["BodyText"])])
@@ -208,33 +205,29 @@ def generate_report(answers: dict[str, dict], dominant_style) -> None:
         story.append(Spacer(0, 10))
         story.append(Paragraph("<u><b>Secure</b></u>:"))
         story.append(Spacer(0, 10))
-        secure_answers = [
-            (value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "secure"
-        ]
+        secure_answers = {key: value for key, value in answers.items() if value and value["attachment_style"] == "secure"}
         # sort secure answers
-        # secure_answers = sorted(secure_answers)
+        secure_answers = dict(sorted(secure_answers.items(), key=lambda item: item[1]["question_text"]["title"]))
         data_secure = []
-        for answer in secure_answers:
+        for key, answer in secure_answers.items():
             # Convert markdown to HTML
-            text = answer[0]
+            question = answer.get("question_text")
+
+            question_title = question.get("title")
+            header = Paragraph("<b>" + question_title + "</b>")
+
+            question_bullet_points = question.get("bullet_points", [])
             indenter_on = Indenter(left=10)
             indenter_off = Indenter(left=-10)
-            markdown_lines = text.split("\n")
             single_question = Paragraph("")
-            header = Paragraph("")
             bullet_points = []
-            for line in markdown_lines:
-                if line.startswith("**"):
-                    header = Paragraph("<b>" + line[2:-2] + "</b>")
-                elif line.startswith("*"):
-                    bullet_points.append(Paragraph("\u2022" + line[1:]))
-                else:
-                    single_question = Paragraph(line)
-            question = [single_question, header, indenter_on, bullet_points, indenter_off]
-            data_secure.append([question, answer[1]])
+            for point in question_bullet_points:
+                bullet_points.append(Paragraph("\u2022" + point))
+            question = [header, indenter_on, bullet_points, indenter_off]
+            data_secure.append([question, answer["score"]])
         # Add header row
         data_secure.insert(0, [Paragraph("<b>Question / Rationale</b>", styles["BodyText"]),
-                               Paragraph("<b>Score</b>", styles["BodyText"])])
+                                Paragraph("<b>Score</b>", styles["BodyText"])])
         table_secure = Table(
             data_secure,
             colWidths=[400, 60],
@@ -257,33 +250,29 @@ def generate_report(answers: dict[str, dict], dominant_style) -> None:
     story.append(Spacer(0, 10))
     story.append(Paragraph("<u><b>Avoidant</b></u>:"))
     story.append(Spacer(0, 10))
-    avoidant_answers = [
-        (value["question_text"], value["score"]) for value in answers.values() if value and value["attachment_style"] == "avoidant"
-    ]
+    avoidant_answers = {key: value for key, value in answers.items() if value and value["attachment_style"] == "avoidant"}
     # sort avoidant answers
-    # avoidant_answers = sorted(avoidant_answers)
+    avoidant_answers = dict(sorted(avoidant_answers.items(), key=lambda item: item[1]["question_text"]["title"]))
     data_avoidant = []
-    for answer in avoidant_answers:
+    for key, answer in avoidant_answers.items():
         # Convert markdown to HTML
-        text = answer[0]
+        question = answer.get("question_text")
+
+        question_title = question.get("title")
+        header = Paragraph("<b>" + question_title + "</b>")
+
+        question_bullet_points = question.get("bullet_points", [])
         indenter_on = Indenter(left=10)
         indenter_off = Indenter(left=-10)
-        markdown_lines = text.split("\n")
         single_question = Paragraph("")
-        header = Paragraph("")
         bullet_points = []
-        for line in markdown_lines:
-            if line.startswith("**"):
-                header = Paragraph("<b>" + line[2:-2] + "</b>")
-            elif line.startswith("*"):
-                bullet_points.append(Paragraph("\u2022" + line[1:]))
-            else:
-                single_question = Paragraph(line)
-        question = [single_question, header, indenter_on, bullet_points, indenter_off]
-        data_avoidant.append([question, answer[1]])
+        for point in question_bullet_points:
+            bullet_points.append(Paragraph("\u2022" + point))
+        question = [header, indenter_on, bullet_points, indenter_off]
+        data_avoidant.append([question, answer["score"]])
     # Add header row
     data_avoidant.insert(0, [Paragraph("<b>Question / Rationale</b>", styles["BodyText"]),
-                             Paragraph("<b>Score</b>", styles["BodyText"])])
+                            Paragraph("<b>Score</b>", styles["BodyText"])])
     table_avoidant = Table(
         data_avoidant,
         colWidths=[400, 60],
