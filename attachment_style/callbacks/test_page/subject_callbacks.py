@@ -1,6 +1,7 @@
 import dash_mantine_components as dmc
 from dash import callback, Input, Output, ctx
 import logging
+from random import shuffle
 
 from utils.io import read_questions
 
@@ -51,10 +52,12 @@ def update_current_subject(subject):
 
     if subject == "others":
         questions = read_questions("others")
+        shuffle(questions)
         answers = {f"{i}": None for i in range(1, 34)}
         return questions, 33, {"textAlign": "left"}, "230px", "start", progress_steps, answers
 
     questions = read_questions("you")
+    shuffle(questions)
     answers = {f"{i}": None for i in range(1, 37)}
     return questions, 36, {"textAlign": "center"}, "100px", "center", progress_steps, answers
 
