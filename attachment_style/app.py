@@ -80,7 +80,8 @@ app_shell = dmc.AppShell(
                     # DebuggingTable,
                 ],
                 size="xl",
-                py="xl",
+                py={"base": "xs", "sm": "xl"},
+                mx={"base": 0, "sm": "lg"}
             )
         ),
     ],

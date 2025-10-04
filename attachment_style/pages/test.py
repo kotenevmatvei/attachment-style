@@ -13,7 +13,7 @@ register_page(__name__, path="/")
 
 def layout(**kwargs):
     return dmc.Container(
-        mt="lg",
+        mt={"base": "xs", "sm": "lg"},
         children=[
             Stepper,
             StepperMobile,

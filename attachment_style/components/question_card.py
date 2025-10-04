@@ -98,20 +98,62 @@ QuestionCard = dmc.Card(
     p="lg",
     radius="md",
     withBorder=True,
+)
 
-    # this is necessary for the proper text alignment depending on the question set
-    # children=dmc.Flex(
-    #     dcc.Markdown(id="question-markdown"),
-    #     id="question-content-flex",
-    #     h="100%",
-    #     direction="column",
-    # ),
-    # id="question-paper",
-    # shadow="sm",
-    # p="lg",
-    # ta="center",
-    # radius="md",
-    # withBorder=True,
+BottomActionButtons = dmc.Group(
+    [
+        dmc.Button(
+            "Previous",
+            variant="light",
+            size="md",
+            color="gray",
+            leftSection=DashIconify(icon="tabler:chevron-left", width=16),
+            id="prev-button",
+            disabled=True,
+        ),
+        dmc.Button(
+            "Next",
+            # variant="default",
+            size="md",
+            w="15%",
+            fw="bold",
+            rightSection=DashIconify(icon="tabler:chevron-right", width=16),
+            color=constants.PRIMARY,
+            id="next-button",
+            disabled=True,
+        ),
+    ],
+    justify="space-between",
+    mt="xl",
+    visibleFrom="sm",
+)
+
+BottomActionButtonsMobile = dmc.Group(
+    [
+        dmc.Button(
+            variant="light",
+            size="sm",
+            pr=0,
+            m=0,
+            color="gray",
+            leftSection=DashIconify(icon="tabler:arrow-left", width=36),
+            id="prev-button-mobile",
+            disabled=True,
+        ),
+        dmc.Button(
+            # variant="default",
+            size="sm",
+            pl=0,
+            m=0,
+            rightSection=DashIconify(icon="tabler:arrow-right", width=36),
+            color=constants.PRIMARY,
+            id="next-button-mobile",
+            disabled=True,
+        ),
+    ],
+    justify="space-between",
+    mt="xl",
+    hiddenFrom="sm",
 )
 
 ResponseOptions = dmc.Stack(
@@ -155,51 +197,8 @@ QuestionComponent = dmc.Container(
                     children=ResponseOptions,
                 ),
                 # Action buttons
-                dmc.Group(
-                    [
-                        dmc.Button(
-                            "Previous",
-                            variant="light",
-                            size="md",
-                            color="gray",
-                            leftSection=DashIconify(
-                                icon="tabler:chevron-left", width=16
-                            ),
-                            id="prev-button",
-                            disabled=True,
-                        ),
-                        dmc.Button(
-                            "Next",
-                            # variant="default",
-                            size="md",
-                            w="15%",
-                            fw="bold",
-                            rightSection=DashIconify(
-                                icon="tabler:chevron-right", width=16
-                            ),
-                            color=constants.PRIMARY,
-                            id="next-button",
-                            disabled=True,
-                        ),
-                    ],
-                    justify="space-between",
-                    mt="xl",
-                ),
-                dmc.Center(
-                    dmc.Button(
-                        "To Results",
-                        id="to-results-button",
-                        size="lg",
-                        w="25%",
-                        radius="xl",
-                        leftSection=DashIconify(icon="tabler:arrow-right", width=20),
-                        variant="gradient",
-                        gradient={"from": constants.PRIMARY, "to": "cyan"},
-                        mt="lg",
-                        px="xl",
-                        disabled=True,
-                    ),
-                ),
+                BottomActionButtons,
+                BottomActionButtonsMobile,
             ],
             gap="lg",
         )

@@ -32,6 +32,8 @@ Stepper = dmc.Stepper(
 
 StepperMobile = dmc.Stepper(
     id="test-stepper-mobile",
+    mt=0,
+    mb=0,
     active=0,
     display={"base": "block", "sm": "None"},
     children=[

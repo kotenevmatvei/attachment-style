@@ -74,14 +74,23 @@ def display_question(current_question_count, questions, subject):
         Output("prev-button", "disabled"),
         Output("forward-button", "disabled"),
         Output("next-button", "disabled"),
+        # mobile:
+        Output("back-button-mobile", "disabled"),
+        Output("prev-button-mobile", "disabled"),
+        Output("forward-button-mobile", "disabled"),
+        Output("next-button-mobile", "disabled"),
     ],
     [
-        # forward
         Input("forward-button", "n_clicks"),
         Input("next-button", "n_clicks"),
-        # backwards
         Input("back-button", "n_clicks"),
         Input("prev-button", "n_clicks"),
+        # mobile
+        Input("forward-button-mobile", "n_clicks"),
+        Input("next-button-mobile", "n_clicks"),
+        Input("back-button-mobile", "n_clicks"),
+        Input("prev-button-mobile", "n_clicks"),
+
     ]
     # answer option buttons
     + [Input(f"option-{i}", "n_clicks") for i in range(1, 8)],
@@ -97,6 +106,7 @@ def display_question(current_question_count, questions, subject):
 def update_question(
         # navigation buttons
         forward_clicks, next_clicks, back_clicks, prev_clicks,
+        forward_clicks_mobile, next_clicks_mobile, back_clicks_mobile, prev_clicks_mobile,
 
         # answer option buttons
         str_dis_click, dis_click, sl_dis_click, neu_click,
@@ -142,58 +152,54 @@ def update_question(
             # has it already been answered? -> don't update questions_answered_count
             if questions_answered_count == questions_len:
                 # logger.info("Navigation case 2")
-                return current_question_count, questions_answered_count, answers, False, False, True, True
+                return current_question_count, questions_answered_count, answers, False, False, True, True, False, False, True, True
             # update question_count (should become eq. questions_len now)
             else:
                 # logger.info("Navigation case 3")
-                return current_question_count, questions_answered_count + 1, answers, False, False, True, True
+                return current_question_count, questions_answered_count + 1, answers, False, False, True, True, False, False, True, True
         # we are returning (rewriting, since clicking on the answer options, not navigation btns) after skipping back
         # but we have not yet reached the last answered question, so forward buttons enabled
         elif current_question_count < questions_answered_count:
             # check if next comes the last question!
             if current_question_count == questions_len - 1:
-                return current_question_count + 1, questions_answered_count, answers, False, False, True, True
+                return current_question_count + 1, questions_answered_count, answers, False, False, True, True, False, False, True, True
             # logger.info("Navigation case 4")
-            return current_question_count + 1, questions_answered_count, answers, False, False, False, False
+            return current_question_count + 1, questions_answered_count, answers, False, False, False, False, False, False, False, False
         # we have reached the last answered question - block the forward buttons for the next one (new!)
         elif current_question_count == questions_answered_count:
             # logger.info("Navigation case 5")
-            return current_question_count + 1, questions_answered_count, answers, False, False, True, True
+            return current_question_count + 1, questions_answered_count, answers, False, False, True, True, False, False, True, True
         # we are answering a new question
         elif current_question_count == questions_answered_count + 1:
             # logger.info("Navigation case 6")
-            return current_question_count + 1, questions_answered_count + 1, answers, False, False, True, True
+            return current_question_count + 1, questions_answered_count + 1, answers, False, False, True, True, False, False, True, True
 
     # ---------- skipping through questions via navigation buttons ------------
     # moving forward
-    if triggered_id in ["forward-button", "next-button"]:
+    if triggered_id in ["forward-button", "next-button", "forward-button-mobile", "next-button-mobile"]:
         # check if next comes the last question!
         if current_question_count == questions_len - 1:
-            return current_question_count + 1, questions_answered_count, answers, False, False, True, True
+            return current_question_count + 1, questions_answered_count, answers, False, False, True, True, False, False, True, True
         # disable the forward buttons if the next question is the last onw the user had answered
         if current_question_count == questions_answered_count:
             # logger.info("Navigation case 7")
-            return current_question_count + 1, questions_answered_count, answers, False, False, True, True
+            return current_question_count + 1, questions_answered_count, answers, False, False, True, True, False, False, True, True
         else:
             # logger.info("Navigation case 8")
-            return current_question_count + 1, questions_answered_count, answers, False, False, False, False
+            return current_question_count + 1, questions_answered_count, answers, False, False, False, False, False, False, False, False
 
     # moving backwards
-    if triggered_id in ["back-button", "prev-button"]:
-        # we have reached the beginning ------> ah this state is impossible to reach :)
-        # if current_question_count == 1:
-        #     logger.info("Navigation case 9")
-        #     return current_question_count, questions_answered_count, answers, True, True, False, False
+    if triggered_id in ["back-button", "prev-button", "back-button-mobile", "prev-button-mobile"]:
         # block the back buttons already if next comes the first question
         if current_question_count == 2:
             # logger.info("Navigation case 10")
-            return current_question_count - 1, questions_answered_count, answers, True, True, False, False
+            return current_question_count - 1, questions_answered_count, answers, True, True, False, False, True, True, False, False
         else:
             # logger.info("Navigation case 11")
-            return current_question_count - 1, questions_answered_count, answers, False, False, False, False
+            return current_question_count - 1, questions_answered_count, answers, False, False, False, False, False, False, False, False
 
     # logger.info("Navigation case 0")
-    return 1, 0, answers, True, True, True, True
+    return 1, 0, answers, True, True, True, True, True, True, True, True
 
 
 # color the step indicators
