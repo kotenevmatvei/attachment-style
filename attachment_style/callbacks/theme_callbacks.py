@@ -17,7 +17,7 @@ def switch_theme(_, theme):
 
 # question card - answer options
 @callback(
-    [Output("question-paper", "style")]
+    [Output("question-card", "style")]
     + [Output(f"option-{i}", "bg") for i in range(1, 8)]
     + [Output(f"option-{i}", "c") for i in range(1, 8)],
     Input("mantine-provider", "forceColorScheme"),

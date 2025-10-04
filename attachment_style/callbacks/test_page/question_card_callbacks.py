@@ -10,6 +10,7 @@ import logging
 
 from dash import callback, Input, Output, State, ctx, ALL
 from dash.exceptions import PreventUpdate
+import dash_mantine_components as dmc
 
 import constants
 from utils.database import upload_to_db
@@ -33,7 +34,7 @@ def update_current_item_badge(current_question, questions):
 
 # display question
 @callback(
-    Output("question-markdown", "children"),
+    Output("question-card", "children"),
     [
         Input("current-question-count-store", "data"),
         Input("questions-store", "data"),
@@ -42,7 +43,19 @@ def update_current_item_badge(current_question, questions):
 )
 def display_question(current_question_count, questions, subject):
     question_ind = current_question_count - 1
-    question_text = questions[question_ind][0]
+    question = questions[question_ind]["question_text"]
+    question_title = question.get("title")
+    question_bullet_points = question.get("bullet_points")
+    if question_bullet_points:
+        question_text = [
+            dmc.Title(question_title, order=4),
+            dmc.List(
+                [dmc.ListItem(bullet_point) for bullet_point in question_bullet_points]
+            )
+        ]
+    else:
+        question_text = dmc.Title(question_title, order=4, ta="center")
+
     return question_text
 
 
@@ -53,7 +66,7 @@ def display_question(current_question_count, questions, subject):
         Output("current-question-count-store", "data"),
         Output("questions-answered-count-store", "data"),
         Output("answers-store", "data"),
-        # navigation buttons disables?
+        # navigation buttons disabled?
         Output("back-button", "disabled"),
         Output("prev-button", "disabled"),
         Output("forward-button", "disabled"),
@@ -93,7 +106,7 @@ def update_question(
     """
     Update the question, the progress, and the answers. Answers are stored in a dictionary
     with the following structure:
-    {"question-ind": ("attachment-style", value, "question-text"), "question-ind+1": (...), ...}
+    {ind: {attachment_style: <attachment_style>, score: <score>, question_text: <question_text>}, ...}
     We are storing the corresponding attachment style because the questions are shuffled.
     """
 
@@ -110,14 +123,16 @@ def update_question(
 
         # old value for loggin / debugging
         if answers.get(current_question_count):
-            old_value = answers[str(current_question_count)][1]
+            old_value = answers[str(current_question_count)]["score"]
             # logger.info(f"already been here. your old value: {old_value}")
             # logger.info("Navigation case 1")
 
-        answers[str(current_question_count)] = (
-            questions[current_question_count - 1][1], value, questions[current_question_count - 1][0]
-        )
-        # logger.info(f"your new value: {answers[str(current_question_count)][1]}")
+        answers[str(current_question_count)] = {
+            "attachment_style": questions[current_question_count - 1]["attachment_style"],
+            "score": value,
+            "question_text": questions[current_question_count - 1]["question_text"],
+        }
+        # logger.info(f"your new score: {answers[str(current_question_count)]['score']}")
 
         # at the last question
         if current_question_count == questions_len:
