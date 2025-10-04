@@ -8,20 +8,23 @@ We need:
 """
 import logging
 
+import dash_mantine_components as dmc
 from dash import callback, Input, Output, State, ctx, ALL
 from dash.exceptions import PreventUpdate
-import dash_mantine_components as dmc
 
 import constants
-from utils.database import upload_to_db
 from utils.calculations import revert_scores_for_reverted_questions, calculate_scores
+from utils.database import upload_to_db
 
 logger = logging.getLogger(__name__)
 
 
 # current item badge
 @callback(
-    Output("current-item-badge", "children"),
+    [
+        Output("current-item-badge", "children"),
+        Output("current-item-badge-mobile", "children"),
+    ],
     [
         Input("current-question-count-store", "data"),
         Input("questions-store", "data"),
@@ -29,7 +32,7 @@ logger = logging.getLogger(__name__)
 )
 def update_current_item_badge(current_question, questions):
     total_items = len(questions)
-    return f"Item {current_question} from {total_items}"
+    return f"Item {current_question} from {total_items}", f"Item {current_question} from {total_items}"
 
 
 # display question
