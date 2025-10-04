@@ -160,7 +160,8 @@ def generate_report(answers: dict[str, dict], dominant_style) -> None:
     story.append(Spacer(0, 10))
     anxious_answers = {key: value for key, value in answers.items() if value and value["attachment_style"] == "anxious"}
     # sort anxious answers
-    # anxious_answers = sorted(anxious_answers)
+    anxious_answers = dict(sorted(anxious_answers.items(), key=lambda item: item[1]["question_text"]["title"]))
+    print(anxious_answers)
     data_anxious = []
     for key, answer in anxious_answers.items():
         # Convert markdown to HTML
@@ -206,7 +207,7 @@ def generate_report(answers: dict[str, dict], dominant_style) -> None:
         story.append(Spacer(0, 10))
         secure_answers = {key: value for key, value in answers.items() if value and value["attachment_style"] == "secure"}
         # sort secure answers
-        # secure_answers = sorted(secure_answers)
+        secure_answers = dict(sorted(secure_answers.items(), key=lambda item: item[1]["question_text"]["title"]))
         data_secure = []
         for key, answer in secure_answers.items():
             # Convert markdown to HTML
@@ -251,7 +252,7 @@ def generate_report(answers: dict[str, dict], dominant_style) -> None:
     story.append(Spacer(0, 10))
     avoidant_answers = {key: value for key, value in answers.items() if value and value["attachment_style"] == "avoidant"}
     # sort avoidant answers
-    # avoidant_answers = sorted(avoidant_answers)
+    avoidant_answers = dict(sorted(avoidant_answers.items(), key=lambda item: item[1]["question_text"]["title"]))
     data_avoidant = []
     for key, answer in avoidant_answers.items():
         # Convert markdown to HTML
