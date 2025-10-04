@@ -2,7 +2,6 @@ import logging
 
 import dash_mantine_components as dmc
 from dash import Dash, dcc, page_container
-from random import shuffle
 
 logging.basicConfig(
     level=logging.INFO,
@@ -44,14 +43,12 @@ app = Dash(__name__, external_stylesheets=stylesheets, use_pages=True, suppress_
 
 scores = retrieve_scores_from_db()
 logger.info("Retrieved scores from the db for the first time")
-questions = read_questions("you")
-shuffle(questions)
 
 app_shell = dmc.AppShell(
     [
         dcc.Store(id="subject-store"),
         # questions are stored as [{"question_text": <text>, "attachment_style": <style>}, ...]
-        dcc.Store(id="questions-store", data=questions),
+        dcc.Store(id="questions-store", data=read_questions("you")),
         dcc.Store(id="questions-len", data=36),
         dcc.Store(id="demographics-answers-store", data={}),
         # answers are stored as
