@@ -81,7 +81,6 @@ app_shell = dmc.AppShell(
                 ],
                 size="xl",
                 py={"base": "xs", "sm": "xl"},
-                mx={"base": 0, "sm": "lg"}
             )
         ),
     ],
