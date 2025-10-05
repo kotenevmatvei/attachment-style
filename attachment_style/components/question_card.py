@@ -124,7 +124,7 @@ BottomActionButtons = dmc.Group(
         ),
     ],
     justify="space-between",
-    mt="xl",
+    mt=0,
     visibleFrom="sm",
 )
 
@@ -152,7 +152,7 @@ BottomActionButtonsMobile = dmc.Group(
         ),
     ],
     justify="space-between",
-    mt="xl",
+    mt=0,
     hiddenFrom="sm",
 )
 
@@ -165,13 +165,14 @@ ResponseOptions = dmc.Stack(
             justify="left",
             fw="bold",
             size="md",
+            mb={"base": "xs", "sm": "md"},
             className="option-flash",
             style={"boxShadow": "0 4px 4px rgba(0,0,0,0.10)"},
-            radius="lg"
+            radius="lg",
         )
         for i, option in enumerate(options, start=1)
     ],
-    gap="md",
+    gap=0,
 )
 
 QuestionComponent = dmc.Container(
