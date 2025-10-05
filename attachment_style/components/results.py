@@ -8,31 +8,37 @@ import constants
 app = dash.Dash(__name__)
 dmc.add_figure_templates()
 
-ScoreCards = dmc.SimpleGrid(
-    cols=3,
+ScoreCards = dmc.Flex(
+    # cols=3,
     children=[
         # Anxious Score Card
         dmc.Paper(
             [
                 dmc.Stack(
                     [
-                        dmc.Group(
-                            [
-                                DashIconify(
-                                    icon="tabler:heart-broken",
-                                    width=24,
-                                    color="#FA5252",
+                        dmc.Flex(
+                            direction={"base": "row", "sm": "column"},
+                            gap="sm",
+                            children=[
+                                dmc.Group(
+                                    [
+                                        DashIconify(
+                                            icon="tabler:heart-broken",
+                                            width=24,
+                                            color="#FA5252",
+                                        ),
+                                        dmc.Text("Anxious", fw=600, size="lg"),
+                                    ],
+                                    gap="xs",
                                 ),
-                                dmc.Text("Anxious", fw=600, size="lg"),
-                            ],
-                            gap="xs",
-                        ),
-                        dmc.Text(
-                            # f"{results_data['anxious_score']}%",
-                            size="xl",
-                            fw=700,
-                            c="#FA5252",
-                            id="anxious-score-percent-text",
+                                dmc.Text(
+                                    # f"{results_data['anxious_score']}%",
+                                    size="xl",
+                                    fw=700,
+                                    c="#FA5252",
+                                    id="anxious-score-percent-text",
+                                ),
+                            ]
                         ),
                         dmc.Text(
                             "Seeks closeness but worries about relationships",
@@ -53,21 +59,27 @@ ScoreCards = dmc.SimpleGrid(
             [
                 dmc.Stack(
                     [
-                        dmc.Group(
-                            [
-                                DashIconify(
-                                    icon="tabler:shield", width=24, color="#20C997"
+                        dmc.Flex(
+                            direction={"base": "row", "sm": "column"},
+                            gap="sm",
+                            children=[
+                                dmc.Group(
+                                    [
+                                        DashIconify(
+                                            icon="tabler:shield", width=24, color="#20C997"
+                                        ),
+                                        dmc.Text("Avoidant", fw=600, size="lg"),
+                                    ],
+                                    gap="xs",
                                 ),
-                                dmc.Text("Avoidant", fw=600, size="lg"),
-                            ],
-                            gap="xs",
-                        ),
-                        dmc.Text(
-                            # f"{results_data['avoidant_score']}%",
-                            size="xl",
-                            fw=700,
-                            c="#20C997",
-                            id="avoidant-score-percent-text",
+                                dmc.Text(
+                                    # f"{results_data['avoidant_score']}%",
+                                    size="xl",
+                                    fw=700,
+                                    c="#20C997",
+                                    id="avoidant-score-percent-text",
+                                ),
+                            ]
                         ),
                         dmc.Text(
                             "Values independence and self-reliance",
@@ -88,21 +100,27 @@ ScoreCards = dmc.SimpleGrid(
             [
                 dmc.Stack(
                     [
-                        dmc.Group(
-                            [
-                                DashIconify(
-                                    icon="tabler:heart", width=24, color="#339AF0"
+                        dmc.Flex(
+                            direction={"base": "row", "sm": "column"},
+                            gap="sm",
+                            children=[
+                                dmc.Group(
+                                    [
+                                        DashIconify(
+                                            icon="tabler:heart", width=24, color="#339AF0"
+                                        ),
+                                        dmc.Text("Secure", fw=600, size="lg"),
+                                    ],
+                                    gap="xs",
                                 ),
-                                dmc.Text("Secure", fw=600, size="lg"),
-                            ],
-                            gap="xs",
-                        ),
-                        dmc.Text(
-                            # f"{results_data['secure_score']}%",
-                            size="xl",
-                            fw=700,
-                            c="#339AF0",
-                            id="secure-score-percent-text",
+                                dmc.Text(
+                                    # f"{results_data['secure_score']}%",
+                                    size="xl",
+                                    fw=700,
+                                    c="#339AF0",
+                                    id="secure-score-percent-text",
+                                ),
+                            ]
                         ),
                         dmc.Text(
                             "Comfortable with intimacy and autonomy",
@@ -119,7 +137,9 @@ ScoreCards = dmc.SimpleGrid(
             shadow="sm",
         ),
     ],
-    spacing="md",
+    # spacing="md",
+    gap="md",
+    direction={"base": "column", "sm": "row"},
 )
 
 ResultsInterpretation = dmc.Paper(
