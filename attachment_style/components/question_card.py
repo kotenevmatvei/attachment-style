@@ -156,23 +156,42 @@ BottomActionButtonsMobile = dmc.Group(
     hiddenFrom="sm",
 )
 
-ResponseOptions = dmc.Stack(
-    [
-        dmc.Button(
-            option,
-            id=f"option-{i}",
-            w="100%",
-            justify="left",
-            fw="bold",
-            size="md",
-            mb={"base": "xs", "sm": "md"},
-            className="option-flash",
-            style={"boxShadow": "0 4px 4px rgba(0,0,0,0.10)"},
-            radius="lg",
-        )
-        for i, option in enumerate(options, start=1)
-    ],
-    gap=0,
+ResponseOptions = dmc.Container(
+    dmc.Stack(
+        [
+            dmc.Button(
+                option,
+                id=f"option-{i}",
+                w="100%",
+                justify="left",
+                fw="bold",
+                size="md",
+                mb={"base": "xs", "sm": "md"},
+                className="option-flash",
+                style={"boxShadow": "0 4px 4px rgba(0,0,0,0.10)"},
+                radius="lg",
+            )
+            for i, option in enumerate(options, start=1)
+        ],
+        gap=0,
+    ),
+    w="90%",
+)
+
+ToResultsButton = dmc.Center(
+    dmc.Button(
+        "To Results",
+        id="to-results-button",
+        size="lg",
+        w={"base": "60%", "sm": "25%"},
+        radius="xl",
+        leftSection=DashIconify(icon="tabler:arrow-right", width=20),
+        variant="gradient",
+        gradient={"from": constants.PRIMARY, "to": "cyan"},
+        mt={"base": 0, "sm": "lg"},
+        px="xl",
+        disabled=True,
+    ),
 )
 
 QuestionComponent = dmc.Container(
@@ -193,13 +212,10 @@ QuestionComponent = dmc.Container(
                 ProgressIndicatorMobile,
                 ProgressBar,
                 QuestionCard,
-                dmc.Container(
-                    w="90%",
-                    children=ResponseOptions,
-                ),
-                # Action buttons
+                ResponseOptions,
                 BottomActionButtons,
                 BottomActionButtonsMobile,
+                ToResultsButton,
             ],
             gap="lg",
         )
