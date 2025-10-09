@@ -4,7 +4,7 @@ from dash_iconify import DashIconify
 Stepper = dmc.Stepper(
     id="test-stepper",
     active=0,
-    mb="lg",
+    mb="md",
     display={"base": "None", "sm": "block"},
     children=[
         dmc.StepperStep(
@@ -34,6 +34,7 @@ StepperMobile = dmc.Stepper(
     id="test-stepper-mobile",
     mt=0,
     mb=0,
+    px="lg",
     active=0,
     display={"base": "block", "sm": "None"},
     children=[

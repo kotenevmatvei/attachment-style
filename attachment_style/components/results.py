@@ -194,7 +194,8 @@ ResultsBoard = dmc.Container(
     [
         html.Div(id="dummy-div-pic-download"),
         dmc.Stack(
-            [
+            px=0,
+            children=[
                 dmc.Center(
                     dmc.Title(
                         "Your Results", c=constants.PRIMARY,
@@ -209,7 +210,7 @@ ResultsBoard = dmc.Container(
                             config={"displayModeBar": False},
                         )
                     ],
-                    p="md",
+                    p={"base": 0, "sm": "md"},
                     radius="md",
                     withBorder=True,
                     shadow="sm",
@@ -257,7 +258,7 @@ ResultsBoard = dmc.Container(
                         )
                     ],
                     id="download-paper",
-                    p="xl",
+                    p={"base": "sm", "sm": "xl"},
                     radius="md",
                     withBorder=True,
                     shadow="lg",
@@ -293,7 +294,8 @@ ResultsBoard = dmc.Container(
             gap="xl",
         )
     ],
-    size="lg",
-    px="xl",
-    py="lg",
+    size={"base": "xl", "sm": "lg"},
+    px={"base": 0, "sm": "xl"},
+    pt={"base": 0, "sm": "lg"},
+    pb="lg",
 )

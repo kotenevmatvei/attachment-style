@@ -81,11 +81,12 @@ app_shell = dmc.AppShell(
                 ],
                 size="xl",
                 py={"base": "xs", "sm": "xl"},
+                px=0,
             )
         ),
     ],
     header={"height": 80},
-    padding="md",
+    padding=0,
     id="app-shell",
 )
 
