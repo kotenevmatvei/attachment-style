@@ -9,3 +9,4 @@ alembic
 psycopg2
 python-dotenv
 kaleido
+dash_breakpoints

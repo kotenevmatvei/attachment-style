@@ -8,7 +8,7 @@ from dash import callback, Output, Input, State, dcc, clientside_callback
 from dash.exceptions import PreventUpdate
 
 from utils.generate_pdf import generate_report
-from utils.plots import build_ecr_r_chart
+from utils.plots import build_ecr_r_chart, build_ecr_r_chart_mobile
 from utils.calculations import revert_scores_for_reverted_questions
 
 logger = logging.getLogger(__name__)
@@ -50,10 +50,11 @@ def update_score_cards(scores):
     [
         State("subject-store", "data"),
         State("mantine-provider", "forceColorScheme"),
+        State("window-width", "data"),
     ],
     prevent_initial_call=True,
 )
-def update_results_chart(scores, subject, theme):
+def update_results_chart(scores, subject, theme, window_width):
     if not scores or "anxious_score" not in scores.keys():
         raise PreventUpdate
 
@@ -62,7 +63,11 @@ def update_results_chart(scores, subject, theme):
     secure_score = scores["secure_score"]
 
     if subject == "you":
-        figure = build_ecr_r_chart(anxious_score, avoidant_score, secure_score)
+        if window_width < 500:
+            figure = build_ecr_r_chart_mobile(anxious_score, avoidant_score, secure_score)
+        else:
+            figure = build_ecr_r_chart(anxious_score, avoidant_score, secure_score)
+
     else:
         df = pd.DataFrame({"style": ["Anxious Score", "Avoidant Score", "Secure Score"],
                            "scores": [anxious_score, avoidant_score, secure_score]})

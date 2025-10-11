@@ -1,6 +1,7 @@
 import logging
 
 import dash_mantine_components as dmc
+from dash_breakpoints import WindowBreakpoints
 from dash import Dash, dcc, page_container
 from random import shuffle
 
@@ -29,6 +30,7 @@ from callbacks.test_page import subject_switch_callbacks
 from callbacks import feedback_callbacks
 from callbacks import theme_callbacks
 from callbacks import clear_state_callbacks
+from callbacks import screensize
 
 # required stylesheets for full DMC functionality
 stylesheets = [
@@ -64,17 +66,22 @@ app_shell = dmc.AppShell(
         dcc.Store(id="figure-store"),
         dcc.Store(id="data-store", data=scores),
         dcc.Store(id="presented-data-store", data=scores),
+        dcc.Store(id="window-width"),
 
         dcc.Download(id="download-report"),
         dcc.Location(id="url", refresh=False),
+
+        WindowBreakpoints(id="breakpoints"),
 
         # DummyResultsChart,
 
         dmc.AppShellHeader(header, h=80),
 
+
         dmc.AppShellMain(
             dmc.Container(
                 [
+                    dmc.Text(id="screen-size-text"),
                     page_container,
                     # CurrentCount,
                     # DebuggingTable,
