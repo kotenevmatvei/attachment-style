@@ -8,7 +8,7 @@ from dash import callback, Output, Input, State, dcc, clientside_callback
 from dash.exceptions import PreventUpdate
 
 from utils.generate_pdf import generate_report
-from utils.plots import build_ecr_r_chart, build_ecr_r_chart_mobile
+from utils.plots import build_ecr_r_chart_mobile, build_ecr_r_chart_desktop
 from utils.calculations import revert_scores_for_reverted_questions
 
 logger = logging.getLogger(__name__)
@@ -66,7 +66,7 @@ def update_results_chart(scores, subject, theme, window_width):
         if window_width < 500:
             figure = build_ecr_r_chart_mobile(anxious_score, avoidant_score, secure_score)
         else:
-            figure = build_ecr_r_chart(anxious_score, avoidant_score, secure_score)
+            figure = build_ecr_r_chart_desktop(anxious_score, avoidant_score, secure_score)
 
     else:
         df = pd.DataFrame({"style": ["Anxious Score", "Avoidant Score", "Secure Score"],
