@@ -81,7 +81,6 @@ app_shell = dmc.AppShell(
         dmc.AppShellMain(
             dmc.Container(
                 [
-                    dmc.Text(id="screen-size-text"),
                     page_container,
                     # CurrentCount,
                     # DebuggingTable,
