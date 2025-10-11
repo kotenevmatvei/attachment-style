@@ -2,14 +2,13 @@ import logging
 
 import dash_mantine_components as dmc
 import pandas as pd
-import plotly.express as px
 import plotly.io as pio
 from dash import callback, Output, Input, State, dcc, clientside_callback
 from dash.exceptions import PreventUpdate
 
-from utils.generate_pdf import generate_report
-from utils.plots import build_ecr_r_chart_mobile, build_ecr_r_chart_desktop
 from utils.calculations import revert_scores_for_reverted_questions
+from utils.generate_pdf import generate_report
+from utils.plots import build_ecr_r_chart_mobile, build_ecr_r_chart_desktop, build_bar_chart_desktop
 
 logger = logging.getLogger(__name__)
 
@@ -71,10 +70,8 @@ def update_results_chart(scores, subject, theme, window_width):
     else:
         df = pd.DataFrame({"style": ["Anxious Score", "Avoidant Score", "Secure Score"],
                            "scores": [anxious_score, avoidant_score, secure_score]})
-        figure = px.bar(df, x="style", y="scores", color="style",
-                        labels={"scores": "Your Score", "style": "Attachment Style"},
-                        width=800, height=600)
-        figure.update_layout(showlegend=False)
+        figure = build_bar_chart_desktop(df, anxious_score=anxious_score, secure_score=secure_score,
+                                         avoidant_score=avoidant_score)
 
     if theme == "dark":
         figure.update_layout(template="mantine_dark")
@@ -240,5 +237,3 @@ clientside_callback(
     Input("download-report-button", "n_clicks"),
     prevent_initial_call=True,
 )
-
-
