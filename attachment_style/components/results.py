@@ -205,10 +205,12 @@ ResultsBoard = dmc.Container(
                 # Chart
                 dmc.Paper(
                     [
-                        dcc.Graph(
-                            id="results-chart",
-                            config={"displayModeBar": False},
-                        )
+                        dmc.Center(
+                            dcc.Graph(
+                                id="results-chart",
+                                config={"displayModeBar": False},
+                            )
+                        ),
                     ],
                     p={"base": 0, "sm": "md"},
                     radius="md",

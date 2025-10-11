@@ -157,7 +157,7 @@ def build_ecr_r_chart_mobile(anxious_score: float, avoidant_score: float, secure
     )
     style_label_font_style = dict(size=12, color="green")
     fig.add_annotation(
-        x=scale_min - 0.4,
+        x=scale_min - 0.5,
         y=scale_min - 0.7,
         text="<i>secure</i>",
         showarrow=False,
@@ -177,7 +177,7 @@ def build_ecr_r_chart_mobile(anxious_score: float, avoidant_score: float, secure
         textangle=0,
     )
     fig.add_annotation(
-        x=scale_min - 0.1,
+        x=scale_min - 0.2,
         y=scale_max + 0.5,
         text="<i>dismissive</i>",
         showarrow=False,
@@ -305,7 +305,7 @@ def build_ecr_r_chart_mobile(anxious_score: float, avoidant_score: float, secure
             scaleanchor="x",
             scaleratio=1,
         ),
-        width=330,
+        width=348,
         height=330,
         margin=dict(l=0, r=0, b=0, t=30),
         showlegend=False,
