@@ -213,6 +213,7 @@ ResultsBoard = dmc.Container(
                     p={"base": 0, "sm": "md"},
                     radius="md",
                     withBorder=True,
+                    ta="center",
                     shadow="sm",
                 ),
                 ResultsInterpretation,

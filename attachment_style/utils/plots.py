@@ -1,5 +1,7 @@
 import plotly.graph_objects as go
 import plotly.express as px
+from reportlab.lib.pdfencrypt import padding
+
 
 def build_ecr_r_chart_mobile(anxious_score: float, avoidant_score: float, secure_score: float):
 
@@ -642,6 +644,28 @@ def build_bar_chart_desktop(df, anxious_score, secure_score, avoidant_score):
                 weight=700,
             ),
         ),
+    )
+    figure.update_layout(showlegend=False)
+    return figure
+
+def build_bar_chart_mobile(df, anxious_score, secure_score, avoidant_score):
+    figure = px.bar(df, x="style", y="scores", color="style",
+                    labels={"scores": "Your Score", "style": "Attachment Style"},
+                    width=348, height=320)
+    figure.update_layout(
+        title=dict(
+            text=f"Anxious: {round(anxious_score, 2)}, Secure: {round(secure_score, 2)}, Avoidant: {round(avoidant_score, 2)}",
+            x=0.5,
+            xanchor="center",
+            pad=dict(r=0, l=0, t=0, b=0),
+            font=dict(
+                color="red",
+                weight=700,
+                size=14,
+            ),
+            y=0.97,
+        ),
+        margin=dict(b=30, t=30, r=0, l=30),
     )
     figure.update_layout(showlegend=False)
     return figure

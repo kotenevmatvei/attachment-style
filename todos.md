@@ -20,7 +20,7 @@
     - [x] font
 
 - [x] design new dashboard layout
-- [ ] bar chart for mobile
+- [x] bar chart for mobile
 - [ ] adjust plot titles in the dashboard for mobile
 
 # refactor

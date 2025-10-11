@@ -8,7 +8,7 @@ from dash.exceptions import PreventUpdate
 
 from utils.calculations import revert_scores_for_reverted_questions
 from utils.generate_pdf import generate_report
-from utils.plots import build_ecr_r_chart_mobile, build_ecr_r_chart_desktop, build_bar_chart_desktop
+from utils.plots import build_ecr_r_chart_mobile, build_ecr_r_chart_desktop, build_bar_chart_desktop, build_bar_chart_mobile
 
 logger = logging.getLogger(__name__)
 
@@ -68,10 +68,15 @@ def update_results_chart(scores, subject, theme, window_width):
             figure = build_ecr_r_chart_desktop(anxious_score, avoidant_score, secure_score)
 
     else:
-        df = pd.DataFrame({"style": ["Anxious Score", "Avoidant Score", "Secure Score"],
+        df = pd.DataFrame({"style": ["Anxious", "Avoidant", "Secure"],
                            "scores": [anxious_score, avoidant_score, secure_score]})
-        figure = build_bar_chart_desktop(df, anxious_score=anxious_score, secure_score=secure_score,
-                                         avoidant_score=avoidant_score)
+        if window_width < 500:
+            figure = build_bar_chart_mobile(df, anxious_score=anxious_score, secure_score=secure_score,
+                                             avoidant_score=avoidant_score)
+        else:
+            figure = build_bar_chart_desktop(df, anxious_score=anxious_score, secure_score=secure_score,
+                                             avoidant_score=avoidant_score)
+
 
     if theme == "dark":
         figure.update_layout(template="mantine_dark")
