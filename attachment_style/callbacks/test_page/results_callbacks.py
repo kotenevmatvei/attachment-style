@@ -224,8 +224,7 @@ def load_report(n_clicks, answers, fig_json, scores):
             "tmp/figure.png", width=700, height=500
         )
         logger.info("Image saved")
-        reverted_scores = revert_scores_for_reverted_questions(answers)
-        generate_report(reverted_scores, dominant_style)
+        generate_report(answers, dominant_style)
         return dcc.send_file("tmp/attachment_style_report.pdf", type="pdf"), False
 
     return None, False
