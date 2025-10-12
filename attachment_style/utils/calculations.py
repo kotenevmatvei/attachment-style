@@ -10,7 +10,7 @@ def revert_scores_for_reverted_questions(
 ) -> dict[str, dict]:
     if len(answers) == 36:
         for key, value in answers.items():
-            if value and value.get("question_text", {}).get("title", "").endswith("  **"):
+            if value and value.get("question_text", {}).get("title", "").endswith("   "):
                 original_value = value  # for debugging
                 reverted_value = {
                     "attachment_style": value["attachment_style"],
