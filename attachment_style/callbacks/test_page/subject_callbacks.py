@@ -3,7 +3,7 @@ from dash import callback, Input, Output, ctx
 import logging
 from random import shuffle
 
-from utils.io import read_questions, read_questions_json
+from utils.io import read_questions_json
 
 logger = logging.getLogger(__name__)
 
