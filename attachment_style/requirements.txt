@@ -1,5 +1,6 @@
 gunicorn
 dash-bootstrap-components
+dash-mantine-components
 dash-iconify
 matplotlib
 pandas
