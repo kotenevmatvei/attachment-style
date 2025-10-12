@@ -155,6 +155,9 @@ def generate_report(answers: dict[str, dict], dominant_style) -> None:
     centered = ParagraphStyle(name="Centered", parent=styles["Heading3"], alignment=1)
     # Section: Your Answers (no forced page break)
     story.append(Paragraph("Your Answers:", centered))
+    if len(answers) == 36:
+        story.append(Paragraph("The scores for the questions marked \"<i>(reverse)</i>\" are inverted via 8 - original_score in the final score calculation"))
+        story.append(Spacer(0, 10))
     # add anxious answers
     story.append(Paragraph("<u><b>Anxious</b></u>:"))
     story.append(Spacer(0, 10))
@@ -168,6 +171,7 @@ def generate_report(answers: dict[str, dict], dominant_style) -> None:
         question = answer.get("question_text")
 
         question_title = question.get("title")
+        question_title = question_title.replace("   ", " <i>(reverse)</i>")
         header = Paragraph("<b>" + question_title + "</b>")
 
         question_bullet_points = question.get("bullet_points", [])
@@ -214,6 +218,7 @@ def generate_report(answers: dict[str, dict], dominant_style) -> None:
             question = answer.get("question_text")
 
             question_title = question.get("title")
+            question_title = question_title.replace("   ", " <i>(reverse)</i>")
             header = Paragraph("<b>" + question_title + "</b>")
 
             question_bullet_points = question.get("bullet_points", [])
@@ -259,6 +264,7 @@ def generate_report(answers: dict[str, dict], dominant_style) -> None:
         question = answer.get("question_text")
 
         question_title = question.get("title")
+        question_title = question_title.replace("   ", " <i>(reverse)</i>")
         header = Paragraph("<b>" + question_title + "</b>")
 
         question_bullet_points = question.get("bullet_points", [])
