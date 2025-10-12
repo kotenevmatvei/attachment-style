@@ -9,7 +9,7 @@ from components.dashboard.box_plot import BoxCard
 from components.dashboard.parallel_plot import ParallelCard
 from components.dashboard.scatter_3d import Scatter3dCard
 from components.dashboard.scatter_plot import ScatterCard
-from components.dashboard.dashboard_filters import DashboardSettings
+from components.dashboard.dashboard_filters import DashboardFilters, DashboardFiltersMobile
 from components.dashboard.KPIs import DashboardKPIs
 from utils.database import retrieve_scores_from_db
 
@@ -24,7 +24,8 @@ fig = go.Figure()
 
 def layout(**kwargs):
     return [
-        DashboardSettings,
+        DashboardFilters,
+        DashboardFiltersMobile,
         DashboardKPIs,
         dmc.Flex(
             gap="md",

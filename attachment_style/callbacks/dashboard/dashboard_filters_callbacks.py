@@ -1,5 +1,5 @@
 import pandas as pd
-from dash import callback, Input, Output, State
+from dash import callback, Input, Output, State, ctx
 
 from utils.database import retrieve_scores_from_db
 
@@ -18,17 +18,42 @@ def refresh_data(n_clicks):
     [
         Output("presented-data-store", "data"),
         Output("dataset-multiselect", "error"),
+        Output("dataset-multiselect-mobile", "error"),
     ],
     [
         Input("dataset-multiselect", "value"),
         Input("include-test-data-switch", "checked"),
         Input("data-store", "data"),
+
+        Input("dataset-multiselect-mobile", "value"),
+        Input("include-test-data-switch-mobile", "checked"),
     ],
     State("presented-data-store", "data"),
     prevent_initial_call=True,
 )
-def select_dataset(dataset_selection, include_test_data, data, presented_data):
+def select_dataset(dataset_selection, include_test_data, data, dataset_selection_mobile, include_test_data_mobile, presented_data):
+
     df = pd.DataFrame(data)
+
+    triggered_id = ctx.triggered_id
+
+    if triggered_id.endswith("mobile"):
+        dataset_selection_error = None
+        if dataset_selection_mobile == ["assess_yourself"]:
+            df = df[df["source"] == "AssessYourself"]
+        elif dataset_selection_mobile == ["assess_others"]:
+            df = df[df["source"] == "AssessOthers"]
+        elif set(dataset_selection_mobile) != {"assess_yourself", "assess_others"}:
+            # leave presented data as it is and return error
+            df = pd.DataFrame(presented_data)
+            dataset_selection_error = "Please select at least one dataset"
+
+        if not include_test_data_mobile:
+            df = df[df["test"] == False]
+
+        filtered_data = df.to_dict(orient="list")
+
+        return filtered_data, dataset_selection_error, dataset_selection_error
 
     dataset_selection_error = None
     if dataset_selection == ["assess_yourself"]:
@@ -45,4 +70,4 @@ def select_dataset(dataset_selection, include_test_data, data, presented_data):
 
     filtered_data = df.to_dict(orient="list")
 
-    return filtered_data, dataset_selection_error
+    return filtered_data, dataset_selection_error, dataset_selection_error
