@@ -1,7 +1,5 @@
 ## Website in pure Python!
 
-deployed at: https://attachment-style.fly.dev/
-
 This app is inspired by a book on adult attachment styles I read last summer.
 I disliked all of the quizes I could find on the internet both content and implementation
 wise. So I decided to code my own.
