@@ -10,7 +10,7 @@
 - [x] provide total number of scores with and without test
 - [x] separate updating data from the db and filtering (include/exclude test, you/others)
       (then don't even need extra chaching)
-- [ ] bring back /r/ for reverse questions in the pdf report for clarity and add a clarification
+- [x] bring back /r/ for reverse questions in the pdf report for clarity and add a clarification
 
 # frontend
 - [x] write stepper component
