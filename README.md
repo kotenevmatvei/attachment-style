@@ -1,6 +1,6 @@
 ## Website in pure Python!
 
-deployed at: https://attachment-style.koyeb.app/
+current deployment (in active development): https://attachment-style.koyeb.app/
 
 This app is inspired by a book on adult attachment styles I read last summer.
 I disliked all of the quizes I could find on the internet both content and implementation
