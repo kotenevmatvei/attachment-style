@@ -1,7 +1,8 @@
 import plotly.graph_objects as go
 import plotly.express as px
-from reportlab.lib.pdfencrypt import padding
+import logging
 
+logger = logging.getLogger(__name__)
 
 def build_ecr_r_chart_mobile(anxious_score: float, avoidant_score: float, secure_score: float):
 
@@ -669,3 +670,13 @@ def build_bar_chart_mobile(df, anxious_score, secure_score, avoidant_score):
     )
     figure.update_layout(showlegend=False)
     return figure
+
+def warmup_kaleo():
+    logger.info("Warming up kaleo...")
+    fig = px.pie(["1", "2", "3"], [1,2,3])
+    fig.write_image(
+        "tmp/kaleo_warmup.png", width=700, height=500
+    )
+    logger.info("Kaleo warmed up 👍")
+
+warmup_kaleo()
