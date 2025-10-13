@@ -11,7 +11,7 @@ def layout(**kwargs):
         children=[
             html.Div(id="dummy-email-div"),
             dmc.Center(
-                dmc.Title("Please leave your feedback", c=constants.PRIMARY, visibleFrom="sm"),
+                dmc.Title("Please leave your feedback", id="feedback-page-title", c=constants.PRIMARY, mb={"base": 0, "sm": "md"}),
                 mb="lg",
             ),
             dmc.Paper(

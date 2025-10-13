@@ -60,8 +60,7 @@ def update_current_subject(subject):
         questions = read_questions_json("others")
         shuffle(questions)
         answers = {f"{i}": None for i in range(1, 34)}
-        demographics_subtitle = ("Please answer the following questions with regard to the person you are assessing. \n"
-                                 "You may assess yourself using this questionnaire.")
+        demographics_subtitle = ("You may also assess yourself using this questionnaire")
         return questions, 33, progress_steps, answers, demographics_subtitle
 
     questions = read_questions_json("you")

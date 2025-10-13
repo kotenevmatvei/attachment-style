@@ -201,7 +201,7 @@ ResultsBoard = dmc.Container(
                     order=1,
                     ta="center",
                     c=constants.PRIMARY,
-                    mb={"base": "xs", "sm": 0},
+                    mb=0,
                 ),
                 dmc.Text(
                     "Don't forget to download your report!",
@@ -209,7 +209,7 @@ ResultsBoard = dmc.Container(
                     c="dimmed",
                     size="lg",
                     mt=0,
-                    mb={"base": "xs", "sm": 0},
+                    mb=0,
                 ),
                 ScoreCards,
                 # Chart

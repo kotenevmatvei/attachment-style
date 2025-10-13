@@ -200,7 +200,7 @@ QuestionComponent = dmc.Container(
     py="lg",
     children=[
         dmc.Title(
-            "Demographics",
+            "Questionnaire",
             order=1,
             ta="center",
             c=constants.PRIMARY,
@@ -208,7 +208,6 @@ QuestionComponent = dmc.Container(
         ),
         dmc.Text(
             id="subtitle-question-card",
-            style={"white-space": "pre"},
             ta="center",
             c="dimmed",
             size="lg",
