@@ -21,8 +21,9 @@
     - [x] center
     - [x] color
     - [x] font
+- [ ] remove page titles on mobile
+- [ ] add subtitles for the stepper
 - [ ] make parallel categories chart wider 
-- [ ] make fonts smaller on mobile
 
 - [x] design new dashboard layout
 - [x] bar chart for mobile
