@@ -12,7 +12,7 @@
       (then don't even need extra chaching)
 - [x] bring back /r/ for reverse questions in the pdf report for clarity and add a clarification
 - [x] warm up kaleo!!
-- [ ] hide the demographics collapse on the app start on mobile
+- [x] hide the demographics collapse on the app start on mobile
 - [x] remove zoom option in the results chart (on mobile?)
 
 # frontend
