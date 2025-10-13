@@ -82,7 +82,7 @@ def submit_personal_questionnaire(
         gender_error = "Please select your gender" if not gender else None
         print("i am on the right path")
         return (
-            False, True,
+            True, False,
             age_error, relationship_status_error, therapy_experience_error, gender_error,
             {}
         )
