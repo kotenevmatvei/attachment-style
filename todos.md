@@ -22,14 +22,18 @@
     - [x] center
     - [x] color
     - [x] font
-- [ ] remove page titles on mobile
-- [ ] add subtitles for the stepper
+- [x] resize page titles on mobile
+- [x] add subtitles for the test flow
 - [ ] make parallel categories chart wider 
 
 - [x] design new dashboard layout
 - [x] bar chart for mobile
 - [ ] turn anxiety axis labels back to horizontal
 - [ ] adjust plot titles in the dashboard for mobile
+
+# content
+- [ ] explain the progress bar
+- [ ] explain skipping back forward - not showing previous answers
 
 # refactor
 - [x] separate callbacks
