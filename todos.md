@@ -11,6 +11,8 @@
 - [x] separate updating data from the db and filtering (include/exclude test, you/others)
       (then don't even need extra chaching)
 - [x] bring back /r/ for reverse questions in the pdf report for clarity and add a clarification
+- [ ] warm up kaleo!!
+- [ ] hide the demographics collapse on the app start on mobile
 
 # frontend
 - [x] write stepper component
@@ -18,6 +20,8 @@
     - [x] center
     - [x] color
     - [x] font
+- [ ] make parallel categories chart wider 
+- [ ] make fonts smaller on mobile
 
 - [x] design new dashboard layout
 - [x] bar chart for mobile

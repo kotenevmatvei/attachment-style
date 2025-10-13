@@ -19,7 +19,6 @@ logger = logging.getLogger(__name__)
 
 register_page(__name__, path="/dashboard")
 
-fig = go.Figure()
 
 
 def layout(**kwargs):

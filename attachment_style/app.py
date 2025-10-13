@@ -20,6 +20,7 @@ from components.header import header
 from components.debugging_table import DebuggingTable, CurrentCount
 
 from utils.io import read_questions_json
+from utils.plots import warmup_kaleo
 from utils.database import retrieve_scores_from_db
 
 from callbacks.test_page import subject_callbacks, demographics_callbacks, question_card_callbacks, results_callbacks
@@ -49,6 +50,8 @@ scores = retrieve_scores_from_db()
 logger.info("Retrieved scores from the db for the first time")
 questions = read_questions_json("you")
 shuffle(questions)
+
+warmup_kaleo()
 
 app_shell = dmc.AppShell(
     [
