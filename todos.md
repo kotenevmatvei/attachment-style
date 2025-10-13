@@ -13,7 +13,7 @@
 - [x] bring back /r/ for reverse questions in the pdf report for clarity and add a clarification
 - [ ] warm up kaleo!!
 - [ ] hide the demographics collapse on the app start on mobile
-- [ ] remove zoom option in the results chart (on mobile?)
+- [x] remove zoom option in the results chart (on mobile?)
 
 # frontend
 - [x] write stepper component

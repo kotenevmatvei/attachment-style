@@ -297,6 +297,7 @@ def build_ecr_r_chart_mobile(anxious_score: float, avoidant_score: float, secure
             showgrid=False,
             zeroline=False,
             showticklabels=False,
+            fixedrange=True,
         ),
         yaxis=dict(
             range=[plot_range_min, plot_range_max],
@@ -305,6 +306,7 @@ def build_ecr_r_chart_mobile(anxious_score: float, avoidant_score: float, secure
             showticklabels=False,
             scaleanchor="x",
             scaleratio=1,
+            fixedrange=True,
         ),
         width=348,
         height=330,
