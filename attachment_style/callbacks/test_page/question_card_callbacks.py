@@ -262,4 +262,4 @@ def toggle_results_collapse(to_results_click, answers, demographics):
         return True, False, result_scores
 
     # start with 1's to avoid dividing by 0
-    return False, True, {"anxious_score": 1, "avoidant_score": 0, "secure_score": 0}
+    return False, False, {"anxious_score": 1, "avoidant_score": 0, "secure_score": 0}
