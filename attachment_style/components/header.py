@@ -25,7 +25,7 @@ header = dmc.Container(
                             DashIconify(icon="tabler:brand-python", width=40, color=constants.PRIMARY),
                             dmc.Text(
                                 "Attachment Style Test",
-                                fz={"base": "1.3rem", "xs": "1.5rem", "sm": "1.7rem", "md": "2rem"},
+                                fz={"base": "1rem", "xs": "1.2rem", "sm": "1.5rem", "md": "2rem"},
                                 fw=900,
                                 c=constants.PRIMARY,
                             ),
