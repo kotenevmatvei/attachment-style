@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for attachment-style-empty-sky-5317 on 2025-10-12T22:56:27+02:00
+# fly.toml app configuration file generated for attachment-style on 2025-10-13T11:06:41+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'attachment-style-empty-sky-5317'
+app = 'attachment-style'
 primary_region = 'fra'
 
 [build]
