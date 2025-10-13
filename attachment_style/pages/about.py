@@ -9,7 +9,7 @@ register_page(__name__)
 def layout(**kwargs):
     return dmc.Container(
         [
-            dmc.Center(dmc.Title("About", c=constants.PRIMARY, mb="md")),
+            dmc.Center(dmc.Title("About", c=constants.PRIMARY, mb="md", visibleFrom="sm")),
             dmc.Accordion(
                 # multiple=True,
                 children=[

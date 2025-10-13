@@ -1,11 +1,13 @@
-import dash_mantine_components as dmc
-from dash import callback, Input, Output, ctx
 import logging
 from random import shuffle
+
+import dash_mantine_components as dmc
+from dash import callback, Input, Output, ctx
 
 from utils.io import read_questions_json
 
 logger = logging.getLogger(__name__)
+
 
 @callback(
     Output("subject-store", "data"),
@@ -16,7 +18,8 @@ logger = logging.getLogger(__name__)
         Input("assess-others-button-mobile", "n_clicks"),
     ]
 )
-def update_subject_store(assess_yourself_click, assess_yourself_mobile_click,  assess_others_click, assess_others_mobile_click):
+def update_subject_store(assess_yourself_click, assess_yourself_mobile_click, assess_others_click,
+                         assess_others_mobile_click):
     triggered_id = ctx.triggered_id
     if triggered_id in ["assess-others-button", "assess-others-button-mobile"]:
         return "others"
@@ -32,6 +35,7 @@ def update_subject_store(assess_yourself_click, assess_yourself_mobile_click,  a
         # Output("question-content-flex", "justify"),
         Output("progress-bar", "children"),
         Output("answers-store", "data", allow_duplicate=True),
+        Output("subtitle-question-card", "children"),
     ],
     Input("subject-store", "data"),
     prevent_initial_call=True,
@@ -56,10 +60,12 @@ def update_current_subject(subject):
         questions = read_questions_json("others")
         shuffle(questions)
         answers = {f"{i}": None for i in range(1, 34)}
-        return questions, 33, progress_steps, answers
+        demographics_subtitle = ("Please answer the following questions with regard to the person you are assessing. \n"
+                                 "You may assess yourself using this questionnaire.")
+        return questions, 33, progress_steps, answers, demographics_subtitle
 
     questions = read_questions_json("you")
     shuffle(questions)
     answers = {f"{i}": None for i in range(1, 37)}
-    return questions, 36, progress_steps, answers
-
+    demographics_subtitle = ("Please answer the following questions:")
+    return questions, 36, progress_steps, answers, demographics_subtitle

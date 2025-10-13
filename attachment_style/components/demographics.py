@@ -17,14 +17,14 @@ Demographics = dmc.Container(
             order=1,
             ta="center",
             c=constants.PRIMARY,
-            mb={"base": "xs", "sm": "xl"},
+            mb={"base": "xs", "sm": "lg"},
         ),
         dmc.Text(
             "Please fill in the following information for the person to be tested:",
             ta="center",
             c="dimmed",
             size="lg",
-            mb={"base": "xs", "sm": "xl"},
+            mb={"base": "xs", "sm": "md"},
         ),
         dmc.Paper(
             children=[

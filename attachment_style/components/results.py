@@ -196,10 +196,20 @@ ResultsBoard = dmc.Container(
         dmc.Stack(
             px=0,
             children=[
-                dmc.Center(
-                    dmc.Title(
-                        "Your Results", c=constants.PRIMARY,
-                    ),
+                dmc.Title(
+                    "Your Results",
+                    order=1,
+                    ta="center",
+                    c=constants.PRIMARY,
+                    mb={"base": "xs", "sm": 0},
+                ),
+                dmc.Text(
+                    "Don't forget to download your report!",
+                    ta="center",
+                    c="dimmed",
+                    size="lg",
+                    mt=0,
+                    mb={"base": "xs", "sm": 0},
                 ),
                 ScoreCards,
                 # Chart
