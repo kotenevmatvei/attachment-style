@@ -14,6 +14,7 @@
 - [x] warm up kaleo!!
 - [x] hide the demographics collapse on the app start on mobile
 - [x] remove zoom option in the results chart (on mobile?)
+- [ ] cleanup the database
 
 # frontend
 - [x] write stepper component
