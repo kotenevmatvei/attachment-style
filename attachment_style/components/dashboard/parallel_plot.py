@@ -8,50 +8,53 @@ import constants
 dmc.add_figure_templates()
 
 ParallelCard = dmc.Card(
-    [
+    id="parallel-plot-card",
+    children=[
         dmc.CardSection(
-            dmc.Grid(
+            dmc.Flex(
+                justify="space-between",
                 children=[
-                    dmc.GridCol(
-                        span=2,
+                    dmc.Space(w="xl"),
+                    dmc.Center(
+                        dmc.Title("Parallel Coordinates", id="parallel-plot-title", order=2, ta="center", c=constants.PRIMARY),
                     ),
-                    dmc.GridCol(
-                        dmc.Title("Parallel Coordinates", order=2, ta="center", c=constants.PRIMARY),
-                        span=8,
-                        ta="center",
+                    dmc.Button(
+                        DashIconify(icon="material-symbols:help-outline", width=25,
+                                    color=constants.PRIMARY),
+                        id="parallel-info-modal-button",
+                        variant="light",
+                        radius="md",
                     ),
-                    dmc.GridCol(
-                        dmc.Button(
-                            DashIconify(icon="material-symbols:help-outline", width=25, color=constants.PRIMARY),
-                            id="parallel-info-modal-button",
-                            variant="light",
-                            radius="md"
-                        ),
-                        span=2,
-                        ta="right",
-                    )
                 ],
-                # cols=3,
-            #     children=[
-            #         # dmc.Space(w="xs"),
-            #         dmc.Flex(
-            #             dmc.Title("Parallel Coordinates", order=2, ta="center", c=constants.PRIMARY),
-            #             justify="right",
-            #             align="center"
-            #         ),
-            #         dmc.Flex(
-            #             dmc.Button(
-            #                 DashIconify(icon="material-symbols:help-outline", width=25, color=constants.PRIMARY),
-            #                 id="parallel-info-modal-button",
-            #                 variant="light",
-            #                 radius="md"
-            #             ),
-            #             justify="right",
-            #             align="center",
-            #         )
-            #     ]
             ),
-            withBorder=True, p="md", mb="xs",
+            # dmc.Grid(
+            #     children=[
+            #         dmc.SimpleGrid(
+            #             cols=3,
+            #             children=[
+            #                 dmc.Space(w="xs"),
+            #                 dmc.Center(
+            #                     dmc.Title("Parallel Variables", id="parallel-plot-title", order=2, ta="center",
+            #                               c=constants.PRIMARY),
+            #                 ),
+            #                 dmc.Flex(
+            #                     dmc.Button(
+            #                         DashIconify(icon="material-symbols:help-outline", width=25,
+            #                                     color=constants.PRIMARY),
+            #                         id="parallel-info-modal-button",
+            #                         variant="light",
+            #                         radius="md",
+            #                     ),
+            #                     justify="right",
+            #                     align="center"
+            #                 ),
+            #             ]
+            #         ),
+            #     ],
+            # ),
+            withBorder=True,
+            p={"base": "xs", "sm": "md"},
+            mb="xs",
         ),
         dmc.MultiSelect(
             label="Select Variables",

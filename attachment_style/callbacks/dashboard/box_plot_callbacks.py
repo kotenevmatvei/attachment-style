@@ -14,9 +14,10 @@ from data.options import demographics_radio_options, demographics_values
         Input("attachment-style-dropdown-demographics", "value"),
         Input("presented-data-store", "data"),
         Input("mantine-provider", "forceColorScheme"),
+        Input("window-width", "data"),
     ],
 )
-def update_box_graph(demographic, selected_style, data, theme):
+def update_box_graph(demographic, selected_style, data, theme, window_width):
     fig = px.box(
         data,
         x=demographic,
@@ -30,7 +31,13 @@ def update_box_graph(demographic, selected_style, data, theme):
         title=selected_style.split("_")[0].capitalize() + " Attachment Score"
     )
 
-
+    if window_width < 500:
+        fig.update_layout(
+            title="",
+            width=350,
+            height=330,
+            margin=dict(l=0, r=0, t=20, b=0)
+        )
 
     if theme == "light":
         fig.update_layout(template="mantine_light")

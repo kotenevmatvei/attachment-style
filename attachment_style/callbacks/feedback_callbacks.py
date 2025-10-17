@@ -69,7 +69,6 @@ clientside_callback(
     prevent_initial_call=True,
 )
 
-
 # change page title order on mobile
 @callback(
     Output("feedback-page-title", "order"),

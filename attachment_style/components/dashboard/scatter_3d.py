@@ -10,13 +10,16 @@ from dash_iconify import DashIconify
 import constants
 
 Scatter3dCard = dmc.Card(
+    id="scatter3d-plot-card",
     children=[
         dmc.CardSection(
             dmc.SimpleGrid(
                 cols=3,
                 children=[
                     dmc.Space(w="xs"),
-                    dmc.Title("Scatter 3D", order=2, ta="center", c=constants.PRIMARY),
+                    dmc.Center(
+                        dmc.Title("Scatter 3D", id="scatter-3d-plot-title", order=2, ta="center", c=constants.PRIMARY),
+                    ),
                     dmc.Flex(
                         dmc.Button(
                             DashIconify(icon="material-symbols:help-outline", width=25, color=constants.PRIMARY),
@@ -29,7 +32,9 @@ Scatter3dCard = dmc.Card(
                     )
                 ]
             ),
-            withBorder=True, p="md", mb="xs",
+            withBorder=True,
+            p={"base": "xs", "sm": "md"},
+            mb="xs",
         ),
         dmc.RadioGroup(
             label="Color by",

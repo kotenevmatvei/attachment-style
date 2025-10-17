@@ -673,12 +673,10 @@ def build_bar_chart_mobile(df, anxious_score, secure_score, avoidant_score):
     figure.update_layout(showlegend=False)
     return figure
 
-def warmup_kaleo():
-    logger.info("Warming up kaleo...")
+def warmup_kaleido():
+    logger.info("Warming up kaleido...")
     fig = px.pie(["1", "2", "3"], [1,2,3])
     fig.write_image(
         "tmp/kaleo_warmup.png", width=700, height=500
     )
-    logger.info("Kaleo warmed up 👍")
-
-warmup_kaleo()
+    logger.info("Kaleido warmed up 👍")

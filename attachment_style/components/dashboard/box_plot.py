@@ -8,13 +8,16 @@ from data.options import attachment_style_labels_values, demographics_radio_opti
 dmc.add_figure_templates()
 
 BoxCard = dmc.Card(
+    id="boxplot-card",
     children=[
         dmc.CardSection(
             dmc.SimpleGrid(
                 cols=3,
                 children=[
                     dmc.Space(w="xs"),
-                    dmc.Title("Box Plot", order=2, ta="center", c=constants.PRIMARY),
+                    dmc.Center(
+                        dmc.Title("Box Plot", id="box-plot-title", order=2, ta="center", c=constants.PRIMARY),
+                    ),
                     dmc.Flex(
                         dmc.Button(
                             DashIconify(icon="material-symbols:help-outline", width=25, color=constants.PRIMARY),
@@ -27,7 +30,9 @@ BoxCard = dmc.Card(
                     )
                 ]
             ),
-            withBorder=True, p="md", mb="xs",
+            withBorder=True,
+            p={"base": "xs", "sm": "md"},
+            mb="xs",
         ),
         # dmc.CardSection("Box Plot", withBorder=True, p="md", c=constants.PRIMARY),
         dmc.RadioGroup(
@@ -99,5 +104,8 @@ BoxCard = dmc.Card(
     withBorder=True,
     shadow="md",
     radius="md",
-    w=600,
+    # these are set in screensize.py depending on the window_width
+    # w=600,
+    # w="95%",
+    pt=0,
 )

@@ -9,9 +9,10 @@ import plotly.express as px
         Input("parallel-color-dropdown", "value"),
         Input("presented-data-store", "data"),
         Input("mantine-provider", "forceColorScheme"),
+        Input("window-width", "data"),
     ],
 )
-def update_parallel_graph(selected_dims, color_by, data, theme):
+def update_parallel_graph(selected_dims, color_by, data, theme, window_width):
     if not selected_dims:
         selected_dims = ["gender"]
     if color_by == "any":
@@ -30,6 +31,16 @@ def update_parallel_graph(selected_dims, color_by, data, theme):
             title="Parallel Categories Diagram",
             template="mantine_light",
         )
+
+    if window_width < 500:
+        fig.update_layout(
+            title="",
+            width=350,
+            height=330,
+            margin=dict(l=0, r=0, t=20, b=0)
+        )
+
+
     if theme == "light":
         fig.update_layout(template="mantine_light")
     else:

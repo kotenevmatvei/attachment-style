@@ -1,5 +1,5 @@
 import dash_mantine_components as dmc
-from dash import register_page
+from dash import register_page, callback, Output, Input
 
 import constants
 
@@ -39,13 +39,17 @@ def layout(**kwargs):
                                             "The most significant advancement came with ",
                                             dmc.Anchor("Brennan, Clark, and Shaver's (1998) ",
                                                        href="https://www.researchgate.net/publication/301325948_Self-report_measurement_of_adult_attachment_An_integrative_overview",
-                                                       target="_blank",),
+                                                       target="_blank", ),
                                             "development of the Experiences in Close Relationships (ECR) scale, followed by ",
-                                            dmc.Anchor("Fraley, Waller, and Brennan's (2000) ECR-Revised (ECR-R)", href="https://www.web-research-design.net/PDF/FW&B2000.pdf", target="_blank"),
+                                            dmc.Anchor("Fraley, Waller, and Brennan's (2000) ECR-Revised (ECR-R)",
+                                                       href="https://www.web-research-design.net/PDF/FW&B2000.pdf",
+                                                       target="_blank"),
                                             ". The ECR-R is a 36-item self-report "
                                             "measure that assesses both anxiety and avoidance dimensions, demonstrating excellent "
                                             "reliability with ",
-                                            dmc.Anchor("alpha coefficients", href="https://en.wikipedia.org/wiki/Cronbach%27s_alpha", target="_blank"), " near or above 0.90."
+                                            dmc.Anchor("alpha coefficients",
+                                                       href="https://en.wikipedia.org/wiki/Cronbach%27s_alpha",
+                                                       target="_blank"), " near or above 0.90."
                                         ],
                                     ),
                                     dmc.Space(h="md"),
@@ -135,7 +139,8 @@ def layout(**kwargs):
                                             dmc.Space(h="md"),
                                             "The \"Assess Yourself\" questionnaire follows the ",
                                             dmc.Anchor("scoring guidelines",
-                                                       href="https://centerforhealingkc.com/sites/centerfh/files/ecr-r.pdf", target="_blank"),
+                                                       href="https://centerforhealingkc.com/sites/centerfh/files/ecr-r.pdf",
+                                                       target="_blank"),
                                             " provided in the ECR-R study. This methodology includes reverse-scoring certain "
                                             "questions that ask similar concepts with opposite wording, which helps minimize "
                                             "response bias tendencies.",
@@ -284,7 +289,9 @@ def layout(**kwargs):
                                     dmc.Text(
                                         [
                                             "You can you view the source code on my ",
-                                            dmc.Anchor("github", href="https://github.com/kotenevmatvei/attachment-style", target="_blank"),
+                                            dmc.Anchor("github",
+                                                       href="https://github.com/kotenevmatvei/attachment-style",
+                                                       target="_blank"),
                                             "."
                                         ]
                                     )
@@ -298,3 +305,13 @@ def layout(**kwargs):
         ]
     )
 
+
+# change page title order on mobile
+@callback(
+    Output("about-page-title", "order"),
+    Input("window-width", "data"),
+)
+def resize_feedback_page_title(window_width):
+    if window_width < 500:
+        return 3
+    return 1

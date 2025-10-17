@@ -2,7 +2,7 @@ import logging
 
 import dash_mantine_components as dmc
 import plotly.graph_objects as go
-from dash import register_page, dcc
+from dash import register_page, callback, Input, Output
 
 import constants
 from components.dashboard.box_plot import BoxCard
@@ -39,3 +39,28 @@ def layout(**kwargs):
             ],
         ),
     ]
+
+@callback(
+    [
+        Output("box-plot-title", "order"),
+        Output("scatter-plot-title", "order"),
+        Output("scatter-3d-plot-title", "order"),
+        Output("parallel-plot-title", "order"),
+
+        Output("boxplot-card", "w"),
+        Output("scatter-plot-card", "w"),
+        Output("scatter3d-plot-card", "w"),
+        Output("parallel-plot-card", "w"),
+    ],
+    Input("window-width", "data"),
+)
+def resize_feedback_page_title(window_width):
+    if window_width < 500:
+        return (
+            4, 4, 4, 4,
+            "95%", "95%", "95%", "95%"
+        )
+    return (
+        2, 2, 2, 2,
+        600,600,600,600,
+    )

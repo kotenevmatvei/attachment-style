@@ -9,10 +9,11 @@ import dash_mantine_components as dmc
     [
         Input("presented-data-store", "data"),
         Input("scatter3d-color-radio", "value"),
-        Input("mantine-provider", "forceColorScheme")
+        Input("mantine-provider", "forceColorScheme"),
+        Input("window-width", "data")
     ],
 )
-def update_scatter3d_graph(data, color_value, theme):
+def update_scatter3d_graph(data, color_value, theme, window_width):
     data = pd.DataFrame(data)
     fig = px.scatter_3d(
         data,
@@ -35,6 +36,14 @@ def update_scatter3d_graph(data, color_value, theme):
             # "up": {"x": 0, "y": 2, "z": 0}
         }
     )
+
+    if window_width < 500:
+        fig.update_layout(
+            title="",
+            width=350,
+            height=330,
+            margin=dict(l=0, r=0, t=20, b=0)
+        )
 
     if theme == "light":
         fig.update_layout(template="mantine_light")
