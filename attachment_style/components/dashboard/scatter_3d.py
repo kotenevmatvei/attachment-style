@@ -45,6 +45,16 @@ Scatter3dCard = dmc.Card(
             size="md",
             value="gender",
             mb="xs",
+            visibleFrom="sm",
+        ),
+        dmc.Select(
+            label="Color by",
+            id="scatter3d-color-select-mobile",
+            data=demographics_labels_values,
+            value="gender",
+            hiddenFrom="sm",
+            mb="xs",
+            allowDeselect=False,
         ),
         dcc.Graph(id="scatter3d-graph"),
 
@@ -106,5 +116,6 @@ Scatter3dCard = dmc.Card(
     shadow="md",
     radius="md",
     w=600,
+    pt=0,
 )
 

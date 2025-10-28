@@ -680,3 +680,6 @@ def warmup_kaleido():
         "tmp/kaleo_warmup.png", width=700, height=500
     )
     logger.info("Kaleido warmed up 👍")
+
+
+

@@ -1,6 +1,7 @@
 import logging
 
 import dash_mantine_components as dmc
+import pandas as pd
 from dash_breakpoints import WindowBreakpoints
 from dash import Dash, dcc, page_container
 from random import shuffle
@@ -47,6 +48,10 @@ stylesheets = [
 app = Dash(__name__, external_stylesheets=stylesheets, use_pages=True, suppress_callback_exceptions=True)
 
 scores = retrieve_scores_from_db()
+df = pd.DataFrame(scores)
+df_presented = df[df["test"] == False]
+scores_presented = df_presented.to_dict(orient="list")
+
 logger.info("Retrieved scores from the db for the first time")
 questions = read_questions_json("you")
 shuffle(questions)
@@ -68,7 +73,7 @@ app_shell = dmc.AppShell(
         dcc.Store(id="result-scores-store", data={}),
         dcc.Store(id="figure-store"),
         dcc.Store(id="data-store", data=scores),
-        dcc.Store(id="presented-data-store", data=scores),
+        dcc.Store(id="presented-data-store", data=scores_presented),
         dcc.Store(id="window-width"),
 
         dcc.Download(id="download-report"),

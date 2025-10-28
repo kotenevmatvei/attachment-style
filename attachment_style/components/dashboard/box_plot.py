@@ -3,7 +3,7 @@ from dash import dcc
 from dash_iconify import DashIconify
 
 import constants
-from data.options import attachment_style_labels_values, demographics_radio_options
+from data.options import attachment_style_labels_values, demographics_radio_options, demographics_labels_values
 
 dmc.add_figure_templates()
 
@@ -42,6 +42,7 @@ BoxCard = dmc.Card(
             size="md",
             value="gender",
             mb="xs",
+            visibleFrom="sm"
         ),
         dmc.Select(
             label="Select attachment style",
@@ -50,7 +51,38 @@ BoxCard = dmc.Card(
             value="avoidant_score",
             size="md",
             mb="xs",
+            visibleFrom="sm"
         ),
+
+        dmc.Group(
+            dmc.Center(
+                dmc.Flex(
+                    justify="space-between",
+                    children=[
+                        dmc.Select(
+                            label="Demographic variable",
+                            id="demographic-box-select-mobile",
+                            data=demographics_labels_values,
+                            value="gender",
+                            withCheckIcon=False,
+                            allowDeselect=False,
+                        ),
+                        dmc.Space(w={"base": "lg", "sm": "sm"}),
+                        dmc.Select(
+                            label="Attachment style",
+                            id="attachment-style-box-select-mobile",
+                            data=attachment_style_labels_values,
+                            value="anxious_score",
+                            withCheckIcon=False,
+                            allowDeselect=False,
+                        ),
+                    ],
+                ),
+            ),
+            mb={"base": "lg", "sm": "xs"},
+            hiddenFrom="sm",
+        ),
+
         dcc.Graph(id="box-graph"),
 
         dmc.Modal(

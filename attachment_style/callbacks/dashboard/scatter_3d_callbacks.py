@@ -8,19 +8,23 @@ import dash_mantine_components as dmc
     Output("scatter3d-graph", "figure"),
     [
         Input("presented-data-store", "data"),
+
         Input("scatter3d-color-radio", "value"),
+        Input("scatter3d-color-select-mobile", "value"),
+
         Input("mantine-provider", "forceColorScheme"),
         Input("window-width", "data")
     ],
 )
-def update_scatter3d_graph(data, color_value, theme, window_width):
+def update_scatter3d_graph(data, color_value, color_value_mobile, theme, window_width):
     data = pd.DataFrame(data)
+    color_demographic = color_value if window_width > 500 else color_value_mobile
     fig = px.scatter_3d(
         data,
         x="anxious_score",
         y="avoidant_score",
         z="secure_score",
-        color=color_value,
+        color=color_demographic,
         color_continuous_scale=px.colors.sequential.Viridis,
         title="3D View of Attachment Dimensions",
         labels={

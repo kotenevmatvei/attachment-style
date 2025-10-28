@@ -16,7 +16,10 @@ ParallelCard = dmc.Card(
                 children=[
                     dmc.Space(w="xl"),
                     dmc.Center(
-                        dmc.Title("Parallel Coordinates", id="parallel-plot-title", order=2, ta="center", c=constants.PRIMARY),
+                        [
+                            dmc.Space(w="xl"),
+                            dmc.Title("Parallel Coordinates", id="parallel-plot-title", order=2, ta="center", c=constants.PRIMARY),
+                        ]
                     ),
                     dmc.Button(
                         DashIconify(icon="material-symbols:help-outline", width=25,
@@ -27,31 +30,6 @@ ParallelCard = dmc.Card(
                     ),
                 ],
             ),
-            # dmc.Grid(
-            #     children=[
-            #         dmc.SimpleGrid(
-            #             cols=3,
-            #             children=[
-            #                 dmc.Space(w="xs"),
-            #                 dmc.Center(
-            #                     dmc.Title("Parallel Variables", id="parallel-plot-title", order=2, ta="center",
-            #                               c=constants.PRIMARY),
-            #                 ),
-            #                 dmc.Flex(
-            #                     dmc.Button(
-            #                         DashIconify(icon="material-symbols:help-outline", width=25,
-            #                                     color=constants.PRIMARY),
-            #                         id="parallel-info-modal-button",
-            #                         variant="light",
-            #                         radius="md",
-            #                     ),
-            #                     justify="right",
-            #                     align="center"
-            #                 ),
-            #             ]
-            #         ),
-            #     ],
-            # ),
             withBorder=True,
             p={"base": "xs", "sm": "md"},
             mb="xs",
@@ -61,7 +39,7 @@ ParallelCard = dmc.Card(
             id="parallel-categories-dropdown",
             data=demographics_labels_values,
             value=["gender", "therapy_experience"],
-            size="md",
+            size={"base": "sm", "sm": "md"},
         ),
         dmc.Select(
             label="Attachment Style:",
@@ -69,8 +47,9 @@ ParallelCard = dmc.Card(
             data=attachment_style_labels_values
             + ({"label": "Any", "value": "any"},),
             value="anxious_score",
-            size="md",
+            size={"base": "sm", "sm": "md"},
             mb="xs",
+            allowDeselect=False,
         ),
         dcc.Graph(id="parallel-graph"),
 
@@ -133,6 +112,7 @@ ParallelCard = dmc.Card(
     shadow="md",
     radius="md",
     w=600,
+    pt=0,
 )
 
 

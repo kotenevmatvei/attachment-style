@@ -51,6 +51,13 @@ def layout(**kwargs):
         Output("scatter-plot-card", "w"),
         Output("scatter3d-plot-card", "w"),
         Output("parallel-plot-card", "w"),
+
+        Output("scatter-x-dropdown", "size"),
+        Output("scatter-y-dropdown", "size"),
+
+        Output("scatter-x-dropdown", "w"),
+        Output("scatter-y-dropdown", "w"),
+
     ],
     Input("window-width", "data"),
 )
@@ -58,9 +65,13 @@ def resize_feedback_page_title(window_width):
     if window_width < 500:
         return (
             4, 4, 4, 4,
-            "95%", "95%", "95%", "95%"
+            "95%", "95%", "95%", "95%",
+            "sm", "sm",
+            "45%", "45%",
         )
     return (
         2, 2, 2, 2,
         600,600,600,600,
+        "md", "md",
+        None, None
     )
