@@ -10,7 +10,11 @@
 - [x] provide total number of scores with and without test
 - [x] separate updating data from the db and filtering (include/exclude test, you/others)
       (then don't even need extra chaching)
-
+- [x] bring back /r/ for reverse questions in the pdf report for clarity and add a clarification
+- [x] warm up kaleo!!
+- [x] hide the demographics collapse on the app start on mobile
+- [x] remove zoom option in the results chart (on mobile?)
+- [ ] cleanup the database
 
 # frontend
 - [x] write stepper component
@@ -18,8 +22,18 @@
     - [x] center
     - [x] color
     - [x] font
+- [x] resize page titles on mobile
+- [x] add subtitles for the test flow
+- [ ] make parallel categories chart wider 
 
 - [x] design new dashboard layout
+- [x] bar chart for mobile
+- [ ] turn anxiety axis labels back to horizontal
+- [ ] adjust plot titles in the dashboard for mobile
+
+# content
+- [ ] explain the progress bar
+- [ ] explain skipping back forward - not showing previous answers
 
 # refactor
 - [x] separate callbacks

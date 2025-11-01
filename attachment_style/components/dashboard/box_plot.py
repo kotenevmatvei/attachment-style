@@ -3,18 +3,21 @@ from dash import dcc
 from dash_iconify import DashIconify
 
 import constants
-from data.options import attachment_style_labels_values, demographics_radio_options
+from data.options import attachment_style_labels_values, demographics_radio_options, demographics_labels_values
 
 dmc.add_figure_templates()
 
 BoxCard = dmc.Card(
+    id="boxplot-card",
     children=[
         dmc.CardSection(
             dmc.SimpleGrid(
                 cols=3,
                 children=[
                     dmc.Space(w="xs"),
-                    dmc.Title("Box Plot", order=2, ta="center", c=constants.PRIMARY),
+                    dmc.Center(
+                        dmc.Title("Box Plot", id="box-plot-title", order=2, ta="center", c=constants.PRIMARY),
+                    ),
                     dmc.Flex(
                         dmc.Button(
                             DashIconify(icon="material-symbols:help-outline", width=25, color=constants.PRIMARY),
@@ -27,7 +30,9 @@ BoxCard = dmc.Card(
                     )
                 ]
             ),
-            withBorder=True, p="md", mb="xs",
+            withBorder=True,
+            p={"base": "xs", "sm": "md"},
+            mb="xs",
         ),
         # dmc.CardSection("Box Plot", withBorder=True, p="md", c=constants.PRIMARY),
         dmc.RadioGroup(
@@ -37,6 +42,7 @@ BoxCard = dmc.Card(
             size="md",
             value="gender",
             mb="xs",
+            visibleFrom="sm"
         ),
         dmc.Select(
             label="Select attachment style",
@@ -45,7 +51,38 @@ BoxCard = dmc.Card(
             value="avoidant_score",
             size="md",
             mb="xs",
+            visibleFrom="sm"
         ),
+
+        dmc.Group(
+            dmc.Center(
+                dmc.Flex(
+                    justify="space-between",
+                    children=[
+                        dmc.Select(
+                            label="Demographic variable",
+                            id="demographic-box-select-mobile",
+                            data=demographics_labels_values,
+                            value="gender",
+                            withCheckIcon=False,
+                            allowDeselect=False,
+                        ),
+                        dmc.Space(w={"base": "lg", "sm": "sm"}),
+                        dmc.Select(
+                            label="Attachment style",
+                            id="attachment-style-box-select-mobile",
+                            data=attachment_style_labels_values,
+                            value="anxious_score",
+                            withCheckIcon=False,
+                            allowDeselect=False,
+                        ),
+                    ],
+                ),
+            ),
+            mb={"base": "lg", "sm": "xs"},
+            hiddenFrom="sm",
+        ),
+
         dcc.Graph(id="box-graph"),
 
         dmc.Modal(
@@ -99,5 +136,8 @@ BoxCard = dmc.Card(
     withBorder=True,
     shadow="md",
     radius="md",
-    w=600,
+    # these are set in screensize.py depending on the window_width
+    # w=600,
+    # w="95%",
+    pt=0,
 )

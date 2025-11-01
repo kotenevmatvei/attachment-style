@@ -1,21 +1,22 @@
 from dash import register_page, Output, Input, State, callback
 import dash_mantine_components as dmc
 
-from components.demographics import DemographicsQuestionnaireRevised
+from components.demographics import Demographics
 # from components.question_card import QuestionCard
 from components.question_card import QuestionComponent
 from components.results import ResultsBoard
 from components.subject_switch import SubjectSwitch
-from components.stepper import Stepper
+from components.stepper import Stepper, StepperMobile
 
 register_page(__name__, path="/")
 
 
 def layout(**kwargs):
     return dmc.Container(
-        mt="lg",
+        mt={"base": "xs", "sm": "lg"},
         children=[
             Stepper,
+            StepperMobile,
             dmc.Collapse(
                 id="subject-switch-collapse",
                 opened=True,
@@ -27,7 +28,7 @@ def layout(**kwargs):
                 id="demographics-questionnaire-collapse",
                 opened=False,
                 children=[
-                    DemographicsQuestionnaireRevised,
+                    Demographics,
                 ]
             ),
             dmc.Collapse(

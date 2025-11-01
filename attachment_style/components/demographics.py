@@ -1,5 +1,4 @@
 import dash_mantine_components as dmc
-from dash import callback, Input, Output
 from dash_iconify import DashIconify
 
 import constants
@@ -9,36 +8,29 @@ from data.options import (
     relationship_labels_values,
 )
 
-DemographicsQuestionnaireRevised = dmc.Container(
+Demographics = dmc.Container(
     size="xl",
-    py="xl",
+    py={"base": "xs", "sm": "xl"},
     children=[
         dmc.Title(
             "Demographics",
             order=1,
             ta="center",
             c=constants.PRIMARY,
-            mb="xl",
+            mb={"base": "xs", "sm": "lg"},
         ),
-
-        dmc.Stack(
-            children=[
-                dmc.Text(
-                    "Please fill in the following information for the person to be tested:",
-                    ta="center",
-                    c="dimmed",
-                    size="lg",
-                    mb="xl",
-                ),
-            ],
-            gap="xs",
+        dmc.Text(
+            "Please fill in the following information for the person to be tested:",
+            ta="center",
+            c="dimmed",
+            size="lg",
+            mb={"base": "xs", "sm": "md"},
         ),
-
         dmc.Paper(
             children=[
                 dmc.SimpleGrid(
                     cols={"base": 1, "sm": 2},
-                    spacing="lg",
+                    spacing={"base": "xs", "sm": "lg"},
                     children=[
                         dmc.Stack(
                             children=[
@@ -111,7 +103,7 @@ DemographicsQuestionnaireRevised = dmc.Container(
             withBorder=True,
         ),
 
-        # Enhanced button section
+        # desktop
         dmc.Center(
             dmc.Button(
                 "Continue to the test",
@@ -121,11 +113,28 @@ DemographicsQuestionnaireRevised = dmc.Container(
                 leftSection=DashIconify(icon="tabler:arrow-right", width=20),
                 variant="gradient",
                 gradient={"from": constants.PRIMARY, "to": "cyan"},
-                mt="xl",
+                mt={"base": "xs", "sm": "xl"},
                 px="xl",
             ),
-            mt="xl",
+            mt={"base": "lg", "sm": "xl"},
+            # visibleFrom="sm",
         ),
+
+        # # mobile
+        # dmc.Center(
+        #     dmc.Button(
+        #         "To the test",
+        #         id="continue-to-test-button-mobile",
+        #         size="lg",
+        #         radius="xl",
+        #         leftSection=DashIconify(icon="tabler:arrow-right", width=20),
+        #         variant="gradient",
+        #         gradient={"from": constants.PRIMARY, "to": "cyan"},
+        #         mt={"base": "xs", "sm": "xl"},
+        #         # px="xl",
+        #     ),
+        #     mt="lg",
+        #     hiddenFrom="sm",
+        # ),
     ],
 )
-

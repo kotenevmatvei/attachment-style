@@ -16,8 +16,8 @@ alembic upgrade head
 psql "$DB_URL" -f /app/init.sql
 
 # run the data seeding script
-echo "Seeding initial data..."
-python /app/seed_data.py
+# echo "Seeding initial data..."
+# python /app/seed_data.py
 
 echo "Starting Gunicorn server..."
 exec "$@"

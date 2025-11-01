@@ -1,38 +1,31 @@
 import plotly.graph_objects as go
+import plotly.express as px
+import logging
 
-def build_ecr_r_chart(anxious_score: float, avoidant_score: float, secure_score: float):
-    # Set default renderer to browser
-    # pio.renderers.default = "browser"
+logger = logging.getLogger(__name__)
 
-    # --- Define the 1-7 scale parameters ---
+def build_ecr_r_chart_mobile(anxious_score: float, avoidant_score: float, secure_score: float):
+
+    ########### axes ############
     scale_min = 1
     scale_max = 7
-    scale_mid = (scale_min + scale_max) / 2  # This will be 4
+    scale_mid = (scale_min + scale_max) / 2
 
-    # --- USER INPUT: Define your extra point's coordinates here (on the 1-7 scale) ---
-    # Anxiety: 1 (low) to 7 (high)
-    # Avoidance: 1 (low, top of plot) to 7 (high, bottom of plot)
-    # Ensure the point is not directly on the main axes (x=4, y=4) or the y=x diagonal
-    # for clear projection lines.
     extra_point_coords = {
         "anxiety": anxious_score,
         "avoidance": avoidant_score,
-        "text": f"({round(anxious_score, 1)}, {round(avoidant_score, 1)})",
+        "text": f"({round(anxious_score, 2)}, {round(avoidant_score, 2)})",
     }
-    # --- END USER INPUT ---
 
     xp = extra_point_coords["anxiety"]
     yp = extra_point_coords["avoidance"]
 
-    # Create the figure
     fig = go.Figure()
 
-    # Define plot range to give some space around the 1-7 scale
     plot_range_min = 0
     plot_range_max = 8
 
-    # 1. Draw Main Conceptual Axes (Anxiety and Avoidance)
-    # Horizontal Anxiety Axis (conceptually at y=scale_mid)
+    # anxiety axis
     fig.add_shape(
         type="line",
         x0=scale_min,
@@ -42,7 +35,7 @@ def build_ecr_r_chart(anxious_score: float, avoidant_score: float, secure_score:
         line=dict(width=2),
     )
 
-    # Vertical Avoidance Axis (conceptually at x=scale_mid)
+    # avoidance axis
     fig.add_shape(
         type="line",
         x0=scale_mid,
@@ -52,8 +45,7 @@ def build_ecr_r_chart(anxious_score: float, avoidant_score: float, secure_score:
         line=dict(width=2),
     )
 
-    # 2. Draw Diagonal Axes
-    # Secure (1,1) to Fearful-Avoidant (7,7)
+    # secure - fearful-avoidant axis
     fig.add_shape(
         type="line",
         x0=scale_min,
@@ -62,7 +54,8 @@ def build_ecr_r_chart(anxious_score: float, avoidant_score: float, secure_score:
         y1=scale_max,
         line=dict(width=1, dash="dash"),
     )
-    # Dismissive (1,7) to Preoccupied (7,1)
+
+    # dismissive-preoccupied axis
     fig.add_shape(
         type="line",
         x0=scale_min,
@@ -72,12 +65,14 @@ def build_ecr_r_chart(anxious_score: float, avoidant_score: float, secure_score:
         line=dict(width=1, dash="dash"),
     )
 
-    # 3. Add Ticks (dots) and Labels for Axes
+    ########### ticks #########
+
+    # ticks values, markers and labels
     tick_values = list(range(scale_min, scale_max + 1))
     tick_marker_style = dict(size=6, color="gray")
     tick_label_font_style = dict(size=10)
 
-    # Anxiety Axis Ticks (on the line y=scale_mid)
+    # anxiety ticks
     fig.add_trace(
         go.Scatter(
             x=tick_values,
@@ -91,7 +86,7 @@ def build_ecr_r_chart(anxious_score: float, avoidant_score: float, secure_score:
         )
     )
 
-    # Avoidance Axis Ticks (on the line x=scale_mid)
+    # avoidance ticks
     fig.add_trace(
         go.Scatter(
             x=[scale_mid] * len(tick_values),
@@ -99,13 +94,13 @@ def build_ecr_r_chart(anxious_score: float, avoidant_score: float, secure_score:
             mode="markers+text",
             marker=tick_marker_style,
             text=["1", "2", "3", "", "5", "6", "7"],
-            textposition="middle right",  # Adjusted for y-axis ticks
+            textposition="middle right",
             textfont=tick_label_font_style,
             hoverinfo="none",
         )
     )
 
-    # Secure - Fearful-Avoidant Diagonal Ticks (on the line y=x)
+    # secure - fearful-avoidant ticks
     fig.add_trace(
         go.Scatter(
             x=tick_values,
@@ -119,104 +114,93 @@ def build_ecr_r_chart(anxious_score: float, avoidant_score: float, secure_score:
         )
     )
 
-    # 4. Add Axis Labels (Low/High)
+    ############# axis labels ############
     axis_label_font_style = dict(size=12)
-    # Anxiety Axis Labels
     fig.add_annotation(
-        x=scale_min - 0.5,
-        y=scale_mid - 0.25,
+        x=scale_min - 0.7,
+        y=scale_mid,
         text="low anxiety",
         showarrow=False,
         xanchor="center",
+        yanchor="middle",
         font=axis_label_font_style,
+        textangle=-90,
     )
     fig.add_annotation(
-        x=scale_max + 0.5,
-        y=scale_mid - 0.25,
+        x=scale_max + 0.7,
+        y=scale_mid,
         text="high anxiety",
         showarrow=False,
         xanchor="center",
-        font=axis_label_font_style,
-    )
-    # Avoidance Axis Labels
-    fig.add_annotation(
-        x=scale_mid + 0.5,
-        y=scale_min,
-        text="low avoidance",
-        showarrow=False,
         yanchor="middle",
-        xanchor="left",
-        textangle=0,
         font=axis_label_font_style,
+        textangle=-90,
     )
-    fig.add_annotation(
-        x=scale_mid + 0.5,
-        y=scale_max,
-        text="high avoidance",
-        showarrow=False,
-        yanchor="middle",
-        xanchor="left",
-        textangle=0,
-        font=axis_label_font_style,
-    )
-    # Secure-Fearful-Avoidant Axis Label (Optional - can get crowded)
-    # fig.add_annotation(x=scale_max, y=scale_max + 0.3, text="Secure-Fearful", showarrow=False, font=dict(size=10))
-    # 5. Add Attachment Style Labels in Quadrants
-    style_label_font_style = dict(size=14)
-    fig.add_annotation(
-        x=scale_min,
-        y=scale_min + 0.4,
-        text="<i>secure</i>",
-        showarrow=False,
-        xanchor="right",
-        font=style_label_font_style,
-    )
-    fig.add_annotation(
-        x=scale_max,
-        y=scale_min + 0.4,
-        text="<i>preoccupied</i>",
-        showarrow=False,
-        xanchor="left",
-        font=style_label_font_style,
-    )
-    fig.add_annotation(
-        x=scale_min,
-        y=scale_max - 0.4,
-        text="<i>dismissive</i>",
-        showarrow=False,
-        xanchor="right",
-        font=style_label_font_style,
-    )
-    fig.add_annotation(
-        x=scale_max,
-        y=scale_max - 0.4,
-        text="<i>fearful-avoidant</i>",
-        showarrow=False,
-        xanchor="left",
-        font=style_label_font_style,
-    )
-
-    # add the legend of the results
     fig.add_annotation(
         x=scale_mid,
-        y=scale_min - 1,
-        text=f"Your anxious score: {round(anxious_score, 2)}, "
-             f"Your avoidant score: {round(avoidant_score, 2)}, "
-             f"Your secure score: {round(secure_score, 2)}",
+        y=scale_min - 0.7,
+        text="low avoidance",
         showarrow=False,
         yanchor="middle",
         xanchor="center",
         textangle=0,
-        font={"size": 16, "weight": "bold"},
+        font=axis_label_font_style,
+    )
+    fig.add_annotation(
+        x=scale_mid,
+        y=scale_max + 0.5,
+        text="high avoidance",
+        showarrow=False,
+        yanchor="middle",
+        xanchor="center",
+        textangle=0,
+        font=axis_label_font_style,
+    )
+    style_label_font_style = dict(size=12, color="green")
+    fig.add_annotation(
+        x=scale_min - 0.5,
+        y=scale_min - 0.7,
+        text="<i>secure</i>",
+        showarrow=False,
+        xanchor="center",
+        yanchor="middle",
+        font=style_label_font_style,
+        textangle=0,
+    )
+    fig.add_annotation(
+        x=scale_max + 0.2,
+        y=scale_min - 0.7,
+        text="<i>preoccupied</i>",
+        showarrow=False,
+        xanchor="center",
+        yanchor="middle",
+        font=style_label_font_style,
+        textangle=0,
+    )
+    fig.add_annotation(
+        x=scale_min - 0.2,
+        y=scale_max + 0.5,
+        text="<i>dismissive</i>",
+        showarrow=False,
+        xanchor="center",
+        font=style_label_font_style,
+    )
+    fig.add_annotation(
+        x=scale_max,
+        y=scale_max + 0.5,
+        text="<i>fearful-avoidant</i>",
+        showarrow=False,
+        xanchor="center",
+        font=style_label_font_style,
     )
 
-    # 6. Add the Extra Point
+    # score point
     fig.add_trace(
         go.Scatter(
             x=[xp],
             y=[yp],
             mode="markers",
-            marker=dict(color="red", size=12, symbol="diamond"),
+            marker=dict(color="red", size=8, symbol="diamond"),
             text=[extra_point_coords["text"]],
             textposition="bottom left",
             hoverinfo="text",
@@ -224,10 +208,10 @@ def build_ecr_r_chart(anxious_score: float, avoidant_score: float, secure_score:
         )
     )
 
-    # 7. Add Projection Lines for the Extra Point
+    ######### projection lines #########
     projection_line_style = dict(color="rgba(255,0,0,0.5)", width=1, dash="dot")
 
-    # Projection to Anxiety Axis (horizontal line at y=scale_mid)
+    # anxiety projection
     proj_anxiety_x = xp
     proj_anxiety_y = scale_mid
     fig.add_shape(
@@ -250,7 +234,7 @@ def build_ecr_r_chart(anxious_score: float, avoidant_score: float, secure_score:
         )
     )
 
-    # Projection to Avoidance Axis (vertical line at x=scale_mid)
+    # avoidance projection
     proj_avoidance_x = scale_mid
     proj_avoidance_y = yp
     fig.add_shape(
@@ -273,8 +257,7 @@ def build_ecr_r_chart(anxious_score: float, avoidant_score: float, secure_score:
         )
     )
 
-    # Projection to Secure-Fearful-Avoidant Diagonal (y=x)
-    # Formula for projection point: ((xp + yp) / 2, (xp + yp) / 2)
+    # secure - fearful-avoidant projection
     proj_diag_x = (xp + yp) / 2
     proj_diag_y = (xp + yp) / 2
     fig.add_shape(
@@ -297,34 +280,406 @@ def build_ecr_r_chart(anxious_score: float, avoidant_score: float, secure_score:
         )
     )
 
-    # Update layout
+    ######### layout ###########
     fig.update_layout(
+        title=dict(
+            text=f"Anxious: {round(anxious_score, 2)}, "
+                 f"Avoidant: {round(avoidant_score, 2)}, "
+                 f"Secure: {round(secure_score, 2)}",
+            font=dict(color="red", size=12, weight=600),
+            pad=dict(b=0),
+            xanchor="center",
+            x=0.5,
+            y=0.97,
+        ),
         xaxis=dict(
             range=[plot_range_min, plot_range_max],
             showgrid=False,
             zeroline=False,
-            showticklabels=False,  # We are drawing our own ticks/labels
-            title_text="Anxiety Dimension",  # Hidden but good for context
+            showticklabels=False,
+            fixedrange=True,
         ),
         yaxis=dict(
             range=[plot_range_min, plot_range_max],
             showgrid=False,
             zeroline=False,
-            showticklabels=False,  # We are drawing our own ticks/labels
-            title_text="Avoidance Dimension",  # Hidden but good for context
-            scaleanchor="x",  # Ensures aspect ratio is 1:1
+            showticklabels=False,
+            scaleanchor="x",
+            scaleratio=1,
+            fixedrange=True,
+        ),
+        width=348,
+        height=330,
+        margin=dict(l=0, r=0, b=0, t=30),
+        showlegend=False,
+    )
+
+    # invert y-axis (low avoidance at top [y=1], high avoidance at bottom [y=7])
+    fig.update_yaxes(autorange="reversed")
+
+    return fig
+
+
+def build_ecr_r_chart_desktop(anxious_score: float, avoidant_score: float, secure_score: float):
+
+    ########### axes ############
+    scale_min = 1
+    scale_max = 7
+    scale_mid = (scale_min + scale_max) / 2  # This will be 4
+
+    extra_point_coords = {
+        "anxiety": anxious_score,
+        "avoidance": avoidant_score,
+        "text": f"({round(anxious_score, 2)}, {round(avoidant_score, 2)})",
+    }
+
+    xp = extra_point_coords["anxiety"]
+    yp = extra_point_coords["avoidance"]
+
+    fig = go.Figure()
+
+    plot_range_min = 0
+    plot_range_max = 8
+
+    # anxiety axis
+    fig.add_shape(
+        type="line",
+        x0=scale_min,
+        y0=scale_mid,
+        x1=scale_max,
+        y1=scale_mid,
+        line=dict(width=2),
+    )
+
+    # avoidance axis
+    fig.add_shape(
+        type="line",
+        x0=scale_mid,
+        y0=scale_min,
+        x1=scale_mid,
+        y1=scale_max,
+        line=dict(width=2),
+    )
+
+    # secure - fearful-avoidant axis
+    fig.add_shape(
+        type="line",
+        x0=scale_min,
+        y0=scale_min,
+        x1=scale_max,
+        y1=scale_max,
+        line=dict(width=1, dash="dash"),
+    )
+
+    # dismissive - preoccupied axis
+    fig.add_shape(
+        type="line",
+        x0=scale_min,
+        y0=scale_max,
+        x1=scale_max,
+        y1=scale_min,
+        line=dict(width=1, dash="dash"),
+    )
+
+    ############# ticks #############
+
+    # ticks values, markers and labels
+    tick_values = list(range(scale_min, scale_max + 1))
+    tick_marker_style = dict(size=6, color="gray")
+    tick_label_font_style = dict(size=16)
+
+    # anxiety ticks
+    fig.add_trace(
+        go.Scatter(
+            x=tick_values,
+            y=[scale_mid] * len(tick_values),
+            mode="markers+text",
+            marker=tick_marker_style,
+            text=["1", "2", "3", "", "5", "6", "7"],
+            textposition="bottom center",
+            textfont=tick_label_font_style,
+            hoverinfo="none",
+        )
+    )
+
+    # avoidance ticks
+    fig.add_trace(
+        go.Scatter(
+            x=[scale_mid] * len(tick_values),
+            y=tick_values,
+            mode="markers+text",
+            marker=tick_marker_style,
+            text=["1", "2", "3", "", "5", "6", "7"],
+            textposition="middle right",  # Adjusted for y-axis ticks
+            textfont=tick_label_font_style,
+            hoverinfo="none",
+        )
+    )
+
+    # secure fearful-avoidant ticks
+    fig.add_trace(
+        go.Scatter(
+            x=tick_values,
+            y=tick_values,
+            mode="markers+text",
+            marker=tick_marker_style,
+            text=[str(val) for val in tick_values[::-1]],
+            textposition="top right",  # Adjust as needed for diagonal
+            textfont=tick_label_font_style,
+            hoverinfo="none",
+        )
+    )
+
+    ########## axis labels #############
+    axis_label_font_style = dict(size=16)
+    fig.add_annotation(
+        x=scale_min - 0.7,
+        y=scale_mid,
+        text="low anxiety",
+        showarrow=False,
+        xanchor="center",
+        yanchor="middle",
+        font=axis_label_font_style,
+        textangle=-90,
+    )
+    fig.add_annotation(
+        x=scale_max + 0.7,
+        y=scale_mid,
+        text="high anxiety",
+        showarrow=False,
+        xanchor="center",
+        yanchor="middle",
+        font=axis_label_font_style,
+        textangle=-90,
+    )
+    # Avoidance Axis Labels
+    fig.add_annotation(
+        x=scale_mid,
+        y=scale_min - 0.5,
+        text="low avoidance",
+        showarrow=False,
+        yanchor="middle",
+        xanchor="center",
+        textangle=0,
+        font=axis_label_font_style,
+    )
+    fig.add_annotation(
+        x=scale_mid,
+        y=scale_max + 0.5,
+        text="high avoidance",
+        showarrow=False,
+        yanchor="middle",
+        xanchor="center",
+        textangle=0,
+        font=axis_label_font_style,
+    )
+    style_label_font_style = dict(size=16, color="green")
+    fig.add_annotation(
+        x=scale_min - 0.4,
+        y=scale_min - 0.5,
+        text="<i>secure</i>",
+        showarrow=False,
+        xanchor="center",
+        yanchor="middle",
+        font=style_label_font_style,
+        textangle=0,
+    )
+    fig.add_annotation(
+        x=scale_max + 0.2,
+        y=scale_min - 0.5,
+        text="<i>preoccupied</i>",
+        showarrow=False,
+        xanchor="center",
+        yanchor="middle",
+        font=style_label_font_style,
+        textangle=0,
+    )
+    fig.add_annotation(
+        x=scale_min - 0.1,
+        y=scale_max + 0.5,
+        text="<i>dismissive</i>",
+        showarrow=False,
+        xanchor="center",
+        font=style_label_font_style,
+    )
+    fig.add_annotation(
+        x=scale_max,
+        y=scale_max + 0.5,
+        text="<i>fearful-avoidant</i>",
+        showarrow=False,
+        xanchor="center",
+        font=style_label_font_style,
+    )
+
+    # score point
+    fig.add_trace(
+        go.Scatter(
+            x=[xp],
+            y=[yp],
+            mode="markers",
+            marker=dict(color="red", size=8, symbol="diamond"),
+            text=[extra_point_coords["text"]],
+            textposition="bottom left",
+            hoverinfo="text",
+            textfont=dict(size=12),
+        )
+    )
+
+    ################# projection lines ################
+    projection_line_style = dict(color="rgba(255,0,0,0.5)", width=1, dash="dot")
+
+    # anxiety projection
+    proj_anxiety_x = xp
+    proj_anxiety_y = scale_mid
+    fig.add_shape(
+        type="line",
+        x0=xp,
+        y0=yp,
+        x1=proj_anxiety_x,
+        y1=proj_anxiety_y,
+        line=projection_line_style,
+    )
+    fig.add_trace(
+        go.Scatter(
+            x=[proj_anxiety_x],
+            y=[proj_anxiety_y],
+            mode="markers",
+            marker=dict(
+                color=projection_line_style["color"], size=5, symbol="circle-open"
+            ),
+            hoverinfo="none",
+        )
+    )
+
+    # avoidance projection
+    proj_avoidance_x = scale_mid
+    proj_avoidance_y = yp
+    fig.add_shape(
+        type="line",
+        x0=xp,
+        y0=yp,
+        x1=proj_avoidance_x,
+        y1=proj_avoidance_y,
+        line=projection_line_style,
+    )
+    fig.add_trace(
+        go.Scatter(
+            x=[proj_avoidance_x],
+            y=[proj_avoidance_y],
+            mode="markers",
+            marker=dict(
+                color=projection_line_style["color"], size=5, symbol="circle-open"
+            ),
+            hoverinfo="none",
+        )
+    )
+
+    # secure -fearful-avoidant projection
+    proj_diag_x = (xp + yp) / 2
+    proj_diag_y = (xp + yp) / 2
+    fig.add_shape(
+        type="line",
+        x0=xp,
+        y0=yp,
+        x1=proj_diag_x,
+        y1=proj_diag_y,
+        line=projection_line_style,
+    )
+    fig.add_trace(
+        go.Scatter(
+            x=[proj_diag_x],
+            y=[proj_diag_y],
+            mode="markers",
+            marker=dict(
+                color=projection_line_style["color"], size=5, symbol="circle-open"
+            ),
+            hoverinfo="none",
+        )
+    )
+
+    ############# layout ################
+    fig.update_layout(
+        title=dict(
+            text=f"Anxious: {round(anxious_score, 2)}, "
+                 f"Avoidant: {round(avoidant_score, 2)}, "
+                 f"Secure: {round(secure_score, 2)}",
+            font=dict(color="red", size=16, weight=700),
+            pad=dict(b=0),
+            xanchor="center",
+            x=0.5,
+            y=0.99,
+        ),
+        xaxis=dict(
+            range=[plot_range_min, plot_range_max],
+            showgrid=False,
+            zeroline=False,
+            showticklabels=False,
+        ),
+        yaxis=dict(
+            range=[plot_range_min, plot_range_max],
+            showgrid=False,
+            zeroline=False,
+            showticklabels=False,
+            scaleanchor="x",
             scaleratio=1,
         ),
         width=800,
         height=800,
-        margin=dict(l=50, r=50, b=50, t=50),
+        margin=dict(l=0, r=0, b=0, t=30),
         showlegend=False,
-        # plot_bgcolor="white",
-        # paper_bgcolor="white",
     )
 
-    # Invert y-axis (low avoidance at top [y=1], high avoidance at bottom [y=7])
+    # invert y-axis (low avoidance at top [y=1], high avoidance at bottom [y=7])
     fig.update_yaxes(autorange="reversed")
 
     return fig
+
+def build_bar_chart_desktop(df, anxious_score, secure_score, avoidant_score):
+    figure = px.bar(df, x="style", y="scores", color="style",
+                    labels={"scores": "Your Score", "style": "Attachment Style"},
+                    width=800, height=600)
+    figure.update_layout(
+        title=dict(
+            text=f"Anxious: {round(anxious_score, 2)}, Secure: {round(secure_score, 2)}, Avoidant: {round(avoidant_score, 2)}",
+            x=0.5,
+            font=dict(
+                color="red",
+                weight=700,
+            ),
+        ),
+    )
+    figure.update_layout(showlegend=False)
+    return figure
+
+def build_bar_chart_mobile(df, anxious_score, secure_score, avoidant_score):
+    figure = px.bar(df, x="style", y="scores", color="style",
+                    labels={"scores": "Your Score", "style": "Attachment Style"},
+                    width=348, height=320)
+    figure.update_layout(
+        title=dict(
+            text=f"Anxious: {round(anxious_score, 2)}, Secure: {round(secure_score, 2)}, Avoidant: {round(avoidant_score, 2)}",
+            x=0.5,
+            xanchor="center",
+            pad=dict(r=0, l=0, t=0, b=0),
+            font=dict(
+                color="red",
+                weight=700,
+                size=14,
+            ),
+            y=0.97,
+        ),
+        margin=dict(b=30, t=30, r=0, l=30),
+    )
+    figure.update_layout(showlegend=False)
+    return figure
+
+def warmup_kaleido():
+    logger.info("Warming up kaleido...")
+    fig = px.pie(["1", "2", "3"], [1,2,3])
+    fig.write_image(
+        "tmp/kaleo_warmup.png", width=700, height=500
+    )
+    logger.info("Kaleido warmed up 👍")
+
+
 

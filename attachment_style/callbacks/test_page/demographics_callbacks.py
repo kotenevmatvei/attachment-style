@@ -62,6 +62,7 @@ def submit_personal_questionnaire(
 ):
     if n_clicks:
         if all([age, relationship_status, gender, therapy_experience]):
+            print("i am on the wrong path")
             demographics_answers = {
                 "age": age,
                 "relationship_status": relationship_status,
@@ -79,11 +80,12 @@ def submit_personal_questionnaire(
         relationship_status_error = "Please select your relationship status" if not relationship_status else None
         therapy_experience_error = "Please select your therapy experience" if not therapy_experience else None
         gender_error = "Please select your gender" if not gender else None
+        print("i am on the right path")
         return (
-            False, True,
+            True, False,
             age_error, relationship_status_error, therapy_experience_error, gender_error,
             {}
         )
 
+    print("i am on the second wrong path")
     return False, False, None, None, None, None, {}
-from datetime import timedelta

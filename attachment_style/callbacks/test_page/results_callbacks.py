@@ -2,14 +2,13 @@ import logging
 
 import dash_mantine_components as dmc
 import pandas as pd
-import plotly.express as px
 import plotly.io as pio
 from dash import callback, Output, Input, State, dcc, clientside_callback
 from dash.exceptions import PreventUpdate
 
-from utils.generate_pdf import generate_report
-from utils.plots import build_ecr_r_chart
 from utils.calculations import revert_scores_for_reverted_questions
+from utils.generate_pdf import generate_report
+from utils.plots import build_ecr_r_chart_mobile, build_ecr_r_chart_desktop, build_bar_chart_desktop, build_bar_chart_mobile
 
 logger = logging.getLogger(__name__)
 
@@ -50,10 +49,11 @@ def update_score_cards(scores):
     [
         State("subject-store", "data"),
         State("mantine-provider", "forceColorScheme"),
+        State("window-width", "data"),
     ],
     prevent_initial_call=True,
 )
-def update_results_chart(scores, subject, theme):
+def update_results_chart(scores, subject, theme, window_width):
     if not scores or "anxious_score" not in scores.keys():
         raise PreventUpdate
 
@@ -62,14 +62,21 @@ def update_results_chart(scores, subject, theme):
     secure_score = scores["secure_score"]
 
     if subject == "you":
-        figure = build_ecr_r_chart(anxious_score, avoidant_score, secure_score)
+        if window_width < 500:
+            figure = build_ecr_r_chart_mobile(anxious_score, avoidant_score, secure_score)
+        else:
+            figure = build_ecr_r_chart_desktop(anxious_score, avoidant_score, secure_score)
+
     else:
-        df = pd.DataFrame({"style": ["Anxious Score", "Avoidant Score", "Secure Score"],
+        df = pd.DataFrame({"style": ["Anxious", "Avoidant", "Secure"],
                            "scores": [anxious_score, avoidant_score, secure_score]})
-        figure = px.bar(df, x="style", y="scores", color="style",
-                        labels={"scores": "Your Score", "style": "Attachment Style"},
-                        width=800, height=600)
-        figure.update_layout(showlegend=False)
+        if window_width < 500:
+            figure = build_bar_chart_mobile(df, anxious_score=anxious_score, secure_score=secure_score,
+                                             avoidant_score=avoidant_score)
+        else:
+            figure = build_bar_chart_desktop(df, anxious_score=anxious_score, secure_score=secure_score,
+                                             avoidant_score=avoidant_score)
+
 
     if theme == "dark":
         figure.update_layout(template="mantine_dark")
@@ -217,8 +224,7 @@ def load_report(n_clicks, answers, fig_json, scores):
             "tmp/figure.png", width=700, height=500
         )
         logger.info("Image saved")
-        reverted_scores = revert_scores_for_reverted_questions(answers)
-        generate_report(reverted_scores, dominant_style)
+        generate_report(answers, dominant_style)
         return dcc.send_file("tmp/attachment_style_report.pdf", type="pdf"), False
 
     return None, False
@@ -235,5 +241,3 @@ clientside_callback(
     Input("download-report-button", "n_clicks"),
     prevent_initial_call=True,
 )
-
-

@@ -18,13 +18,17 @@ theme_toggle = dmc.ActionIcon(
 header = dmc.Container(
     dmc.Group(
         [
-            # Logo/Brand as clickable link (bigger title)
             html.Div(
                 dmc.Anchor(
                     dmc.Group(
                         [
                             DashIconify(icon="tabler:brand-python", width=40, color=constants.PRIMARY),
-                            dmc.Text("Attachment Style Test", size="2rem", fw=900, c=constants.PRIMARY),
+                            dmc.Text(
+                                "Attachment Style Test",
+                                fz={"base": "1.2rem", "sm": "1.5rem", "md": "2rem"},
+                                fw=900,
+                                c=constants.PRIMARY,
+                            ),
                         ],
                         gap="sm",
                     ),
@@ -33,10 +37,8 @@ header = dmc.Container(
                 ),
                 id="logo-div",
             ),
-            # Right side: Navigation links and theme toggle
             dmc.Group(
                 [
-                    # Navigation links
                     dmc.Group(
                         [
                             html.Div(
@@ -45,20 +47,6 @@ header = dmc.Container(
                                 ),
                                 id="test-anchor-header",
                             ),
-                            # dmc.Anchor(
-                            #     "Assess Yourself",
-                            #     href="/test",
-                            #     underline=False,
-                            #     c="dimmed",
-                            #     fw=500,
-                            # ),
-                            # dmc.Anchor(
-                            #     "Assess Others",
-                            #     href="/assess-others",
-                            #     underline=False,
-                            #     c="dimmed",
-                            #     fw=500,
-                            # ),
                             dmc.Anchor(
                                 "Dashboard",
                                 href="/dashboard",
@@ -98,24 +86,28 @@ header = dmc.Container(
                             dmc.MenuDropdown(
                                 [
                                     dmc.MenuItem(
-                                        "Home",
+                                        "Test",
                                         leftSection=DashIconify(icon="tabler:home"),
+                                        href="/"
                                     ),
                                     dmc.MenuItem(
-                                        "Analytics",
+                                        "Dashboard",
                                         leftSection=DashIconify(
                                             icon="tabler:chart-bar"
                                         ),
+                                        href="/dashboard"
                                     ),
                                     dmc.MenuItem(
-                                        "Reports",
+                                        "Feedback",
                                         leftSection=DashIconify(
                                             icon="tabler:file-text"
                                         ),
+                                        href="/feedback"
                                     ),
                                     dmc.MenuItem(
-                                        "Settings",
-                                        leftSection=DashIconify(icon="tabler:settings"),
+                                        "About",
+                                        leftSection=DashIconify(icon="tabler:clipboard-text"),
+                                        href="/about"
                                     ),
                                 ]
                             ),

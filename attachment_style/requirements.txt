@@ -1,5 +1,6 @@
 gunicorn
 dash-bootstrap-components
+dash-mantine-components
 dash-iconify
 matplotlib
 pandas
@@ -9,3 +10,4 @@ alembic
 psycopg2
 python-dotenv
 kaleido
+dash_breakpoints

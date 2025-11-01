@@ -6,18 +6,22 @@ from data.options import (
     demographics_labels_values,
     attachment_style_options,
     demographics_radio_options,
+    demographics_options,
 )
 from dash_iconify import DashIconify
 import constants
 
 ScatterCard = dmc.Card(
+    id="scatter-plot-card",
     children=[
         dmc.CardSection(
             dmc.SimpleGrid(
                 cols=3,
                 children=[
                     dmc.Space(w="xs"),
-                    dmc.Title("Scatter Plot", order=2, ta="center", c=constants.PRIMARY),
+                    dmc.Center(
+                        dmc.Title("Scatter Plot", id="scatter-plot-title", order=2, ta="center", c=constants.PRIMARY),
+                    ),
                     dmc.Flex(
                         dmc.Button(
                             DashIconify(icon="material-symbols:help-outline", width=25, color=constants.PRIMARY),
@@ -30,7 +34,9 @@ ScatterCard = dmc.Card(
                     )
                 ]
             ),
-            withBorder=True, p="md", mb="xs",
+            withBorder=True,
+            p={"base": "xs", "sm": "md"},
+            mb="xs",
         ),
         dmc.RadioGroup(
             label="Color by",
@@ -41,26 +47,41 @@ ScatterCard = dmc.Card(
             size="md",
             value="gender",
             mb="xs",
+            visibleFrom="sm",
+        ),
+        dmc.Select(
+            id="scatter-color-select",
+            label="Color by",
+            data=demographics_labels_values,
+            size="sm",
+            value="gender",
+            mb="xs",
+            hiddenFrom="sm",
+            allowDeselect=False,
         ),
         dmc.Group(
-            children=[
-                dmc.Select(
-                    label="Select X-axis Variable:",
-                    id="scatter-x-dropdown",
-                    data=({"label": "Age", "value": "age"},)
-                    + attachment_score_labels_values,
-                    value="age",
-                    size="md",
-                ),
-                dmc.Select(
-                    label="Select Y-axis Variable:",
-                    id="scatter-y-dropdown",
-                    data=attachment_score_labels_values,
-                    value="avoidant_score",
-                    size="md",
-                ),
-            ],
-            mb="xs",
+            dmc.Center(
+                children=[
+                    dmc.Select(
+                        label="Select X-axis Variable:",
+                        id="scatter-x-dropdown",
+                        data=({"label": "Age", "value": "age"},)
+                             + attachment_score_labels_values,
+                        value="age",
+                        allowDeselect=False,
+                    ),
+                    dmc.Space(w={"base": "xl", "sm": "sm"}),
+                    dmc.Select(
+                        label="Select Y-axis Variable:",
+                        id="scatter-y-dropdown",
+                        data=attachment_score_labels_values,
+                        value="avoidant_score",
+                        size="xl",
+                        allowDeselect=False,
+                    ),
+                ],
+            ),
+            mb={"base": "lg", "sm": "xs"},
         ),
         dcc.Graph(id="scatter-graph"),
 
@@ -119,6 +140,7 @@ ScatterCard = dmc.Card(
     shadow="md",
     radius="md",
     w=600,
+    pt=0,
 )
 
 

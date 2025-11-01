@@ -13,7 +13,7 @@ DashboardKPIs = dmc.Paper(
                             [
                                 dmc.Text(
                                     "Anxious: 57%",
-                                    size="xl",
+                                    size={"base": "md", "sm": "xl"},
                                     fw=700,
                                     ta="center",
                                     c=constants.PRIMARY,
@@ -39,7 +39,7 @@ DashboardKPIs = dmc.Paper(
                             [
                                 dmc.Text(
                                     "Female: 48%",
-                                    size="xl",
+                                    size={"base": "md", "sm": "xl"},
                                     fw=700,
                                     ta="center",
                                     c=constants.PRIMARY,
@@ -65,7 +65,7 @@ DashboardKPIs = dmc.Paper(
                             [
                                 dmc.Text(
                                     "Some: 49%",
-                                    size="xl",
+                                    size={"base": "md", "sm": "xl"},
                                     fw=700,
                                     ta="center",
                                     c=constants.PRIMARY,
@@ -91,7 +91,7 @@ DashboardKPIs = dmc.Paper(
                             [
                                 dmc.Text(
                                     "124",
-                                    size="xl",
+                                    size={"base": "md", "sm": "xl"},
                                     fw=700,
                                     ta="center",
                                     c=constants.PRIMARY,
