@@ -39,7 +39,7 @@ ParallelCard = dmc.Card(
             id="parallel-categories-dropdown",
             data=demographics_labels_values,
             value=["gender", "therapy_experience"],
-            size={"base": "sm", "sm": "md"},
+            # size={"base": "sm", "sm": "xl"},
         ),
         dmc.Select(
             label="Attachment Style:",
@@ -47,7 +47,7 @@ ParallelCard = dmc.Card(
             data=attachment_style_labels_values
             + ({"label": "Any", "value": "any"},),
             value="anxious_score",
-            size={"base": "sm", "sm": "md"},
+            # size={"base": "sm", "sm": "md"},
             mb="xs",
             allowDeselect=False,
         ),

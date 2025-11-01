@@ -56,3 +56,15 @@ def update_parallel_graph(selected_dims, color_by, data, theme, window_width):
 )
 def toggle_box_info_modal(n_clicks, opened):
     return not opened
+
+@callback(
+    [
+        Output("parallel-categories-dropdown", "size"),
+        Output("parallel-color-dropdown", "size"),
+    ],
+    Input("window-width", "data"),
+)
+def update_parallel_dropdowns_size(window_width):
+    if window_width >= 500:
+        return "md", "md"
+    return "sm", "sm"
