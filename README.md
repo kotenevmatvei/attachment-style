@@ -1,10 +1,8 @@
 ## Website in pure Python!
 
-Current deployment (in active development) at: https://attachment-style.fly.dev/
+Interactive attachment style quiz with a global insights dashboard and downloadable PDF reports.
 
-This app is inspired by a book on adult attachment styles I read last summer.
-I disliked all of the quizes I could find on the internet both content and implementation
-wise. So I decided to code my own.
+Current deployment (in active development) at: https://attachment-style.fly.dev/
 
 Distinguishing features:
 - a pdf with all the questions and answers is generated at the end ready for download
