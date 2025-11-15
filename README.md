@@ -2,7 +2,7 @@
 
 Interactive attachment style quiz with a global insights dashboard and downloadable PDF reports.
 
-Current deployment (in active development) at: https://attachment-style.fly.dev/
+Current deployment at: https://attachment-style.fly.dev/
 
 Distinguishing features:
 - a pdf with all the questions and answers is generated at the end ready for download
