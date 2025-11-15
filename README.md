@@ -9,6 +9,6 @@ Distinguishing features:
 - extra quiz to assess other people with more behavior-based questions
 - dashboard representing the global results based on a few demographic features
 
-Above all, however, this is just a coding exercise for myself. I wanted to see if one
+I wanted to see if one
 could use Dash Plotly to build a full-fledged interactive website without any html
 or javascript.
