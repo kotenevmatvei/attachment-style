@@ -28,7 +28,6 @@
 
 - [x] design new dashboard layout
 - [x] bar chart for mobile
-- [ ] turn anxiety axis labels back to horizontal
 - [x] adjust plot titles in the dashboard for mobile
 
 # refactor
