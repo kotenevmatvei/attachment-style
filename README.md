@@ -4,7 +4,7 @@ Interactive attachment style quiz with a global insights dashboard and downloada
 
 Current deployment at: https://attachment-style.fly.dev/
 
-Part of Plotly's Example App Gallery: https://plotly.com/examples/dashboards/
+Part of Plotly's Example App Gallery: https://plotly.com/examples/dashboards/  
 Demo with Plotly's community manager, Adam Schroeder: https://www.youtube.com/watch?v=dhwh69jGsQU
 
 
