@@ -6,3 +6,4 @@ ruff.toml
 .vscode
 todo.md
 attachment_style/app.log
+tmp/*
